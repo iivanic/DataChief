@@ -1,5 +1,10 @@
 {
   "name": "DataChief",
+  "repository": {
+    "type" : "git"
+  , "url" : "https://github.com/iivanic/datachief.git"
+     
+  },
   "version": "0.0.1",
   "description": "Data collection and EForms solution",
   "main": "src/app.js",
