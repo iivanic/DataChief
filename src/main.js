@@ -22,3 +22,5 @@ app.on("ready", function () {
 if(debug)
     mainWindow.openDevTools();
 })
+   
+ 
