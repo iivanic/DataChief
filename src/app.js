@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 
 var app = require("app");
 var BrowserWindow = require("browser-window");
@@ -14,7 +14,7 @@ app.on("ready", function () {
 
     mainWindow.loadURL(path.resolve(path.join(__dirname, "index.html")));
     mainWindow.webContents.on('did-finish-load', () => {
-        var pjson = require('./package.json');
+        var pjson = require('../package.json');
         console.log(pjson.version);
         mainWindow.setTitle(pjson.name + " version " + pjson.version);
     });

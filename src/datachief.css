@@ -1,4 +1,15 @@
+@font-face {
+    font-family: "opensans";
+    src: url("./fonts/OpenSans.woff") format('woff');
+   }
+@font-face {
+    font-family: "opensanscondensed";
+    src: url("./fonts/OpenSansCondensed.woff") format('woff');
+   }
 body{
-    font-family: sans-serif;
-    
+    font-family: opensans;
+ 
+}
+.ui-widget {
+     font-family: opensans;
 }

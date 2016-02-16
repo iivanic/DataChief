@@ -2,9 +2,9 @@
   "name": "DataChief",
   "version": "0.0.1",
   "description": "Data collection and EForms solution",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron src/.",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Igor Ivanic",
