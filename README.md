@@ -5,7 +5,8 @@ Flexible **Data Collection eForms Solution** with focus on **usability** and **s
     * Linux
     * Mac OSX
 * Planned features
-    * Visual and user friendly Designer
+    * Visual and user friendly form designer
+    * Simple workflow designer
     * Many type of controls
         * Text box, Check box, Date time, ...
         * Lists, data from web services
