@@ -3,26 +3,39 @@
 <head>
     <link rel="stylesheet" href="./jquery-ui-1.11.4/jquery-ui.css">
     <link rel="stylesheet" href="./datachief.css">
- 
+
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
-            require('./jquery-ui-1.11.4/jquery-ui.min.js');
+        require('./jquery-ui-1.11.4/jquery-ui.min.js');
+        var r=require("./objectmodel/renderable.js");
+
+        $( document ).ready(function() {
+            alert(1);
+            $("#test").click(
+                function(e){
+                     var ctl = Object.create(r.Renderable);
+                    console.log(ctl.id);
+                    
+                }
+            );
+        });
     </script>
 
     <style>
         @font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url(./fonts/OpenSans.woff) format('woff');
-}
-@font-face {
-  font-family: 'Open Sans Condensed';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Open Sans Cond Light'), local('OpenSans-CondensedLight'), url(./fonts/OpenSansCondensed.woff) format('woff');
-}
-
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Open Sans Light'), local('OpenSans-Light'), url(./fonts/OpenSans.woff) format('woff');
+        }
+        
+        @font-face {
+            font-family: 'Open Sans Condensed';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Open Sans Cond Light'), local('OpenSans-CondensedLight'), url(./fonts/OpenSansCondensed.woff) format('woff');
+        }
+        
         #dialog label,
         #dialog input {
             display: block;
@@ -53,27 +66,21 @@
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7abcff+0,60abf8+44,4096ee+100;Blue+3D+%2314 */
         
         body {
-        
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
-
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
-
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+100,2969d3+100,4f8ef7+101 */
-
-background: rgb(30,87,153); /* Old browsers */
-
-background: -moz-linear-gradient(left, rgba(30,87,153,1) 0%, rgba(41,105,211,1) 51%, rgba(79,142,247,1) 100%, rgba(41,105,211,1) 100%, rgba(79,142,247,1) 101%); /* FF3.6-15 */
-
-background: -webkit-linear-gradient(left, rgba(30,87,153,1) 0%,rgba(41,105,211,1) 51%,rgba(79,142,247,1) 100%,rgba(41,105,211,1) 100%,rgba(79,142,247,1) 101%); /* Chrome10-25,Safari5.1-6 */
-
-background: linear-gradient(to right, rgba(30,87,153,1) 0%,rgba(41,105,211,1) 51%,rgba(79,142,247,1) 100%,rgba(41,105,211,1) 100%,rgba(79,142,247,1) 101%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#4f8ef7',GradientType=1 ); /* IE6-9 */       
-
-  color:White;
- }
-  
-
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+100,2969d3+100,4f8ef7+101 */
+            background: rgb(30, 87, 153);
+            /* Old browsers */
+            background: -moz-linear-gradient(left, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(left, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to right, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#4f8ef7', GradientType=1);
+            /* IE6-9 */
+            color: White;
+        }
     </style>
 
     <script>
@@ -181,11 +188,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
                     tempus lectus.</p>
             </div>
         </div>
+        <div id="test"> click </div>
 
-
-        <script>
-            require("./index.js");
-        </script>
+    
     </div>
 </body>
 
