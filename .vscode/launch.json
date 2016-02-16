@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "node",
+            "request": "launch",
+            "program": "app.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": ".",
+            "runtimeExecutable": "./node_modules/electron-prebuilt/dist/electron.exe",
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development",
+                "COINS_ENV": "development"
+                //,
+               // "ATOM_SHELL_INTERNAL_RUN_AS_NODE": "0"
+            },
+            "externalConsole": false,
+            "preLaunchTask": "",
+            "sourceMaps": false,
+            "outDir": null
+            
+        },
+        {
+            "name": "Attach",
+            "type": "node",
+            "request": "attach",
+            "port": 40674 
+        }
+    ]
+}
