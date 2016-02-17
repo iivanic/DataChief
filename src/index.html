@@ -3,21 +3,23 @@
 <head>
     <link rel="stylesheet" href="./jquery-ui-1.11.4/jquery-ui.css">
     <link rel="stylesheet" href="./datachief.css">
-    
+
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
         
-        var r=require("./objectmodel/renderable.js");
+        var fieldBase=require("./objectmodel/fieldBase.js");
 
         $( document ).ready(function() {
           //  alert(1);
             $("#test").click(
                 function(e){
-                     var ctl = Object.create(r.Renderable);
-                     ctl.ctor();
-                    console.log(ctl.id);
-                    
+                    var ctl = Object.create(fieldBase);
+                    ctl.ctor();
+         //       console.log(ctl.getId());
+         //           console.log(ctl.getId());                    
+                    console.log(ctl.id);                    
+                    console.log("..................");                    
                 }
             );
         });
@@ -192,7 +194,7 @@
         </div>
         <div id="test"> click </div>
 
-    
+
     </div>
 </body>
 

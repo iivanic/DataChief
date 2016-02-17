@@ -1,9 +1,10 @@
-var u=require("./utils.js");
-
+var helper=require("./utils.js");
 
 this.Renderable = {
-    _id : u.helper.generateGUID(),
+    _id : "",
      get id(){
+         if(this._id=="" )
+         this._id=helper.generateGUID();
         return this._id;
     },
     render: function(){
@@ -13,6 +14,6 @@ this.Renderable = {
         
     }
     ,ctor: function(){
-         this._id = u.helper.generateGUID();
+        // this._id = helper.generateGUID();
     }
 }
