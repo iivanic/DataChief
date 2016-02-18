@@ -7,85 +7,30 @@
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
+        var index = require("./index.js");
+        
         
         var fieldBase=require("./objectmodel/fieldBase.js");
+       var textField=require("./objectmodel/textField.js");
 
         $( document ).ready(function() {
           //  alert(1);
             $("#test").click(
                 function(e){
-                    var ctl = Object.create(fieldBase);
-                    ctl.ctor();
-         //       console.log(ctl.getId());
-         //           console.log(ctl.getId());                    
-                    console.log(ctl.id);                    
+                    var ctlb = Object.create(fieldBase);
+                    ctlb.ctor();                 
+                    console.log(ctlb.id);                    
+                    var ctlt = Object.create(textField);
+                    ctlt.ctor();                 
+                    console.log(ctlt.id);                    
+                    var ctlt1 = Object.create(textField);
+                    ctlt1.ctor();                 
+                    console.log(ctlt1.id);                    
                     console.log("..................");                    
                 }
             );
         });
     </script>
-
-    <style>
-        @font-face {
-            font-family: 'Open Sans';
-            font-style: normal;
-            font-weight: 300;
-            src: local('Open Sans Light'), local('OpenSans-Light'), url(./fonts/OpenSans.woff) format('woff');
-        }
-        
-        @font-face {
-            font-family: 'Open Sans Condensed';
-            font-style: normal;
-            font-weight: 300;
-            src: local('Open Sans Cond Light'), local('OpenSans-CondensedLight'), url(./fonts/OpenSansCondensed.woff) format('woff');
-        }
-        
-        #dialog label,
-        #dialog input {
-            display: block;
-        }
-        
-        #dialog label {
-            margin-top: 0.5em;
-        }
-        
-        #dialog input,
-        #dialog textarea {
-            width: 95%;
-        }
-        
-        #tabs {
-            margin-top: 1em;
-        }
-        
-        #tabs li .ui-icon-close {
-            float: left;
-            margin: 0.4em 0.2em 0 0;
-            cursor: pointer;
-        }
-        
-        #add_tab {
-            cursor: pointer;
-        }
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7abcff+0,60abf8+44,4096ee+100;Blue+3D+%2314 */
-        
-        body {
-            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
-            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
-            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+100,2969d3+100,4f8ef7+101 */
-            background: rgb(30, 87, 153);
-            /* Old browsers */
-            background: -moz-linear-gradient(left, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
-            /* FF3.6-15 */
-            background: -webkit-linear-gradient(left, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
-            /* Chrome10-25,Safari5.1-6 */
-            background: linear-gradient(to right, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
-            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#4f8ef7', GradientType=1);
-            /* IE6-9 */
-            color: White;
-        }
-    </style>
 
     <script>
         $(function() {
@@ -97,11 +42,11 @@
     var tabs = $( "#tabs" ).tabs();
  
     // modal dialog init: custom buttons and a "close" callback resetting the form inside
-    var dialog = $( "#dialog" ).dialog({
+    var newFormDialog = $( "#newFormDialog" ).dialog({
       autoOpen: false,
       modal: true,
       buttons: {
-        Add: function() {
+        Create: function() {
           addTab();
           $( this ).dialog( "close" );
         },
@@ -115,9 +60,9 @@
     });
  
     // addTab form: calls addTab function on submit and closes the dialog
-    var form = dialog.find( "form" ).submit(function( event ) {
+    var form = newFormDialog.find( "form" ).submit(function( event ) {
       addTab();
-      dialog.dialog( "close" );
+      newFormDialog.dialog( "close" );
       event.preventDefault();
     });
  
@@ -129,18 +74,29 @@
         tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
  
       tabs.find( ".ui-tabs-nav" ).append( li );
-      tabs.append( "<div id='" + id + "'><p>" + tabContentHtml + "</p></div>" );
-      tabs.tabs( "refresh" );
-      tabCounter++;
+      tabs.append( "<div id='" + id + "'><p>" + tabContentHtml + "</p></div>" ).index;
+var index = $('#' + id).index() - 1;
+console.log("index=" + index);
+         tabs.tabs( "refresh" );
+      
+        tabs.tabs("option", "active", index);;
+      
+ 
+    tabCounter++;
+
     }
  
     // addTab button: just opens the dialog
-    $( "#add_tab" )
+    $( "#add_form" )
       .button()
       .click(function() {
-        dialog.dialog( "open" );
+        newFormDialog.dialog( "open" );
       });
- 
+    $( "#open_form" )
+      .button()
+      .click(function() {
+        alert( "open" );
+      });
     // close icon: removing the tab on click
     tabs.delegate( "span.ui-icon-close", "click", function() {
       var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
@@ -162,38 +118,30 @@
 
 <body>
     <div>
-        <h1 id="header"></h1>
-        <hr />
-        <h2 id="description"></h2>
 
-        <div id="dialog" title="Tab data">
+        <div id="newFormDialog" title="New Form">
             <form>
                 <fieldset class="ui-helper-reset">
-                    <label for="tab_title">Title</label>
-                    <input type="text" name="tab_title" id="tab_title" value="Tab Title" class="ui-widget-content ui-corner-all">
-                    <label for="tab_content">Content</label>
-                    <textarea name="tab_content" id="tab_content" class="ui-widget-content ui-corner-all">Tab content</textarea>
+                    <label for="tab_title">Name</label>
+                    <input type="text" name="tab_title" id="tab_title" value="New Form" class="ui-widget-content ui-corner-all">
+                    <label for="tab_content">Description</label>
+                    <textarea name="tab_content" id="tab_content" class="ui-widget-content ui-corner-all">Form description...</textarea>
                 </fieldset>
             </form>
         </div>
 
-        <button id="add_tab">Add Tab</button>
+        <button id="add_form">Create Form</button>
+        <button id="open_form">Open Form</button>
 
         <div id="tabs">
             <ul>
-                <li><a href="#tabs-1">Nunc tincidunt</a> </li>
+                <li><a href="#tabs-1" id="header">Welcome</a> </li>
             </ul>
             <div id="tabs-1">
-                <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin
-                    mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus
-                    lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing.
-                    Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris
-                    vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique
-                    tempus lectus.</p>
+                <p id="description">...</p>
             </div>
         </div>
-        <div id="test"> click </div>
-
+ 
 
     </div>
 </body>

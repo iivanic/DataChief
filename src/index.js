@@ -1,6 +1,6 @@
-//var winstate = require("./winstate.js");
+var winstate = require("./winstate.js");
 
-alert(3);
+//alert(3);
 
 //var menu = require("./menu.js");
 //var remote = require("remote");
@@ -11,37 +11,31 @@ alert(3);
 
 //document.write("verzija Node.js = " + process.version);
 
-//var fs = require("fs");
 
-//var c = fs.readFileSync("package.json", "utf8");
-//document.write("<hr/> " + c);
 
-//$('#header').append(getWelcomeMessage());
-//$('#description').append(getDescription());
+
 
 //$( "#tabs" ).tabs();
-/*
-function getWelcomeMessage() {
-    var ret = "Welcome to " + pjson.name + ", version " + pjson.version + " created by " + pjson.author;
+
+function getWelcomeMessage(pjson) {
+    var ret = "Welcome to " + pjson.name + " v" + pjson.version ;
     return ret;
 
 }
-function getDescription() {
+function getDescription(pjson) {
     var ret = pjson.description;
+    var showdown = require('./showdown-1.3.0/showdown.min');
+    var converter = new showdown.Converter();
+    var fs = require("fs");
+    var path = require("path");
+    var data = fs.readFileSync(path.resolve(path.join(__dirname, "../README.MD")));
+    ret += "<hr />" +  converter.makeHtml(data.toString());;
     return ret;
 
 }
-alert(0);
-$( document ).ready(function() {
-  alert(1);
-$("#test").click(
-    function(e){
-        var r=require("./objectmodel/renderable.js");
-        var ctl = Object.create(r.Renderable);
-        console.log(ctl.id);
-        
-    }
-)
-// Handler for .ready() called.
+$(document).ready(function () {
+    var pjson = require('../package.json');
+    $('#header').text(getWelcomeMessage(pjson));
+    $('#description').html(getDescription(pjson));
 });
-*/
+

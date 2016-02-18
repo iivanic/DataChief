@@ -13,3 +13,47 @@ body{
 .ui-widget {
      font-family: opensans;
 }
+
+      #dialog label,
+        #dialog input {
+            display: block;
+        }
+        
+        #dialog label {
+            margin-top: 0.5em;
+        }
+        
+        #dialog input,
+        #dialog textarea {
+            width: 95%;
+        }
+        
+        #tabs {
+            margin-top: 1em;
+        }
+        
+        #tabs li .ui-icon-close {
+            float: left;
+            margin: 0.4em 0.2em 0 0;
+            cursor: pointer;
+        }
+        
+        #add_tab {
+            cursor: pointer;
+        }
+             body {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+74,4f8ef7+84,2969d3+100 */
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2969d3+51,4f8ef7+100,2969d3+100,4f8ef7+101 */
+            background: rgb(30, 87, 153);
+            /* Old browsers */
+            background: -moz-linear-gradient(left, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(left, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to right, rgba(30, 87, 153, 1) 0%, rgba(41, 105, 211, 1) 51%, rgba(79, 142, 247, 1) 100%, rgba(41, 105, 211, 1) 100%, rgba(79, 142, 247, 1) 101%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#4f8ef7', GradientType=1);
+            /* IE6-9 */
+            color: White;
+        }
