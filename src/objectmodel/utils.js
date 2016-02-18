@@ -8,3 +8,9 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
+this.loadTextFile= function (filename) {
+    var fs = require("fs");
+    var path = require("path");
+    var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));
+    return data.toString();
+  };
