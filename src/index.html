@@ -74,9 +74,9 @@
         tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
  
       tabs.find( ".ui-tabs-nav" ).append( li );
-      tabs.append( "<div id='" + id + "'><p>" + tabContentHtml + "</p></div>" ).index;
-var index = $('#' + id).index() - 1;
-console.log("index=" + index);
+      tabs.append( "<div id='" + id + "'><p>" + tabContentHtml + "</p><div id='" + id + "Form'>FormPlaceHolder</div>" );
+       var index = $('#' + id).index() - 1;
+        console.log("index=" + index);
          tabs.tabs( "refresh" );
       
         tabs.tabs("option", "active", index);;
@@ -141,7 +141,7 @@ console.log("index=" + index);
                 <p id="description">...</p>
             </div>
         </div>
- 
+
 
     </div>
 </body>
