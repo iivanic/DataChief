@@ -9,7 +9,7 @@
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "./node_modules/electron-prebuilt/dist/electron",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
             "runtimeArgs": [
                 "--nolazy"
             ],
