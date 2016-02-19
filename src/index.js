@@ -1,4 +1,4 @@
-var winstate = require("./winstate.js");
+//var winstate = require("./winstate.js");
 var formEditor = require("./formEditor.js");
 
 function getWelcomeMessage(pjson) {
@@ -31,7 +31,7 @@ function addTab() {
     var label = tabTitle.val() || "Tab " + tabCounter,
         id = "tabs-" + tabCounter,
         li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)),
-        tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
+        tabContentHtml = ""; //tabContent.val() || "Tab " + tabCounter + " content.";
 
     tabs.find(".ui-tabs-nav").append(li);
     tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p><div id='" + id + "Form'>FormPlaceHolder</div>");

@@ -1,5 +1,7 @@
 var helper = require("./objectmodel/utils.js");
+var form = require("./objectmodel/form.js");
 var forms = new Array();
+var currentForm=null;
 
 this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark) {
     var prefix = placeHolder.attr('id') + "_";
@@ -17,5 +19,10 @@ this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark) {
         //alert(e.value);
         tabTitle.text($("#" + prefix + "formProperties_name").val());
         });
+    
+    var currentForm = Object.create(form);
+    currentForm.ctor();
+    currentForm.createExampleForm(name, description);
+    currentForm.render($("#"  + prefix + "formPreview"));
 
 }

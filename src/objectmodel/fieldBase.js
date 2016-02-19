@@ -8,13 +8,12 @@ var helper = require("./utils.js");
 //fields
 this._id = "";
 this._value = "";
-this._toolTip = "";
-this._description = "";
-this._displayName = "";
+this._toolTip = "Tooltip";
+this._description = "Description";
+this._displayName = "Label";
 this._defaultValue = "";
 this._valueHasBeenSet = false;
 
-this._parentElement=null;
 
 //properties
 Object.defineProperty(this, "id", {
@@ -37,7 +36,7 @@ Object.defineProperty(this, "toolTip", {
         return this._toolTip;
     },
     set: function (val) {
-        this._toolTip= val;
+        this._toolTip = val;
     }
 });
 Object.defineProperty(this, "description", {
@@ -81,14 +80,21 @@ Object.defineProperty(this, "parentElement", {
 
 
 //methods
-this.render = function () {
+this.render = function (placeholder) {
     console.log("fieldBase.render()");
+    var ret = "";
+    ret += "<div>fieldBase";
+    ret += "</div>";
+    return ret;
 };
-this.readValue = function () {
-   console.log("fieldBase.readValue()");
+this.readValue = function (placeholder) {
+    console.log("fieldBase.readValue()");
 
 };
-this.ctor = function (parentElement) {
-  this._parentElement=parentElement;
+this.ctor = function () {
+
+}
+this.dispose = function () {
+
 }
 
