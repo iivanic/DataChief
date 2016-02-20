@@ -16,7 +16,6 @@
     <script>
         var remote = require('remote'); 
         var dialog = remote.require('dialog');
-
     </script>
     <div>
 
@@ -31,6 +30,10 @@
             </form>
         </div>
 
+        <div id="dialog-confirm-remove-tab" style="display:none;" title="Delete not saved Form?">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Form has not been saved.
+                Are you sure you want to delete it?</p>
+        </div>
         <button id="add_form">Create Form</button>
         <button id="open_form">Open Form</button>
 

@@ -25,7 +25,7 @@ this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark) {
     $("#" + this.prefix + "formSave")
         .button()
         .click(function () {
-            this.me.saveForm();
+            this.me.saveForm(this.me.dirtyMark.attr('id'));
         });
 
     this.currentForm = Object.create(form);
@@ -66,10 +66,9 @@ this.applyFormChanges = function () {
     this.currentForm.render($("#" + this.prefix + "formPreview"));
 
 }
-this.saveForm = function () {
+this.saveForm = function (dirtyMarkId) {
     var success=true;
     var content = JSON.stringify(this.currentForm);
-    console.log(content);
 
     dialog.showSaveDialog(
         {   title: "Save " + this.currentForm.name,
@@ -81,11 +80,14 @@ this.saveForm = function () {
     function (fileName) {
         if (fileName === undefined) return;
         fs.writeFile(fileName, content, function (err) {
-            console.log("Saving failed.")
-            success=false;
+            if(err)
+                {
+                console.log("Saving failed. " + err.toString());
+                success=false;}
+            
         });
         if(success)
-            this.resetDirty();
+            $("#" + dirtyMarkId).hide();
 
     });
 }

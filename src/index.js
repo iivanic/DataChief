@@ -36,11 +36,11 @@ function addTab(opened) {
 
     tabs.find(".ui-tabs-nav").append(li);
     tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p><div id='" + id + "Form'>FormPlaceHolder</div>");
-    var index = $('#' + id).index() - 1;
-    console.log("index=" + index);
     tabs.tabs("refresh");
+    //  var index = $('#' + id).index() - 1;
+    //  console.log("index=" + index + ", id=" + id);
 
-    tabs.tabs("option", "active", index);;
+    tabs.tabs("option", "active", -1);;
     var newFormEditor = Object.create(formEditor); //Object.create(formEditor);
     if (opened) {
         newFormEditor.openForm(opened, label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter), $('#tabs-' + tabCounter + '_dirty'));
@@ -103,15 +103,40 @@ $(document).ready(function () {
         });
     // close icon: removing the tab on click
     tabs.delegate("span.ui-icon-close", "click", function () {
-        var panelId = $(this).closest("li").remove().attr("aria-controls");
-        $("#" + panelId).remove();
-        tabs.tabs("refresh");
+        //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
+         var el = $(this).closest("li");
+       var panelId = el.attr("aria-controls") + "_dirty";
+        if ($("#" + panelId).css('display') != 'none') {
+            $("#dialog-confirm-remove-tab").dialog({
+                resizable: false,
+                height: 185,
+                modal: true,
+                buttons: {
+                    "Delete Form": function () {
+                        console.log(2);
+                        el.remove()
+                        $("#" + panelId).remove();
+                        tabs.tabs("refresh");
+                        $(this).dialog("close");
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        }
+        else {
+            el.remove()
+            $("#" + panelId).remove();
+            tabs.tabs("refresh");
+
+        }
     });
 
     tabs.bind("keyup", function (event) {
         if (event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE) {
             var panelId = tabs.find(".ui-tabs-active").remove().attr("aria-controls");
-            $("#" + panelId).remove();
+            //  $("#" + panelId).remove();
             tabs.tabs("refresh");
         }
     });
