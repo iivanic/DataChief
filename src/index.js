@@ -1,5 +1,6 @@
 //var winstate = require("./winstate.js");
 var formEditor = require("./formEditor.js");
+var helper = require("./objectmodel/utils.js");
 
 function getWelcomeMessage(pjson) {
     var ret = "Welcome to " + pjson.name + " v" + pjson.version;
@@ -19,15 +20,15 @@ function getDescription(pjson) {
 }
 
 var tabs = null; // $( "#tabs" ).tabs();
-var  tabCounter = 2;
+var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
-function addTab() {
+function addTab(opened) {
     var tabTitle = $("#tab_title"),
         tabContent = $("#tab_content"),
         tabTemplate = "<li><span id='tabs-" + tabCounter + "_dirty' style='color:red;'>*</span><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
-       
-   console.log("tabCounter=" + tabCounter);
- 
+
+    console.log("tabCounter=" + tabCounter);
+
     var label = tabTitle.val() || "Tab " + tabCounter,
         id = "tabs-" + tabCounter,
         li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)),
@@ -40,8 +41,14 @@ function addTab() {
     tabs.tabs("refresh");
 
     tabs.tabs("option", "active", index);;
-    formEditor.newForm( label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter ), $('#tabs-' + tabCounter + '_dirty'));
+    var newFormEditor = Object.create(formEditor); //Object.create(formEditor);
+    if (opened) {
+        newFormEditor.openForm(opened, label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter), $('#tabs-' + tabCounter + '_dirty'));
 
+    }
+    else {
+        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter), $('#tabs-' + tabCounter + '_dirty'));
+    }
     tabCounter++;
 
 }
@@ -90,7 +97,9 @@ $(document).ready(function () {
     $("#open_form")
         .button()
         .click(function () {
-            alert("open");
+            helper.openForm(addTab);
+
+
         });
     // close icon: removing the tab on click
     tabs.delegate("span.ui-icon-close", "click", function () {

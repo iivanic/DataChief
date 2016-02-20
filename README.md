@@ -1,5 +1,6 @@
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that really **works in the real world**.
+##No release yet, but fetures will be:
 * Multiplatform (developed in [Electron](http://electron.atom.io/))
     * Windows
     * Linux

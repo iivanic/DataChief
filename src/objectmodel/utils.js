@@ -1,4 +1,8 @@
 // helpers
+var fs = require("fs");
+var path = require("path");
+var remote = require('remote'); 
+var dialog = remote.require('dialog');
 
 this.generateGUID = function () {
     // not a real GUID, just a big random number
@@ -8,14 +12,36 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
-this.loadTextFile= function (filename) {
-    var fs = require("fs");
-    var path = require("path");
-    var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));
+this.loadTextFile = function (filename) {
+   var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));
     return data.toString();
-  };
-  this.getCurrentUsername= function (filename) {
-  
-	var username =  require('child_process').execSync( "whoami", { encoding: 'utf8', timeout: 1000 } );
-	return String(username).trim(); 
-  };
+};
+this.getCurrentUsername = function (filename) {
+
+    var username = require('child_process').execSync("whoami", { encoding: 'utf8', timeout: 1000 });
+    return String(username).trim();
+};
+this.saveTextFile = function (filename, content) {
+    var fs = require('fs');
+    fs.writeFile(filename, content, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log("The file " + filename + " was saved!");
+    });
+}
+this.openForm = function(callback){
+    
+    dialog.showOpenDialog(
+        {   title: "Open DataChief form... " ,
+            filters: [
+            { name: 'DataChief Form', extensions: ['DataChiefForm'] },
+            { name: 'All files', extensions: ['*'] },
+    ]},
+    function (fileName) {
+        if (fileName === undefined) return;
+            callback( fs.readFileSync(fileName[0]).toString() );
+        });
+       
+}
+ 

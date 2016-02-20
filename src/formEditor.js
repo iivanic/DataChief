@@ -1,78 +1,97 @@
 var helper = require("./objectmodel/utils.js");
 var form = require("./objectmodel/form.js");
-var forms = new Array();
+var fs = require('fs');
 
-var currentForm=null;
-this.currentFormDirty=true;
+this.currentForm = null;
+this.currentFormDirty = true;
 this.dirtyMark = null;
+this.tabTitle = null;
+this.placeHolder = null;
+this.prefix;
 
+this.openForm = function (jsonstring, name, description, placeHolder, tabTitle, dirtyMark) {
+    alert(jsonstring);
+}
 this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark) {
     this.dirtyMark = dirtyMark;
-    var prefix = placeHolder.attr('id') + "_";
+    this.tabTitle = tabTitle;
+    this.placeHolder = placeHolder;
+    this.dirtyMark = dirtyMark;
+    this.prefix = placeHolder.attr('id') + "_";
     var htmlTemplate = helper.loadTextFile("../templates/formeditor.html");
-    htmlTemplate = htmlTemplate.replace(/prefix_/gi, prefix);
+    htmlTemplate = htmlTemplate.replace(/prefix_/gi, this.prefix);
     placeHolder.html(htmlTemplate);
-    $("#" + prefix + "formSave")
+    $("#" + this.prefix + "formSave").prop("me", this);
+    $("#" + this.prefix + "formSave")
         .button()
         .click(function () {
-            saveForm();
+            this.me.saveForm();
         });
- //   $("#" + prefix + "formProperties_name").val(name);
- //   $("#" + prefix + "formProperties_description").val(description);
-    $("#" + prefix + "formProperties_name").change(function (e) { 
-        //alert(e.value);
-        tabTitle.text($("#" + prefix + "formProperties_name").val());
-        });
-    
-    currentForm = Object.create(form);
-    currentForm.ctor();
-    currentForm.createExampleForm(name, description);
-    currentForm.render($("#"  + prefix + "formPreview"));
-    
-    $('#'  + prefix + 'propGrid').jqPropertyGrid(currentForm, currentForm._propsMeta);
 
-    $("#" + prefix + "formReset")
+    this.currentForm = Object.create(form);
+    this.currentForm.ctor();
+    this.currentForm.createExampleForm(name, description);
+    this.currentForm.render($("#" + this.prefix + "formPreview"));
+
+    $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
+    $("#" + this.prefix + "formReset").prop("me", this);
+    $("#" + this.prefix + "formReset")
         .button()
         .click(function () {
-            resetFormChanges(prefix);
+            this.me.resetFormChanges();
         });
 
-    $("#" + prefix + "formApply")
+    $("#" + this.prefix + "formApply").prop("me", this);
+    $("#" + this.prefix + "formApply")
         .button()
         .click(function () {
-            applyFormChanges(prefix, tabTitle);
-       });
+            this.me.applyFormChanges();
+        });
 
 
 
 }
-function resetFormChanges(prefix)
-{
-    $('#'  + prefix + 'propGrid').jqPropertyGrid(currentForm, currentForm._propsMeta);
-            currentForm.render($("#"  + prefix + "formPreview"));
+this.resetFormChanges = function () {
+    $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
+    this.currentForm.render($("#" + this.prefix + "formPreview"));
 
 }
-function applyFormChanges(prefix, tabTitle)
-{
-                // In order to get back the modified values:
-            var theNewObj = $('#'  + prefix + 'propGrid').jqPropertyGrid('get');
-            //copy properties to form
-             for (var attrname in theNewObj) { currentForm[attrname] = theNewObj[attrname]; }
-             tabTitle.text(currentForm.name);
+this.applyFormChanges = function () {
+    // In order to get back the modified values:
+    var theNewObj = $('#' + this.prefix + 'propGrid').jqPropertyGrid('get');
+    //copy properties to form
+    for (var attrname in theNewObj) { this.currentForm[attrname] = theNewObj[attrname]; }
+    this.tabTitle.text(this.currentForm.name);
 
-            currentForm.render($("#"  + prefix + "formPreview"));
+    this.currentForm.render($("#" + this.prefix + "formPreview"));
 
 }
-function saveForm()
-{
-    alert(JSON.stringify(currentForm));
-    resetDirty();
+this.saveForm = function () {
+    var success=true;
+    var content = JSON.stringify(this.currentForm);
+    console.log(content);
+
+    dialog.showSaveDialog(
+        {   title: "Save " + this.currentForm.name,
+            defaultPath: this.currentForm.name,
+            filters: [
+            { name: 'DataChief Form', extensions: ['DataChiefForm'] },
+            { name: 'All files', extensions: ['*'] },
+    ]},
+    function (fileName) {
+        if (fileName === undefined) return;
+        fs.writeFile(fileName, content, function (err) {
+            console.log("Saving failed.")
+            success=false;
+        });
+        if(success)
+            this.resetDirty();
+
+    });
 }
-function resetDirty()
-{
+this.resetDirty = function () {
     this.dirtyMark.hide();
 }
-function setDirty()
-{
+this.setDirty = function () {
     this.dirtyMark.show();
 }
