@@ -14,6 +14,13 @@ body{
      font-family: opensans;
 }
 
+.pgTable{
+    width:100%;
+}
+.pgCell > input {
+    width:100%;
+}
+fieldset{padding:.35em .625em .75em;margin:0 2px;border:1px solid silver}
       #dialog label,
         #dialog input {
             display: block;
@@ -43,5 +50,5 @@ body{
         }
              body {
             background: linear-gradient(to right, rgba(87, 87, 153, 1) 0%, rgba(105, 105, 211, 1) 51%, rgba(142, 142, 247, 1) 100%, rgba(105, 105, 211, 1) 100%, rgba(142, 142, 247, 1) 101%);
-           color: White;
+         
         }

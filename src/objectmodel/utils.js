@@ -14,3 +14,8 @@ this.loadTextFile= function (filename) {
     var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));
     return data.toString();
   };
+  this.getCurrentUsername= function (filename) {
+  
+	var username =  require('child_process').execSync( "whoami", { encoding: 'utf8', timeout: 1000 } );
+	return String(username).trim(); 
+  };
