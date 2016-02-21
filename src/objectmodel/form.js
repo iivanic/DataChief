@@ -2,6 +2,7 @@
 var groupField = require("./groupField.js");
 var textField = require("./textField.js");
 var fieldBase = require("./fieldBase.js");
+var listField = require("./listField.js");
 
 var helper = require("./utils.js");
 
@@ -110,6 +111,17 @@ this.createExampleForm = function (name, decription) {
     txt = Object.create(textField);
     txt.ctor();
     grp.children.push(txt);
+    
+    var lst = Object.create(listField);
+    lst.ctor();
+    grp.children.push(lst);
+    
+    lst = Object.create(listField);
+    lst.ctor();
+    lst.options="red;green;yellow;magic";
+    lst.multiselect=true
+    grp.children.push(lst);
+    
 }
 this.ctor = function () {
     this._children = new Array();

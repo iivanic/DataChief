@@ -10,10 +10,11 @@ this._id = "";
 this._value = "";
 this._toolTip = "Tooltip";
 this._description = "Description";
-this._displayName = "Label";
+this._displayName = "Name";
 this._defaultValue = "";
 this._valueHasBeenSet = false;
-
+this._required = false;
+this._type="fieldBase";
 
 //properties
 Object.defineProperty(this, "id", {
@@ -29,6 +30,14 @@ Object.defineProperty(this, "value", {
     },
     set: function (val) {
         this._value = val;
+    }
+});
+Object.defineProperty(this, "required", {
+    get: function () {
+        return this._required;
+    },
+    set: function (val) {
+        this._required = val;
     }
 });
 Object.defineProperty(this, "toolTip", {
@@ -71,19 +80,19 @@ Object.defineProperty(this, "valueHasBeenSet", {
         this._valueHasBeenSet = val;
     }
 });
-Object.defineProperty(this, "parentElement", {
-    get: function () {
-        return this._parentElement;
-    }
-});
+
+
 
 
 
 //methods
 this.render = function (placeholder) {
     console.log("fieldBase.render()");
-    var ret = "";
-    ret += "<div>fieldBase";
+    var ret = "<div class='datachiefFieldRow'><label for='" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
+    ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
+    if (this.multiline) {
+        ret += "<div>"+ this.value + "</div>";
+    }
     ret += "</div>";
     return ret;
 };
@@ -92,7 +101,15 @@ this.readValue = function (placeholder) {
 
 };
 this.ctor = function () {
-
+    this._id = "";
+    this._value = "";
+    this._required = false;
+    this._toolTip = "Tooltip";
+    this._description = "Description";
+    this._displayName = "Label";
+    this._defaultValue = "";
+    this._valueHasBeenSet = false;
+    this._type="fieldBase";
 }
 this.dispose = function () {
 

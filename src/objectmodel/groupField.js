@@ -16,15 +16,19 @@ Object.defineProperty(this, "children", {
 this.render = function (placeholder) {
     console.log("groupField.render()");
     var ret = "";
-    ret +="<fieldset><legend>" + this._displayName + "</legend>";
+    ret +="<div class='datachiefFieldRow'><fieldset class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
+    ret +="<p title='" + this.toolTip + "'>" + this.description + "</p>";
     for (var i in this._children) {
         ret += this._children[i].render(placeholder);
         ret += "<br />"
     }
-    ret +="</fieldset>";
+    ret +="</fieldset></div>";
     return ret;
 
 };
 this.ctor = function () {
     this._children = new Array();
+    this.__proto__.ctor();
+    this._type="groupField";
+
 }

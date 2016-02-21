@@ -68,7 +68,7 @@ this.applyFormChanges = function () {
 }
 this.saveForm = function (dirtyMarkId) {
     var success=true;
-    var content = JSON.stringify(this.currentForm);
+    var content = JSON.stringify(this.currentForm,null,5);
 
     dialog.showSaveDialog(
         {   title: "Save " + this.currentForm.name,
