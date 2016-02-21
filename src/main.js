@@ -17,7 +17,7 @@ app.on("ready", function () {
         console.log(pjson.version);
         mainWindow.setTitle(pjson.name + " version " + pjson.version);
     });
-    mainWindow.loadURL(path.resolve(path.join(__dirname, "index.html")));
+    mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html")));
 
     if (debug)
         mainWindow.openDevTools();

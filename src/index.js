@@ -13,7 +13,7 @@ function getDescription(pjson) {
     var converter = new showdown.Converter();
     var fs = require("fs");
     var path = require("path");
-    var data = fs.readFileSync(path.resolve(path.join(__dirname, "../README.MD")));
+    var data = fs.readFileSync(path.resolve(path.join(__dirname, "../README.md")));
     ret += "<hr />" + converter.makeHtml(data.toString());;
     return ret;
 
