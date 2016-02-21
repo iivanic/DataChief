@@ -13,7 +13,7 @@ Object.defineProperty(this, "children", {
     }
 });
 
-this.render = function (placeholder) {
+this.render = function (placeholder, editable, user) {
     console.log("groupField.render()");
     var ret = "";
     ret +="<div class='datachiefFieldRow'><fieldset class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";

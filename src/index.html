@@ -23,9 +23,14 @@
             <form>
                 <fieldset class="ui-helper-reset">
                     <label for="tab_title">Name</label>
-                    <input type="text" name="tab_title" id="tab_title" value="New Form" class="ui-widget-content ui-corner-all">
+                    <br />
+                    <input type="text" name="tab_title" id="tab_title" style="width:100%;" value="Example vehicle usage log" class="ui-widget-content ui-corner-all">
                     <label for="tab_content">Description</label>
-                    <textarea name="tab_content" id="tab_content" class="ui-widget-content ui-corner-all">Form description...</textarea>
+                    <br />
+                    <textarea name="tab_content" id="tab_content" style="width:100%;height:200px;" class="ui-widget-content ui-corner-all">Vehicle Usage Log Instructions: The details of the use of a company-owned vehicle should be recorded
+                        by the operator so as to produce an accurate and complete log of the use of the vehicle. The log
+                        should be filled out while using the vehicle, not the next day.
+                    </textarea>
                 </fieldset>
             </form>
         </div>
@@ -34,17 +39,52 @@
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Form has not been saved.
                 Are you sure you want to delete it?</p>
         </div>
-        <button id="add_form">Create Form</button>
-        <button id="open_form">Open Form</button>
 
-        <div id="tabs">
+        <div id="maintabs">
             <ul>
-                <li><a href="#tabs-1" id="header">Welcome</a> </li>
+                <li><a href="#maintabs-1">Form & workflow editor</a></li>
+                <li><a href="#maintabs-2">Publisher</a></li>
+                <li><a href="#maintabs-3">Filler</a></li>
+                <li><a href="#maintabs-4">Data collection</a></li>
+                <li><a href="#maintabs-5">Settings</a></li>
             </ul>
-            <div id="tabs-1">
-                <p id="description">...</p>
+            <div id="maintabs-1">
+                <div id="toolbar" class="ui-widget-header ui-corner-all">
+                    <button id="add_form">Create Form</button>
+                    <button id="open_form">Open Form</button>
+                    <span id="editorMode">
+                        <input type="radio" id="editorEditMode" name="repeat" checked="checked"><label for="editorEditMode">Edit mode</label>
+                        <input type="radio" id="editorViewMode" name="repeat"><label for="editorViewMode">Preview mode</label>
+                    </span>
+                    <label for="impersonateUser">Impersonate user: </label>
+                    <input id="impersonateUser">
+                    <button id="clearimpersonateUserList">Clear List</button>
+                </div>
+            </div>
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1" id="header">Welcome</a> </li>
+                </ul>
+                <div id="tabs-1">
+                    <p id="description">...</p>
+                </div>
             </div>
         </div>
+        <div id="maintabs-2">
+            <p>Publisher....</p>
+        </div>
+        <div id="maintabs-3">
+            Filler</p>
+        </div>
+        <div id="maintabs-4">
+            <p>Data collection & analysis</p>
+        </div>
+        <div id="maintabs-5">
+            <p>Application settings</p>
+        </div>
+    </div>
+
+
 
     </div>
 </body>

@@ -19,8 +19,8 @@ app.on("ready", function () {
     });
     mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html")));
 
-    if (debug)
-        mainWindow.openDevTools();
+  //  if (debug)
+   //     mainWindow.openDevTools();
 })
    
  

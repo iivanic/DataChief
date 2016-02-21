@@ -28,12 +28,13 @@ Object.defineProperty(this, "maxlength", {
         this._maxlength = val;
     }
 });
-this.render = function (placeholder) {
+this.render = function (placeholder, editable, user) {
     console.log("textField.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
+    var ret = "<div class='datachiefFieldRow'><label for='" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + 
+    (this.required?"<span title='This field is Required' class='datachiefFieldRequired'>*</span>":"") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     if (this.multiline) {
-        ret += "<textarea maxlength='" + this.maxlength + " id='" + this.id + "' class='datachiefField datachiefFieldText'>"+ this.value + "</textarea>";
+        ret += "<textarea rows='4' maxlength='" + this.maxlength + " id='" + this.id + "' class='datachiefField datachiefFieldText'>"+ this.value + "</textarea>";
     }
     else {
         ret += "<input type='text' maxlength='" + this.maxlength + "' id='" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";

@@ -20,6 +20,7 @@ function getDescription(pjson) {
 }
 
 var tabs = null; // $( "#tabs" ).tabs();
+var maintabs=null;
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
 function addTab(opened) {
@@ -57,14 +58,50 @@ $(document).ready(function () {
     var pjson = require('../package.json');
     $('#header').text(getWelcomeMessage(pjson));
     $('#description').html(getDescription(pjson));
+    maintabs = $("#maintabs").tabs();
     tabs = $("#tabs").tabs();
-
-  
+    $( "#editorMode" ).buttonset();
+     
+     var availableUsers = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    availableUsers.push(helper.getCurrentUsername());
+    $( "#impersonateUser" ).autocomplete({
+      source: availableUsers
+    }); 
+    $("#clearimpersonateUserList")
+        .button()
+        .click(function () {
+            alert("OK!");
+        });    
   
     // modal dialog init: custom buttons and a "close" callback resetting the form inside
     var newFormDialog = $("#newFormDialog").dialog({
         autoOpen: false,
         modal: true,
+        width: "400px",
+      
         buttons: {
             Create: function () {
                 addTab();

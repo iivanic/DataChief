@@ -22,14 +22,15 @@ Object.defineProperty(this, "options", {
     }
 });
 
-this.render = function (placeholder) {
+this.render = function (placeholder, editable, user) {
     console.log("listField.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
+    var ret = "<div class='datachiefFieldRow'><label for='" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + 
+    (this.required?"<span title='This field is Required' class='datachiefFieldRequired'>*</span>":"") +"</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     ret += "<select " + (this.multiselect ? "multiple" : "") + " id='" + this.id + "' class='datachiefField datachiefFieldSelect'>";
     var options = this.options.split(';');
     var values = this.value.split(';');
-    if(!this._multiselect) ret += "<option value=''><-- choose --></option>";
+    if(!this._multiselect) ret += "<option value=''><-- not selected --></option>";
     for (var i in options)
         ret += "<option " + ($.inArray(options[i], values) > -1?"selected":"") + " value='" + options[i] + "'>" + options[i] + "</option>";
 
