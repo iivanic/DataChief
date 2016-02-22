@@ -8,21 +8,26 @@ function getWelcomeMessage(pjson) {
 
 }
 function getDescription(pjson) {
-    var ret = pjson.description;
+    var ret = "";
     var showdown = require('./showdown-1.3.0/showdown.min');
     var converter = new showdown.Converter();
     var fs = require("fs");
     var path = require("path");
     var data = fs.readFileSync(path.resolve(path.join(__dirname, "../README.md")));
-    ret += "<hr />" + converter.makeHtml(data.toString());;
+    ret += converter.makeHtml(data.toString());;
     return ret;
 
 }
 
 var tabs = null; // $( "#tabs" ).tabs();
-var maintabs=null;
+var maintabs = null;
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
+
+
+
+
+
 function addTab(opened) {
     var tabTitle = $("#tab_title"),
         tabContent = $("#tab_content"),
@@ -51,45 +56,58 @@ function addTab(opened) {
         newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter), $('#tabs-' + tabCounter + '_dirty'));
     }
     tabCounter++;
+    fixTabsHeight();
+
 
 }
 
 $(document).ready(function () {
+    
+    var shell = require('electron').shell;
+    //open links externally by default
+    $(document).on('click', 'a[href^="http"]', function(event) {
+        event.preventDefault();
+        shell.openExternal(this.href);
+    });
+    
     var pjson = require('../package.json');
     $('#header').text(getWelcomeMessage(pjson));
     $('#description').html(getDescription(pjson));
     maintabs = $("#maintabs").tabs();
     tabs = $("#tabs").tabs();
-    $( "#editorMode" ).buttonset();
-     
-     var availableUsers = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
+    $("#editorMode").buttonset();
+    $("#about_ver").text(pjson.version);
+    $("#about_author").text(pjson.author);
+    $("#about_lic").text(pjson.license);
+
+    var availableUsers = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"
     ];
     availableUsers.push(helper.getCurrentUsername());
-    $( "#impersonateUser" ).autocomplete({
-      source: availableUsers
-    }); 
+    $("#impersonateUser").autocomplete({
+        source: availableUsers
+    });
     $("#clearimpersonateUserList")
         .button()
         .click(function () {
@@ -101,7 +119,7 @@ $(document).ready(function () {
         autoOpen: false,
         modal: true,
         width: "400px",
-      
+
         buttons: {
             Create: function () {
                 addTab();
@@ -141,8 +159,8 @@ $(document).ready(function () {
     // close icon: removing the tab on click
     tabs.delegate("span.ui-icon-close", "click", function () {
         //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
-         var el = $(this).closest("li");
-       var panelId = el.attr("aria-controls") + "_dirty";
+        var el = $(this).closest("li");
+        var panelId = el.attr("aria-controls") + "_dirty";
         if ($("#" + panelId).css('display') != 'none') {
             $("#dialog-confirm-remove-tab").dialog({
                 resizable: false,
@@ -177,28 +195,32 @@ $(document).ready(function () {
             tabs.tabs("refresh");
         }
     });
+    $("#tabs").on("tabsactivate", function (event, ui) {
+        fixTabsHeight();
+    });
 
+    $(window).resize(function () {
+        fixTabsHeight();
+    });
 
+    $(window).trigger('resize');
 });
+function fixTabsHeight() {
+    var winH = $(window).height();
+    $('#tabs-1').each(function () {
+        if ($(this).attr("id").lastIndexOf("tabs-", 0) == 0) {
+            $(this).height(winH - $(this).offset().top - 55);
+            $(this).css("overflow", "auto");
+        }
+    });
+    $('.fixmyheight').each(function () {
+        $(this).height(winH - $(this).offset().top - 55);
+        $(this).css("overflow", "auto");
+    });
 
+}
 var fieldBase = require("./objectmodel/fieldBase.js");
 var textField = require("./objectmodel/textField.js");
 
-$(document).ready(function () {
-    //  alert(1);
-    $("#test").click(
-        function (e) {
-            var ctlb = Object.create(fieldBase);
-            ctlb.ctor();
-            console.log(ctlb.id);
-            var ctlt = Object.create(textField);
-            ctlt.ctor();
-            console.log(ctlt.id);
-            var ctlt1 = Object.create(textField);
-            ctlt1.ctor();
-            console.log(ctlt1.id);
-            console.log("..................");
-        }
-        );
-});
+
 
