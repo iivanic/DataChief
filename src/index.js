@@ -198,6 +198,9 @@ $(document).ready(function () {
     $("#tabs").on("tabsactivate", function (event, ui) {
         fixTabsHeight();
     });
+    $("#maintabs").on("tabsactivate", function (event, ui) {
+        fixTabsHeight();
+    });
 
     $(window).resize(function () {
         fixTabsHeight();

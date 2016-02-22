@@ -77,7 +77,7 @@ Object.defineProperty(this, "version", {
 
 this.render = function (placeholder, editable, user) {
     console.log("form.render()");
-    var str = "<div><h1>" + this._name + " v" + this._version + "</h1>";
+    var str = "<div><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
     str += "<p>" + this.description + "</p>";
     for (var i in this._children) {
         str += this._children[i].render(placeholder, editable, user);
