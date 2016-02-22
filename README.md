@@ -2,6 +2,9 @@
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 
 ##What is it for?
+DataChief enables you to rapidly implement processes in your company/organization with no cost - all you need is email account(minimal requirement). Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL with ease. 
+
+You don't have to be blocked anymore by expensive Line of business (LOB) applications development that never ends, and when they are finally ready, they are often obsolete.
 
 ##Roadmap
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
@@ -26,7 +29,10 @@ Project is under develpment. First release will provide basic functionality for 
     * Publishing & revoking of templates
     * Encryption support
     * Collection points and analytics
-    
+ 
+##Notes on mobile platforms
+Smartphone versions are planned, and are crucial part of DataChief. This software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
+ 
 ##How do I start with DataChief before release?
 * You will need **Node.js**, **Git** and **Microsoft Visual Studio Code** already installed.
 * From command line:
