@@ -86,14 +86,13 @@ Object.defineProperty(this, "valueHasBeenSet", {
 
 
 //methods
-this.render = function (placeholder, editable, user) {
+this.render = function (placeholder, editable, user, idprefix) {
     console.log("fieldBase.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + 
+    var ret = "<div class='datachiefFieldRow'><label for='" + idprefix + "_" +  this.id + "' title='" + this.toolTip + "'>" + this.displayName + 
     (this.required?"<span title='This field is Required' class='datachiefFieldRequired'>*</span>":"") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    if (this.multiline) {
-        ret += "<div>"+ this.value + "</div>";
-    }
+        ret += "<div id=" + idprefix + "_" +  this.id +  " value='" + this.value + "'>"+ this.value + "</div>";
+ 
     ret += "</div>";
     return ret;
 };

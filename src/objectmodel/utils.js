@@ -44,4 +44,16 @@ this.openForm = function(callback){
         });
        
 }
+this.loadFormBox = function () {
+   var data = this.loadTextFile("../templates/formbox.html");
+   return data.toString();
+};
+this.loadGroupBox = function () {
+    var data = this.loadTextFile("../templates/groupbox.html");
+   return data.toString();
+};
+ this.loadFieldBox = function () {
+   var data = this.loadTextFile("../templates/fieldbox.html");
+   return data.toString();
+};
  

@@ -13,22 +13,27 @@ Object.defineProperty(this, "children", {
     }
 });
 
-this.render = function (placeholder, editable, user) {
+this.render = function (placeholder, editable, user, idprefix) {
     console.log("groupField.render()");
     var ret = "";
-    ret +="<div class='datachiefFieldRow'><fieldset class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
-    ret +="<p title='" + this.toolTip + "'>" + this.description + "</p>";
+    ret += "<div id='selectable_" + idprefix + "_" +  this.id + "' class='datachiefFieldRow'><fieldset class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
+    ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
+    if (editable)
+        ret += "<ul id='sortable_" + idprefix + "_" +  this.id + "'>";
     for (var i in this._children) {
-        ret += this._children[i].render(placeholder);
+        ret += this._children[i].render(placeholder, editable, user, idprefix + "_" + this.id);
         ret += "<br />"
     }
-    ret +="</fieldset></div>";
+    if (editable)
+        ret += "</ul>"
+    ret += "</fieldset></div>";
+
     return ret;
 
 };
 this.ctor = function () {
     this._children = new Array();
     this.__proto__.ctor();
-    this._type="groupField";
+    this._type = "groupField";
 
 }

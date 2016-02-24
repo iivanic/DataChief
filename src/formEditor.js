@@ -2,6 +2,13 @@ var helper = require("./objectmodel/utils.js");
 var form = require("./objectmodel/form.js");
 var fs = require('fs');
 
+var groupField = require("./objectmodel/groupField.js");
+var textField = require("./objectmodel/textField.js");
+var fieldBase = require("./objectmodel/fieldBase.js");
+var listField = require("./objectmodel/listField.js");
+var currentDateTimeField = require("./objectmodel/currentDateTimeField.js");
+var currentUserField = require("./objectmodel/currentUserField.js");
+
 this.currentForm = null;
 this.currentFormDirty = true;
 this.dirtyMark = null;
@@ -9,10 +16,83 @@ this.tabTitle = null;
 this.placeHolder = null;
 this.prefix;
 
-this.openForm = function (jsonstring, name, description, placeHolder, tabTitle, dirtyMark) {
-    alert(jsonstring);
+this.openForm = function (jsonstring) {
+
+    var loadedObj = JSON.parse(jsonstring);
+   
+    console.log("Reconstructing objects from loaded JSON.");
+    var cnt = 0;
+    for (var attrname in loadedObj) { 
+        console.log("attrname = " + attrname);
+      
+        if(attrname=="_children")
+            loadChildren(this.currentForm, loadedObj[attrname]);
+        else
+            this.currentForm[attrname] = loadedObj[attrname];
+        cnt++;
+    }
+    // we need to change id to avoid conflicts if the same form is already oened in editor.
+    this.currentForm.regenerateGUID();
+    console.log("Done reconstructing objects from loaded JSON.");
+    
 }
-this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark) {
+function loadChildren(parent, obj)
+{
+//    console.log("loadChildren(" + parent +", " + obj +  ")" );
+
+    var field ;
+    if(obj._type) 
+    {
+        switch(obj["_type"])
+        {
+            case "listField":
+                field = Object.create(listField);
+                field.ctor();
+            break;
+            case "textField":
+                 field = Object.create(textField);
+                field.ctor();
+            break;
+            case "fieldBase":
+                 field = Object.create(fieldBase);
+                field.ctor();
+            break;        
+            case "groupField":
+                field = Object.create(groupField);
+                field.ctor();
+            break;        
+            case "currentDateTimeField":
+                field = Object.create(currentDateTimeField);
+                field.ctor();
+            break;
+            case "currentUserField":
+                field = Object.create(currentUserField);
+                field.ctor();
+            break;
+                     
+         }
+         parent._children.push(field);
+//         console.log("loadChildren() added " + field._type );
+         for(var arrayEl in obj)
+         {
+            
+            if(arrayEl=="_children")
+                loadChildren(field, obj[arrayEl]);
+            else
+                field[arrayEl] = obj[arrayEl];
+         }
+    }
+    else{
+        // its an array
+       for(var arrayEl in obj)
+        {
+           loadChildren(parent, obj[arrayEl]);
+        }
+    }
+
+    return;
+}
+this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark, loadedObj) {
     this.dirtyMark = dirtyMark;
     this.tabTitle = tabTitle;
     this.placeHolder = placeHolder;
@@ -30,7 +110,15 @@ this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark) {
 
     this.currentForm = Object.create(form);
     this.currentForm.ctor();
-    this.currentForm.createExampleForm(name, description);
+    
+    if(loadedObj)
+    {
+        this.openForm(loadedObj);
+        this.resetDirty();
+    }
+    else
+        this.currentForm.createExampleForm(name, description);
+        
     this.currentForm.render($("#" + this.prefix + "formPreview"));
 
     $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);

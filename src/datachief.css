@@ -64,4 +64,7 @@ body{
             width:100%;
  
         }
-        
+        .ui-selecting { background: #FECA40; }
+        .ui-selected { background: #F39814; color: white; }
+        .ui-icon{float:left;cursor:pointer;}
+ 

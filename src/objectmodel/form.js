@@ -17,7 +17,7 @@ this._version = "1.0";
 this._author = "user";
 this._lastTimeTemplatechanged = new Date();
 this._children = new Array();
-
+this._id = "";
 // metadata for editing in jqPropertyGrid
 this._propsMeta = {
     // Since string is the default no nees to specify type
@@ -28,7 +28,8 @@ this._propsMeta = {
     _author: { group: 'Ownership', name: 'Author', description: 'Who made this the form?', showHelp: true },
     _lastTimeTemplatechanged: { group: 'Ownership', name: 'Changed', type: 'label', description: 'Last time template structure changed.', showHelp: true },
     _children: { browsable: false },
-    _propsMeta: { browsable: false }
+    _propsMeta: { browsable: false },
+    _id: { browsable: false }
 }
 
 //properties
@@ -46,6 +47,14 @@ Object.defineProperty(this, "name", {
     },
     set: function (val) {
         this._name = val;
+    }
+});
+Object.defineProperty(this, "id", {
+    get: function () {
+        return this._id;
+    },
+    set: function (val) {
+        this._id = val;
     }
 });
 Object.defineProperty(this, "description", {
@@ -76,14 +85,46 @@ Object.defineProperty(this, "version", {
 //methods
 
 this.render = function (placeholder, editable, user) {
+    var idprefix = "dcform";
+    editable = true;
     console.log("form.render()");
-    var str = "<div><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
+    var str = "";
+
+    var ctlbox = "";
+    if (editable)
+        ctlbox = helper.loadFormBox();
+    str = ctlbox + "<div id='selectable_" + idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
     str += "<p>" + this.description + "</p>";
+    if (editable)
+        str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
     for (var i in this._children) {
-        str += this._children[i].render(placeholder, editable, user);
+        if (editable)
+            str += "<li class='ui-state-default'><span class='ui-icon-arrowthick-2-n-s'>";
+        str += this._children[i].render(placeholder, editable, user, idprefix + "_" + this.id);
+        if (editable)
+            str += "</span></li>";
     }
     str += "<hr />" + this._footer + "<div />";
+    if (editable)
+        str += "</ul>"
     placeholder.html(str);
+    if (editable) {
+        console.log("MARKING START");
+        var selector = "[id^='selectable_" + idprefix + "_" + this.id + "']";
+        console.log("MARKING " + selector);
+        $(selector).each(function () {
+            console.log("MARK SELECTABLE ELEMENT " + $(this).attr("id"));
+            $(this).selectable();
+        });
+        selector = "[id^='sortable_" + idprefix + "_" + this.id + "']";
+        console.log("MARKING " + selector);
+        $(selector).each(function () {
+            console.log("MARK SORTABLE ELEMENT " + $(this).attr("id"));
+            $(this).sortable();
+            // $(this).disableSelection();
+        });
+        console.log("MARKING DONE");
+    }
 };
 
 this.readValues = function () {
@@ -247,6 +288,10 @@ this.createExampleForm = function (name, decription) {
 }
 this.ctor = function () {
     this._children = new Array();
+    this._id = helper.generateGUID();
+}
+this.regenerateGUID = function () {
+    this._id = helper.generateGUID();
 }
 this.dispose = function () {
 
