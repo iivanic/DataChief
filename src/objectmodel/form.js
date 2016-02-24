@@ -95,20 +95,20 @@ this.render = function (placeholder, editable, user) {
         ctlbox = helper.loadFormBox();
     str = ctlbox + "<div id='selectable_" + idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
     str += "<p>" + this.description + "</p>";
-    if (editable)
-        str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
+ //   if (editable)
+  //      str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
     for (var i in this._children) {
-        if (editable)
-            str += "<li class='ui-state-default'><span class='ui-icon-arrowthick-2-n-s'>";
+   //     if (editable)
+    //        str += "<li class='ui-state-default'><span class='ui-icon-arrowthick-2-n-s'>";
         str += this._children[i].render(placeholder, editable, user, idprefix + "_" + this.id);
-        if (editable)
-            str += "</span></li>";
+    //    if (editable)
+     //       str += "</span></li>";
     }
     str += "<hr />" + this._footer + "<div />";
-    if (editable)
-        str += "</ul>"
+  //  if (editable)
+  //      str += "</ul>"
     placeholder.html(str);
-    if (editable) {
+ /*   if (editable) {
         console.log("MARKING START");
         var selector = "[id^='selectable_" + idprefix + "_" + this.id + "']";
         console.log("MARKING " + selector);
@@ -125,6 +125,7 @@ this.render = function (placeholder, editable, user) {
         });
         console.log("MARKING DONE");
     }
+    */
 };
 
 this.readValues = function () {

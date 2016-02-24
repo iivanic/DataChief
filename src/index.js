@@ -45,11 +45,11 @@ function addTab(opened) {
     tabs.tabs("option", "active", -1);;
     var newFormEditor = Object.create(formEditor); //Object.create(formEditor);
     if (opened) {
-        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter), $('#tabs-' + tabCounter + '_dirty'), opened);
+        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), opened);
 
     }
     else {
-        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), $('#ui-id-' + tabCounter), $('#tabs-' + tabCounter + '_dirty'), null);
+        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), null);
     }
     tabCounter++;
     fixTabsHeight();

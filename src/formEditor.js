@@ -92,9 +92,9 @@ function loadChildren(parent, obj)
 
     return;
 }
-this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark, loadedObj) {
+this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, loadedObj) {
     this.dirtyMark = dirtyMark;
-    this.tabTitle = tabTitle;
+    this.tabTitle = "#tabs a[href='#tabs-"+ tabCounter + "']" ;
     this.placeHolder = placeHolder;
     this.dirtyMark = dirtyMark;
     this.prefix = placeHolder.attr('id') + "_";
@@ -115,6 +115,8 @@ this.newForm = function (name, description, placeHolder, tabTitle, dirtyMark, lo
     {
         this.openForm(loadedObj);
         this.resetDirty();
+        $(this.tabTitle).text(this.currentForm.name);
+
     }
     else
         this.currentForm.createExampleForm(name, description);
@@ -149,7 +151,7 @@ this.applyFormChanges = function () {
     var theNewObj = $('#' + this.prefix + 'propGrid').jqPropertyGrid('get');
     //copy properties to form
     for (var attrname in theNewObj) { this.currentForm[attrname] = theNewObj[attrname]; }
-    this.tabTitle.text(this.currentForm.name);
+    $(this.tabTitle).text(this.currentForm.name);
 
     this.currentForm.render($("#" + this.prefix + "formPreview"));
 

@@ -18,14 +18,14 @@ this.render = function (placeholder, editable, user, idprefix) {
     var ret = "";
     ret += "<div id='selectable_" + idprefix + "_" +  this.id + "' class='datachiefFieldRow'><fieldset class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    if (editable)
-        ret += "<ul id='sortable_" + idprefix + "_" +  this.id + "'>";
+  //  if (editable)
+   //     ret += "<ul id='sortable_" + idprefix + "_" +  this.id + "'>";
     for (var i in this._children) {
         ret += this._children[i].render(placeholder, editable, user, idprefix + "_" + this.id);
         ret += "<br />"
     }
-    if (editable)
-        ret += "</ul>"
+  //  if (editable)
+   //     ret += "</ul>"
     ret += "</fieldset></div>";
 
     return ret;
