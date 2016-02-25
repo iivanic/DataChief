@@ -1,5 +1,5 @@
 <div style='float:right;' id='{id}'>
-    <span title='Delete' class='ui-icon ui-icon-trash'></span>
+    <span title='Delete' onclick="ctlBoxDelete($(this).prop('field'),$(this).prop('form'))" class='ui-icon ui-icon-trash'></span>
     <span title='Select' onclick="ctlBoxSelect($(this).prop('field'),$(this).prop('form'))" class='ui-icon ui-icon-check'></span>
-    <span title='Expand / Collapse' class='ui-icon ui-icon-minus'></span>
+    <span title='Expand / Collapse' onclick="ctlBoxExpandCollapse($(this), $(this).prop('field'),$(this).prop('form'))" class='ui-icon ui-icon-minus'></span>
 </div>
