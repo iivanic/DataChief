@@ -19,7 +19,7 @@ this._lastTimeTemplatechanged = new Date();
 this._children = new Array();
 this._id = "";
 this.idprefix = "dcform";
-
+this.placeHolderPrefix = "";
 // metadata for editing in jqPropertyGrid
 this._propsMeta = {
     // Since string is the default no nees to specify type
@@ -88,7 +88,8 @@ Object.defineProperty(this, "version", {
 //methods
 
 this.render = function (placeholder, editable, user) {
-    console.log("form.render()");
+ //   console.log("form.render()");
+    this.placeHolderPrefix=$(placeholder).attr("id").replace("formPreview","");
     this.idprefix = "dcform";
     editable = true;
     this._lastCumulativeId = this.idprefix + "_" + this.id;
@@ -98,7 +99,7 @@ this.render = function (placeholder, editable, user) {
     if (editable)
         ctlbox = helper.loadFormBox();
     ctlbox = ctlbox.replace('{id}', "ctlbox_" + this.idprefix + this.id)
-    str = ctlbox + "<div id='selectable_" + this.idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
+    str = ctlbox + "<div id='field_" + this.idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
     str += "<p>" + this.description + "</p>";
     //   if (editable)
     //      str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
@@ -120,12 +121,16 @@ this.render = function (placeholder, editable, user) {
     //  console.log("allCtlBoxesSelector=" + allCtlBoxesSelector + " = " + allCtlBoxes.length);
     for (var s = 0; s < allCtlBoxes.length; s++) {
         var field = this.findField($(allCtlBoxes[s]).attr("id").replace("ctlbox_", ""));
+       // from ctlbox wont be found
+        if(!field) 
+            field=this;
         //      console.log("allCtlBoxes " + s + " " + $(allCtlBoxes[s]).prop("id"));
         var spans = $(allCtlBoxes[s]).find("span");
         //      console.log("spans=" +  spans.length);
         for (var i1 = 0; i1 < spans.length; i1++) {
             if (field) {
-                $(spans[i1]).attr("field", field);
+                $(spans[i1]).prop("field", field);
+                $(spans[i1]).prop("form", this);
              //   $(spans[i1]).attr("me", "aaa");
               //  console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
             }

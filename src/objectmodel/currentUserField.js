@@ -7,7 +7,7 @@ this._type = "currentUserField";
 
 
 this.render = function (placeholder, editable, user, idprefix) {
-    console.log("currentUserField.render()");
+  //  console.log("currentUserField.render()");
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
@@ -16,11 +16,11 @@ this.render = function (placeholder, editable, user, idprefix) {
     var ret = "";
     if (editable)
         ret += ctlbox;
-    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
+    ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     ret += "<div  id='" + idprefix + "_" + this.id + "' class='datachiefField' value='" + this.value + "'>";
     ret += this.value;
-    ret += "</div>";
+    ret += "</div></div>";
     return ret;
 };
 this.ctor = function () {
@@ -40,7 +40,7 @@ this.findField = function (idwithprefix) {
  //   console.log("currentUserField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
-        console.log("currentUserField.findField(" + idwithprefix + ") FOUND");
+   //     console.log("currentUserField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 

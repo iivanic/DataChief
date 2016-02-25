@@ -16,6 +16,21 @@ this._valueHasBeenSet = false;
 this._required = false;
 this._type = "fieldBase";
 this._lastCumulativeId = "";
+this._propsMeta = {
+    // Since string is the default no nees to specify type
+    _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },
+    _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
+    _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
+    _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field.', showHelp: true },
+    _required: { group: 'Field Settings', name: 'Required', description: 'Is this field required?', showHelp: true },
+    _valueHasBeenSet: { browsable: false },
+    _children: { browsable: false },
+    _propsMeta: { browsable: false },
+    _id: { browsable: false },
+    _lastCumulativeId: { browsable: false },
+    _type: { browsable: false }
+}
+
 
 //properties
 Object.defineProperty(this, "id", {
@@ -23,7 +38,7 @@ Object.defineProperty(this, "id", {
         if (this._id == "")
         {
             this._id = helper.generateGUID();
-            console.log("ID GENERATED!");
+//            console.log("ID GENERATED!");
         }
         return this._id;
     }
@@ -91,7 +106,7 @@ Object.defineProperty(this, "valueHasBeenSet", {
 
 //methods
 this.render = function (placeholder, editable, user, idprefix) {
-    console.log("fieldBase.render()");
+ //   console.log("fieldBase.render()");
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
@@ -100,7 +115,7 @@ this.render = function (placeholder, editable, user, idprefix) {
     var ret = "";
     if (editable)
         ret += ctlbox;
-    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
+    ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     ret += "<div id=" + idprefix + "_" + this.id + " value='" + this.value + "'>" + this.value + "</div>";
@@ -130,7 +145,7 @@ this.findField = function (idwithprefix) {
  //   console.log("fieldBase.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
-        console.log("fieldBase.findField(" + idwithprefix + ") FOUND");
+  //      console.log("fieldBase.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 

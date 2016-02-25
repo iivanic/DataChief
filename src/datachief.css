@@ -55,7 +55,9 @@ body{
         fieldset{padding:.35em .625em .75em;margin:0 2px;border:1px solid silver;}
         legend{margin-bottom:2px;}
         .datachiefFieldRequired{color:red;padding-left:5px;}
-        .datachiefFieldRow{}
+        .datachiefFieldRow{
+            border: solid 1x transparent;
+        }
         .datachiefField{}
         .datachiefFieldText{
             width:100%;

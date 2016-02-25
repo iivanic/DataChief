@@ -24,7 +24,7 @@ Object.defineProperty(this, "options", {
 });
 
 this.render = function (placeholder, editable, user, idprefix) {
-    console.log("listField.render()");
+ //   console.log("listField.render()");
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
@@ -33,7 +33,7 @@ this.render = function (placeholder, editable, user, idprefix) {
     var ret = "";
     if (editable)
         ret += ctlbox;
-    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
+    ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     ret += "<select " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
@@ -62,7 +62,7 @@ this.findField = function (idwithprefix) {
   //  console.log("listField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
-        console.log("listField.findField(" + idwithprefix + ") FOUND");
+  //      console.log("listField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 
