@@ -34,8 +34,10 @@ Object.defineProperty(this, "children", {
     }
 });
 
-this.render = function (placeholder, editable, user, idprefix) {
+this.render = function (form, parent, placeholder, editable, user, idprefix) {
     //    console.log("groupField.render()");
+    this._form = form;
+    this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
@@ -49,7 +51,7 @@ this.render = function (placeholder, editable, user, idprefix) {
     //  if (editable)
     //     ret += "<ul id='sortable_" + idprefix + "_" +  this.id + "'>";
     for (var i in this._children) {
-        ret += this._children[i].render(placeholder, editable, user, idprefix + "_" + this.id);
+        ret += this._children[i].render(form, this, placeholder, editable, user, idprefix + "_" + this.id);
         ret += "<br />"
     }
     //  if (editable)
@@ -68,7 +70,8 @@ this.ctor = function () {
     this._toolTip = "Tooltip";
     this._description = "Description";
     this._displayName = "Label";
-
+    this._form = null;
+    this._parent = null;
 }
 this.findField = function (idwithprefix) {
     //   console.log("groupField.findField(" + idwithprefix  + "), this._lastCumulativeId=" + this._lastCumulativeId);

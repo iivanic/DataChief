@@ -12,13 +12,17 @@ function ctlBoxSelect(field, form) {
 
 }
 function ctlBoxDelete(field, form) {
-    getPropertyGrid(form).jqPropertyGrid(null, null);
-    $("[id^='field_dcform_" + form.id + "']").css("border", "none");
-    $("[id^='field_dcform_" + form.id + "']").css("background-color", "");
-
-    $('#ctlbox_' + field._lastCumulativeId).html("");
-    $('#field_' + field._lastCumulativeId).html("");
-    //  field._parent.pop(field);
+    getPropertyGrid(form).jqPropertyGrid(new Object(), null);
+    /*  $("[id^='field_dcform_" + form.id + "']").css("border", "none");
+      $("[id^='field_dcform_" + form.id + "']").css("background-color", "");
+  
+      $('#ctlbox_' + field._lastCumulativeId).html("");
+      $('#field_' + field._lastCumulativeId).html("");
+      */
+    field._parent._children = field._parent._children.filter(function (element, i) {
+        return element.id !== field.id;
+    });
+    form.refresh();
 }
 function ctlBoxExpandCollapse(span, field, form) {
  
@@ -37,4 +41,8 @@ function ctlBoxExpandCollapse(span, field, form) {
         $(span).addClass("ui-icon-minus");
     }
 
+}
+function ctlBoxRefresh(field, form) {
+    getPropertyGrid(form).jqPropertyGrid(new Object(), null);
+    form.refresh();
 }

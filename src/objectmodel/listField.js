@@ -23,13 +23,15 @@ Object.defineProperty(this, "options", {
     }
 });
 
-this.render = function (placeholder, editable, user, idprefix) {
- //   console.log("listField.render()");
+this.render = function (form, parent, placeholder, editable, user, idprefix) {
+    //   console.log("listField.render()");
+    this._form = form;
+    this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadFieldBox();
-    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" +  this.id)
+    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" + this.id)
     var ret = "";
     if (editable)
         ret += ctlbox;
@@ -55,14 +57,14 @@ this.ctor = function () {
     this.__proto__.ctor();
     this._type = "listField";
     this._multiselect = false;
-    this._regexp = null;
-
+    this._form = null;
+    this._parent = null;
 }
 this.findField = function (idwithprefix) {
-  //  console.log("listField.findField(" + idwithprefix + ")");
+    //  console.log("listField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
-  //      console.log("listField.findField(" + idwithprefix + ") FOUND");
+        //      console.log("listField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 

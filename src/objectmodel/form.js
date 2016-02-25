@@ -87,8 +87,16 @@ Object.defineProperty(this, "version", {
 
 //methods
 
+this.refresh = function(){
+    this.render(this._lastPlaceholder, this._lastEditable, this._lastUser);
+}
+
 this.render = function (placeholder, editable, user) {
  //   console.log("form.render()");
+    this._lastPlaceholder = placeholder;
+    this._lastEditable = editable;
+    this._lastUser=user;
+    
     this.placeHolderPrefix=$(placeholder).attr("id").replace("formPreview","");
     this.idprefix = "dcform";
     editable = true;
@@ -106,7 +114,7 @@ this.render = function (placeholder, editable, user) {
     for (var i in this._children) {
         //     if (editable)
         //        str += "<li class='ui-state-default'><span class='ui-icon-arrowthick-2-n-s'>";
-        str += this._children[i].render(placeholder, editable, user, this.idprefix + "_" + this.id);
+        str += this._children[i].render(this, this, placeholder, editable, user, this.idprefix + "_" + this.id);
         //    if (editable)
         //       str += "</span></li>";
     }

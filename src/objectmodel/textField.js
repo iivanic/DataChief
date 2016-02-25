@@ -1,7 +1,7 @@
 // iherit from base class
 this.__proto__ = require("./fieldBase.js");
 this._multiline = false;
-this._regexp = null;
+this._regexp = "";
 this._maxlength = 1000;
 var helper = require("./utils.js");
 
@@ -20,6 +20,8 @@ this._propsMeta = {
     _propsMeta: { browsable: false },
     _id: { browsable: false },
     _lastCumulativeId: { browsable: false },
+    _form: { browsable: false },
+    _parent: { browsable: false },
     _type: { browsable: false }
 }
 
@@ -47,13 +49,15 @@ Object.defineProperty(this, "maxlength", {
         this._maxlength = val;
     }
 });
-this.render = function (placeholder, editable, user, idprefix) {
+this.render = function (form, parent, placeholder, editable, user, idprefix) {
     console.log("textField.render()");
+    this._form = form;
+    this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadFieldBox();
-    ctlbox = ctlbox.replace('{id}',"ctlbox_" + idprefix + "_" +  this.id)
+    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" + this.id)
     var ret = "";
     if (editable)
         ret += ctlbox;
@@ -76,15 +80,16 @@ this.ctor = function () {
     this.__proto__.ctor();
     this._type = "textField";
     this._multiline = false;
-    this._regexp = null;
+    this._regexp = "";
     this._maxlength = 1000;
-
+    this._form = null;
+    this._parent = null;
 }
 this.findField = function (idwithprefix) {
-//    console.log("textField.findField(" + idwithprefix + ")");
+    //    console.log("textField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
- //       console.log("textField.findField(" + idwithprefix + ") FOUND");
+        //       console.log("textField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 

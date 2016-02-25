@@ -16,6 +16,9 @@ this._valueHasBeenSet = false;
 this._required = false;
 this._type = "fieldBase";
 this._lastCumulativeId = "";
+this._form = null;
+this._parent = null;
+
 this._propsMeta = {
     // Since string is the default no nees to specify type
     _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },
@@ -28,6 +31,8 @@ this._propsMeta = {
     _propsMeta: { browsable: false },
     _id: { browsable: false },
     _lastCumulativeId: { browsable: false },
+    _form: { browsable: false },
+    _parent: { browsable: false },
     _type: { browsable: false }
 }
 
@@ -35,10 +40,9 @@ this._propsMeta = {
 //properties
 Object.defineProperty(this, "id", {
     get: function () {
-        if (this._id == "")
-        {
+        if (this._id == "") {
             this._id = helper.generateGUID();
-//            console.log("ID GENERATED!");
+            //            console.log("ID GENERATED!");
         }
         return this._id;
     }
@@ -105,13 +109,15 @@ Object.defineProperty(this, "valueHasBeenSet", {
 
 
 //methods
-this.render = function (placeholder, editable, user, idprefix) {
- //   console.log("fieldBase.render()");
+this.render = function (form, parent, placeholder, editable, user, idprefix) {
+    //   console.log("fieldBase.render()");
+    this._form = form;
+    this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadFieldBox();
-    ctlbox = ctlbox.replace('{id}',"ctlbox_" + idprefix + "_" +  this.id)
+    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" + this.id)
     var ret = "";
     if (editable)
         ret += ctlbox;
@@ -137,15 +143,17 @@ this.ctor = function () {
     this._defaultValue = "";
     this._valueHasBeenSet = false;
     this._type = "fieldBase";
+    this._form = null;
+    this._parent = null;
 }
 this.dispose = function () {
 
 }
 this.findField = function (idwithprefix) {
- //   console.log("fieldBase.findField(" + idwithprefix + ")");
+    //   console.log("fieldBase.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
-  //      console.log("fieldBase.findField(" + idwithprefix + ") FOUND");
+        //      console.log("fieldBase.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 

@@ -6,13 +6,15 @@ this._type = "currentUserField";
 
 
 
-this.render = function (placeholder, editable, user, idprefix) {
-  //  console.log("currentUserField.render()");
+this.render = function (form, parent, placeholder, editable, user, idprefix) {
+    //  console.log("currentUserField.render()");
+    this._form = form;
+    this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadFieldBox();
-    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" +  this.id)
+    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" + this.id)
     var ret = "";
     if (editable)
         ret += ctlbox;
@@ -35,12 +37,14 @@ this.ctor = function () {
     this._defaultValue = "";
     this._valueHasBeenSet = false;
     this._required = true;
+    this._form = null;
+    this._parent = null;
 }
 this.findField = function (idwithprefix) {
- //   console.log("currentUserField.findField(" + idwithprefix + ")");
+    //   console.log("currentUserField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
-   //     console.log("currentUserField.findField(" + idwithprefix + ") FOUND");
+        //     console.log("currentUserField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
 

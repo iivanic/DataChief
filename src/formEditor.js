@@ -156,9 +156,19 @@ this.applyFormChanges = function () {
     this.currentForm.render($("#" + this.prefix + "formPreview"));
 
 }
+function SaveJSONReplacer(key,value)
+{
+    if (key=="_form") return undefined;
+    else if (key=="_parent") return undefined;
+    else if (key=="_lastPlaceholder") return undefined;
+    else if (key=="_lastEditable") return undefined;
+    else if (key=="_lastUser") return undefined;
+    else return value;
+}
+
 this.saveForm = function (dirtyMarkId) {
     var success=true;
-    var content = JSON.stringify(this.currentForm,null,5);
+    var content = JSON.stringify(this.currentForm,SaveJSONReplacer,5);
 
     dialog.showSaveDialog(
         {   title: "Save " + this.currentForm.name,
