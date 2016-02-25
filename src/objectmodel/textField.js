@@ -3,6 +3,7 @@ this.__proto__ = require("./fieldBase.js");
 this._multiline = false;
 this._regexp = null;
 this._maxlength = 1000;
+var helper = require("./utils.js");
 
 Object.defineProperty(this, "multiline", {
     get: function () {
@@ -30,14 +31,22 @@ Object.defineProperty(this, "maxlength", {
 });
 this.render = function (placeholder, editable, user, idprefix) {
     console.log("textField.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" +idprefix + "_" +  this.id + "' title='" + this.toolTip + "'>" + this.displayName + 
-    (this.required?"<span title='This field is Required' class='datachiefFieldRequired'>*</span>":"") + "</label>";
+    this._lastCumulativeId = idprefix + "_" + this.id;
+    var ctlbox = "";
+    if (editable)
+        ctlbox = helper.loadFieldBox();
+    ctlbox = ctlbox.replace('{id}',"ctlbox_" + idprefix + "_" +  this.id)
+    var ret = "";
+    if (editable)
+        ret += ctlbox;
+    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
+    (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     if (this.multiline) {
-        ret += "<textarea rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" +  this.id + "' class='datachiefField datachiefFieldText'>"+ this.value + "</textarea>";
+        ret += "<textarea rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
     }
     else {
-        ret += "<input type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" +  this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
+        ret += "<input type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
         ret += "</input>";
 
     }
@@ -52,4 +61,14 @@ this.ctor = function () {
     this._regexp = null;
     this._maxlength = 1000;
 
+}
+this.findField = function (idwithprefix) {
+//    console.log("textField.findField(" + idwithprefix + ")");
+
+    if (this._lastCumulativeId == idwithprefix) {
+        console.log("textField.findField(" + idwithprefix + ") FOUND");
+        return this;
+    }
+
+    return null;
 }

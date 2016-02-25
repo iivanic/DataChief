@@ -8,9 +8,17 @@ this._type = "currentUserField";
 
 this.render = function (placeholder, editable, user, idprefix) {
     console.log("currentUserField.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" +idprefix + "_" +  this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
+    this._lastCumulativeId = idprefix + "_" + this.id;
+    var ctlbox = "";
+    if (editable)
+        ctlbox = helper.loadFieldBox();
+    ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" +  this.id)
+    var ret = "";
+    if (editable)
+        ret += ctlbox;
+    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    ret += "<div  id='" + idprefix + "_" +  this.id + "' class='datachiefField' value='" + this.value + "'>";
+    ret += "<div  id='" + idprefix + "_" + this.id + "' class='datachiefField' value='" + this.value + "'>";
     ret += this.value;
     ret += "</div>";
     return ret;
@@ -28,3 +36,14 @@ this.ctor = function () {
     this._valueHasBeenSet = false;
     this._required = true;
 }
+this.findField = function (idwithprefix) {
+ //   console.log("currentUserField.findField(" + idwithprefix + ")");
+
+    if (this._lastCumulativeId == idwithprefix) {
+        console.log("currentUserField.findField(" + idwithprefix + ") FOUND");
+        return this;
+    }
+
+    return null;
+}
+

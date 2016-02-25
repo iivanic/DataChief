@@ -18,6 +18,8 @@ this._author = "user";
 this._lastTimeTemplatechanged = new Date();
 this._children = new Array();
 this._id = "";
+this.idprefix = "dcform";
+
 // metadata for editing in jqPropertyGrid
 this._propsMeta = {
     // Since string is the default no nees to specify type
@@ -29,7 +31,8 @@ this._propsMeta = {
     _lastTimeTemplatechanged: { group: 'Ownership', name: 'Changed', type: 'label', description: 'Last time template structure changed.', showHelp: true },
     _children: { browsable: false },
     _propsMeta: { browsable: false },
-    _id: { browsable: false }
+    _id: { browsable: false },
+    idprefix: { browsable: false }
 }
 
 //properties
@@ -85,47 +88,69 @@ Object.defineProperty(this, "version", {
 //methods
 
 this.render = function (placeholder, editable, user) {
-    var idprefix = "dcform";
-    editable = true;
     console.log("form.render()");
+    this.idprefix = "dcform";
+    editable = true;
+    this._lastCumulativeId = this.idprefix + "_" + this.id;
     var str = "";
 
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadFormBox();
-    str = ctlbox + "<div id='selectable_" + idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
+    ctlbox = ctlbox.replace('{id}', "ctlbox_" + this.idprefix + this.id)
+    str = ctlbox + "<div id='selectable_" + this.idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
     str += "<p>" + this.description + "</p>";
- //   if (editable)
-  //      str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
+    //   if (editable)
+    //      str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
     for (var i in this._children) {
-   //     if (editable)
-    //        str += "<li class='ui-state-default'><span class='ui-icon-arrowthick-2-n-s'>";
-        str += this._children[i].render(placeholder, editable, user, idprefix + "_" + this.id);
-    //    if (editable)
-     //       str += "</span></li>";
+        //     if (editable)
+        //        str += "<li class='ui-state-default'><span class='ui-icon-arrowthick-2-n-s'>";
+        str += this._children[i].render(placeholder, editable, user, this.idprefix + "_" + this.id);
+        //    if (editable)
+        //       str += "</span></li>";
     }
     str += "<hr />" + this._footer + "<div />";
-  //  if (editable)
-  //      str += "</ul>"
+    //  if (editable)
+    //      str += "</ul>"
     placeholder.html(str);
- /*   if (editable) {
-        console.log("MARKING START");
-        var selector = "[id^='selectable_" + idprefix + "_" + this.id + "']";
-        console.log("MARKING " + selector);
-        $(selector).each(function () {
-            console.log("MARK SELECTABLE ELEMENT " + $(this).attr("id"));
-            $(this).selectable();
-        });
-        selector = "[id^='sortable_" + idprefix + "_" + this.id + "']";
-        console.log("MARKING " + selector);
-        $(selector).each(function () {
-            console.log("MARK SORTABLE ELEMENT " + $(this).attr("id"));
-            $(this).sortable();
-            // $(this).disableSelection();
-        });
-        console.log("MARKING DONE");
+    //   var allCtlBoxes = "#" + placeholder.attr("id") + " [id^='" + this.idprefix + "_ctlbox_'] span";
+    var allCtlBoxesSelector = "#" + placeholder.attr("id") + " [id^='ctlbox_']";
+
+    var allCtlBoxes = $(allCtlBoxesSelector);
+    //  console.log("allCtlBoxesSelector=" + allCtlBoxesSelector + " = " + allCtlBoxes.length);
+    for (var s = 0; s < allCtlBoxes.length; s++) {
+        var field = this.findField($(allCtlBoxes[s]).attr("id").replace("ctlbox_", ""));
+        //      console.log("allCtlBoxes " + s + " " + $(allCtlBoxes[s]).prop("id"));
+        var spans = $(allCtlBoxes[s]).find("span");
+        //      console.log("spans=" +  spans.length);
+        for (var i1 = 0; i1 < spans.length; i1++) {
+            if (field) {
+                $(spans[i1]).attr("field", field);
+             //   $(spans[i1]).attr("me", "aaa");
+              //  console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
+            }
+
+        }
     }
-    */
+   // console.log("!!!!!!!!!!!!!!!!!!!!!!!");
+    /*   if (editable) {
+           console.log("MARKING START");
+           var selector = "[id^='selectable_" + idprefix + "_" + this.id + "']";
+           console.log("MARKING " + selector);
+           $(selector).each(function () {
+               console.log("MARK SELECTABLE ELEMENT " + $(this).attr("id"));
+               $(this).selectable();
+           });
+           selector = "[id^='sortable_" + idprefix + "_" + this.id + "']";
+           console.log("MARKING " + selector);
+           $(selector).each(function () {
+               console.log("MARK SORTABLE ELEMENT " + $(this).attr("id"));
+               $(this).sortable();
+               // $(this).disableSelection();
+           });
+           console.log("MARKING DONE");
+       }
+       */
 };
 
 this.readValues = function () {
@@ -296,4 +321,18 @@ this.regenerateGUID = function () {
 }
 this.dispose = function () {
 
+}
+this.findField = function (idwithprefix) {
+    //      console.log("form.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
+    for (var i in this._children) {
+        if (this._lastCumulativeId == idwithprefix) {
+            console.log("form.findField(" + idwithprefix + ") FOUND");
+            return this;
+        }
+        else
+            var tmp = this._children[i].findField(idwithprefix)
+        if (tmp)
+            return tmp;
+    }
+    return null;
 }

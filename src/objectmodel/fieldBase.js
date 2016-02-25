@@ -14,13 +14,17 @@ this._displayName = "Name";
 this._defaultValue = "";
 this._valueHasBeenSet = false;
 this._required = false;
-this._type="fieldBase";
+this._type = "fieldBase";
+this._lastCumulativeId = "";
 
 //properties
 Object.defineProperty(this, "id", {
     get: function () {
         if (this._id == "")
+        {
             this._id = helper.generateGUID();
+            console.log("ID GENERATED!");
+        }
         return this._id;
     }
 });
@@ -88,11 +92,19 @@ Object.defineProperty(this, "valueHasBeenSet", {
 //methods
 this.render = function (placeholder, editable, user, idprefix) {
     console.log("fieldBase.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" + idprefix + "_" +  this.id + "' title='" + this.toolTip + "'>" + this.displayName + 
-    (this.required?"<span title='This field is Required' class='datachiefFieldRequired'>*</span>":"") + "</label>";
+    this._lastCumulativeId = idprefix + "_" + this.id;
+    var ctlbox = "";
+    if (editable)
+        ctlbox = helper.loadFieldBox();
+    ctlbox = ctlbox.replace('{id}',"ctlbox_" + idprefix + "_" +  this.id)
+    var ret = "";
+    if (editable)
+        ret += ctlbox;
+    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
+    (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-        ret += "<div id=" + idprefix + "_" +  this.id +  " value='" + this.value + "'>"+ this.value + "</div>";
- 
+    ret += "<div id=" + idprefix + "_" + this.id + " value='" + this.value + "'>" + this.value + "</div>";
+
     ret += "</div>";
     return ret;
 };
@@ -109,9 +121,19 @@ this.ctor = function () {
     this._displayName = "Label";
     this._defaultValue = "";
     this._valueHasBeenSet = false;
-    this._type="fieldBase";
+    this._type = "fieldBase";
 }
 this.dispose = function () {
 
+}
+this.findField = function (idwithprefix) {
+ //   console.log("fieldBase.findField(" + idwithprefix + ")");
+
+    if (this._lastCumulativeId == idwithprefix) {
+        console.log("fieldBase.findField(" + idwithprefix + ") FOUND");
+        return this;
+    }
+
+    return null;
 }
 

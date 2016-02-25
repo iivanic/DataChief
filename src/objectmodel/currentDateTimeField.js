@@ -3,13 +3,22 @@ this.__proto__ = require("./fieldBase.js");
 
 this._type = "currentDateTimeField";
 
+var helper = require("./utils.js");
 
 
 this.render = function (placeholder, editable, user, idprefix) {
     console.log("currentDateTimeField.render()");
-    var ret = "<div class='datachiefFieldRow'><label for='" + idprefix + "_" +  this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
+    this._lastCumulativeId = idprefix + "_" + this.id;
+    var ctlbox = "";
+    if (editable)
+        ctlbox = helper.loadFieldBox();
+    ctlbox = ctlbox.replace('{id}',"ctlbox_" + idprefix + "_" +  this.id)
+    var ret = "";
+    if (editable)
+        ret += ctlbox;
+    ret += "<div class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    ret += "<div  id='" + idprefix + "_" +  this.id + "' value='" + this.value + "' class='datachiefField'>";
+    ret += "<div  id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField'>";
     ret += this.value;
     ret += "</div>";
     return ret;
@@ -26,4 +35,14 @@ this.ctor = function () {
     this._defaultValue = "";
     this._valueHasBeenSet = false;
     this._required = true;
+}
+this.findField = function (idwithprefix) {
+ //   console.log("currentDateTimeField.findField(" + idwithprefix + ")");
+
+    if (this._lastCumulativeId == idwithprefix) {
+        console.log("currentDateTimeField.findField(" + idwithprefix + ") FOUND");
+        return this;
+    }
+
+    return null;
 }
