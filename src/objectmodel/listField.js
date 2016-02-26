@@ -79,6 +79,11 @@ this.ctor = function () {
     this._defaultValue = "";
     this._form = null;
     this._parent = null;
+    this._required = false;
+    this._toolTip = "Tooltip";
+    this._description = "Description";
+    this._displayName = "Label";
+    this._defaultValue = "";
 }
 this.findField = function (idwithprefix) {
     //  console.log("listField.findField(" + idwithprefix + ")");

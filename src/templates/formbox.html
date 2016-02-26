@@ -1,13 +1,12 @@
 <div style='float:right;' id='{id}'>
-    <span title='Refresh' onclick="ctlBoxRefresh($(this).prop('field'),$(this).prop('form'))"  class='ui-icon ui-icon-refresh'></span>
-    <span title='Add' class='ui-icon ui-icon-document'></span>
-    <select id="speed">
-      <option>Choose field type to add</option>
-      <option>Container</option>
-      <option>Text</option>
-      <option>List</option>
-      <option>Current User</option>
-      <option>Current Date and time</option>
+    <select id="Add_{id}" onchange="ctlBoxAdd($(this).prop('field'),$(this).prop('_form'), this.value)">
+        <option value="">Choose field type to add</option>
+        <option value="groupField">Add Container</option>
+        <option value="textField">Add Text</option>
+        <option value="listField">Add List</option>
+        <option value="currentUserField">Add Current User</option>
+        <option value="currentDateTimeField">Add Current Date and Time</option>
     </select>
-    <span title='Select' onclick="ctlBoxSelect($(this).prop('field'),$(this).prop('form'))" class='ui-icon ui-icon-check'></span>
+    <span title='Refresh' onclick="ctlBoxRefresh($(this).prop('field'),$(this).prop('_form'))" class='ui-icon ui-icon-refresh'></span>
+    <span title='Select' onclick="ctlBoxSelect($(this).prop('field'),$(this).prop('_form'))" class='ui-icon ui-icon-check'></span>
 </div>

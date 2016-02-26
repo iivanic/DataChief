@@ -84,6 +84,11 @@ this.ctor = function () {
     this._maxlength = 1000;
     this._form = null;
     this._parent = null;
+    this._required = false;
+    this._toolTip = "Tooltip";
+    this._description = "Description";
+    this._displayName = "Label";
+    this._defaultValue = "";
 }
 this.findField = function (idwithprefix) {
     //    console.log("textField.findField(" + idwithprefix + ")");

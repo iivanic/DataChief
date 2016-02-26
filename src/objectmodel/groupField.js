@@ -90,9 +90,10 @@ this.ctor = function () {
     this._displayName = "Label";
     this._form = null;
     this._parent = null;
+    this._defaultValue = "";
 }
 this.findField = function (idwithprefix) {
-    //   console.log("groupField.findField(" + idwithprefix  + "), this._lastCumulativeId=" + this._lastCumulativeId);
+    console.log("groupField.findField(" + idwithprefix  + "), this._lastCumulativeId=" + this._lastCumulativeId);
     for (var i in this._children) {
         if (this._lastCumulativeId == idwithprefix) {
             //           console.log("groupField.findField(" + idwithprefix + ") FOUND");

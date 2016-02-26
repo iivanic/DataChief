@@ -35,6 +35,7 @@ this._propsMeta = {
     _lastPlaceholder: { browsable: false },
     _lastEditable: { browsable: false },
     _lastUser: { browsable: false },
+    displayName: { browsable: false },
     placeHolderPrefix: { browsable: false },
     _lastCumulativeId: { browsable: false },
     idprefix: { browsable: false }
@@ -56,6 +57,12 @@ Object.defineProperty(this, "name", {
     set: function (val) {
         this._name = val;
     }
+});
+Object.defineProperty(this, "displayName", {
+    get: function () {
+        return this._name;
+    },
+
 });
 Object.defineProperty(this, "id", {
     get: function () {
@@ -143,9 +150,21 @@ this.render = function (placeholder, editable, user) {
         for (var i1 = 0; i1 < spans.length; i1++) {
             if (field) {
                 $(spans[i1]).prop("field", field);
-                $(spans[i1]).prop("form", this);
-                //   $(spans[i1]).attr("me", "aaa");
-                //  console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
+                $(spans[i1]).prop("_form", this);
+             }
+
+        }
+        //combos
+        spans = $(allCtlBoxes[s]).find("select");
+        //      console.log("spans=" +  spans.length);
+        for (var i1 = 0; i1 < spans.length; i1++) {
+            if (field) {
+  
+                $(spans[i1]).prop("field", field);
+                $(spans[i1]).prop("_form", this);
+        //           $(spans[i1]).attr("me", "aaa");
+        //          console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
+               //        $(spans[i1]).selectmenu(); 
             }
 
         }

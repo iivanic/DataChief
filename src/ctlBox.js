@@ -5,12 +5,7 @@ function getPropertyGrid(form) {
 function ctlBoxSelect(field, form) {
     getPropertyGrid(form).jqPropertyGrid(field, field._propsMeta);
     getPropertyGrid(form).prop("current", field);
-    /*   $("[id^='field_dcform5_" + form.id + "']").css("border", "solid 1px transparent");
-       $("[id^='field_dcform_" + form.id + "']").css("background-color", "");
-   
-       $('#field_' + field._lastCumulativeId).css("border", "dashed 1px red");
-       $('#field_' + field._lastCumulativeId).css("background-color", "yellow");
-   */
+
     $("[id^='field_dcform_" + form.id + "']").removeClass("datachiefFieldRowSelected");
     $('#field_' + field._lastCumulativeId).addClass("datachiefFieldRowSelected");
 }
@@ -47,13 +42,8 @@ function ctlBoxDelete(field, form) {
 }
 function ctlBoxDeletePart2(field, form) {
     getPropertyGrid(form).jqPropertyGrid(new Object(), null);
-    getPropertyGrid(form).prop("current", null); 
-    /*  $("[id^='field_dcform_" + form.id + "']").css("border", "none");
-    $("[id^='field_dcform_" + form.id + "']").css("background-color", "");
- 
-    $('#ctlbox_' + field._lastCumulativeId).html("");
-    $('#field_' + field._lastCumulativeId).html("");
-    */
+    getPropertyGrid(form).prop("current", null);
+
     field._parent._children = field._parent._children.filter(function (element, i) {
         return element.id !== field.id;
     });
@@ -63,8 +53,7 @@ function ctlBoxDeletePart2(field, form) {
 }
 
 function ctlBoxRefresh(field, form) {
-    //   getPropertyGrid(form).jqPropertyGrid(new Object(), null);
-    //    getPropertyGrid(form).prop("current", null);
+
     form.refresh();
     markSelected(form)
 }
@@ -113,8 +102,62 @@ function MoveElementInArray(array, old_index, new_index) {
         }
     }
     array.splice(new_index, 0, array.splice(old_index, 1)[0]);
-    return array; // for testing purposes
+    return array;
 };
+
+
+var groupField = require("./objectmodel/groupField.js");
+var textField = require("./objectmodel/textField.js");
+var fieldBase = require("./objectmodel/fieldBase.js");
+var listField = require("./objectmodel/listField.js");
+var currentDateTimeField = require("./objectmodel/currentDateTimeField.js");
+var currentUserField = require("./objectmodel/currentUserField.js");
+
+function ctlBoxAdd(field, form, fieldType) {
+    console.log("Add " + fieldType);
+    var newField = null
+    switch (fieldType) {
+        case "listField":
+            newField = Object.create(listField);
+            newField.ctor();
+            break;
+        case "textField":
+            newField = Object.create(textField);
+            newField.ctor();
+            break;
+        case "fieldBase":
+            newField = Object.create(fieldBase);
+            newField.ctor();
+            break;
+        case "groupField":
+            newField = Object.create(groupField);
+            newField.ctor();
+            break;
+        case "currentDateTimeField":
+            newField = Object.create(currentDateTimeField);
+            newField.ctor();
+            break;
+        case "currentUserField":
+            newField = Object.create(currentUserField);
+            newField.ctor();
+            break;
+
+    }
+    if (newField) {
+
+        console.log("Adding child of " + field.displayName + "...")
+
+        field.children.push(newField);
+        newField._form = form;
+        newField._parent = field;
+        newField._lastCumulativeId="";
+
+        getPropertyGrid(form).jqPropertyGrid(newField, newField._propsMeta);
+        getPropertyGrid(form).prop("current", newField);
+        form.refresh();
+        markSelected(form)
+    }
+}
 
 
  
