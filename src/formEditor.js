@@ -124,13 +124,15 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
     this.currentForm.render($("#" + this.prefix + "formPreview"));
 
     $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
-    $("#" + this.prefix + "formReset").prop("me", this);
-    $("#" + this.prefix + "formReset")
+    $('#' + this.prefix + 'propGrid').prop("current", this.currentForm);
+    markSelected(this.currentForm);
+/*     $("#" + this.prefix + "formReset").prop("me", this);
+   $("#" + this.prefix + "formReset")
         .button()
         .click(function () {
             this.me.resetFormChanges();
         });
-
+*/
     $("#" + this.prefix + "formApply").prop("me", this);
     $("#" + this.prefix + "formApply")
         .button()
@@ -141,20 +143,22 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
 
 
 }
-this.resetFormChanges = function () {
+/*this.resetFormChanges = function () {
     $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
     this.currentForm.render($("#" + this.prefix + "formPreview"));
 
 }
+*/
 this.applyFormChanges = function () {
     // In order to get back the modified values:
-    var theNewObj = $('#' + this.prefix + 'propGrid').jqPropertyGrid('get');
+    var pgrid=$('#' + this.prefix + 'propGrid');
+    var theNewObj = pgrid.jqPropertyGrid('get');
     //copy properties to form
-    for (var attrname in theNewObj) { this.currentForm[attrname] = theNewObj[attrname]; }
+    for (var attrname in theNewObj) { pgrid.prop("current")[attrname] = theNewObj[attrname]; }
     $(this.tabTitle).text(this.currentForm.name);
 
-    this.currentForm.render($("#" + this.prefix + "formPreview"));
-
+    this.currentForm.refresh();
+    markSelected(this.currentForm)
 }
 function SaveJSONReplacer(key,value)
 {

@@ -32,6 +32,11 @@ this._propsMeta = {
     _children: { browsable: false },
     _propsMeta: { browsable: false },
     _id: { browsable: false },
+    _lastPlaceholder: { browsable: false },
+    _lastEditable: { browsable: false },
+    _lastUser: { browsable: false },
+    placeHolderPrefix: { browsable: false },
+    _lastCumulativeId: { browsable: false },
     idprefix: { browsable: false }
 }
 
@@ -87,17 +92,17 @@ Object.defineProperty(this, "version", {
 
 //methods
 
-this.refresh = function(){
+this.refresh = function () {
     this.render(this._lastPlaceholder, this._lastEditable, this._lastUser);
 }
 
 this.render = function (placeholder, editable, user) {
- //   console.log("form.render()");
+    //   console.log("form.render()");
     this._lastPlaceholder = placeholder;
     this._lastEditable = editable;
-    this._lastUser=user;
-    
-    this.placeHolderPrefix=$(placeholder).attr("id").replace("formPreview","");
+    this._lastUser = user;
+
+    this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
     this.idprefix = "dcform";
     editable = true;
     this._lastCumulativeId = this.idprefix + "_" + this.id;
@@ -129,9 +134,9 @@ this.render = function (placeholder, editable, user) {
     //  console.log("allCtlBoxesSelector=" + allCtlBoxesSelector + " = " + allCtlBoxes.length);
     for (var s = 0; s < allCtlBoxes.length; s++) {
         var field = this.findField($(allCtlBoxes[s]).attr("id").replace("ctlbox_", ""));
-       // from ctlbox wont be found
-        if(!field) 
-            field=this;
+        // from ctlbox wont be found
+        if (!field)
+            field = this;
         //      console.log("allCtlBoxes " + s + " " + $(allCtlBoxes[s]).prop("id"));
         var spans = $(allCtlBoxes[s]).find("span");
         //      console.log("spans=" +  spans.length);
@@ -139,13 +144,13 @@ this.render = function (placeholder, editable, user) {
             if (field) {
                 $(spans[i1]).prop("field", field);
                 $(spans[i1]).prop("form", this);
-             //   $(spans[i1]).attr("me", "aaa");
-              //  console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
+                //   $(spans[i1]).attr("me", "aaa");
+                //  console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
             }
 
         }
     }
-   // console.log("!!!!!!!!!!!!!!!!!!!!!!!");
+    // console.log("!!!!!!!!!!!!!!!!!!!!!!!");
     /*   if (editable) {
            console.log("MARKING START");
            var selector = "[id^='selectable_" + idprefix + "_" + this.id + "']";

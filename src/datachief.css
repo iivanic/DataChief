@@ -58,6 +58,10 @@ body{
         .datachiefFieldRow{
             border: solid 1px transparent;
         }
+        .datachiefFieldRowSelected{
+            border:dashed 1px red;
+            background-color: yellow;
+        }
         .datachiefField{}
         .datachiefFieldText{
             width:100%;

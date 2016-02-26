@@ -8,6 +8,24 @@ this._repeater = false;
 
 var helper = require("./utils.js");
 
+this._propsMeta = {
+    // Since string is the default no nees to specify type
+    _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },
+    _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
+    _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
+    _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field.', showHelp: true },
+    _required: { group: 'Repeater Settings', name: 'Required', description: 'Is at least one row required?', showHelp: true },
+    _repeater: { group: 'Repeater Settings', name: 'Repeater', description: 'Is this container repeater for subrecords?', showHelp: true },
+    _valueHasBeenSet: { browsable: false },
+    _children: { browsable: false },
+    _propsMeta: { browsable: false },
+    _id: { browsable: false },
+    _lastCumulativeId: { browsable: false },
+    _form: { browsable: false },
+    _parent: { browsable: false },
+    _type: { browsable: false }
+}
+
 //properties
 Object.defineProperty(this, "repeater", {
     get: function () {

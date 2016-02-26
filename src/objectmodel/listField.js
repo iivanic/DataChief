@@ -6,6 +6,25 @@ this._type = "listField";
 
 var helper = require("./utils.js");
 
+this._propsMeta = {
+    // Since string is the default no nees to specify type
+    _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },
+    _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
+    _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
+    _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field. Can bi list delimited with semicolon (;) if Multiselect is set.', showHelp: true },
+    _multiselect: { group: 'Field Settings', name: 'Multiselect', description: 'Can multiple items be selected?', showHelp: true },
+    _options: { group: 'Field Settings', name: 'Options', description: 'List of options to choose from delimited with semicolon (;)?', showHelp: true },
+    _required: { group: 'Field Settings', name: 'Required', description: 'If selected, user must choose at least one options.', showHelp: true },
+    _valueHasBeenSet: { browsable: false },
+    _children: { browsable: false },
+    _propsMeta: { browsable: false },
+    _id: { browsable: false },
+    _lastCumulativeId: { browsable: false },
+    _form: { browsable: false },
+    _parent: { browsable: false },
+    _type: { browsable: false }
+}
+
 Object.defineProperty(this, "multiselect", {
     get: function () {
         return this._multiselect;
@@ -57,6 +76,7 @@ this.ctor = function () {
     this.__proto__.ctor();
     this._type = "listField";
     this._multiselect = false;
+    this._defaultValue = "";
     this._form = null;
     this._parent = null;
 }
