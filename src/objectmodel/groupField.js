@@ -95,8 +95,8 @@ this.ctor = function () {
 this.findField = function (idwithprefix) {
     console.log("groupField.findField(" + idwithprefix  + "), this._lastCumulativeId=" + this._lastCumulativeId);
     for (var i in this._children) {
-        if (this._lastCumulativeId == idwithprefix) {
-            //           console.log("groupField.findField(" + idwithprefix + ") FOUND");
+        if (JSON.stringify(this._lastCumulativeId.trim().toLowerCase()) == JSON.stringify(idwithprefix.trim().toLowerCase())) {
+                console.log("groupField.findField(" + idwithprefix + ") FOUND");
             return this;
         }
         else
@@ -105,4 +105,5 @@ this.findField = function (idwithprefix) {
             return tmp;
     }
     return null;
+ 
 }
