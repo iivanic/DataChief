@@ -151,7 +151,7 @@ this.render = function (placeholder, editable, user) {
             if (field) {
                 $(spans[i1]).prop("field", field);
                 $(spans[i1]).prop("_form", this);
-             }
+            }
 
         }
         //combos
@@ -159,12 +159,12 @@ this.render = function (placeholder, editable, user) {
         //      console.log("spans=" +  spans.length);
         for (var i1 = 0; i1 < spans.length; i1++) {
             if (field) {
-  
+
                 $(spans[i1]).prop("field", field);
                 $(spans[i1]).prop("_form", this);
-        //           $(spans[i1]).attr("me", "aaa");
-        //          console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
-               //        $(spans[i1]).selectmenu(); 
+                //           $(spans[i1]).attr("me", "aaa");
+                //          console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
+                //        $(spans[i1]).selectmenu(); 
             }
 
         }
@@ -361,15 +361,17 @@ this.dispose = function () {
 }
 this.findField = function (idwithprefix) {
     //      console.log("form.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
-    for (var i in this._children) {
-        if (this._lastCumulativeId == idwithprefix) {
-            console.log("form.findField(" + idwithprefix + ") FOUND");
-            return this;
-        }
-        else
+    if (this._lastCumulativeId == idwithprefix) {
+        console.log("groupField.findField(" + idwithprefix + ") FOUND");
+        return this;
+    }
+    else {
+        for (var i in this._children) {
             var tmp = this._children[i].findField(idwithprefix)
-        if (tmp)
-            return tmp;
+            if (tmp)
+                return tmp;
+        }
     }
     return null;
+
 }

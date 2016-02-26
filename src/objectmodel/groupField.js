@@ -93,17 +93,19 @@ this.ctor = function () {
     this._defaultValue = "";
 }
 this.findField = function (idwithprefix) {
-    console.log("groupField.findField(" + idwithprefix  + "), this._lastCumulativeId=" + this._lastCumulativeId);
-    for (var i in this._children) {
-        if (JSON.stringify(this._lastCumulativeId.trim().toLowerCase()) == JSON.stringify(idwithprefix.trim().toLowerCase())) {
-                console.log("groupField.findField(" + idwithprefix + ") FOUND");
-            return this;
+    console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
+    if (this._lastCumulativeId == idwithprefix) {
+        console.log("groupField.findField(" + idwithprefix + ") FOUND");
+        return this;
+    }
+    else {
+
+       for (var i in this._children) {
+           var tmp = this._children[i].findField(idwithprefix)
+            if (tmp)
+                return tmp;
         }
-        else
-            var tmp = this._children[i].findField(idwithprefix)
-        if (tmp)
-            return tmp;
     }
     return null;
- 
+
 }
