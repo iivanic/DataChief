@@ -4,6 +4,7 @@ var path = require("path");
 var remote = require('remote'); 
 var dialog = remote.require('dialog');
 
+
 this.generateGUID = function () {
     // not a real GUID, just a big random number
     // taken from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
@@ -16,6 +17,20 @@ this.loadTextFile = function (filename) {
    var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));
     return data.toString();
 };
+this.loadFile = function (filename) {
+   var data = fs.readFileSync(filename);
+   return data.toString();
+};
+this.fileExists = function(fileName){
+    return path.existsSync(fileName);
+}  
+this.getUserFolder = function () {
+   return require('remote').getGlobal('sharedObject').userData;
+};
+this.getUserSettingsFilePath = function ()
+{
+  return path.resolve(path.join(this.getUserFolder(),"datachiefUserSettings.json"));  
+}
 this.getCurrentUsername = function (filename) {
 
     var username = require('child_process').execSync("whoami", { encoding: 'utf8', timeout: 1000 });

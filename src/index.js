@@ -76,33 +76,10 @@ $(document).ready(function () {
     $("#about_author").text(pjson.author);
     $("#about_lic").text(pjson.license);
 
-    var availableUsers = [
-        "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
-        "C",
-        "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
-        "Java",
-        "JavaScript",
-        "Lisp",
-        "Perl",
-        "PHP",
-        "Python",
-        "Ruby",
-        "Scala",
-        "Scheme"
-    ];
-    availableUsers.push(helper.getCurrentUsername());
+ 
+  //  availableUsers.push(helper.getCurrentUsername());
     $("#impersonateUser").autocomplete({
-        source: availableUsers
+        source: userSettings.userList
     });
     $("#clearimpersonateUserList")
         .button()

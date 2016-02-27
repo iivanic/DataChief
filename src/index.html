@@ -9,6 +9,8 @@
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
+        var userSettings = require("./userSettings.js")
+        userSettings.ctor();
         var index = require("./index.js");
     </script>
     <script src='ctlBox.js'></script>
@@ -87,7 +89,28 @@
                 <p>Data collection & analysis</p>
             </div>
             <div id="maintabs-5">
-                <p>Application settings</p>
+                <h1>Application settings</h1>
+                <fieldset id="settingsField">
+                    <legend>User information</legend>
+                    <div class="col-sm-4" id='prefix_propGrid'>
+                        <label for="textSettingsEmail">Your Email: </label>
+                    </div>
+                    <div class="col-sm-8" id='prefix_propGrid'>
+                        <input type="email" id="textSettingsEmai" />
+                    </div>
+                    <div class="col-sm-4" id='prefix_propGrid'>
+                        <label for="textSettingsName">Your name: </label>
+                    </div>
+                    <div class="col-sm-8" id='prefix_propGrid'>
+                        <input type="text" id="textSettingsName" />
+                    </div>
+                    <div class="col-sm-4" id='prefix_propGrid'>
+                        <label for="textSettingsOrganization">Comapny or Organization: </label>
+                    </div>
+                    <div class="col-sm-8" id='prefix_propGrid'>
+                        <input type="email" id="textSettingsOrganization" />
+                    </div>
+                </fieldset>
             </div>
             <div id="maintabs-6" class="fixmyheight">
                 <img src="../icons/Filler.png" style="float:left;padding-right:24px;;padding-top:12px;" />
