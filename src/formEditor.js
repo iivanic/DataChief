@@ -213,11 +213,20 @@ this.applyFormChanges = function () {
     var pgrid=$('#' + this.prefix + 'propGrid');
     var theNewObj = pgrid.jqPropertyGrid('get');
     //copy properties to form
-    for (var attrname in theNewObj) { pgrid.prop("current")[attrname] = theNewObj[attrname]; }
+    var isDirty = false;
+    for (var attrname in theNewObj) { 
+        if(pgrid.prop("current")[attrname] != theNewObj[attrname])
+            isDirty=true;
+        pgrid.prop("current")[attrname] = theNewObj[attrname];
+         }
+    if(isDirty)
+        this.setDirty();
+        
     $(this.tabTitle).text(this.currentForm.name);
-
     this.currentForm.refresh();
-    markSelected(this.currentForm)
+    markSelected(this.currentForm);
+    if(isDirty)
+        this.setDirty();
 }
 function SaveJSONReplacer(key,value)
 {
