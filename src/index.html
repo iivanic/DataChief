@@ -58,18 +58,9 @@
                 <li><a href="#maintabs-6">About</a></li>
             </ul>
             <div id="maintabs-1">
-                <div id="toolbar" class="ui-widget-header ui-corner-all">
                     <button id="add_form">Create Form</button>
                     <button id="open_form">Open Form</button>
-                    <span id="editorMode">
-                        <input type="radio" id="editorEditMode" name="repeat" checked="checked"><label for="editorEditMode">Edit mode</label>
-                        <input type="radio" id="editorViewMode" name="repeat"><label for="editorViewMode">Preview mode</label>
-                    </span>
-                    <label for="impersonateUser">Impersonate user: </label>
-                    <input id="impersonateUser">
-                    <button id="clearimpersonateUserList">Clear List</button>
-                </div>
-                <div id="tabs">
+                 <div id="tabs">
                     <ul>
                         <li><a href="#tabs-1" id="header">Welcome</a> </li>
                     </ul>
@@ -79,16 +70,16 @@
                 </div>
             </div>
 
-            <div id="maintabs-2">
+            <div id="maintabs-2"  class="fixmyheight">
                 <p>Publisher....</p>
             </div>
-            <div id="maintabs-3">
+            <div id="maintabs-3"  class="fixmyheight">
                 <p>Filler</p>
             </div>
-            <div id="maintabs-4">
+            <div id="maintabs-4"  class="fixmyheight">
                 <p>Data collection & analysis</p>
             </div>
-            <div id="maintabs-5">
+            <div id="maintabs-5"  class="fixmyheight">
                 <h1>Application settings</h1>
                 <fieldset id="settingsField">
                     <legend>User information</legend>
@@ -96,7 +87,7 @@
                         <label for="textSettingsEmail">Your Email: </label>
                     </div>
                     <div class="col-sm-8">
-                        <input type="email" class="datachiefFieldText" id="textSettingsEmai" />
+                        <input type="email" class="datachiefFieldText" id="textSettingsEmail" />
                     </div>
                     <div class="col-sm-4">
                         <label for="textSettingsName">Your name: </label>
@@ -112,8 +103,8 @@
                     </div>
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8">
-                        <button id="resettings">Reset</button>&nbsp;
-                        <button id="savesettings">Apply</button>
+                        <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
+                        <button id="savesettings"  onclick="userSettings.fromGui();userSettings.save();">Apply</button>
                     </div>
                 </fieldset>
 

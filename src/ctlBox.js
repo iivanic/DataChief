@@ -1,5 +1,5 @@
 function getPropertyGrid(form) {
-    console.log('#' + form.placeHolderPrefix + 'propGrid');
+   // console.log('#' + form.placeHolderPrefix + 'propGrid');
     return $('#' + form.placeHolderPrefix + 'propGrid')
 }
 function ctlBoxSelect(field, form) {

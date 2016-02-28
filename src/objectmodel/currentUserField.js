@@ -30,7 +30,7 @@ this.ctor = function () {
     this.__proto__.ctor();
     this._type = "currentUserField";
     this._id = "";
-    this._value = helper.getCurrentUsername();
+    this._value = userSettings.email;
     this._toolTip = "Current user";
     this._description = "Who is filling out the form - probably You.";
     this._displayName = "Employee";

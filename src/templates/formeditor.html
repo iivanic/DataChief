@@ -1,14 +1,26 @@
+<div id='prefix_editorRight'>
 
-
-<div id='prefix_editorRight'></div>
+</div>
 <input type="hidden" id="prefix_lastSavedJSON" />
 <div class="row" id="prefix_row">
     <div class="fixmyheight col-sm-8" id="prefix_formPreview">Preview</div>
 
     <div class="fixmyheight col-sm-4" id="prefix_formProperties">
+        <div class="row" style="padding-bottom:3px;">
+            <div class="col-sm-5">
+                <label for="prefix_impersonateUser">Impersonate user: </label>
+            </div>
+           <div class="col-sm-7">
+                <input  style="width:100%;"  id="prefix_impersonateUser">
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm-6">
-
+                <select style="width:100%;" id="prefix_editormode">
+                    <option selected value="edit">Edit mode</option>
+                    <option value="1preview">Preview mode</option>
+                </select>
             </div>
             <div class="col-sm-6">
                 <button id="prefix_formSave" style="width:100%;">Save Form</button>
@@ -22,7 +34,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-<!--                <button id="prefix_formReset" style="width:100%;">Reset changes</button> -->
+                <!--                <button id="prefix_formReset" style="width:100%;">Reset changes</button> -->
             </div>
             <div class="col-sm-6">
                 <button id="prefix_formApply" style="width:100%;">Apply changes</button>

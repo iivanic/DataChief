@@ -32,7 +32,6 @@ this.getUserSettingsFilePath = function ()
   return path.resolve(path.join(this.getUserFolder(),"datachiefUserSettings.json"));  
 }
 this.getCurrentUsername = function (filename) {
-
     var username = require('child_process').execSync("whoami", { encoding: 'utf8', timeout: 1000 });
     return String(username).trim();
 };

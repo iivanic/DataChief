@@ -50,7 +50,7 @@ Object.defineProperty(this, "maxlength", {
     }
 });
 this.render = function (form, parent, placeholder, editable, user, idprefix) {
-    console.log("textField.render()");
+  //  console.log("textField.render()");
     this._form = form;
     this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;

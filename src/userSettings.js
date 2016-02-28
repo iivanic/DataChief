@@ -33,6 +33,16 @@ this.ctor = function () {
     }
 
 }
-this.Save = function () {
+this.save = function () {
     helper.saveTextFile(this.filePath, JSON.stringify(this, null, 5));
+}
+this.toGui = function () {
+    $("#textSettingsEmail").val(this.email);
+    $("#textSettingsName").val(this.name);
+    $("#textSettingsOrganization").val(this.organization);
+}
+this.fromGui = function () {
+    this.email=$("#textSettingsEmail").val();
+    this.name=$("#textSettingsName").val();
+    this.organization=$("#textSettingsOrganization").val();
 }

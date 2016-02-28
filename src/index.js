@@ -58,7 +58,9 @@ function addTab(opened) {
 }
 
 $(document).ready(function () {
-    
+    userSettings.toGui();
+    $("#resettings").button();
+    $("#savesettings").button();
     var shell = require('electron').shell;
     //open links externally by default
     $(document).on('click', 'a[href^="http"]', function(event) {
@@ -71,22 +73,11 @@ $(document).ready(function () {
     $('#description').html(getDescription(pjson));
     maintabs = $("#maintabs").tabs();
     tabs = $("#tabs").tabs();
-    $("#editorMode").buttonset();
+   
     $("#about_ver").text(pjson.version);
     $("#about_author").text(pjson.author);
     $("#about_lic").text(pjson.license);
-
  
-  //  availableUsers.push(helper.getCurrentUsername());
-    $("#impersonateUser").autocomplete({
-        source: userSettings.userList
-    });
-    $("#clearimpersonateUserList")
-        .button()
-        .click(function () {
-            alert("OK!");
-        });    
-  
     // modal dialog init: custom buttons and a "close" callback resetting the form inside
     var newFormDialog = $("#newFormDialog").dialog({
         autoOpen: false,

@@ -104,14 +104,13 @@ this.refresh = function () {
 }
 
 this.render = function (placeholder, editable, user) {
-    //   console.log("form.render()");
+    console.log("form.render(placeholder, " + editable + ", " + user + ")");
     this._lastPlaceholder = placeholder;
     this._lastEditable = editable;
     this._lastUser = user;
 
     this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
     this.idprefix = "dcform";
-    editable = true;
     this._lastCumulativeId = this.idprefix + "_" + this.id;
     var str = "";
 
@@ -199,7 +198,7 @@ this.createExampleForm = function (name, decription) {
     this._description = decription;
     this._footer = "This is an simple example DataChief Form.";
     this._version = "1.0"
-    this._author = helper.getCurrentUsername();
+    this._author = userSettings.email;
     this._lastTimeTemplatechanged = new Date();
 
     var txt;

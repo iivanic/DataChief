@@ -93,9 +93,9 @@ this.ctor = function () {
     this._defaultValue = "";
 }
 this.findField = function (idwithprefix) {
-    console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
+  //  console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
     if (this._lastCumulativeId == idwithprefix) {
-        console.log("groupField.findField(" + idwithprefix + ") FOUND");
+   //     console.log("groupField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
     else {

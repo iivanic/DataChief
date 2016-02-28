@@ -107,6 +107,56 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
         .click(function () {
             this.me.saveForm(this.me.dirtyMark.attr('id'));
         });
+    $("#" + this.prefix + "impersonateUser").autocomplete({
+        source: userSettings.userList
+    })
+    .change(function () {
+        var u=$("#" + this.me.prefix + "impersonateUser").val();
+        var isEdit = $("#" + this.me.prefix + "editormode").val()=="edit"?true:false;
+        //maintein suggestion list
+        if( userSettings.userList.indexOf(u)<0)
+        {
+            userSettings.userList.push(u);
+            userSettings.save();
+            $("#" + this.me.prefix + "impersonateUser").source=userSettings.userList;
+        }
+        
+        this.me.currentForm.render($("#" + this.me.prefix + "formPreview"),
+                    isEdit
+                    ,u);
+         // in preview mode reset propertygrid
+         if(!isEdit)
+             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(new Object(), null);
+         else
+             markSelected(this.me.currentForm);
+             var sel = $('#' + this.me.prefix + 'propGrid').prop("current");
+             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(sel, sel._propsMeta);
+       })
+        .val(userSettings.email);   
+
+    $("#" + this.prefix + "impersonateUser").prop("me", this);
+    $("#" + this.prefix + "editormode").selectmenu(
+        {
+        change: function( event, data ) {
+          var u=$("#" + this.me.prefix + "impersonateUser").val();
+        var isEdit = $("#" + this.me.prefix + "editormode").val()=="edit"?true:false;
+               this.me.currentForm.render($("#" + this.me.prefix + "formPreview"),
+                    isEdit
+                    ,u);
+                        // in preview mode reset propertygrid
+         if(!isEdit)
+             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(new Object(), null);
+         else
+         {
+             markSelected(this.me.currentForm);
+             var sel = $('#' + this.me.prefix + 'propGrid').prop("current");
+             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(sel, sel._propsMeta);
+         }
+            
+       }}
+    );
+
+    $("#" + this.prefix + "editormode").prop("me", this);
 
     this.currentForm = Object.create(form);
     this.currentForm.ctor();
@@ -121,7 +171,9 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
     else
         this.currentForm.createExampleForm(name, description);
         
-    this.currentForm.render($("#" + this.prefix + "formPreview"));
+    this.currentForm.render($("#" + this.prefix + "formPreview"),
+        $("#" + this.prefix + "editormode").val()=="edit"?true:false
+        ,$("#" + this.prefix + "impersonateUser").val());
 
     $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
     $('#' + this.prefix + 'propGrid').prop("current", this.currentForm);
@@ -150,6 +202,10 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
 }
 */
 this.applyFormChanges = function () {
+    // in preview mode do nothing    
+     var isEdit = $("#" + this.prefix + "editormode").val()=="edit"?true:false;
+     if(!isEdit)
+        return;
     // In order to get back the modified values:
     var pgrid=$('#' + this.prefix + 'propGrid');
     var theNewObj = pgrid.jqPropertyGrid('get');
