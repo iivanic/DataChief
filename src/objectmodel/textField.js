@@ -67,14 +67,13 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     if (this.multiline) {
-        ret += "<textarea " + (this._required?"dcrequiredfield":"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
+        ret += "<textarea  data-validation-required-message='Required.'  " + (this._required?"required":"" ) +  (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
     }
     else {
-        ret += "<input " + 
-            (this._required?"dcrequiredfield":"" ) + " " +
-            (this._regexp.length>0?"dcregexpression='" + this._regexp +"'":"" )  + " " +
-            "dcregexpressionerrormessage='" + this._regexpErrorMessage +"'" + 
-            " type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
+        ret += "<input data-validation-required-message='Required.' " + 
+            (this._required?"required":"" ) + " " +
+            (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" )  + " " 
+              + " type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
         ret += "</input>";
 
     }

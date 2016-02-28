@@ -205,6 +205,7 @@ this.render = function (placeholder, editable, user) {
            console.log("MARKING DONE");
        }
        */
+      $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
 };
 
 this.readValues = function () {
