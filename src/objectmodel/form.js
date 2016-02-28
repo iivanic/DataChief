@@ -1,3 +1,4 @@
+/* global broadcastStatusOfForm */
 //types
 var groupField = require("./groupField.js");
 var textField = require("./textField.js");
@@ -20,6 +21,13 @@ this._children = new Array();
 this._id = "";
 this.idprefix = "dcform";
 this.placeHolderPrefix = "";
+
+this.workflow;
+this.broadcastStatusOfForm;
+this.broadCastRecievers;
+this.finalStep;
+this.allowLocalCopies;
+
 // metadata for editing in jqPropertyGrid
 this._propsMeta = {
     // Since string is the default no nees to specify type
@@ -38,7 +46,12 @@ this._propsMeta = {
     displayName: { browsable: false },
     placeHolderPrefix: { browsable: false },
     _lastCumulativeId: { browsable: false },
-    idprefix: { browsable: false }
+    idprefix: { browsable: false },
+    workflow: { group: 'Workflow', name: 'Workflow', description: 'Workflow steps delimited with semicolon (;), except last one - the final step of workflow. Also, firts step (creation of form by initiator) is not listed here. You choose first step by publishing form to the people who needs to create(initiate) this form. Multiple recipients can be specified within one step delimited with comma(,). If so, user, when sending form to that workflow step will be ble to choose recipient. ', showHelp: true },
+    broadcastStatusOfForm: { group: 'Workflow', name: 'Broadcast status of form', description: '', showHelp: true },
+    broadCastRecievers: { group: 'Workflow', name: 'Broadcast recievers', description: 'To whom you wish to notify when form is sent between workflow steps? Some kind of dmin in your organization who needs to supervise business processes. If not specified, no broadcast will be made.', showHelp: true },
+    finalStep: { group: 'Workflow', name: 'Final step', description: 'User who collects data - filled and completed forms.', showHelp: true },
+    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma separated list of users which will have local copies of forms they have filled out - orpartially filled out.', showHelp: true }
 }
 
 //properties
@@ -108,6 +121,11 @@ this.render = function (placeholder, editable, user) {
     this._lastPlaceholder = placeholder;
     this._lastEditable = editable;
     this._lastUser = user;
+
+    this.workflow="";
+    this.broadCastRecievers="initiator";
+    this.finalStep="initiator";
+    this.allowLocalCopies="initiator";
 
     this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
     this.idprefix = "dcform";

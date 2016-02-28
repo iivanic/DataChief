@@ -12,6 +12,8 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
     var ctlbox = "";
+    if (this._parent._disabled)
+        this._value = "";
     if (editable)
         ctlbox = helper.loadFieldBox();
     ctlbox = ctlbox.replace('{id}', "ctlbox_" + idprefix + "_" + this.id)
@@ -30,6 +32,7 @@ this.ctor = function () {
     this.__proto__.ctor();
     this._type = "currentUserField";
     this._id = "";
+
     this._value = userSettings.email;
     this._toolTip = "Current user";
     this._description = "Who is filling out the form - probably You.";

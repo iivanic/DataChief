@@ -11,6 +11,8 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     this._form = form;
     this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
+    if (this._parent._disabled)
+        this._value = "";
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadFieldBox();
@@ -30,7 +32,7 @@ this.ctor = function () {
     this.__proto__.ctor();
     this._type = "currentDateTimeField";
     this._id = "";
-    this._value = new Date()
+    this._value = new Date();
     this._toolTip = "Current time";
     this._description = "When is this form filled out - now.";
     this._displayName = "Timestamp";

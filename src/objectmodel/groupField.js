@@ -3,8 +3,8 @@ this.__proto__ = require("./fieldBase.js");
 
 this._children = new Array();
 this._repeater = false;
-
-
+this.editors = "";
+this._disabled;
 
 var helper = require("./utils.js");
 
@@ -14,7 +14,7 @@ this._propsMeta = {
     _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
     _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
     _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field.', showHelp: true },
-    _required: { group: 'Repeater Settings', name: 'Required', description: 'Is at least one row required?', showHelp: true },
+    _required: { group: 'Repeater Settings', name: 'Required', description: 'Is at least one row required when repeater?', showHelp: true },
     _repeater: { group: 'Repeater Settings', name: 'Repeater', description: 'Is this container repeater for subrecords?', showHelp: true },
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
@@ -23,7 +23,9 @@ this._propsMeta = {
     _lastCumulativeId: { browsable: false },
     _form: { browsable: false },
     _parent: { browsable: false },
-    _type: { browsable: false }
+    _type: { browsable: false },
+    _disabled: { browsable: false },
+    editors: { group: 'Workflow', name: 'Editors', description: 'Define who, in the wrkflow, can edit or fill out this container. Default is \'initiator\', multiple users separate with comma.', showHelp: true }
 }
 
 //properties
@@ -57,6 +59,8 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     this._form = form;
     this._parent = parent;
     this._lastCumulativeId = idprefix + "_" + this.id;
+    var disabled = ((this.editors.replace(' ', '').split(",").indexOf(user) < 0 || this._parent._disabled) && !editable ? "disabled" : "");
+    this._disabled = disabled == "disabled";
     var ctlbox = "";
     if (editable)
         ctlbox = helper.loadGroupBox();
@@ -64,7 +68,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     var ret = "";
     if (editable)
         ret += ctlbox;
-    ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><fieldset class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
+    ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><fieldset " + disabled + " class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     //  if (editable)
     //     ret += "<ul id='sortable_" + idprefix + "_" +  this.id + "'>";
@@ -91,17 +95,18 @@ this.ctor = function () {
     this._form = null;
     this._parent = null;
     this._defaultValue = "";
+    this.editors = "initiator";
 }
 this.findField = function (idwithprefix) {
-  //  console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
+    //  console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
     if (this._lastCumulativeId == idwithprefix) {
-   //     console.log("groupField.findField(" + idwithprefix + ") FOUND");
+        //     console.log("groupField.findField(" + idwithprefix + ") FOUND");
         return this;
     }
     else {
 
-       for (var i in this._children) {
-           var tmp = this._children[i].findField(idwithprefix)
+        for (var i in this._children) {
+            var tmp = this._children[i].findField(idwithprefix)
             if (tmp)
                 return tmp;
         }

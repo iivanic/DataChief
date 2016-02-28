@@ -110,8 +110,11 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
     $("#" + this.prefix + "impersonateUser").autocomplete({
         source: userSettings.userList
     })
-    .change(function () {
-        var u=$("#" + this.me.prefix + "impersonateUser").val();
+        .val(userSettings.email);   
+        // change na radi dobro na jquery ui autocomplete
+    $("#" + this.prefix + "impersonateUser").blur(function () {
+        
+               var u=$("#" + this.me.prefix + "impersonateUser").val();
         var isEdit = $("#" + this.me.prefix + "editormode").val()=="edit"?true:false;
         //maintein suggestion list
         if( userSettings.userList.indexOf(u)<0)
@@ -127,13 +130,13 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
          // in preview mode reset propertygrid
          if(!isEdit)
              $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(new Object(), null);
-         else
+         else{
              markSelected(this.me.currentForm);
              var sel = $('#' + this.me.prefix + 'propGrid').prop("current");
              $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(sel, sel._propsMeta);
-       })
-        .val(userSettings.email);   
-
+         }
+        
+    })
     $("#" + this.prefix + "impersonateUser").prop("me", this);
     $("#" + this.prefix + "editormode").selectmenu(
         {

@@ -57,7 +57,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    ret += "<select " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
+    ret += "<select " + (this._required?"dcrequiredfield":"" ) + " " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
     var options = this.options.split(';');
     var values = this.value.split(';');
     if (!this._multiselect) ret += "<option value=''><-- not selected --></option>";

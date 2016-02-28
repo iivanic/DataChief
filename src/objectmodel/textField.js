@@ -2,6 +2,7 @@
 this.__proto__ = require("./fieldBase.js");
 this._multiline = false;
 this._regexp = "";
+this._regexpErrorMessage = "";
 this._maxlength = 1000;
 var helper = require("./utils.js");
 
@@ -15,6 +16,7 @@ this._propsMeta = {
     _multiline: { group: 'Text', name: 'Multiline', description: 'Enable one or multiple lines for text.', showHelp: true },
     _maxlength: { group: 'Text', name: 'Max length', description: 'Maximal langth of text.', showHelp: true },
     _regexp: { group: 'Text', name: 'Regular Expression', description: 'Regular expression.', showHelp: true },
+    _regexpErrorMessage: { group: 'Text', name: 'Regular Expression Error message', description: 'Message when regular expression is not met.', showHelp: true },
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
     _propsMeta: { browsable: false },
@@ -65,10 +67,14 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     if (this.multiline) {
-        ret += "<textarea rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
+        ret += "<textarea " + (this._required?"dcrequiredfield":"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
     }
     else {
-        ret += "<input type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
+        ret += "<input " + 
+            (this._required?"dcrequiredfield":"" ) + " " +
+            (this._regexp.length>0?"dcregexpression='" + this._regexp +"'":"" )  + " " +
+            "dcregexpressionerrormessage='" + this._regexpErrorMessage +"'" + 
+            " type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
         ret += "</input>";
 
     }
@@ -89,6 +95,7 @@ this.ctor = function () {
     this._description = "Description";
     this._displayName = "Label";
     this._defaultValue = "";
+    this._regexpErrorMessage = "Incorrect format.";
 }
 this.findField = function (idwithprefix) {
     //    console.log("textField.findField(" + idwithprefix + ")");

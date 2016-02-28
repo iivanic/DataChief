@@ -23,6 +23,7 @@ this.ctor = function () {
         // first time creation
         this.email = helper.getCurrentUsername();
         this.userList.push(this.email);
+        this.userList.push("initiator");
         helper.saveTextFile(this.filePath, JSON.stringify(this, null, 5));
     }
     else {
