@@ -67,7 +67,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     if (this.multiline) {
-        ret += "<textarea  data-validation-required-message='Required.'  " + (this._required?"required":"" ) +  (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
+        ret += "<textarea  data-validation-required-message='Required.'  " + (this._required?"required":"" ) + " " + (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
     }
     else {
         ret += "<input data-validation-required-message='Required.' " + 
@@ -77,7 +77,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
         ret += "</input>";
 
     }
-    ret += "</div>";
+    ret += "<p class='help-block'></p></div>";
     return ret;
 };
 this.ctor = function () {

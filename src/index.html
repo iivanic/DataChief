@@ -15,7 +15,7 @@
     </script>
     <script src='ctlBox.js'></script>
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
-    <script src="jqBootstrapValidation/jqBootstrapValidation.js"></script>
+    
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
 </head>
 
@@ -49,6 +49,24 @@
         <div id="dialog-confirm-remove-field" style="display:none;" title="Delete field?">
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are You sure?</p>
         </div>
+        <div id="dialog-validation-ok" style="display:none;" title="Validation OK">
+        <p>
+            <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+            Validation is Success!
+        </p>
+        <p>
+            Form is <b>filled out correctly</b>.
+        </p>
+        </div>
+        <div id="dialog-validation-failed" style="display:none;" title="Validation OK">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+            Validation Failed!
+        </p>
+        <p>
+            Form is <b>not correctly filled out</b>.
+        </p>
+        </div>        
         <div id="maintabs">
             <ul>
                 <li><a href="#maintabs-1">Form & workflow editor</a></li>

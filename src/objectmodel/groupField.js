@@ -76,6 +76,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
         ret += this._children[i].render(form, this, placeholder, editable, user, idprefix + "_" + this.id);
         ret += "<br />"
     }
+    ret+= "<p class='help-block'></p>";
     //  if (editable)
     //     ret += "</ul>"
     ret += "</fieldset></div>";

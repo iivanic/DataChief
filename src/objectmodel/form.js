@@ -122,10 +122,10 @@ this.render = function (placeholder, editable, user) {
     this._lastEditable = editable;
     this._lastUser = user;
 
-    this.workflow="";
-    this.broadCastRecievers="initiator";
-    this.finalStep="initiator";
-    this.allowLocalCopies="initiator";
+    this.workflow = "";
+    this.broadCastRecievers = "initiator";
+    this.finalStep = "initiator";
+    this.allowLocalCopies = "initiator";
 
     this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
     this.idprefix = "dcform";
@@ -147,7 +147,8 @@ this.render = function (placeholder, editable, user) {
         //    if (editable)
         //       str += "</span></li>";
     }
-    str += "<hr />" + this._footer + "<div />";
+    str += "<p class='help-block'></p>";
+    str += "<hr />" + this._footer + "<div /><br /><button style='float:right;' type='button' class='btn btn-primary testbutton'>Submit</i></button>";
     //  if (editable)
     //      str += "</ul>"
     placeholder.html(str);
@@ -202,10 +203,40 @@ this.render = function (placeholder, editable, user) {
                $(this).sortable();
                // $(this).disableSelection();
            });
-           console.log("MARKING DONE");
+           console.log("MARKING DONE");44
        }
        */
-      $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
+    this.validator=require("../dcValidator.js"); 
+    var fp = $("#" + placeholder.attr("id") );
+    this.validator.ctor( fp );
+    $("#" + placeholder.attr("id") ).find(".testbutton").
+    prop("me",this).
+    click( function()
+    { 
+        if(this.me.validator.validate())
+            {
+                $( "#dialog-validation-ok" ).dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function() {
+                        $( this ).dialog( "close" );
+                        }
+                    }
+                    });
+            }
+            else
+            { 
+                $( "#dialog-validation-failed" ).dialog({
+                    modal: true,
+                    buttons: {
+                        Ok: function() {
+                        $( this ).dialog( "close" );
+                        }
+                    }
+                    });
+            }
+     });
+   
 };
 
 this.readValues = function () {

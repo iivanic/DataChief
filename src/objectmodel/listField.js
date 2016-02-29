@@ -65,10 +65,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
         ret += "<option " + ($.inArray(options[i], values) > -1 ? "selected" : "") + " value='" + options[i] + "'>" + options[i] + "</option>";
 
     ret += "</select>";
-
-
-
-    ret += "</div>";
+    ret += "<p class='help-block'></p></div>";
     return ret;
 };
 this.ctor = function () {
