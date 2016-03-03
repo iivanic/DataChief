@@ -12,11 +12,12 @@ this._propsMeta = {
     _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
     _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
     _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field.', showHelp: true },
-    _required: { group: 'Field Settings', name: 'Required', description: 'Is this field required?', showHelp: true },
+    _required: { group: 'Field Validation', name: 'Required', description: 'Is this field required?', showHelp: true },
     _multiline: { group: 'Text', name: 'Multiline', description: 'Enable one or multiple lines for text.', showHelp: true },
     _maxlength: { group: 'Text', name: 'Max length', description: 'Maximal langth of text.', showHelp: true },
-    _regexp: { group: 'Text', name: 'Regular Expression', description: 'Regular expression.', showHelp: true },
-    _regexpErrorMessage: { group: 'Text', name: 'Regular Expression Error message', description: 'Message when regular expression is not met.', showHelp: true },
+    _regexp: { group: 'Field Validation', name: 'Regular Expression', description: 'Regular expression.', showHelp: true },
+    _regexpErrorMessage: { group: 'Field Validation', name: 'Regular Expression Error message', description: 'Message when regular expression is not met.', showHelp: true },
+    _requiredErrorMessage: { group: 'Field Validation', name: 'Required error message', description: 'Massege whe required field is missing.', showHelp: true },
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
     _propsMeta: { browsable: false },
@@ -67,10 +68,10 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     if (this.multiline) {
-        ret += "<textarea  data-validation-required-message='Required.'  " + (this._required?"required":"" ) + " " + (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
+        ret += "<textarea  data-validation-required-message='" + this._requiredErrorMessage + "'  " + (this._required?"required":"" ) + " " + (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" ) + " rows='4' maxlength='" + this.maxlength + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldText'>" + this.value + "</textarea>";
     }
     else {
-        ret += "<input data-validation-required-message='Required.' " + 
+        ret += "<input data-validation-required-message='" + this._requiredErrorMessage + "' " + 
             (this._required?"required":"" ) + " " +
             (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" )  + " " 
               + " type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
@@ -95,6 +96,7 @@ this.ctor = function () {
     this._displayName = "Label";
     this._defaultValue = "";
     this._regexpErrorMessage = "Incorrect format.";
+    this._requiredErrorMessage = "This field is required.";
 }
 this.findField = function (idwithprefix) {
     //    console.log("textField.findField(" + idwithprefix + ")");

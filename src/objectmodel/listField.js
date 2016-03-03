@@ -14,7 +14,7 @@ this._propsMeta = {
     _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field. Can bi list delimited with semicolon (;) if Multiselect is set.', showHelp: true },
     _multiselect: { group: 'Field Settings', name: 'Multiselect', description: 'Can multiple items be selected?', showHelp: true },
     _options: { group: 'Field Settings', name: 'Options', description: 'List of options to choose from delimited with semicolon (;)?', showHelp: true },
-    _required: { group: 'Field Settings', name: 'Required', description: 'If selected, user must choose at least one options.', showHelp: true },
+    _required: { group: 'Field Validation', name: 'Required', description: 'If selected, user must choose at least one options.', showHelp: true },
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
     _propsMeta: { browsable: false },
@@ -22,7 +22,8 @@ this._propsMeta = {
     _lastCumulativeId: { browsable: false },
     _form: { browsable: false },
     _parent: { browsable: false },
-    _type: { browsable: false }
+    _type: { browsable: false },
+    _requiredErrorMessage: { group: 'Field Validation', name: 'Required error message', description: 'Massege whe required field is missing.', showHelp: true }
 }
 
 Object.defineProperty(this, "multiselect", {
@@ -57,7 +58,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
     (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    ret += "<select data-validation-required-message='Required.' " + (this._required?"required":"" ) + " " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
+    ret += "<select data-validation-required-message='" + this._requiredErrorMessage + "' " + (this._required?"required":"" ) + " " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
     var options = this.options.split(';');
     var values = this.value.split(';');
     if (!this._multiselect) ret += "<option value=''><-- not selected --></option>";
@@ -81,6 +82,7 @@ this.ctor = function () {
     this._description = "Description";
     this._displayName = "Label";
     this._defaultValue = "";
+    this._requiredErrorMessage = "This field is required.";
 }
 this.findField = function (idwithprefix) {
     //  console.log("listField.findField(" + idwithprefix + ")");

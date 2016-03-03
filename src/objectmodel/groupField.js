@@ -13,8 +13,9 @@ this._propsMeta = {
     _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },
     _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
     _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
-    _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field.', showHelp: true },
-    _required: { group: 'Repeater Settings', name: 'Required', description: 'Is at least one row required when repeater?', showHelp: true },
+    _defaultValue: { browsable: false  },
+    _required: { group: 'Repeater Validation', name: 'Required', description: 'Is at least one row required when repeater?', showHelp: true },
+   _requiredErrorMessage: { group: 'Repeater Validation', name: 'Required error message', description: 'Massege whe required row of fields is missing.', showHelp: true },
     _repeater: { group: 'Repeater Settings', name: 'Repeater', description: 'Is this container repeater for subrecords?', showHelp: true },
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
@@ -97,6 +98,8 @@ this.ctor = function () {
     this._parent = null;
     this._defaultValue = "";
     this.editors = "initiator";
+    this._requiredErrorMessage = "At least one subrecord is required.";
+
 }
 this.findField = function (idwithprefix) {
     //  console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
