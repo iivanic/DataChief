@@ -213,7 +213,15 @@ this.applyFormChanges = function () {
     var pgrid=$('#' + this.prefix + 'propGrid');
     var theNewObj = pgrid.jqPropertyGrid('get');
     //copy properties to form
-    var isDirty = false;
+    var isDirty = false
+    // if _repeater has changes, set trtough theproperty, so swap can be triggered
+    if(pgrid.prop("current")["_repeater"]!=undefined)
+        if(pgrid.prop("current")["_repeater"]!=theNewObj["_repeater"])
+        {
+              pgrid.prop("current").repeater = theNewObj["_repeater"];
+              isDirty=true;
+        }
+     //copy objects
     for (var attrname in theNewObj) { 
         if(pgrid.prop("current")[attrname] != theNewObj[attrname])
             isDirty=true;

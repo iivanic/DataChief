@@ -1,5 +1,5 @@
 function getPropertyGrid(form) {
-   // console.log('#' + form.placeHolderPrefix + 'propGrid');
+    // console.log('#' + form.placeHolderPrefix + 'propGrid');
     return $('#' + form.placeHolderPrefix + 'propGrid')
 }
 function ctlBoxSelect(field, form) {
@@ -145,12 +145,17 @@ function ctlBoxAdd(field, form, fieldType) {
     }
     if (newField) {
 
-        console.log("Adding child of " + field.displayName + "...")
+        console.log("Adding child of " + field.displayName + "..." + field._type)
+        if (!field._repeater) {
+            field.children.push(newField);
+        }
+        else {
+            field._newRowTemplate.push(newField);
+        }
 
-        field.children.push(newField);
         newField._form = form;
         newField._parent = field;
-        newField._lastCumulativeId="";
+        newField._lastCumulativeId = "";
 
         getPropertyGrid(form).jqPropertyGrid(newField, newField._propsMeta);
         getPropertyGrid(form).prop("current", newField);

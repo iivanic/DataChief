@@ -148,7 +148,7 @@ this.render = function (placeholder, editable, user) {
         //       str += "</span></li>";
     }
     str += "<p class='help-block'></p>";
-    str += "<hr />" + this._footer + "<div /><br /><button style='float:right;' type='button' class='btn btn-primary testbutton'>Submit</i></button>";
+    str += "<hr />" + this._footer + "<div /><br /><button style='float:right;' type='button' class='btn btn-primary testbutton'>Submit</button>";
     //  if (editable)
     //      str += "</ul>"
     placeholder.html(str);
@@ -174,69 +174,57 @@ this.render = function (placeholder, editable, user) {
         }
         //combos
         spans = $(allCtlBoxes[s]).find("select");
-        //      console.log("spans=" +  spans.length);
         for (var i1 = 0; i1 < spans.length; i1++) {
             if (field) {
 
                 $(spans[i1]).prop("field", field);
                 $(spans[i1]).prop("_form", this);
-                //           $(spans[i1]).attr("me", "aaa");
-                //          console.log("MARK SELECTABLE ELEMENT " + $(spans[i1]).attr("title"));
-                //        $(spans[i1]).selectmenu(); 
             }
 
         }
     }
-    // console.log("!!!!!!!!!!!!!!!!!!!!!!!");
-    /*   if (editable) {
-           console.log("MARKING START");
-           var selector = "[id^='selectable_" + idprefix + "_" + this.id + "']";
-           console.log("MARKING " + selector);
-           $(selector).each(function () {
-               console.log("MARK SELECTABLE ELEMENT " + $(this).attr("id"));
-               $(this).selectable();
-           });
-           selector = "[id^='sortable_" + idprefix + "_" + this.id + "']";
-           console.log("MARKING " + selector);
-           $(selector).each(function () {
-               console.log("MARK SORTABLE ELEMENT " + $(this).attr("id"));
-               $(this).sortable();
-               // $(this).disableSelection();
-           });
-           console.log("MARKING DONE");44
-       }
-       */
-    this.validator=require("../dcValidator.js"); 
-    var fp = $("#" + placeholder.attr("id") );
-    this.validator.ctor( fp );
-    $("#" + placeholder.attr("id") ).find(".testbutton").
-    prop("me",this).
-    click( function()
-    { 
-        if(this.me.validator.validate())
-            {
-                $( "#dialog-validation-ok" ).dialog({
+
+    this.validator = require("../dcValidator.js");
+    var fp = $("#" + placeholder.attr("id"));
+    this.validator.ctor(fp);
+    $("#" + placeholder.attr("id")).find(".testbutton").
+        prop("me", this).
+        click(function () {
+            if (this.me.validator.validate()) {
+                $("#dialog-validation-ok").dialog({
                     modal: true,
                     buttons: {
-                        Ok: function() {
-                        $( this ).dialog( "close" );
+                        Ok: function () {
+                            $(this).dialog("close");
                         }
                     }
-                    });
+                });
             }
-            else
-            { 
-                $( "#dialog-validation-failed" ).dialog({
+            else {
+                $("#dialog-validation-failed").dialog({
                     modal: true,
                     buttons: {
-                        Ok: function() {
-                        $( this ).dialog( "close" );
+                        Ok: function () {
+                            $(this).dialog("close");
                         }
                     }
-                    });
+                });
             }
-     });
-   
+        });
+    if (!editable) {
+        var addrowbottons = $("#" + placeholder.attr("id")).find(".addbuttonMarker");
+        // now we have all ADD buttons, we need to bind them to groupFiled they belong to
+        for (var ind = 0; ind < addrowbottons.length; ind++) {
+            var groupfieldId = $(addrowbottons[ind]).prop("id").replace("_addrow", "").replace("field_", "");
+            var groupField = this.findField(groupfieldId);
+            $(addrowbottons[ind]).prop("me", groupField).
+                click(function () {
+                    this.me.addRow();
+                    this.me._form.refresh();
+                });
+        }
+    }
+
 };
 
 this.readValues = function () {
