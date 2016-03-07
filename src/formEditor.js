@@ -150,6 +150,9 @@ this.setImpersonationList = function()
             }));
      }
      $("#" + this.prefix + "impersonateUser").val(oldVal);
+     if($("#" + this.prefix + "impersonateUser").val()==null)
+        $("#" + this.prefix + "impersonateUser").prop("selectedIndex",0);
+     
       $("#" + this.prefix + "impersonateUser").selectmenu( {
         change: function () {
         

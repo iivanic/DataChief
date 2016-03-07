@@ -16,6 +16,8 @@ this._propsMeta = {
     _multiline: { group: 'Text', name: 'Multiline', description: 'Enable one or multiple lines for text.', showHelp: true },
     _maxlength: { group: 'Text', name: 'Max length', description: 'Maximal langth of text.', showHelp: true },
     _regexp: { group: 'Field Validation', name: 'Regular Expression', description: 'Regular expression.', showHelp: true },
+    _regexp_predefined: {  browsable: false ,group: 'Field Validation', name: 'Predefined Regular Expression', 
+     type: 'options', options: [{ text: 'Positive integer', value: '0' }, { text: 'Positive or negative integer', value: '1' }, { text: 'Three columns', value: '2' }], description: 'Regular expression.', showHelp: true },
     _regexpErrorMessage: { group: 'Field Validation', name: 'Regular Expression Error message', description: 'Message when regular expression is not met.', showHelp: true },
     _requiredErrorMessage: { group: 'Field Validation', name: 'Required error message', description: 'Massege whe required field is missing.', showHelp: true },
     _valueHasBeenSet: { browsable: false },
@@ -97,6 +99,7 @@ this.ctor = function () {
     this._defaultValue = "";
     this._regexpErrorMessage = "Incorrect format.";
     this._requiredErrorMessage = "This field is required.";
+    this._regexp_predefined = "";
 }
 this.findField = function (idwithprefix) {
     //    console.log("textField.findField(" + idwithprefix + ")");
