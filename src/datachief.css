@@ -76,4 +76,8 @@ body{
         .help-block
         {color:red;
         display:none;}
+.ui-front{z-index:0 ; } 
+.ui-selectmenu-open { position: absolute;
+z-index:9999 ;}
+
  

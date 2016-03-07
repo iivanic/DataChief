@@ -175,7 +175,7 @@ this.setImpersonationList = function()
     $("#" + this.prefix + "impersonateUser").prop("me", this);
 
 }
-this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, loadedObj) {
+this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj, exampleTemplateName) {
     this.dirtyMark = dirtyMark;
     this.tabTitle = "#tabs a[href='#tabs-"+ tabCounter + "']" ;
     this.placeHolder = placeHolder;
@@ -226,7 +226,8 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
 
     }
     else
-        this.currentForm.createExampleForm(name, description);
+        this.currentForm.createForm(name,exampleTemplateName );
+ 
         
     this.currentForm.render($("#" + this.prefix + "formPreview"),
         $("#" + this.prefix + "editormode").val()=="edit"?true:false

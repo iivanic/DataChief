@@ -6,7 +6,7 @@ TODO - Editor
 - [ ] Date field?
 - [ ] Time or date time?
 - [ ] Predefined regexp for text and Numeric
-- [ ] Creating empty Form or choose from templates
+- [x] Creating empty Form or choose from templates
 - [ ] signature and timestamp onclick
 
 TODO Publisher

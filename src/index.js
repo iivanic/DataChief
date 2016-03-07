@@ -1,4 +1,5 @@
 //var winstate = require("./winstate.js");
+var form = require("./objectmodel/form.js");
 var formEditor = require("./formEditor.js");
 var helper = require("./objectmodel/utils.js");
 
@@ -24,7 +25,7 @@ var maintabs = null;
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
 
-function addTab(opened) {
+function addTab(opened,exampleName) {
     var tabTitle = $("#tab_title"),
         tabContent = $("#tab_content"),
         tabTemplate = "<li><span id='tabs-" + tabCounter + "_dirty' style='color:red;'>*</span><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
@@ -45,18 +46,18 @@ function addTab(opened) {
     tabs.tabs("option", "active", -1);;
     var newFormEditor = Object.create(formEditor); //Object.create(formEditor);
     if (opened) {
-        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), opened);
+        newFormEditor.newForm(label, $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), opened);
 
     }
     else {
-        newFormEditor.newForm(label, tabContent.val(), $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), null);
+        newFormEditor.newForm(label, $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), null,exampleName);
     }
     tabCounter++;
     fixTabsHeight();
 
 
 }
-
+var boolfix = false;
 $(document).ready(function () {
     userSettings.toGui();
     $("#resettings").button();
@@ -78,15 +79,29 @@ $(document).ready(function () {
     $("#about_author").text(pjson.author);
     $("#about_lic").text(pjson.license);
  
+    //bind built in forms
+    $("#exampleforms").html("");
+    var tmpList= form.exampleForms;
+     for(var a in  tmpList)
+     {
+            $("#exampleforms").append($('<option>', {
+                value: tmpList[a],
+                text: tmpList[a]
+            }));
+     }
     // modal dialog init: custom buttons and a "close" callback resetting the form inside
     var newFormDialog = $("#newFormDialog").dialog({
         autoOpen: false,
         modal: true,
-        width: "400px",
+        width: "470px",
 
         buttons: {
-            Create: function () {
-                addTab();
+            "Create Emtpy": function () {
+                addTab(false, "");
+                $(this).dialog("close");
+            },
+            "Create from template": function () {
+                addTab(false,  $("#exampleforms").val());
                 $(this).dialog("close");
             },
             Cancel: function () {
@@ -94,16 +109,17 @@ $(document).ready(function () {
             }
         },
         close: function () {
-            form[0].reset();
+            
         }
     });
+    
  
     // addTab form: calls addTab function on submit and closes the dialog
-    var form = newFormDialog.find("form").submit(function (event) {
-        addTab();
-        newFormDialog.dialog("close");
-        event.preventDefault();
-    });
+//    var form = newFormDialog.find("form").submit(function (event) {
+//        addTab();
+//        newFormDialog.dialog("close");
+//        event.preventDefault();
+//    });
  
 
  
@@ -111,7 +127,12 @@ $(document).ready(function () {
     $("#add_form")
         .button()
         .click(function () {
+            $("#tab_title").val("My Form");
             newFormDialog.dialog("open");
+            if(!boolfix)
+                $("#exampleforms").selectmenu();
+            boolfix=true;
+
         });
     $("#open_form")
         .button()
