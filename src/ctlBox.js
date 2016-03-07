@@ -44,9 +44,16 @@ function ctlBoxDeletePart2(field, form) {
     getPropertyGrid(form).jqPropertyGrid(new Object(), null);
     getPropertyGrid(form).prop("current", null);
 
-    field._parent._children = field._parent._children.filter(function (element, i) {
-        return element.id !== field.id;
-    });
+    if (!field._repeater) {
+        field._parent._children = field._parent._children.filter(function (element, i) {
+            return element.id !== field.id;
+        });
+    } else {
+
+        field._parent._newRowTemplate = field._parent._newRowTemplate.filter(function (element, i) {
+            return element.id !== field.id;
+        });
+    }
     form.refresh();
     markSelected(form)
 
@@ -59,16 +66,29 @@ function ctlBoxRefresh(field, form) {
 }
 var tmpFieldToFind;
 var tmpFieldToFindIndex;
+var tmpFoundInTemplate;
 function ctlBoxUp(field, form) {
     console.log("ctlBoxUp");
     ctlBoxSelect(field, form);
     tmpFieldToFind = field;
     tmpFieldToFindIndex = 0;
+    tmpFoundInTemplate = false;
     field._parent._children.find(finder);
+    if (tmpFieldToFindIndex > 0)
+        tmpFoundInTemplate = false;
+    else {
+        field._parent._newRowTemplate.find(finder);
+        if (tmpFieldToFindIndex > 0)
+            tmpFoundInTemplate = true;
+
+    }
     console.log("field is " + tmpFieldToFindIndex + ". in parent container.");
     if (tmpFieldToFindIndex > 0) {
         //move it up
-        field._parent._children = MoveElementInArray(field._parent._children, tmpFieldToFindIndex, tmpFieldToFindIndex - 1);
+        if (tmpFoundInTemplate)
+            field._parent._newRowTemplate = MoveElementInArray(field._parent._newRowTemplate, tmpFieldToFindIndex, tmpFieldToFindIndex - 1);
+        else
+            field._parent._children = MoveElementInArray(field._parent._children, tmpFieldToFindIndex, tmpFieldToFindIndex - 1);
     }
 
     form.refresh();
@@ -79,12 +99,27 @@ function ctlBoxDown(field, form) {
     ctlBoxSelect(field, form);
     tmpFieldToFind = field;
     tmpFieldToFindIndex = 0;
+    tmpFoundInTemplate = false;
     field._parent._children.find(finder);
-    console.log("field is " + tmpFieldToFindIndex + ". in parent container.");
-    if (tmpFieldToFindIndex < field._parent._children.length - 1) {
-        //move it down
-        field._parent._children = MoveElementInArray(field._parent._children, tmpFieldToFindIndex, tmpFieldToFindIndex + 1);
+    if (tmpFieldToFindIndex > 0)
+        tmpFoundInTemplate = false;
+    else {
+        field._parent._newRowTemplate.find(finder);
+        if (tmpFieldToFindIndex > 0)
+            tmpFoundInTemplate = true;
+
     }
+    console.log("field is " + tmpFieldToFindIndex + ". in parent container.");
+    //move it down
+    if (tmpFoundInTemplate) {
+        if (tmpFieldToFindIndex < field._parent._newRowTemplate.length - 1) {
+            field._parent._newRowTemplate = MoveElementInArray(field._parent._newRowTemplate, tmpFieldToFindIndex, tmpFieldToFindIndex + 1);
+        }
+    } else
+        if (tmpFieldToFindIndex < field._parent._children.length - 1) {
+            field._parent._children = MoveElementInArray(field._parent._children, tmpFieldToFindIndex, tmpFieldToFindIndex + 1);
+        }
+
     form.refresh();
     markSelected(form)
 }

@@ -101,6 +101,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     if (editable)
         ret += ctlbox;
     ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><fieldset " + disabled + " class='datachiefField'><legend title='" + this.toolTip + "'>" + this.displayName + "</legend>";
+    //+ ", c="  + this._children.length + " t="  + this._newRowTemplate.length + " dr="  +  this._dataRows.length + "</legend>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     //  if (editable)
     //     ret += "<ul id='sortable_" + idprefix + "_" +  this.id + "'>";
@@ -126,7 +127,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
         else {
             var odd_even = 1;
             for (var j in this._dataRows) {
-                ret += "<div style='border:1px dashed silver;background-color:" + (odd_even % 2 ? "#EEEEEE" : "none") + "'>"
+                ret += "<div style='border:1px dashed silver;background-color:" + (odd_even % 2 ? "#EEEEEE" : "none") + "'>";
                 for (var i in this._dataRows[j]) {
                     ret += this.handleRenderStyle();
                     ret += this._dataRows[j][i].render(form, this, placeholder, editable, user, idprefix + "_" + this.id);
@@ -146,6 +147,10 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     //     ret += "</ul>"
     ret += "</fieldset></div>";
 
+    // fill _allUsersForImpersonation
+    var tmpArr=this.editors.split(',');
+    for(var tmpI=0; tmpI<tmpArr.length; tmpI++)
+        form._allUsersForImpersonation.push(tmpArr[tmpI]);
     return ret;
 
 };
@@ -249,6 +254,7 @@ this.handleRenderStyle = function () {
     return ret;
 }
 this.addRow = function () {
+    console.log("addRow");
     // clone _newRowTemplate and and it to _dataRows
     var row = new Array();
     for (var i in this._newRowTemplate) {
@@ -280,10 +286,91 @@ this.addRow = function () {
                 break;
 
         }
-        for (var attrname in this._newRowTemplate[i]) {
-            field[attrname] = this._newRowTemplate[i][attrname];
-        }
         row.push(field);
-    }
+         for (var attrname in this._newRowTemplate[i]) {
+            if (attrname == "_children" || attrname == "_dataRows" || attrname == "_newRowTemplate")
+            {
+                    console.log("aaa Gonnload children for " + attrname);
+                loadChildren(this._form,
+                this._newRowTemplate[i][attrname]
+                , attrname);
+            }
+            else
+               {
+                   field[attrname] = this._newRowTemplate[i][attrname];
+                 console.log("r copy " + attrname ) ; //+ "=" + this._newRowTemplate[i][attrname]);
+              }
+             
+        }
+   }
     this._dataRows.push(row);
+}
+function loadChildren(parent, obj, aname)
+{
+    console.log("gf-loadChildren(p=" + parent +", t=" + obj._type +  ", parent field name=" + aname + ")" );
+
+    var field ;
+    if(obj._type) 
+    {
+        switch(obj["_type"])
+        {
+            case "listField":
+                field = Object.create(listField);
+                field.ctor();
+            break;
+            case "textField":
+                 field = Object.create(textField);
+                field.ctor();
+            break;
+            case "fieldBase":
+                 field = Object.create(fieldBase);
+                field.ctor();
+            break;        
+            case "groupField":
+                field = Object.create(groupField);
+                field.ctor();
+            break;        
+            case "currentDateTimeField":
+                field = Object.create(currentDateTimeField);
+                field.ctor();
+            break;
+            case "currentUserField":
+                field = Object.create(currentUserField);
+                field.ctor();
+            break;
+                     
+         }
+         if(aname == "_children")
+                    parent._children.push(field);
+         if(aname == "_dataRows")
+                    parent._dataRows.push(field);
+         if(aname == "_newRowTemplate")
+                    parent._newRowTemplate.push(field);
+//         console.log("loadChildren() added " + field._type );
+         for(var arrayEl in obj)
+         {
+            if(arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate")
+                {
+                    console.log("Gonnload children for " + arrayEl);
+                loadChildren(field, obj[arrayEl], arrayEl);
+            }
+            else
+             {
+                field[arrayEl] = obj[arrayEl];
+                 console.log("copy " + arrayEl ) ; //+ "=" + obj[arrayEl]);
+              }
+         }
+    }
+    else{
+        // its an array
+        console.log("it's an Array");
+       for(var arrayEl in obj)
+        {
+         console.log("arr Gonnload children for " + aname);
+ 
+           loadChildren(parent, obj[arrayEl],aname);
+        }
+    }
+
+    return;
 }

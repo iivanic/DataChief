@@ -1,4 +1,4 @@
-/* global broadcastStatusOfForm */
+
 //types
 var groupField = require("./groupField.js");
 var textField = require("./textField.js");
@@ -23,7 +23,6 @@ this.idprefix = "dcform";
 this.placeHolderPrefix = "";
 
 this.workflow;
-this.broadcastStatusOfForm;
 this.broadCastRecievers;
 this.finalStep;
 this.allowLocalCopies;
@@ -43,9 +42,11 @@ this._propsMeta = {
     _lastPlaceholder: { browsable: false },
     _lastEditable: { browsable: false },
     _lastUser: { browsable: false },
+    _allUsersForImpersonation: { browsable: false },
     displayName: { browsable: false },
     placeHolderPrefix: { browsable: false },
     _lastCumulativeId: { browsable: false },
+    validator: { browsable: false },
     idprefix: { browsable: false },
     workflow: { group: 'Workflow', name: 'Workflow', description: 'Workflow steps delimited with semicolon (;), except last one - the final step of workflow. Also, firts step (creation of form by initiator) is not listed here. You choose first step by publishing form to the people who needs to create(initiate) this form. Multiple recipients can be specified within one step delimited with comma(,). If so, user, when sending form to that workflow step will be ble to choose recipient. ', showHelp: true },
     broadcastStatusOfForm: { group: 'Workflow', name: 'Broadcast status of form', description: '', showHelp: true },
@@ -122,10 +123,7 @@ this.render = function (placeholder, editable, user) {
     this._lastEditable = editable;
     this._lastUser = user;
 
-    this.workflow = "";
-    this.broadCastRecievers = "initiator";
-    this.finalStep = "initiator";
-    this.allowLocalCopies = "initiator";
+
 
     this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
     this.idprefix = "dcform";
@@ -248,23 +246,23 @@ this.createExampleForm = function (name, decription) {
     grp.description = "Provide detailed information regarding vehicle usage."
     this.children.push(grp);
 
-    var lst = Object.create(listField);
-    lst.ctor();
-    lst.displayName = "Vehicle used";
-    lst.options = "BMW 328i (Plate N#XX-XXXX);Ford F-150 (Plate N#XX-XXXX);Toyota Camry (Plate N#XX-XXXX);Nissan Leaf (Plate N#XX-XXXX);Nissan Leaf 2016 (Plate N#XX-XXXX)"
-    lst.description = "Choose vehicle used"
-    lst.toolTip = lst.description;
-    lst.required = true;
-    grp.children.push(lst);
-
-    txt = Object.create(textField);
-    txt.ctor();
-    txt.displayName = "Reason or Work order#";
-    txt.description = "Why did you need this vehicle?";
-    txt.toolTip = "Enter work order nuber, or describe what have you been doing with vehicle.";
-    txt.multiline = true;
-    txt.required = true;
-    grp.children.push(txt);
+    /*   var lst = Object.create(listField);
+       lst.ctor();
+       lst.displayName = "Vehicle used";
+       lst.options = "BMW 328i (Plate N#XX-XXXX);Ford F-150 (Plate N#XX-XXXX);Toyota Camry (Plate N#XX-XXXX);Nissan Leaf (Plate N#XX-XXXX);Nissan Leaf 2016 (Plate N#XX-XXXX)"
+       lst.description = "Choose vehicle used"
+       lst.toolTip = lst.description;
+       lst.required = true;
+       grp.children.push(lst);
+   
+       txt = Object.create(textField);
+       txt.ctor();
+       txt.displayName = "Reason or Work order#";
+       txt.description = "Why did you need this vehicle?";
+       txt.toolTip = "Enter work order nuber, or describe what have you been doing with vehicle.";
+       txt.multiline = true;
+       txt.required = true;
+       grp.children.push(txt);*/
 
     var grp1 = Object.create(groupField);
     grp1.ctor();
@@ -281,7 +279,7 @@ this.createExampleForm = function (name, decription) {
     txt.toolTip = "";
     txt.required = true;
     grp1.children.push(txt);
-
+    return;
     txt = Object.create(textField);
     txt.ctor();
     txt.displayName = "Start odometer";
@@ -388,6 +386,11 @@ this.createExampleForm = function (name, decription) {
 }
 this.ctor = function () {
     this._children = new Array();
+    this._allUsersForImpersonation = new Array();
+    this.workflow = "";
+    this.broadCastRecievers = "initiator";
+    this.finalStep = "initiator";
+    this.allowLocalCopies = "initiator";
     this._id = helper.generateGUID();
 }
 this.regenerateGUID = function () {

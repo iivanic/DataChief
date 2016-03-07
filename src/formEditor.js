@@ -92,6 +92,86 @@ function loadChildren(parent, obj)
 
     return;
 }
+//remove duplicates from array
+function uniq(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
+}
+this.setImpersonationList = function()
+{
+     var tmpList = new Array();
+     var tmpSteps = this.currentForm.workflow.split(";");
+     for(var i=0; i<tmpSteps.length; i++)
+     {
+         var tmpS = tmpSteps[i].split(",")
+         for(var j=0; j<tmpS.length; j++)
+         {
+             tmpList.push(tmpS[j]);
+         }
+     }
+     tmpList = tmpList.concat(tmpList,this.currentForm._allUsersForImpersonation );
+ 
+     tmpList.push(userSettings.email);
+   
+     tmpSteps = this.currentForm.allowLocalCopies.split(';');
+     for(var i=0; i<tmpSteps.length; i++)
+     {
+         tmpList.push(tmpSteps[i]);
+     }
+     tmpSteps = this.currentForm.broadCastRecievers.split(';')
+     for(var i=0; i<tmpSteps.length; i++)
+     {
+         tmpList.push(tmpSteps[i]);
+     }
+     tmpSteps = this.currentForm.finalStep.split(';')
+     for(var i=0; i<tmpSteps.length; i++)
+     {
+         tmpList.push(tmpSteps[i]);
+     }
+     
+      //remove duplicates
+     tmpList=uniq(tmpList);
+     //filter out empties
+     tmpList = tmpList.filter(function (value, index, array1){return value.trim().length>0});
+        
+       try
+      {$("#" + this.prefix + "impersonateUser").selectmenu( "destroy" );}
+      catch(ex){}
+
+      var oldVal = $("#" + this.prefix + "impersonateUser").val();
+     $("#" + this.prefix + "impersonateUser").html("");
+       
+     for(var a in  tmpList)
+     {
+            $("#" + this.prefix + "impersonateUser").append($('<option>', {
+                value: tmpList[a],
+                text: tmpList[a]
+            }));
+     }
+     $("#" + this.prefix + "impersonateUser").val(oldVal);
+      $("#" + this.prefix + "impersonateUser").selectmenu( {
+        change: function () {
+        
+        var u=$("#" + this.me.prefix + "impersonateUser").val();
+        var isEdit = $("#" + this.me.prefix + "editormode").val()=="edit"?true:false;
+        
+        this.me.currentForm.render($("#" + this.me.prefix + "formPreview"),
+                    isEdit
+                    ,u);
+         // in preview mode reset propertygrid
+         if(!isEdit)
+             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(new Object(), null);
+         else{
+             markSelected(this.me.currentForm);
+             var sel = $('#' + this.me.prefix + 'propGrid').prop("current");
+             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(sel, sel._propsMeta);
+         }
+        
+    }});
+    $("#" + this.prefix + "impersonateUser").prop("me", this);
+
+}
 this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, loadedObj) {
     this.dirtyMark = dirtyMark;
     this.tabTitle = "#tabs a[href='#tabs-"+ tabCounter + "']" ;
@@ -107,37 +187,8 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
         .click(function () {
             this.me.saveForm(this.me.dirtyMark.attr('id'));
         });
-    $("#" + this.prefix + "impersonateUser").autocomplete({
-        source: userSettings.userList
-    })
-        .val(userSettings.email);   
-        // change na radi dobro na jquery ui autocomplete
-    $("#" + this.prefix + "impersonateUser").blur(function () {
         
-               var u=$("#" + this.me.prefix + "impersonateUser").val();
-        var isEdit = $("#" + this.me.prefix + "editormode").val()=="edit"?true:false;
-        //maintein suggestion list
-        if( userSettings.userList.indexOf(u)<0)
-        {
-            userSettings.userList.push(u);
-            userSettings.save();
-            $("#" + this.me.prefix + "impersonateUser").source=userSettings.userList;
-        }
-        
-        this.me.currentForm.render($("#" + this.me.prefix + "formPreview"),
-                    isEdit
-                    ,u);
-         // in preview mode reset propertygrid
-         if(!isEdit)
-             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(new Object(), null);
-         else{
-             markSelected(this.me.currentForm);
-             var sel = $('#' + this.me.prefix + 'propGrid').prop("current");
-             $('#' + this.me.currentForm.placeHolderPrefix + 'propGrid').jqPropertyGrid(sel, sel._propsMeta);
-         }
-        
-    })
-    $("#" + this.prefix + "impersonateUser").prop("me", this);
+    
     $("#" + this.prefix + "editormode").selectmenu(
         {
         change: function( event, data ) {
@@ -181,13 +232,11 @@ this.newForm = function (name, description, placeHolder, tabCounter, dirtyMark, 
     $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
     $('#' + this.prefix + 'propGrid').prop("current", this.currentForm);
     markSelected(this.currentForm);
-/*     $("#" + this.prefix + "formReset").prop("me", this);
-   $("#" + this.prefix + "formReset")
-        .button()
-        .click(function () {
-            this.me.resetFormChanges();
-        });
-*/
+
+    this.setImpersonationList();
+  //  $("#" + this.prefix + "impersonateUser")
+  //      .val(userSettings.email);   
+
     $("#" + this.prefix + "formApply").prop("me", this);
     $("#" + this.prefix + "formApply")
         .button()
@@ -235,6 +284,9 @@ this.applyFormChanges = function () {
     markSelected(this.currentForm);
     if(isDirty)
         this.setDirty();
+    
+    this.setImpersonationList();
+       
 }
 function SaveJSONReplacer(key,value)
 {

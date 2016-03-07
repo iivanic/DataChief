@@ -1,3 +1,21 @@
+TODO - Editor
+- [ ] Handling values
+- [ ] Save/load - repeaters/template/form
+- [x] Handling impersonation - take list from workflow settings
+- [ ] Numeric field?
+- [ ] Date field?
+- [ ] Time or date time?
+- [ ] Predefined regexp for text and Numeric
+- [ ] Creating empty Form or choose from templates
+- [ ] signature and timestamp onclick
+
+TODO Publisher
+
+TODO Filler
+
+TODO Collector
+
+
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 
@@ -10,14 +28,14 @@ You don't have to be blocked anymore by expensive Line of business (LOB) applica
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
 * Multiplatform (developed in Electron)
     * Windows
-    * Linux
-    * Mac OSX
+    * Linux 'works, additional testing needed'
+    * Mac OSX 'testing needed'
 * Planned features
-    * Visual and user friendly form designer
-    * Simple workflow designer
+    * - Visual and user friendly form designer '90%'
     * Many type of controls
-        * Text box, Check box, Date time, ...
-        * Lists, data from web services
+        * Text box, ListBox, Group fields ...
+        * Repeaters
+        * External Lists, data from web services
         * Images from camera
     * Flexible communication protocols through:
         * One STMP/IMAP email for whole organization or through individual Emails for every user
