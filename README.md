@@ -1,5 +1,5 @@
 TODO - Editor
-- [ ] Handling values
+- [x] Handling values
 - [ ] Save/load - repeaters/template/form
 - [x] Handling impersonation - take list from workflow settings
 - [ ] Numeric field?
