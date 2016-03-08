@@ -117,10 +117,12 @@ Object.defineProperty(this, "version", {
 //methods
 
 this.refresh = function() {
+
     this.render(this._lastPlaceholder, this._lastEditable, this._lastUser);
 }
 
 this.render = function(placeholder, editable, user) {
+    this.readValues();
     console.log("form.render(placeholder, " + editable + ", " + user + ")");
     this._lastPlaceholder = placeholder;
     this._lastEditable = editable;
@@ -229,7 +231,15 @@ this.render = function(placeholder, editable, user) {
 };
 
 this.readValues = function() {
-    console.log("form.readValue()");
+
+    var renderedFields = $("[id^='" + this.idprefix + "_" + this.id + "']");
+    for (var i = 0; i < renderedFields.length; i++) {
+
+        var field = this.findField($(renderedFields[i]).prop("id"));
+        if (field) {
+            field.value = $(renderedFields[i]).val();
+        }
+    }
 
 };
 

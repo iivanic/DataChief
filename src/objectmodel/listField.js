@@ -14,6 +14,7 @@ this._propsMeta = {
     _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field. Can bi list delimited with semicolon (;) if Multiselect is set.', showHelp: true },
     _multiselect: { group: 'Field Settings', name: 'Multiselect', description: 'Can multiple items be selected?', showHelp: true },
     _options: { group: 'Field Settings', name: 'Options', description: 'List of options to choose from delimited with semicolon (;)?', showHelp: true },
+    _value: { browsable: false },
     _required: { group: 'Field Validation', name: 'Required', description: 'If selected, user must choose at least one options.', showHelp: true },
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
@@ -27,23 +28,35 @@ this._propsMeta = {
 }
 
 Object.defineProperty(this, "multiselect", {
-    get: function () {
+    get: function() {
         return this._multiselect;
     },
-    set: function (val) {
+    set: function(val) {
         this._multiselect = val;
     }
 });
 Object.defineProperty(this, "options", {
-    get: function () {
+    get: function() {
         return this._options;
     },
-    set: function (val) {
+    set: function(val) {
         this._options = val;
     }
 });
+Object.defineProperty(this, "value", {
+    get: function() {
+        return this._value;
+    },
+    set: function(val) {
+        if (val instanceof Array) {
+            this._value = val.join(";");
+        }
+        else
+            this._value = val;
+    }
+});
 
-this.render = function (form, parent, placeholder, editable, user, idprefix) {
+this.render = function(form, parent, placeholder, editable, user, idprefix) {
     //   console.log("listField.render()");
     this._form = form;
     this._parent = parent;
@@ -56,11 +69,13 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     if (editable)
         ret += ctlbox;
     ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName +
-    (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
+        (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
-    ret += "<select data-validation-required-message='" + this._requiredErrorMessage + "' " + (this._required?"required":"" ) + " " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
+    ret += "<select data-validation-required-message='" + this._requiredErrorMessage + "' " + (this._required ? "required" : "") + " " + (this.multiselect ? "multiple" : "") + " id='" + idprefix + "_" + this.id + "' class='datachiefField datachiefFieldSelect'>";
     var options = this.options.split(';');
-    var values = this.value.split(';');
+    if(this._value==null)
+        this._value="";
+    var values = this._value.split(';');
     if (!this._multiselect) ret += "<option value=''><-- not selected --></option>";
     for (var i in options)
         ret += "<option " + ($.inArray(options[i], values) > -1 ? "selected" : "") + " value='" + options[i] + "'>" + options[i] + "</option>";
@@ -69,7 +84,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     ret += "<p class='help-block'></p></div>";
     return ret;
 };
-this.ctor = function () {
+this.ctor = function() {
     this._children = new Array();
     this.__proto__.ctor();
     this._type = "listField";
@@ -83,8 +98,9 @@ this.ctor = function () {
     this._displayName = "Label";
     this._defaultValue = "";
     this._requiredErrorMessage = "This field is required.";
+    this._value = "";
 }
-this.findField = function (idwithprefix) {
+this.findField = function(idwithprefix) {
     //  console.log("listField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {
