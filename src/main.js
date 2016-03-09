@@ -20,7 +20,7 @@ app.on("ready", function () {
         width: 800,
         height: 600,
         show: true,
-        icon: __dirname + "/Icons/Filler.png"
+        icon: "./Icons/Filler.png"
     });
     // In the main process.
     global.sharedObject = {
