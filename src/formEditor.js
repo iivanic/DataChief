@@ -257,10 +257,13 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj, ex
     else
         this.currentForm.createForm(name,exampleTemplateName );
  
+    var u=$("#" + this.prefix + "impersonateUser").val();
+    if(u == null)
+        u=userSettings.email;
         
     this.currentForm.render($("#" + this.prefix + "formPreview"),
         $("#" + this.prefix + "editormode").val()=="edit"?true:false
-        ,$("#" + this.prefix + "impersonateUser").val());
+        ,u);
 
     $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
     $('#' + this.prefix + 'propGrid').prop("current", this.currentForm);
