@@ -1,6 +1,6 @@
 TODO - Editor
 - [x] Handling values
-- [ ] Save/load - repeaters/template/form
+- [x] Save/load - repeaters/template/form
 - [x] Handling impersonation - take list from workflow settings
 - [ ] Numeric field?
 - [ ] Date field?
