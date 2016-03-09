@@ -25,8 +25,8 @@ this.openForm = function (jsonstring) {
     for (var attrname in loadedObj) { 
         console.log("attrname = " + attrname);
       
-        if(attrname=="_children")
-            loadChildren(this.currentForm, loadedObj[attrname]);
+        if(attrname=="_children" )
+            loadChildren(this.currentForm, loadedObj[attrname], attrname);
         else
             this.currentForm[attrname] = loadedObj[attrname];
         cnt++;
@@ -36,9 +36,9 @@ this.openForm = function (jsonstring) {
     console.log("Done reconstructing objects from loaded JSON.");
     
 }
-function loadChildren(parent, obj)
+function loadChildren(parent, obj, aname)
 {
-//    console.log("loadChildren(" + parent +", " + obj +  ")" );
+    console.log("loadChildren(" + parent +", " + obj +  ", " + aname + ")" );
 
     var field ;
     if(obj._type) 
@@ -71,22 +71,39 @@ function loadChildren(parent, obj)
             break;
                      
          }
-         parent._children.push(field);
-//         console.log("loadChildren() added " + field._type );
+
+        if (aname == "_children")
+        {   
+            parent._children.push(field);
+            console.log("added to _children");
+        }
+        if (aname == "_dataRows")
+        {   
+                 parent._dataRows.push(field);
+            console.log("added to _dataRows");
+        }
+        if (aname == "_newRowTemplate")
+         {   
+                 parent._newRowTemplate.push(field);
+           console.log("added to _newRowTemplate");
+        }
          for(var arrayEl in obj)
          {
             
-            if(arrayEl=="_children")
-                loadChildren(field, obj[arrayEl]);
+            if (arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate") 
+                loadChildren(field, obj[arrayEl], arrayEl);
             else
+            {
                 field[arrayEl] = obj[arrayEl];
-         }
+                console.log("copy "+ arrayEl)
+            } 
+        }
     }
     else{
         // its an array
        for(var arrayEl in obj)
         {
-           loadChildren(parent, obj[arrayEl]);
+           loadChildren(parent, obj[arrayEl], aname);
         }
     }
 
@@ -251,12 +268,7 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj, ex
 
 
 }
-/*this.resetFormChanges = function () {
-    $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
-    this.currentForm.render($("#" + this.prefix + "formPreview"));
 
-}
-*/
 this.applyFormChanges = function () {
     // in preview mode do nothing    
      var isEdit = $("#" + this.prefix + "editormode").val()=="edit"?true:false;
@@ -294,9 +306,26 @@ this.applyFormChanges = function () {
 }
 function SaveJSONReplacer(key,value)
 {
+    /*
+    exclude also:
+    _lastCumulativeId
+    _handleRenderStyleCounter
+    _maxHandleRenderStyleCounter
+    _allUsersForImpersonation
+    validator
+    placeHolderPrefix
+    idprefix
+     */
     if (key=="_form") return undefined;
     else if (key=="_parent") return undefined;
+    else if (key=="_lastCumulativeId") return undefined;
+    else if (key=="_handleRenderStyleCounter") return undefined;
+    else if (key=="_maxHandleRenderStyleCounter") return undefined;
+    else if (key=="_allUsersForImpersonation") return undefined;
+    else if (key=="validator") return undefined;
     else if (key=="_lastPlaceholder") return undefined;
+    else if (key=="placeHolderPrefix") return undefined;
+    else if (key=="idprefix") return undefined;
     else if (key=="_lastEditable") return undefined;
     else if (key=="_lastUser") return undefined;
     else return value;

@@ -256,11 +256,11 @@ this.handleRenderStyle = function() {
     return ret;
 }
 this.removeRow = function(rowIndex) {
-    console.log("Removing datarow with index " + rowIndex);
+//    console.log("Removing datarow with index " + rowIndex);
     this._dataRows.splice(rowIndex, 1);
 }
 this.addRow = function() {
-    console.log("addRow");
+//    console.log("addRow");
     // clone _newRowTemplate and and it to _dataRows
     var row = new Array();
     for (var i in this._newRowTemplate) {
@@ -295,14 +295,14 @@ this.addRow = function() {
         row.push(field);
         for (var attrname in this._newRowTemplate[i]) {
             if (attrname == "_children" || attrname == "_dataRows" || attrname == "_newRowTemplate") {
-                console.log("aaa Gonnload children for " + attrname);
+  //              console.log("aaa Gonnload children for " + attrname);
                 loadChildren(field,
                     this._newRowTemplate[i][attrname]
                     , attrname);
             }
             else {
                 field[attrname] = this._newRowTemplate[i][attrname];
-                console.log("r copy " + attrname); //+ "=" + this._newRowTemplate[i][attrname]);
+    //            console.log("r copy " + attrname); //+ "=" + this._newRowTemplate[i][attrname]);
             }
 
         }
@@ -310,7 +310,7 @@ this.addRow = function() {
     this._dataRows.push(row);
 }
 function loadChildren(parent, obj, aname) {
-    console.log("gf-loadChildren(p=" + parent + ", t=" + obj._type + ", parent field name=" + aname + ")");
+ //   console.log("gf-loadChildren(p=" + parent + ", t=" + obj._type + ", parent field name=" + aname + ")");
 
     var field;
     if (obj._type) {
@@ -350,20 +350,20 @@ function loadChildren(parent, obj, aname) {
         //         console.log("loadChildren() added " + field._type );
         for (var arrayEl in obj) {
             if (arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate") {
-                console.log("Gonnload children for " + arrayEl);
+  //              console.log("Gonnload children for " + arrayEl);
                 loadChildren(field, obj[arrayEl], arrayEl);
             }
             else {
                 field[arrayEl] = obj[arrayEl];
-                console.log("copy " + arrayEl); //+ "=" + obj[arrayEl]);
+  //              console.log("copy " + arrayEl); //+ "=" + obj[arrayEl]);
             }
         }
     }
     else {
         // its an array
-        console.log("it's an Array");
+   //     console.log("it's an Array");
         for (var arrayEl in obj) {
-            console.log("arr Gonnload children for " + aname);
+      //      console.log("arr Gonnload children for " + aname);
 
             loadChildren(parent, obj[arrayEl], aname);
         }
