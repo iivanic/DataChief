@@ -241,7 +241,7 @@ button.ui-button-icons-only {
 /* button text element */
 .ui-button .ui-button-text {
 	display: block;
-	line-height: normal;
+	line-height: 1.4;
 }
 .ui-button-text-only .ui-button-text {
 	padding: .4em 1em;

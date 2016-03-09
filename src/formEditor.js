@@ -24,7 +24,7 @@ this.openForm = function (jsonstring) {
     var cnt = 0;
     for (var attrname in loadedObj) { 
         console.log("attrname = " + attrname);
-      
+       
         if(attrname=="_children" )
             loadChildren(this.currentForm, loadedObj[attrname], attrname);
         else
@@ -36,7 +36,8 @@ this.openForm = function (jsonstring) {
     console.log("Done reconstructing objects from loaded JSON.");
     
 }
-function loadChildren(parent, obj, aname)
+
+function loadChildren(parent, obj, aname, sec)
 {
     console.log("loadChildren(" + parent +", " + obj +  ", " + aname + ")" );
 
@@ -79,8 +80,8 @@ function loadChildren(parent, obj, aname)
         }
         if (aname == "_dataRows")
         {   
-                 parent._dataRows.push(field);
-            console.log("added to _dataRows");
+            parent._dataRows[parent._dataRows.length-1].push(field);
+            console.log("added to _dataRows [" + parent._dataRows.length-1 + "]");
         }
         if (aname == "_newRowTemplate")
          {   
@@ -91,7 +92,9 @@ function loadChildren(parent, obj, aname)
          {
             
             if (arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate") 
-                loadChildren(field, obj[arrayEl], arrayEl);
+            {
+                loadChildren(field, obj[arrayEl], arrayEl, false);
+            }    
             else
             {
                 field[arrayEl] = obj[arrayEl];
@@ -102,9 +105,18 @@ function loadChildren(parent, obj, aname)
     else{
         // its an array
        for(var arrayEl in obj)
-        {
-           loadChildren(parent, obj[arrayEl], aname);
-        }
+       {
+   
+             if (aname == "_dataRows" && !sec)
+             {
+                    parent._dataRows.push(new Array());
+                   // dataRowsCounter ++;
+                    loadChildren(parent, obj[arrayEl], aname, true);
+ 
+             }
+             else
+                  loadChildren(parent, obj[arrayEl], aname);
+       }
     }
 
     return;
