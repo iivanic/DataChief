@@ -222,7 +222,22 @@ this.render = function(placeholder, editable, user) {
             var groupField = this.findField(groupfieldId);
             $(addrowbottons[ind]).prop("me", groupField).
                 click(function() {
+                      this.me._form.readValues();
                     this.me.addRow();
+                    this.me._form.refresh();
+                });
+        }
+        var removerowbottons = $("#" + placeholder.attr("id")).find(".removebuttonMarker");
+        // now we have all remove buttons, we need to bind them to groupFiled they belong to
+        for (var ind = 0; ind < removerowbottons.length; ind++) {
+            var groupfieldId = $(removerowbottons[ind]).prop("id").replace("_removerow", "").replace("field_", "");
+            var rowIndex = groupfieldId.substr(groupfieldId.lastIndexOf("_")+1);
+            groupfieldId = groupfieldId.substr(0,groupfieldId.lastIndexOf("_"))
+            var groupField = this.findField(groupfieldId);
+            $(removerowbottons[ind]).prop("me", groupField).prop("rowIndex", rowIndex).
+                click(function() {
+                    this.me._form.readValues();
+                    this.me.removeRow(this.rowIndex);
                     this.me._form.refresh();
                 });
         }

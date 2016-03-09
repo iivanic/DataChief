@@ -50,7 +50,7 @@ function ctlBoxDeletePart2(field, form) {
         });
     } else {
 
-        field._parent._newRowTemplate = field._parent._newRowTemplate.filter(function (element, i) {
+        field._parent._children._newRowTemplate = field._parent._children._newRowTemplate.filter(function (element, i) {
             return element.id !== field.id;
         });
     }

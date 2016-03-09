@@ -39,17 +39,17 @@ this._propsMeta = {
     _colWidth: { browsable: false },
     _disabled: { browsable: false },
     _dataRows: { browsable: false },
-    editors: { group: 'Workflow', name: 'Editors', description: 'Define who, in the wrkflow, can edit or fill out this container. Default is \'initiator\', multiple users separate with comma.', showHelp: true },
+    editors: { group: 'Workflow', name: 'Editors', description: 'Define who, in the workflow, can edit or fill out this container. Default is \'initiator\', multiple users separate with comma.', showHelp: true },
     _newRowTemplate: { browsable: false },
     _renderStyle: { name: 'Render Style', group: 'Field Settings', type: 'options', options: [{ text: 'One column', value: '0' }, { text: 'Two columns', value: '1' }, { text: 'Three columns', value: '2' }], description: 'How to display fields?' }
 }
 
 //properties
 Object.defineProperty(this, "repeater", {
-    get: function () {
+    get: function() {
         return this._repeater;
     },
-    set: function (val) {
+    set: function(val) {
         if (val != this._repeater) {
             // there is change,
             // we will swap _newRowTemplate and _children
@@ -61,31 +61,31 @@ Object.defineProperty(this, "repeater", {
     }
 });
 Object.defineProperty(this, "requireOneRow", {
-    get: function () {
+    get: function() {
         return this._requireOneRow;
     },
-    set: function (val) {
+    set: function(val) {
         this._requireOneRow = val;
     }
 });
 Object.defineProperty(this, "children", {
-    get: function () {
+    get: function() {
         return this._children;
     },
-    set: function (val) {
+    set: function(val) {
         this._children = val;
     }
 });
 Object.defineProperty(this, "newRowTemplate", {
-    get: function () {
+    get: function() {
         return this._newRowTemplate;
     },
-    set: function (val) {
+    set: function(val) {
         this._newRowTemplate = val;
     }
 });
 
-this.render = function (form, parent, placeholder, editable, user, idprefix) {
+this.render = function(form, parent, placeholder, editable, user, idprefix) {
     //    console.log("groupField.render()");
     this._form = form;
     this._parent = parent;
@@ -136,7 +136,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
                 }
                 odd_even++;
                 ret += "</div>";
-                ret += "<button style='float:right;' type='button' class='btn btn-secondary removebuttonMark'>Remove</button><br/><br/>";
+                ret += "<button style='float:right;' id='field_" + idprefix + "_" + this.id + "_removerow_" + j + "' type='button' class='btn btn-secondary removebuttonMarker'>Remove</button><br/><br/>";
             }
             ret += "<button style='float:right;' id='field_" + idprefix + "_" + this.id + "_addrow' type='button' class='btn btn-primary addbuttonMarker'>Add</button>";
 
@@ -148,13 +148,13 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     ret += "</fieldset></div>";
 
     // fill _allUsersForImpersonation
-    var tmpArr=this.editors.split(',');
-    for(var tmpI=0; tmpI<tmpArr.length; tmpI++)
+    var tmpArr = this.editors.split(',');
+    for (var tmpI = 0; tmpI < tmpArr.length; tmpI++)
         form._allUsersForImpersonation.push(tmpArr[tmpI]);
     return ret;
 
 };
-this.ctor = function () {
+this.ctor = function() {
     this._children = new Array();
     this.__proto__.ctor();
     this._type = "groupField";
@@ -172,7 +172,7 @@ this.ctor = function () {
     this._dataRows = new Array();
     this._renderStyle = "0";
 }
-this.findField = function (idwithprefix) {
+this.findField = function(idwithprefix) {
     //  console.log("groupField.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
     if (this._lastCumulativeId == idwithprefix) {
         //     console.log("groupField.findField(" + idwithprefix + ") FOUND");
@@ -195,9 +195,11 @@ this.findField = function (idwithprefix) {
                 }
             else
                 for (var i in this._dataRows) {
-                    tmp = this._dataRows[i].findField(idwithprefix)
-                    if (tmp)
-                        return tmp;
+                    for (var j in this._dataRows[i]) {
+                        tmp = this._dataRows[i][j].findField(idwithprefix)
+                        if (tmp)
+                            return tmp;
+                    }
                 }
 
         }
@@ -211,7 +213,7 @@ this.findField = function (idwithprefix) {
 this._handleRenderStyleCounter = 0;
 this._maxHandleRenderStyleCounter = 0;
 this._colWidth = "";
-this.resetHandleRenderStyle = function () {
+this.resetHandleRenderStyle = function() {
     switch (this._renderStyle) {
 
         case "1":
@@ -230,9 +232,9 @@ this.resetHandleRenderStyle = function () {
     this._maxHandleRenderStyleCounter = this._handleRenderStyleCounter;
     //  console.log("resetHandleRenderStyle for " + this._id + ", _handleRenderStyleCounter=" + this._handleRenderStyleCounter + ", _colWidth=" + this._colWidth);
 }
-this.handleRenderStyle = function () {
+this.handleRenderStyle = function() {
     // console.log("handleRenderStyle for " + this._id + ", _handleRenderStyleCounter=" + this._handleRenderStyleCounter + ", _colWidth=" + this._colWidth);
- 
+
     var ret = "";
     //row start
     if (this._handleRenderStyleCounter == this._maxHandleRenderStyleCounter)
@@ -253,7 +255,11 @@ this.handleRenderStyle = function () {
 
     return ret;
 }
-this.addRow = function () {
+this.removeRow = function(rowIndex) {
+    console.log("Removing datarow with index " + rowIndex);
+    this._dataRows.splice(rowIndex, 1);
+}
+this.addRow = function() {
     console.log("addRow");
     // clone _newRowTemplate and and it to _dataRows
     var row = new Array();
@@ -287,88 +293,79 @@ this.addRow = function () {
 
         }
         row.push(field);
-         for (var attrname in this._newRowTemplate[i]) {
-            if (attrname == "_children" || attrname == "_dataRows" || attrname == "_newRowTemplate")
-            {
-                    console.log("aaa Gonnload children for " + attrname);
-                loadChildren(this._form,
-                this._newRowTemplate[i][attrname]
-                , attrname);
+        for (var attrname in this._newRowTemplate[i]) {
+            if (attrname == "_children" || attrname == "_dataRows" || attrname == "_newRowTemplate") {
+                console.log("aaa Gonnload children for " + attrname);
+                loadChildren(field,
+                    this._newRowTemplate[i][attrname]
+                    , attrname);
             }
-            else
-               {
-                   field[attrname] = this._newRowTemplate[i][attrname];
-                 console.log("r copy " + attrname ) ; //+ "=" + this._newRowTemplate[i][attrname]);
-              }
-             
+            else {
+                field[attrname] = this._newRowTemplate[i][attrname];
+                console.log("r copy " + attrname); //+ "=" + this._newRowTemplate[i][attrname]);
+            }
+
         }
-   }
+    }
     this._dataRows.push(row);
 }
-function loadChildren(parent, obj, aname)
-{
-    console.log("gf-loadChildren(p=" + parent +", t=" + obj._type +  ", parent field name=" + aname + ")" );
+function loadChildren(parent, obj, aname) {
+    console.log("gf-loadChildren(p=" + parent + ", t=" + obj._type + ", parent field name=" + aname + ")");
 
-    var field ;
-    if(obj._type) 
-    {
-        switch(obj["_type"])
-        {
+    var field;
+    if (obj._type) {
+        switch (obj["_type"]) {
             case "listField":
                 field = Object.create(listField);
                 field.ctor();
-            break;
+                break;
             case "textField":
-                 field = Object.create(textField);
+                field = Object.create(textField);
                 field.ctor();
-            break;
+                break;
             case "fieldBase":
-                 field = Object.create(fieldBase);
+                field = Object.create(fieldBase);
                 field.ctor();
-            break;        
+                break;
             case "groupField":
                 field = Object.create(groupField);
                 field.ctor();
-            break;        
+                break;
             case "currentDateTimeField":
                 field = Object.create(currentDateTimeField);
                 field.ctor();
-            break;
+                break;
             case "currentUserField":
                 field = Object.create(currentUserField);
                 field.ctor();
-            break;
-                     
-         }
-         if(aname == "_children")
-                    parent._children.push(field);
-         if(aname == "_dataRows")
-                    parent._dataRows.push(field);
-         if(aname == "_newRowTemplate")
-                    parent._newRowTemplate.push(field);
-//         console.log("loadChildren() added " + field._type );
-         for(var arrayEl in obj)
-         {
-            if(arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate")
-                {
-                    console.log("Gonnload children for " + arrayEl);
+                break;
+
+        }
+        if (aname == "_children")
+            parent._children.push(field);
+        if (aname == "_dataRows")
+            parent._dataRows.push(field);
+        if (aname == "_newRowTemplate")
+            parent._newRowTemplate.push(field);
+        //         console.log("loadChildren() added " + field._type );
+        for (var arrayEl in obj) {
+            if (arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate") {
+                console.log("Gonnload children for " + arrayEl);
                 loadChildren(field, obj[arrayEl], arrayEl);
             }
-            else
-             {
+            else {
                 field[arrayEl] = obj[arrayEl];
-                 console.log("copy " + arrayEl ) ; //+ "=" + obj[arrayEl]);
-              }
-         }
+                console.log("copy " + arrayEl); //+ "=" + obj[arrayEl]);
+            }
+        }
     }
-    else{
+    else {
         // its an array
         console.log("it's an Array");
-       for(var arrayEl in obj)
-        {
-         console.log("arr Gonnload children for " + aname);
- 
-           loadChildren(parent, obj[arrayEl],aname);
+        for (var arrayEl in obj) {
+            console.log("arr Gonnload children for " + aname);
+
+            loadChildren(parent, obj[arrayEl], aname);
         }
     }
 

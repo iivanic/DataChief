@@ -304,7 +304,7 @@ function SaveJSONReplacer(key,value)
 
 this.saveForm = function (dirtyMarkId) {
     var success=true;
-    var content = JSON.stringify(this.currentForm,SaveJSONReplacer,5);
+    var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
 
     dialog.showSaveDialog(
         {   title: "Save " + this.currentForm.name,
