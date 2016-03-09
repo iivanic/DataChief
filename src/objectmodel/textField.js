@@ -11,15 +11,31 @@ this._propsMeta = {
     _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },
     _toolTip: { group: 'Field Settings', name: 'Tooltip', description: 'Tooltip ofr the field.', showHelp: true },
     _description: { group: 'Field Settings', name: 'Description', description: 'Description of the field.', showHelp: true },
-    _defaultValue: { group: 'Field Settings', name: 'Default value', description: 'Defaut value for the field.', showHelp: true },
+    _min: { group: 'Field Settings', name: 'Minimum value', description: 'Specifies the minimum value for an input field.', showHelp: true },
+    _max: { group: 'Field Settings', name: 'Maximum value', description: 'Specifies the maximum value for an input field.', showHelp: true },
+    _step: { group: 'Field Settings', name: 'Number of intervals', description: 'Specifies the legal number intervals for an input field.', showHelp: true },
     _required: { group: 'Field Validation', name: 'Required', description: 'Is this field required?', showHelp: true },
-    _multiline: { group: 'Text', name: 'Multiline', description: 'Enable one or multiple lines for text.', showHelp: true },
-    _maxlength: { group: 'Text', name: 'Max length', description: 'Maximal langth of text.', showHelp: true },
+    _multiline: { group: 'Field Settings', name: 'Multiline', description: 'Enable one or multiple lines for text. Must be Off for input types other than text.', showHelp: true },
+    _maxlength: { group: 'Field Settings', name: 'Max length', description: 'Maximal langth of text.', showHelp: true },
     _regexp: { group: 'Field Validation', name: 'Regular Expression', description: 'Regular expression.', showHelp: true },
     _regexp_predefined: {  browsable: false ,group: 'Field Validation', name: 'Predefined Regular Expression', 
      type: 'options', options: [{ text: 'Positive integer', value: '0' }, { text: 'Positive or negative integer', value: '1' }, { text: 'Three columns', value: '2' }], description: 'Regular expression.', showHelp: true },
     _regexpErrorMessage: { group: 'Field Validation', name: 'Regular Expression Error message', description: 'Message when regular expression is not met.', showHelp: true },
     _requiredErrorMessage: { group: 'Field Validation', name: 'Required error message', description: 'Massege whe required field is missing.', showHelp: true },
+    _inputType:{ group: 'Field Settings', name: 'Data Type', description: 'Data type of value.', showHelp: true,
+                    type: 'options', options: [
+                        { text: 'Text - for use of Reg. Exp.', value: 'text' },
+                        { text: 'Color - multiline must be off', value: 'color' },
+                        { text: 'Date - multiline must be off', value: 'date' },
+                        { text: 'DateTime - multil. must be off', value: 'datetime-local' },
+                        { text: 'Email - multiline must be off', value: 'email' },
+                        { text: 'Month - multiline must be off', value: 'month' },
+                        { text: 'Number - multiline must be off', value: 'number' },
+                        { text: 'Range - multiline must be off', value: 'range' },
+                        { text: 'Time - multiline must be off', value: 'time' },
+                        { text: 'Url - multiline must be off', value: 'url' },
+                        { text: 'Week - multiline must be off', value: 'week' }
+                        ]},
     _valueHasBeenSet: { browsable: false },
     _children: { browsable: false },
     _propsMeta: { browsable: false },
@@ -75,8 +91,11 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     else {
         ret += "<input data-validation-required-message='" + this._requiredErrorMessage + "' " + 
             (this._required?"required":"" ) + " " +
+            (this._max.length?"max='" + _max +"' ":"") +
+            (this._max.length?"min='" + _max +"' ":"") +
+            (this._max.length?"step='" + _max +"' ":"") +
             (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" )  + " " 
-              + " type='text' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
+              + " type='" + this._inputType + "' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
         ret += "</input>";
 
     }
@@ -95,11 +114,14 @@ this.ctor = function () {
     this._required = false;
     this._toolTip = "Tooltip";
     this._description = "Description";
-    this._displayName = "Label";
-    this._defaultValue = "";
+    this._displayName = "Label for text field";
     this._regexpErrorMessage = "Incorrect format.";
     this._requiredErrorMessage = "This field is required.";
     this._regexp_predefined = "";
+    this._inputType="text";
+    this._min="";
+    this._max="";
+    this._step="";
 }
 this.findField = function (idwithprefix) {
     //    console.log("textField.findField(" + idwithprefix + ")");

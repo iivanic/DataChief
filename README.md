@@ -2,12 +2,9 @@ TODO - Editor
 - [x] Handling values
 - [x] Save/load - repeaters/template/form
 - [x] Handling impersonation - take list from workflow settings
-- [ ] Numeric field?
-- [ ] Date field?
-- [ ] Time or date time?
-- [ ] Predefined regexp for text and Numeric
+- [x] Support for HTML5 input types
 - [x] Creating empty Form or choose from templates
-- [ ] signature and timestamp onclick
+- [ ] Signature and Timestamp on click
 
 TODO Publisher
 
