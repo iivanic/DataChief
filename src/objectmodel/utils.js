@@ -191,7 +191,7 @@ this.alert = function(message)
                  resizable: false,
                 height: 205,
                 modal: true,
-                buttons: {     
+                 buttons: {     
                     Ok: function() {
                         $(this).dialog("close");
                     }
