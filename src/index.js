@@ -25,7 +25,15 @@ var maintabs = null;
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
 
-function addTab(opened,exampleName) {
+function addTab(opened, exampleName) {
+    //check if form is already open
+    //TODO we actually deserialize twice, should be only once
+    if (opened)
+        if ($("#field_dcform_" + JSON.parse(opened)._id).length>0) {
+            
+            helper.alert("Form already open!");
+            return false;
+        }
     var tabTitle = $("#tab_title"),
         tabContent = $("#tab_content"),
         tabTemplate = "<li><span id='tabs-" + tabCounter + "_dirty' style='color:red;'>*</span><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
@@ -50,7 +58,7 @@ function addTab(opened,exampleName) {
 
     }
     else {
-        newFormEditor.newForm(label, $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), null,exampleName);
+        newFormEditor.newForm(label, $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), null, exampleName);
     }
     tabCounter++;
     fixTabsHeight();
@@ -58,7 +66,7 @@ function addTab(opened,exampleName) {
 
 }
 var boolfix = false;
-$(document).ready(function () {
+$(document).ready(function() {
     userSettings.toGui();
     $("#resettings").button();
     $("#savesettings").button();
@@ -68,27 +76,26 @@ $(document).ready(function () {
         event.preventDefault();
         shell.openExternal(this.href);
     });
-    
+
     var pjson = require('../package.json');
     $('#header').text(getWelcomeMessage(pjson));
     $('#description').html(getDescription(pjson));
     maintabs = $("#maintabs").tabs();
     tabs = $("#tabs").tabs();
-   
+
     $("#about_ver").text(pjson.version);
     $("#about_author").text(pjson.author);
     $("#about_lic").text(pjson.license);
- 
+
     //bind built in forms
     $("#exampleforms").html("");
-    var tmpList= form.exampleForms;
-     for(var a in  tmpList)
-     {
-            $("#exampleforms").append($('<option>', {
-                value: tmpList[a],
-                text: tmpList[a]
-            }));
-     }
+    var tmpList = form.exampleForms;
+    for (var a in tmpList) {
+        $("#exampleforms").append($('<option>', {
+            value: tmpList[a],
+            text: tmpList[a]
+        }));
+    }
     // modal dialog init: custom buttons and a "close" callback resetting the form inside
     var newFormDialog = $("#newFormDialog").dialog({
         autoOpen: false,
@@ -96,53 +103,53 @@ $(document).ready(function () {
         width: "470px",
 
         buttons: {
-            "Create Emtpy": function () {
+            "Create Emtpy": function() {
                 addTab(false, "");
                 $(this).dialog("close");
             },
-            "Create from template": function () {
-                addTab(false,  $("#exampleforms").val());
+            "Create from template": function() {
+                addTab(false, $("#exampleforms").val());
                 $(this).dialog("close");
             },
-            Cancel: function () {
+            Cancel: function() {
                 $(this).dialog("close");
             }
         },
-        close: function () {
-            
+        close: function() {
+
         }
     });
-    
- 
-    // addTab form: calls addTab function on submit and closes the dialog
-//    var form = newFormDialog.find("form").submit(function (event) {
-//        addTab();
-//        newFormDialog.dialog("close");
-//        event.preventDefault();
-//    });
- 
 
- 
+
+    // addTab form: calls addTab function on submit and closes the dialog
+    //    var form = newFormDialog.find("form").submit(function (event) {
+    //        addTab();
+    //        newFormDialog.dialog("close");
+    //        event.preventDefault();
+    //    });
+
+
+
     // addTab button: just opens the dialog
     $("#add_form")
         .button()
-        .click(function () {
+        .click(function() {
             $("#tab_title").val("My Form");
             newFormDialog.dialog("open");
-            if(!boolfix)
+            if (!boolfix)
                 $("#exampleforms").selectmenu();
-            boolfix=true;
+            boolfix = true;
 
         });
     $("#open_form")
         .button()
-        .click(function () {
+        .click(function() {
             helper.openForm(addTab);
 
 
         });
     // close icon: removing the tab on click
-    tabs.delegate("span.ui-icon-close", "click", function () {
+    tabs.delegate("span.ui-icon-close", "click", function() {
         //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
         var el = $(this).closest("li");
         var panelId = el.attr("aria-controls") + "_dirty";
@@ -152,14 +159,14 @@ $(document).ready(function () {
                 height: 185,
                 modal: true,
                 buttons: {
-                    "Delete Form": function () {
+                    "Delete Form": function() {
                         console.log(2);
                         el.remove()
                         $("#" + panelId).remove();
                         tabs.tabs("refresh");
                         $(this).dialog("close");
                     },
-                    Cancel: function () {
+                    Cancel: function() {
                         $(this).dialog("close");
                     }
                 }
@@ -173,21 +180,21 @@ $(document).ready(function () {
         }
     });
 
-    tabs.bind("keyup", function (event) {
+    tabs.bind("keyup", function(event) {
         if (event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE) {
             var panelId = tabs.find(".ui-tabs-active").remove().attr("aria-controls");
             //  $("#" + panelId).remove();
             tabs.tabs("refresh");
         }
     });
-    $("#tabs").on("tabsactivate", function (event, ui) {
+    $("#tabs").on("tabsactivate", function(event, ui) {
         fixTabsHeight();
     });
-    $("#maintabs").on("tabsactivate", function (event, ui) {
+    $("#maintabs").on("tabsactivate", function(event, ui) {
         fixTabsHeight();
     });
 
-    $(window).resize(function () {
+    $(window).resize(function() {
         fixTabsHeight();
     });
 
@@ -195,13 +202,13 @@ $(document).ready(function () {
 });
 function fixTabsHeight() {
     var winH = $(window).height();
-    $('#tabs-1').each(function () {
+    $('#tabs-1').each(function() {
         if ($(this).attr("id").lastIndexOf("tabs-", 0) == 0) {
             $(this).height(winH - $(this).offset().top - 55);
             $(this).css("overflow", "auto");
         }
     });
-    $('.fixmyheight').each(function () {
+    $('.fixmyheight').each(function() {
         $(this).height(winH - $(this).offset().top - 55);
         $(this).css("overflow", "auto");
     });

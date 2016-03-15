@@ -17,7 +17,7 @@ module.exports.exampleForms = ["Vehicle Usage Log", "Employee Vacation Request F
 this._name = "New Form";
 this._description = "Description";
 this._footer = "Footer";
-this._version = "1.0";
+this._version = "0";
 this._author = "user";
 this._lastTimeTemplatechanged = new Date();
 this._children = new Array();
@@ -34,7 +34,7 @@ this.allowLocalCopies;
 this._propsMeta = {
     // Since string is the default no nees to specify type
     _name: { group: 'Form Settings', name: 'Name', description: 'Name of the form.', showHelp: true },
-    _version: { group: 'Form Settings', name: 'Version', description: 'Form template version.', showHelp: true },
+    _version: { browsable: false, group: 'Form Settings', name: 'Version', description: 'Form template version.', showHelp: true },
     _description: { group: 'Form Settings', name: 'Description', description: 'Description of the form.', showHelp: true },
     _footer: { group: 'Form Settings', name: 'Footer', description: 'Footer of the form.', showHelp: true },
     _author: { group: 'Ownership', name: 'Author', description: 'Who made this the form?', showHelp: true },
@@ -139,7 +139,7 @@ this.render = function(placeholder, editable, user) {
     if (editable)
         ctlbox = helper.loadFormBox();
     ctlbox = ctlbox.replace('{id}', "ctlbox_" + this.idprefix + this.id)
-    str = ctlbox + "<div id='field_" + this.idprefix + "_" + this.id + "'><h1>" + this._name + " <small>v" + this._version + "</small></h1>";
+    str = ctlbox + "<div id='field_" + this.idprefix + "_" + this.id + "'><h1>" + this._name +"</h1>";
     str += "<p>" + this.description + "</p>";
     //   if (editable)
     //      str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
@@ -299,7 +299,7 @@ this.readValues = function() {
 
 this.createForm = function(name, templateName) {
     this._name = name;
-    this._version = "1.0"
+    this._version = "0";
     this._author = userSettings.email;
     this._lastTimeTemplatechanged = new Date();
     if (!templateName.length) {

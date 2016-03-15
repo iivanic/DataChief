@@ -113,7 +113,6 @@ this.getPublishPath = function () {
    }
    return p;
 };
-
 this.getOutboxPath = function () {
    var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
     try
@@ -184,6 +183,20 @@ this.ensureFileNameUnique= function(p,filename)
 this.moveFile = function(srcP, dstP)
 {
     fs.renameSync(srcP, dstP);
+}
+this.alert = function(message)
+{
+     $("#dialog-alert-text").text(message);
+     $("#dialog-alert").dialog({
+                resizable: false,
+                height: 205,
+                modal: true,
+                buttons: {     
+                    Ok: function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
 }
 // fs.renameSync(oldPath, newPath)
 

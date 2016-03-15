@@ -19,7 +19,7 @@ this.prefix;
 this.openForm = function (jsonstring) {
 
     var loadedObj = JSON.parse(jsonstring);
-   
+
     console.log("Reconstructing objects from loaded JSON.");
     var cnt = 0;
     for (var attrname in loadedObj) { 
@@ -32,9 +32,9 @@ this.openForm = function (jsonstring) {
         cnt++;
     }
     // we need to change id to avoid conflicts if the same form is already oened in editor.
-    this.currentForm.regenerateGUID();
+    //this.currentForm.regenerateGUID();
     console.log("Done reconstructing objects from loaded JSON.");
-    
+    return true;
 }
 
 function loadChildren(parent, obj, aname, sec)
@@ -421,7 +421,9 @@ this.prepublish = function(dirtyMarkId)
     var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
 
     var p=helper.getPrepublishPath();
-    var fileName = helper.ensureFileNameUnique(p,this.currentForm.name);
+    this.currentForm.version = Math.abs(this.currentForm.version)+1;
+    var fileName = this.currentForm.name + "_" + this.currentForm.id + "_" + this.currentForm.version;
+    fileName = helper.ensureFileNameUnique(p,fileName);
     
            fs.writeFile(fileName, content, function (err) {
             if(err)
