@@ -3,7 +3,7 @@ var debug = true;
 var app = require("app");
 var BrowserWindow = require("browser-window");
 var path = require("path");
-const ipcMain = require('electron').ipcMain;
+//const ipcMain = require('electron').ipcMain;
 
 
 app.on('window-all-closed', function () {

@@ -10,8 +10,8 @@
             <div class="col-sm-6">
                 <label for="prefix_impersonateUser">Impersonate user: </label>
             </div>
-           <div class="col-sm-6">
-                <select  style="width:100%;"  id="prefix_impersonateUser" />
+            <div class="col-sm-6">
+                <select style="width:100%;" id="prefix_impersonateUser" />
             </div>
         </div>
 
@@ -23,7 +23,18 @@
                 </select>
             </div>
             <div class="col-sm-6">
-                <button id="prefix_formSave" style="width:100%;">Save Form</button>
+            
+                <div>
+                    <div style="margin-right:0px;">
+                         <button style="width:100%;" id="prefix_selectSave">Save form</button>
+                    </div>
+                    <ul style="width:80%;position:absolute;z-index:1000;">
+                        <li id="prefix_selectSave_prepublish">Pre-publish</li>
+                        <li id="prefix_selectSave_publish">Publish</li>
+                        <li id="prefix_selectSave_save">Save a copy</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
         <div class="row">

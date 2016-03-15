@@ -15,7 +15,7 @@
     </script>
     <script src='ctlBox.js'></script>
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
-    
+
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
 </head>
 
@@ -29,14 +29,16 @@
         <div id="newFormDialog" title="New Form">
             <form>
                 <fieldset class="ui-helper-reset">
-                    <label for="tab_title">Form name</label><br>
-                    Please enter name for your form
+                    <label for="tab_title">Form name</label>
+                    <br> Please enter name for your form
                     <input type="text" name="tab_title" id="tab_title" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
-                    <br /> <br />
+                    <br />
+                    <br />
                     <label for="exampleforms">You can choose one of provided example forms:</label>
-                    <select style="width:435px;"  id="exampleforms">
+                    <select style="width:435px;" id="exampleforms">
                     </select>
-                     <br /><br />
+                    <br />
+                    <br />
                 </fieldset>
             </form>
         </div>
@@ -49,23 +51,22 @@
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are You sure?</p>
         </div>
         <div id="dialog-validation-ok" style="display:none;" title="Validation OK">
-        <p>
-            <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-            Validation is Success!
-        </p>
-        <p>
-            Form is <b>filled out correctly</b>.
-        </p>
+            <p>
+                <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> Validation is
+                Success!
+            </p>
+            <p>
+                Form is <b>filled out correctly</b>.
+            </p>
         </div>
         <div id="dialog-validation-failed" style="display:none;" title="Validation OK">
-        <p>
-            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
-            Validation Failed!
-        </p>
-        <p>
-            Form is <b>not correctly filled out</b>.
-        </p>
-        </div>        
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span> Validation Failed!
+            </p>
+            <p>
+                Form is <b>not correctly filled out</b>.
+            </p>
+        </div>
         <div id="maintabs">
             <ul>
                 <li><a href="#maintabs-1">Form & workflow editor</a></li>
@@ -76,9 +77,9 @@
                 <li><a href="#maintabs-6">About</a></li>
             </ul>
             <div id="maintabs-1">
-                    <button id="add_form">Create Form</button>
-                    <button id="open_form">Open Form</button>
-                 <div id="tabs">
+                <button id="add_form">Create Form</button>
+                <button id="open_form">Open Form</button>
+                <div id="tabs">
                     <ul>
                         <li><a href="#tabs-1" id="header">Welcome</a> </li>
                     </ul>
@@ -88,16 +89,36 @@
                 </div>
             </div>
 
-            <div id="maintabs-2"  class="fixmyheight">
+            <div id="maintabs-2" class="fixmyheight">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3>Details</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        ...
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <h3>Prepublish/work folder</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>Publish</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>Outbox</h3>
+                    </div>
+                </div>
                 <p>Publisher....</p>
             </div>
-            <div id="maintabs-3"  class="fixmyheight">
+            <div id="maintabs-3" class="fixmyheight">
                 <p>Filler</p>
             </div>
-            <div id="maintabs-4"  class="fixmyheight">
+            <div id="maintabs-4" class="fixmyheight">
                 <p>Data collection & analysis</p>
             </div>
-            <div id="maintabs-5"  class="fixmyheight">
+            <div id="maintabs-5" class="fixmyheight">
                 <h1>Application settings</h1>
                 <fieldset id="settingsField">
                     <legend>User information</legend>
@@ -122,7 +143,7 @@
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8">
                         <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
-                        <button id="savesettings"  onclick="userSettings.fromGui();userSettings.save();">Apply</button>
+                        <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
                     </div>
                 </fieldset>
 

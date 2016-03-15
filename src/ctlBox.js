@@ -140,7 +140,6 @@ function MoveElementInArray(array, old_index, new_index) {
     return array;
 };
 
-
 var groupField = require("./objectmodel/groupField.js");
 var textField = require("./objectmodel/textField.js");
 var fieldBase = require("./objectmodel/fieldBase.js");

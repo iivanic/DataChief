@@ -213,12 +213,6 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj, ex
     var htmlTemplate = helper.loadTextFile("../templates/formeditor.html");
     htmlTemplate = htmlTemplate.replace(/prefix_/gi, this.prefix);
     placeHolder.html(htmlTemplate);
-    $("#" + this.prefix + "formSave").prop("me", this);
-    $("#" + this.prefix + "formSave")
-        .button()
-        .click(function () {
-            this.me.saveForm(this.me.dirtyMark.attr('id'));
-        });
         
     
     $("#" + this.prefix + "editormode").selectmenu(
@@ -279,9 +273,7 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj, ex
         .click(function () {
             this.me.applyFormChanges();
         });
-
-
-
+    this.bindSaveButton();
 }
 
 this.applyFormChanges = function () {
@@ -376,4 +368,76 @@ this.resetDirty = function () {
 }
 this.setDirty = function () {
     this.dirtyMark.show();
+}
+
+this.bindSaveButton = function(){
+    $("#" + this.prefix + "selectSave").button({
+          text: true,
+          icons: {
+            secondary : "ui-icon-triangle-1-s"
+          }
+        })
+        .click(function() {
+          var menu = $( this ).parent().next().show().position({
+            my: "left top",
+            at: "left bottom",
+            of: this
+          });
+          $( document ).one( "click", function() {
+            menu.hide();
+          });
+          return false;
+        })
+        .parent()
+          .buttonset()
+          .next()
+            .hide()
+            .menu();
+            
+        
+    $("#" + this.prefix + "selectSave_save").prop("me", this);
+    $("#" + this.prefix + "selectSave_save")
+      //  .button()
+    .click(function () {
+            this.me.saveForm(this.me.dirtyMark.attr('id'));
+        });
+    $("#" + this.prefix + "selectSave_prepublish").prop("me", this);
+    $("#" + this.prefix + "selectSave_prepublish")
+      //  .button()
+    .click(function () {
+            this.me.prepublish(this.me.dirtyMark.attr('id'));
+        });
+        
+    $("#" + this.prefix + "selectSave_publish").prop("me", this);
+    $("#" + this.prefix + "selectSave_publish")
+      //  .button()
+    .click(function () {
+            this.me.publish(this.me.dirtyMark.attr('id'));
+        });
+};
+this.prepublish = function(dirtyMarkId)
+{
+    var success=true;
+    var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
+
+    var p=helper.getPrepublishPath();
+    var fileName = helper.ensureFileNameUnique(p,this.currentForm.name);
+    
+           fs.writeFile(fileName, content, function (err) {
+            if(err)
+            {
+                console.log("Saving failed. " + err.toString());
+                success=false;
+            }
+            
+        });
+        if(success)
+            $("#" + dirtyMarkId).hide();
+ 
+    
+}
+this.publish = function(dirtyMarkId)
+{
+    alert(2);
+    
 }

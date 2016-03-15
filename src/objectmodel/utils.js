@@ -25,7 +25,7 @@ this.fileExists = function(fileName){
     return path.existsSync(fileName);
 }  
 this.getUserFolder = function () {
-   return require('remote').getGlobal('sharedObject').userData;
+   return remote.getGlobal('sharedObject').userData;
 };
 this.getUserSettingsFilePath = function ()
 {
@@ -70,4 +70,121 @@ this.loadGroupBox = function () {
    var data = this.loadTextFile("../templates/fieldbox.html");
    return data.toString();
 };
+
+this.getPrepublishPath = function () {
+   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   p=path.join(p,"prepublish");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+     return p;
+};
+this.getPublishPath = function () {
+   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   p=path.join(p,"publish");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   return p;
+};
+
+this.getOutboxPath = function () {
+   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   p=path.join(p,"outbox");
+  try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   return p;
+};
+this.getSentPath = function () {
+   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   p=path.join(p,"sent");
+   try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   return p;
+};
+this.getFilesInDir = function (p) {
+  return fs.readdirSync(p);
+};
+this.ensureFileNameUnique= function(p,filename)
+{
+  var files =   this.getFilesInDir(p);
+  for(var i in files)
+  {
+      if(files[i]==filename)
+      {
+        var cnt=0;
+        do{
+            var fn = path.basename(filename);
+            var end = fn.lastIndexOf("_");
+            if(end<0)
+                end = fn.length;
+            filename = fn.substr(0,end) + "_" + cnt.toString() + path.extname(filename) ;
+            cnt++;
+        } while(files[i]==filename)
+      
+        }   
+  }
+  
+  return path.join(p,filename);
+}
+this.moveFile = function(srcP, dstP)
+{
+    fs.renameSync(srcP, dstP);
+}
+// fs.renameSync(oldPath, newPath)
+
  
