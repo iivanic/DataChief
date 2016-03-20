@@ -199,5 +199,11 @@ this.alert = function(message)
             });
 }
 // fs.renameSync(oldPath, newPath)
+this.watchFolder = function(dir, callback, publishObj)
+{
+    // instantiate the watcher
+    var watcher = fs.watch(dir);
 
- 
+    // track changes later
+    watcher.on('change',callback); 
+}

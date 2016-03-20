@@ -434,8 +434,11 @@ this.prepublish = function(dirtyMarkId)
             
         });
         if(success)
+        {
             $("#" + dirtyMarkId).hide();
- 
+            index.closeTab(dirtyMarkId.replace("_dirty",""));
+            
+ }
     
 }
 this.publish = function(dirtyMarkId)

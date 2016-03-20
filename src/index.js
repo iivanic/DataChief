@@ -29,8 +29,8 @@ function addTab(opened, exampleName) {
     //check if form is already open
     //TODO we actually deserialize twice, should be only once
     if (opened)
-        if ($("#field_dcform_" + JSON.parse(opened)._id).length>0) {
-            
+        if ($("#field_dcform_" + JSON.parse(opened)._id).length > 0) {
+
             helper.alert("Form already open!");
             return false;
         }
@@ -200,6 +200,16 @@ $(document).ready(function() {
 
     $(window).trigger('resize');
 });
+this.closeTab = function(el) {
+    //remove tab
+    $("li[aria-controls='" + el + "']").remove();
+    $("#" + el ).remove();
+    tabs.tabs("refresh");
+    //activate some tab
+    tabs.tabs("option", "active", -1);
+    //activate publish tab
+    maintabs.tabs("option", "active", 1);
+}
 function fixTabsHeight() {
     var winH = $(window).height();
     $('#tabs-1').each(function() {
