@@ -14,19 +14,31 @@ $(document).ready(function() {
         text: true,
         icons: {
             secondary: "ui-icon-arrow-1-e"
-        }
+        },
+        disabled: true
     })
         .click(function() {
-            alert("2 publish");
+            helper.confirm("Move to Publish Folder?", move2Published);
+        });
+    $("#buttonEditPrepublished").button({
+        text: true,
+        icons: {
+            secondary: "ui-icon-pencil"
+        },
+        disabled: true
+    })
+        .click(function() {
+            helper.confirm("Open in Editor?", openInEditor);
         });
     $("#button2Prepublish").button({
         text: true,
         icons: {
             primary: "ui-icon-arrow-1-w"
-        }
+        },
+        disabled: true
     })
         .click(function() {
-            alert("2 prepublish");
+            helper.confirm("Move back to Prepublish Folder?", move2Prepublished);
         });
     $("#buttonPublish").button({
         text: true,
@@ -35,34 +47,114 @@ $(document).ready(function() {
         }
     })
         .click(function() {
-            alert("publish");
+            helper.confirm("Generate packages and publish forms?", publishEverything);
+        });
+
+    $("#buttonDeletePrepublished").button({
+        text: true,
+        icons: {
+            primary: "ui-icon-trash"
+        },
+        disabled: true
+    })
+        .click(function() {
+            helper.confirm("Delete?", deletePrepublished)
         });
 
     pplist = $("#prepublishList");
     plist = $("#publishList");
     olist = $("#outboxList");
     llist = $("#logList");
-    
-    helper.watchFolder(helper.getPrepublishPath(), prepublishWatchEvent, this);
+
+//    helper.watchFolder(helper.getPrepublishPath(), prepublishWatchEvent, this);
+ //   helper.watchFolder(helper.getPublishPath(), publishWatchEvent, this);
     publish.log("Welcome to Data Chief.");
+    readFiles();
 }
 );
+function deletePrepublished() {
+    var items = $("#prepublishList input:checked");
+    for (var i = 0; i < items.length; i++) {
+        helper.deleteFile($(items[i]).val());
+        /*   $(items[i]).next().next().remove();
+           $(items[i]).next().remove();
+           $(items[i]).remove();
+   */
+    }
 
+}
+function move2Prepublished() {
+    var items = $("#publishList input:checked");
+    for (var i = 0; i < items.length; i++) {
+        helper.moveFile($(items[i]).val(), helper.join(helper.getPrepublishPath(), helper.getOnlyFileName($(items[i]).val())));
+        /*     $(items[i]).next().next().remove();
+             $(items[i]).next().remove()
+             $(items[i]).remove();
+     */
+    }
+
+}
+function move2Published() {
+    var items = $("#prepublishList input:checked");
+    for (var i = 0; i < items.length; i++) {
+        helper.moveFile($(items[i]).val(), helper.join(helper.getPublishPath(), helper.getOnlyFileName($(items[i]).val())));
+        /*     $(items[i]).next().next().remove();
+             $(items[i]).next().remove();
+             $(items[i]).remove();
+     */
+    }
+
+}
+function publishEverything() {
+    alert("pubish everything!"); s
+}
+function openInEditor() {
+    var items = $("#prepublishList input:checked");
+    for (var i = 0; i < items.length; i++) {
+        index.AddTab(
+            helper.loadFile($(items[i]).val()).toString());
+    }
+    index.activateEditorTab();
+}
+function readFiles() {
+    var files = helper.getFilesInDir(helper.getPrepublishPath());
+    for (var i in files) {
+        publish.log("Found prepublished " + files[i]);
+
+        pplist.append("<input type='checkbox' onclick='if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'>" + files[i] + "</label><br>");
+    }
+    files = helper.getFilesInDir(helper.getPublishPath());
+    for (var i in files) {
+        publish.log("Found published " + files[i]);
+        plist.append("<input type='checkbox' onclick='if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" + files[i] + "'</label><br>");
+    }
+    files = helper.getFilesInDir(helper.getOutboxPath());
+    for (var i in files) {
+        publish.log("Found published " + files[i]);
+        olist.append("<input type='checkbox' id='plistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" + files[i] + "'</label><br>");
+    }
+}
 function prepublishWatchEvent(event, filename) {
-    publish.log(filename + ": " + event);
+    publish.log("Prepublish folder: " + filename + ": " + event);
     switch (event) {
         case "rename":
             break;
         case "change":
             break;
-
     }
-
 }
-this.log = function(txt)
-{
+function publishWatchEvent(event, filename) {
+    publish.log("Publish folder: " + filename + ": " + event);
+    switch (event) {
+        case "rename":
+            break;
+        case "change":
+            break;
+    }
+}
+this.log = function(txt) {
 
     llist.append(new Date().toLocaleString() + ": " + txt + "<br>");
     llist.scrollTop(llist[0].scrollHeight);
-    console.log(text);
+    console.log(txt);
 }

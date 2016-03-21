@@ -13,6 +13,10 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
+this.join = function(a,b)
+{
+    return path.resolve(path.join(a,b));
+}
 this.loadTextFile = function (filename) {
    var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));
     return data.toString();
@@ -184,6 +188,14 @@ this.moveFile = function(srcP, dstP)
 {
     fs.renameSync(srcP, dstP);
 }
+this.getOnlyFileName= function(fileName)
+{
+    return path.basename(fileName)
+}
+this.deleteFile = function(fileName)
+{
+    fs.unlink(fileName)
+}
 this.alert = function(message)
 {
      $("#dialog-alert-text").text(message);
@@ -193,6 +205,25 @@ this.alert = function(message)
                 modal: true,
                  buttons: {     
                     Ok: function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+}
+
+this.confirm = function(message, callback)
+{
+     $("#dialog-confirm-text").text(message);
+     $("#dialog-confirm").dialog({
+                 resizable: false,
+                height: 205,
+                modal: true,
+                 buttons: {     
+                    Ok: function() {
+                        $(this).dialog("close");
+                        callback();
+                    },
+                      Cancel: function() {
                         $(this).dialog("close");
                     }
                 }

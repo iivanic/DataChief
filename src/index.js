@@ -24,7 +24,7 @@ var tabs = null; // $( "#tabs" ).tabs();
 var maintabs = null;
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
-
+this.AddTab = addTab;
 function addTab(opened, exampleName) {
     //check if form is already open
     //TODO we actually deserialize twice, should be only once
@@ -44,8 +44,8 @@ function addTab(opened, exampleName) {
         id = "tabs-" + tabCounter,
         li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)),
         tabContentHtml = ""; //tabContent.val() || "Tab " + tabCounter + " content.";
-
-    tabs.find(".ui-tabs-nav").append(li);
+//tabs.append(li);
+   tabs.find(".ui-tabs-nav").append(li);
     tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p><div id='" + id + "Form'>FormPlaceHolder</div>");
     tabs.tabs("refresh");
     //  var index = $('#' + id).index() - 1;
@@ -162,7 +162,7 @@ $(document).ready(function() {
                     "Delete Form": function() {
                         console.log(2);
                         el.remove()
-                        $("#" + panelId).remove();
+                        $("#" + panelId.replace("_dirty","")).remove();
                         tabs.tabs("refresh");
                         $(this).dialog("close");
                     },
@@ -174,7 +174,7 @@ $(document).ready(function() {
         }
         else {
             el.remove()
-            $("#" + panelId).remove();
+            $("#" + panelId.replace("_dirty","")).remove();
             tabs.tabs("refresh");
 
         }
@@ -210,14 +210,18 @@ this.closeTab = function(el) {
     //activate publish tab
     maintabs.tabs("option", "active", 1);
 }
+this.activateEditorTab = function()
+{
+       maintabs.tabs("option", "active", 0);
+}
 function fixTabsHeight() {
     var winH = $(window).height();
-    $('#tabs-1').each(function() {
+ /*   $('#tabs-1').each(function() {
         if ($(this).attr("id").lastIndexOf("tabs-", 0) == 0) {
             $(this).height(winH - $(this).offset().top - 55);
             $(this).css("overflow", "auto");
         }
-    });
+    });*/
     $('.fixmyheight').each(function() {
         $(this).height(winH - $(this).offset().top - 55);
         $(this).css("overflow", "auto");

@@ -1,20 +1,3 @@
-TODO - Editor
-
-Minimum featire set completed
-- [x] Handling values
-- [x] Save/load - repeaters/template/form
-- [x] Handling impersonation - take list from workflow settings
-- [x] Support for HTML5 input types
-- [x] Creating empty Form or choose from templates
-- [x] Signature and Timestamp fields
-
-TODO Publisher
-
-TODO Filler
-
-TODO Collector
-
-
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 

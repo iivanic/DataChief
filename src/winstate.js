@@ -144,7 +144,11 @@ win.on('unmaximize', function () {
 });
 
 win.on('minimize', function () {
+    try{
     currWinMode = 'minimized';
+    }
+    catch(ex)
+    {}
 });
 
 win.on('restore', function () {
@@ -189,7 +193,9 @@ win.on('close', function () {
     try {
         saveWindowState();
     } catch (err) {
-        console.log("winstateError: " + err);
+        //console.log("winstateError: " + err);
     }
+    try{
     this.close(true);
+    }catch (err) {}
 });
