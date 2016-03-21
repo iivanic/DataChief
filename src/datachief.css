@@ -87,3 +87,6 @@ z-index:9999 ;}
 {
     border:2px solid #ccc; width:100%; height: 100%; overflow-y: scroll; 
 }
+.ui-tabs-panel {
+    background-color: white;
+}
