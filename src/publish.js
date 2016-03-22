@@ -68,10 +68,9 @@ $(document).ready(function() {
 
     //    helper.watchFolder(helper.getPrepublishPath(), prepublishWatchEvent, this);
     //   helper.watchFolder(helper.getPublishPath(), publishWatchEvent, this);
-    publish.log("Welcome to Data Chief.");
+
     readFiles();
-}
-);
+});
 function deletePrepublished() {
     var items = $("#prepublishList input:checked");
     for (var i = 0; i < items.length; i++) {
@@ -110,9 +109,6 @@ function move2Published() {
 
 
 }
-function publishEverything() {
-    alert("pubish everything!");
-}
 function openInEditor() {
     var items = $("#prepublishList input:checked");
     for (var i = 0; i < items.length; i++) {
@@ -126,33 +122,33 @@ function readFiles() {
     $("#buttonEditPrepublished").button("disable")
     $("#buttonDeletePrepublished").button("disable");
     $("#button2Prepublish").button("disable")
-    
+
     pplist.html("");
     plist.html("");
     olist.html("");
     var files = helper.getFilesInDir(helper.getPrepublishPath());
     for (var i in files) {
-        publish.log("Found prepublished " + files[i]);
+        console.log("Found prepublished " + files[i]);
 
-        pplist.append("<input type='checkbox' onclick='if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'>" +
+        pplist.append("<input type='checkbox' onclick='publish.info();if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1)
             + "</label><br>");
     }
     files = helper.getFilesInDir(helper.getPublishPath());
     for (var i in files) {
-        publish.log("Found published " + files[i]);
-        plist.append("<input type='checkbox' onclick='if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
+        console.log("Found published " + files[i]);
+        plist.append("<input type='checkbox' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
     files = helper.getFilesInDir(helper.getOutboxPath());
     for (var i in files) {
-        publish.log("Found outboxed " + files[i]);
+        console.log("Found outboxed " + files[i]);
         olist.append("<input type='checkbox' id='plistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
 }
 function prepublishWatchEvent(event, filename) {
-    publish.log("Prepublish folder: " + filename + ": " + event);
+
     switch (event) {
         case "rename":
             break;
@@ -161,7 +157,7 @@ function prepublishWatchEvent(event, filename) {
     }
 }
 function publishWatchEvent(event, filename) {
-    publish.log("Publish folder: " + filename + ": " + event);
+
     switch (event) {
         case "rename":
             break;
@@ -171,8 +167,54 @@ function publishWatchEvent(event, filename) {
 }
 this.log = function(txt) {
 
-    llist.append(new Date().toLocaleString() + ": " + txt + "<br>");
+    llist.append(txt + "<br>");
     llist.scrollTop(llist[0].scrollHeight);
-    console.log(txt);
+
 }
 this.refreshFolders = readFiles;
+
+this.info = function() {
+    llist.html("");
+    var items = $("#prepublishList input:checked");
+    for (var i = 0; i < items.length; i++) {
+
+        file = helper.loadFile($(items[i]).val());
+        var loadedObj = JSON.parse(file);
+        this.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
+
+    }
+    items = $("#publishList input:checked");
+    for (var i = 0; i < items.length; i++) {
+
+        file = helper.loadFile($(items[i]).val());
+        var loadedObj = JSON.parse(file);
+        this.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
+
+    }
+}
+function publishEverything() {
+    items = $("#publishList input");
+    var packages = new Array();
+    var pCount = 0;
+    for (var i = 0; i < items.length; i++) {
+
+        file = helper.loadFile($(items[i]).val());
+        var loadedObj = JSON.parse(file);
+        var users = loadedObj.publishTo.split(",");
+        for (var ui = 0; ui < users.length; ui++) {
+            if (!packages[users[ui]]) {
+                packages[users[ui]] = { user: users[ui], forms: new Array() };
+                pCount++;
+            }
+            packages[users[ui]].forms.push(loadedObj);
+        }
+    }
+    llist.html("");
+    publish.log("<strong>" + pCount + "</strong> Package(s):");
+
+    for (var i in packages) {
+        publish.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
+    }
+
+
+}

@@ -52,6 +52,7 @@ this._propsMeta = {
     validator: { browsable: false },
     idprefix: { browsable: false },
     workflow: { group: 'Workflow', name: 'Workflow', description: 'Workflow steps delimited with semicolon (;), except last one - the final step of workflow. Also, firts step (creation of form by initiator) is not listed here. You choose first step by publishing form to the people who needs to create(initiate) this form. Multiple recipients can be specified within one step delimited with comma(,). If so, user, when sending form to that workflow step will be ble to choose recipient. ', showHelp: true },
+    publishTo: { group: 'Workflow', name: 'Publish To', description: 'Enter comma separated emails of users you wish to publish.', showHelp: true },
     broadcastStatusOfForm: { group: 'Workflow', name: 'Broadcast status of form', description: '', showHelp: true },
     broadCastRecievers: { group: 'Workflow', name: 'Broadcast recievers', description: 'To whom you wish to notify when form is sent between workflow steps? Some kind of dmin in your organization who needs to supervise business processes. If not specified, no broadcast will be made.', showHelp: true },
     finalStep: { group: 'Workflow', name: 'Final step', description: 'User who collects data - filled and completed forms.', showHelp: true },
@@ -478,6 +479,7 @@ this.ctor = function() {
     this.broadCastRecievers = "initiator";
     this.finalStep = "initiator";
     this.allowLocalCopies = "initiator";
+    this.publishTo = "user1@example.com, user2@example.com";
     this._id = helper.generateGUID();
 }
 this.regenerateGUID = function() {
