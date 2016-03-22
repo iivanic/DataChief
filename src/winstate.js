@@ -139,8 +139,10 @@ win.on('maximize', function () {
 });
 
 win.on('unmaximize', function () {
-    currWinMode = 'normal';
+  try{  currWinMode = 'normal';
     restoreWindowState();
+    }catch(exc)
+    {}
 });
 
 win.on('minimize', function () {
