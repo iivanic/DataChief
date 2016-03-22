@@ -66,8 +66,8 @@ $(document).ready(function() {
     olist = $("#outboxList");
     llist = $("#logList");
 
-//    helper.watchFolder(helper.getPrepublishPath(), prepublishWatchEvent, this);
- //   helper.watchFolder(helper.getPublishPath(), publishWatchEvent, this);
+    //    helper.watchFolder(helper.getPrepublishPath(), prepublishWatchEvent, this);
+    //   helper.watchFolder(helper.getPublishPath(), publishWatchEvent, this);
     publish.log("Welcome to Data Chief.");
     readFiles();
 }
@@ -76,10 +76,10 @@ function deletePrepublished() {
     var items = $("#prepublishList input:checked");
     for (var i = 0; i < items.length; i++) {
         helper.deleteFile($(items[i]).val());
-        /*   $(items[i]).next().next().remove();
-           $(items[i]).next().remove();
-           $(items[i]).remove();
-   */
+        $(items[i]).next().next().remove();
+        $(items[i]).next().remove();
+        $(items[i]).remove();
+
     }
 
 }
@@ -92,6 +92,8 @@ function move2Prepublished() {
              $(items[i]).remove();
      */
     }
+    if (items.length > 0)
+        readFiles();
 
 }
 function move2Published() {
@@ -103,10 +105,13 @@ function move2Published() {
              $(items[i]).remove();
      */
     }
+    if (items.length > 0)
+        readFiles();
+
 
 }
 function publishEverything() {
-    alert("pubish everything!"); s
+    alert("pubish everything!");
 }
 function openInEditor() {
     var items = $("#prepublishList input:checked");
@@ -117,21 +122,33 @@ function openInEditor() {
     index.activateEditorTab();
 }
 function readFiles() {
+    $("#button2Publish").button("disable");
+    $("#buttonEditPrepublished").button("disable")
+    $("#buttonDeletePrepublished").button("disable");
+    $("#button2Prepublish").button("disable")
+    
+    pplist.html("");
+    plist.html("");
+    olist.html("");
     var files = helper.getFilesInDir(helper.getPrepublishPath());
     for (var i in files) {
         publish.log("Found prepublished " + files[i]);
 
-        pplist.append("<input type='checkbox' onclick='if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'>" + files[i] + "</label><br>");
+        pplist.append("<input type='checkbox' onclick='if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'>" +
+            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1)
+            + "</label><br>");
     }
     files = helper.getFilesInDir(helper.getPublishPath());
     for (var i in files) {
         publish.log("Found published " + files[i]);
-        plist.append("<input type='checkbox' onclick='if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" + files[i] + "'</label><br>");
+        plist.append("<input type='checkbox' onclick='if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
+            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
     files = helper.getFilesInDir(helper.getOutboxPath());
     for (var i in files) {
-        publish.log("Found published " + files[i]);
-        olist.append("<input type='checkbox' id='plistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" + files[i] + "'</label><br>");
+        publish.log("Found outboxed " + files[i]);
+        olist.append("<input type='checkbox' id='plistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
+            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
 }
 function prepublishWatchEvent(event, filename) {
@@ -158,3 +175,4 @@ this.log = function(txt) {
     llist.scrollTop(llist[0].scrollHeight);
     console.log(txt);
 }
+this.refreshFolders = readFiles;

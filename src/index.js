@@ -145,8 +145,6 @@ $(document).ready(function() {
         .button()
         .click(function() {
             helper.openForm(addTab);
-
-
         });
     // close icon: removing the tab on click
     tabs.delegate("span.ui-icon-close", "click", function() {
@@ -209,6 +207,7 @@ this.closeTab = function(el) {
     tabs.tabs("option", "active", -1);
     //activate publish tab
     maintabs.tabs("option", "active", 1);
+    publish.refreshFolders();
 }
 this.activateEditorTab = function()
 {

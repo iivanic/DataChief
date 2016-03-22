@@ -422,10 +422,63 @@ this.prepublish = function(dirtyMarkId)
 
     var p=helper.getPrepublishPath();
     this.currentForm.version = Math.abs(this.currentForm.version)+1;
-    var fileName = this.currentForm.name + "_" + this.currentForm.id + "_" + this.currentForm.version;
-    fileName = helper.ensureFileNameUnique(p,fileName);
+    var fileName = this.currentForm.id + "_" + this.currentForm.version + "_" + this.currentForm.name;
+    //fileName = helper.ensureFileNameUnique(p,fileName);
+    // check if exists in prebublished
+    var files = helper.getFilesInDir(helper.getPrepublishPath());
     
-           fs.writeFile(fileName, content, function (err) {
+    for(var i in files)
+    {
+        if(files[i].substring(0,files[i].indexOf('_')) == fileName.substring(0,fileName.indexOf('_') ))
+        {
+            // there is this file in prepublished
+            // is it older v?
+            var ver = files[i].substring( files[i].indexOf('_')+1, files[i].indexOf("_",files[i].indexOf('_')+1) );
+            if(Math.abs(this.currentForm.version)> Math.abs(ver))
+            {
+                // ok its an older version
+                // delete it
+                 fs.unlink(helper.join(helper.getPrepublishPath(), files[i]));
+            }
+            else
+            {
+                //ups! Its an newer version.
+                helper.alert("There is a newer version of this form in Prepublish folder! Please save this form as a copy to disk and investigate.")
+                return;
+            }
+            
+        }
+    }
+    
+   // check if exists in published
+    files = helper.getFilesInDir(helper.getPublishPath());
+    
+    for(var i in files)
+    {
+        if(files[i].substring(0,files[i].indexOf('_')) == fileName.substring(0,fileName.indexOf('_') ))
+        {
+            // there is this file in prepublished
+            // is it older v?
+            var ver = files[i].substring( files[i].indexOf('_')+1, files[i].indexOf("_",files[i].indexOf('_')+1) );
+            if(Math.abs(this.currentForm.version)> Math.abs(ver))
+            {
+                // ok its an older version
+                // delete it
+                
+                helper.alert("There is a version of this form in Publish folder. This version will be removed and form will be saved in prepublish folder.")
+                fs.unlink(helper.join(helper.getPublishPath(), files[i]));
+            }
+            else
+            {
+                //ups! Its an newer version.
+                helper.alert("There is a newer version of this form in Publish folder! Please save this form as a copy to disk and investigate.")
+                return;
+            }
+            
+        }
+    }
+    
+    fs.writeFile(helper.join(helper.getPrepublishPath(), fileName), content, function (err) {
             if(err)
             {
                 console.log("Saving failed. " + err.toString());
@@ -443,6 +496,81 @@ this.prepublish = function(dirtyMarkId)
 }
 this.publish = function(dirtyMarkId)
 {
-    alert(2);
+       var success=true;
+    var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
+
+    var p=helper.getPublishPath();
+    this.currentForm.version = Math.abs(this.currentForm.version)+1;
+    var fileName = this.currentForm.id + "_" + this.currentForm.version + "_" + this.currentForm.name;
+    //fileName = helper.ensureFileNameUnique(p,fileName);
+    // check if exists in prebublished
+  
+    
+   // check if exists in published
+    files = helper.getFilesInDir(helper.getPublishPath());
+    
+    for(var i in files)
+    {
+        if(files[i].substring(0,files[i].indexOf('_')) == fileName.substring(0,fileName.indexOf('_') ))
+        {
+            // there is this file in prepublished
+            // is it older v?
+            var ver = files[i].substring( files[i].indexOf('_')+1, files[i].indexOf("_",files[i].indexOf('_')+1) );
+            if(Math.abs(this.currentForm.version)> Math.abs(ver))
+            {
+                // ok its an older version
+                // delete it
+                
+                fs.unlink(helper.join(helper.getPublishPath(), files[i]));
+            }
+            else
+            {
+                //ups! Its an newer version.
+                helper.alert("There is a newer version of this form in Publish folder! Please save this form as a copy to disk and investigate.")
+                return;
+            }
+            
+        }
+    }
+      var files = helper.getFilesInDir(helper.getPrepublishPath());
+    
+    for(var i in files)
+    {
+        if(files[i].substring(0,files[i].indexOf('_')) == fileName.substring(0,fileName.indexOf('_') ))
+        {
+            // there is this file in prepublished
+            // is it older v?
+            var ver = files[i].substring( files[i].indexOf('_')+1, files[i].indexOf("_",files[i].indexOf('_')+1) );
+            if(Math.abs(this.currentForm.version)> Math.abs(ver))
+            {
+                // ok its an older version
+                // delete it
+                 helper.alert("There is a version of this form in Prepublish folder. This version will be removed and form will be saved in Publish folder.")
+                 fs.unlink(helper.join(helper.getPrepublishPath(), files[i]));
+            }
+            else
+            {
+                //ups! Its an newer version.
+                helper.alert("There is a newer version of this form in Prepublish folder! Please save this form as a copy to disk and investigate.")
+                return;
+            }
+            
+        }
+    }
+    
+    fs.writeFile(helper.join(helper.getPublishPath(), fileName), content, function (err) {
+            if(err)
+            {
+                console.log("Saving failed. " + err.toString());
+                success=false;
+            }
+            
+        });
+        if(success)
+        {
+            $("#" + dirtyMarkId).hide();
+            index.closeTab(dirtyMarkId.replace("_dirty",""));
+            
+ }
     
 }
