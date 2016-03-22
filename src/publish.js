@@ -60,6 +60,17 @@ $(document).ready(function() {
         .click(function() {
             helper.confirm("Delete?", deletePrepublished)
         });
+    $("#buttonClearOutbox").button({
+        text: true,
+        icons: {
+            secondary: "ui-icon-trash"
+        },
+        disabled: true
+    })
+        .click(function() {
+            clearOutbox();
+        });
+
 
     pplist = $("#prepublishList");
     plist = $("#publishList");
@@ -125,7 +136,7 @@ function readFiles() {
 
     pplist.html("");
     plist.html("");
-    olist.html("");
+
     var files = helper.getFilesInDir(helper.getPrepublishPath());
     for (var i in files) {
         console.log("Found prepublished " + files[i]);
@@ -140,12 +151,7 @@ function readFiles() {
         plist.append("<input type='checkbox' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
-    files = helper.getFilesInDir(helper.getOutboxPath());
-    for (var i in files) {
-        console.log("Found outboxed " + files[i]);
-        olist.append("<input type='checkbox' id='plistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
-            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
-    }
+    refreshOutbox();
 }
 function prepublishWatchEvent(event, filename) {
 
@@ -214,7 +220,33 @@ function publishEverything() {
 
     for (var i in packages) {
         publish.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
+        savePackage(packages[i])
     }
+    refreshOutbox();
 
+}
+function savePackage(p) {
+    var content = JSON.stringify(p, null, 2);
+    helper.saveTextFile(helper.join(helper.getOutboxPath(), p.user), content);
+}
+function refreshOutbox() {
+    olist.html("");
+    var files = helper.getFilesInDir(helper.getOutboxPath());
+    for (var i in files) {
+        console.log("Found outboxed " + files[i]);
+        olist.append("<input type='hidden' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='olistItem" + i + "'>" +
+            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
+    }
+    if (files.length > 0)
+        $("#buttonClearOutbox").button("enable");
+    else
+        $("#buttonClearOutbox").button("disable");
 
+}
+function clearOutbox() {
+    var files = helper.getFilesInDir(helper.getOutboxPath());
+    for (var i in files) {
+        helper.deleteFile(helper.join(helper.getOutboxPath(), files[i]));
+    }
+    refreshOutbox();
 }
