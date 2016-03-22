@@ -94,5 +94,7 @@ this.fromGui = function() {
     this.smtpPort = $("#textSettingsSMTPServerPort").val();
     this.smtpRequiresSSL = $("#textSettingsSMTPRequiresSSL").is(':checked');
     this.RequiresAuthentication = $("#textSettingsSMTPRequiresAuthentication").is(':checked');
+    this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
+    this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
 
 }
