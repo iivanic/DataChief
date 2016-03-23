@@ -76,7 +76,7 @@ this.toGui = function() {
 
     $("#checkboxSettingsSingleAccount").prop("checked", this.useSingleAccount);
     $("#checkboxSettingsTakeOnlyOne").prop("checked", this.takeOnlyOne);;
-
+    userSettings.singleAccountToggle();
 }
 this.fromGui = function() {
     this.email = $("#textSettingsEmail").val();
@@ -96,5 +96,13 @@ this.fromGui = function() {
     this.RequiresAuthentication = $("#textSettingsSMTPRequiresAuthentication").is(':checked');
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
     this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
+
+}
+this.singleAccountToggle = function() {
+    if ($("#checkboxSettingsSingleAccount").is(':checked'))
+        $("#SMTPSettings").attr('disabled', 'disabled');
+    else
+        $("#SMTPSettings").removeAttr('disabled');
+
 
 }

@@ -113,7 +113,7 @@
                         <div class="col-sm-4">
                             <label for="outboxList">Outbox - sending</label>
                             <button id="buttonClearOutbox" style="float:right;">Clear Outbox</button>
-                       </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row" style="height:50%;">
@@ -154,160 +154,165 @@
             </div>
             <div id="maintabs-5" class="fixmyheight">
                 <h1>Application settings</h1>
-                <fieldset id="settingsField">
-                    <legend>User information</legend>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsEmail">Your Email: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="email" class="datachiefFieldText" id="textSettingsEmail" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsName">Your name: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="datachiefFieldText" id="textSettingsName" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsOrganization">Comapny or Organization: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="datachiefFieldText" id="textSettingsOrganization" />
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset id="settingsApp">
-                    <legend>Behavior</legend>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="checkboxSettingsSingleAccount">Use single IMAP account for everything </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="checkbox" class="datachiefFieldText" id="checkboxSettingsSingleAccount" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="checkboxSettingsTakeOnlyOne">Take only one message</label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="checkbox" class="datachiefFieldText" id="checkboxSettingsTakeOnlyOne" />
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset id="IMAPSettings">
-                    <legend>IMAP Settings</legend>
-                    <p>IMAP is used for managing mailbox folder</p>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsIMAPUsername">IMAP Username: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="email" class="datachiefFieldText" id="textSettingsIMAPUsername" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsIMAPPassword">IMAP Password: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="password" class="datachiefFieldText" id="textSettingsIMAPPassword" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsIMAPServer">IMAP Server: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="datachiefFieldText" id="textSettingsIMAPServer" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsIMAPServerPort">IMAP Server port: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsIMAPServerPort" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="checkbox" class="datachiefFieldText" id="textSettingsIMAPRequiresSSL" />
-                        </div>
-                    </div>
-
-                </fieldset>
-                <fieldset id="SMTPSettings">
-                    <legend>SMTP Settings</legend>
-                    <p>SMTP is used for sending Emails</p>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsSMTPRequiresAuthentication">SMTP Requires authentication: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresAuthentication" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsSMTPUsername">SMTP Username: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="email" class="datachiefFieldText" id="textSettingsSMTPUsername" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsSMTPPassword">SMTP Password: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="password" class="datachiefFieldText" id="textSettingsSMTPPassword" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsSMTPServer">SMTP Server: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="datachiefFieldText" id="textSettingsSMTPServer" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsSMTPServerPort">SMTP Server port: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsSMTPServerPort" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresSSL" />
-                        </div>
-                    </div>
-
-
-                </fieldset>
                 <div class="row">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
+                        <fieldset id="settingsField">
+                            <legend>User information</legend>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsEmail">Your Email: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="email" class="datachiefFieldText" id="textSettingsEmail" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsName">Your name: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="datachiefFieldText" id="textSettingsName" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsOrganization">Comapny or Organization: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="datachiefFieldText" id="textSettingsOrganization" />
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset id="settingsApp">
+                            <legend>Behavior</legend>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="checkboxSettingsSingleAccount">Use single IMAP account for everything </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" onchange="userSettings.singleAccountToggle()" class="datachiefFieldText" id="checkboxSettingsSingleAccount" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="checkboxSettingsTakeOnlyOne">Take only one message</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="datachiefFieldText" id="checkboxSettingsTakeOnlyOne" />
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset id="IMAPSettings">
+                            <legend>IMAP Settings</legend>
+                            <p>IMAP is used for managing mailbox folder</p>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsIMAPUsername">IMAP Username: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="email" class="datachiefFieldText" id="textSettingsIMAPUsername" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsIMAPPassword">IMAP Password: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="password" class="datachiefFieldText" id="textSettingsIMAPPassword" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsIMAPServer">IMAP Server: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="datachiefFieldText" id="textSettingsIMAPServer" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsIMAPServerPort">IMAP Server port: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsIMAPServerPort" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="datachiefFieldText" id="textSettingsIMAPRequiresSSL" />
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+                        <fieldset id="SMTPSettings">
+                            <legend>SMTP Settings</legend>
+                            <p>SMTP is used for sending Emails</p>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsSMTPRequiresAuthentication">SMTP Requires authentication: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresAuthentication" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsSMTPUsername">SMTP Username: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="email" class="datachiefFieldText" id="textSettingsSMTPUsername" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsSMTPPassword">SMTP Password: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="password" class="datachiefFieldText" id="textSettingsSMTPPassword" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsSMTPServer">SMTP Server: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="datachiefFieldText" id="textSettingsSMTPServer" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsSMTPServerPort">SMTP Server port: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsSMTPServerPort" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresSSL" />
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
                         <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
                         <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
                     </div>
-
 
                 </div>
             </div>
