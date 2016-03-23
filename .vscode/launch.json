@@ -11,7 +11,8 @@
             "cwd": "${workspaceRoot}",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
             "runtimeArgs": [
-                "--nolazy"
+                "--nolazy",
+                "--dceditor"
             ],
             "env": {
                 "NODE_ENV": "development",

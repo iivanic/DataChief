@@ -4,7 +4,7 @@ var app = require("app");
 var BrowserWindow = require("browser-window");
 var path = require("path");
 //const ipcMain = require('electron').ipcMain;
-
+ process = require("process");
 
 app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
@@ -33,7 +33,8 @@ app.on("ready", function () {
         console.log(pjson.version);
         mainWindow.setTitle(pjson.name + " version " + pjson.version);
     });
-    mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html")));
+   
+    mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html" + (process.argv.indexOf("--dceditor")>0?"?editor":"" ))));
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
