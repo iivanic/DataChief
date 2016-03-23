@@ -1,10 +1,11 @@
 var Imap = require('imap'), inspect = require('util').inspect;
+
 var imap = new Imap({
-  user: 'igor.ivanic@omniaspect.hr',
-  password: 'P@tulac00',
-  host: 'imap.gmail.com',
-  port: 993,
-  tls: true
+  user: userSettings.imapUserName,
+  password: userSettings.imapPassword,
+  host: userSettings.imapServer,
+  port: userSettings.imapPort,
+  tls: userSettings.imapRequiresSSL
 });
 
 function openInbox(cb) {
