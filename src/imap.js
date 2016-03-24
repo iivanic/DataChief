@@ -13,12 +13,18 @@ function openInbox(cb) {
 }
 
 imap.once('ready', function() {
+       $( "#progressbar" ).progressbar({
+      value: 5
+      });
   openInbox(function(err, box) {
     if (err) throw err;
     var f = imap.seq.fetch('1:3', {
       bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
       struct: true
     });
+          $( "#progressbar" ).progressbar({
+      value: 10
+      });
     f.on('message', function(msg, seqno) {
       console.log('Message #%d', seqno);
       var prefix = '(#' + seqno + ') ';
@@ -54,6 +60,9 @@ imap.once('error', function(err) {
 
 imap.once('end', function() {
   console.log('Connection ended');
+        $( "#progressbar" ).progressbar({
+      value: 100
+      });
 });
 
 imap.connect();

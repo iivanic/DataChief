@@ -213,7 +213,7 @@ this.activateEditorTab = function() {
     maintabs.tabs("option", "active", 0);
 }
 function fixTabsHeight() {
-    var winH = $(window).height();
+    var winH = $(window).outerHeight();
     /*   $('#tabs-1').each(function() {
            if ($(this).attr("id").lastIndexOf("tabs-", 0) == 0) {
                $(this).height(winH - $(this).offset().top - 55);
@@ -221,7 +221,7 @@ function fixTabsHeight() {
            }
        });*/
     $('.fixmyheight').each(function() {
-        $(this).height(winH - $(this).offset().top - 55);
+        $(this).height(winH - $(this).offset().top - 66 ) ; //- $("#maintabs-1").position().top- 20);
         $(this).css("overflow", "auto");
     });
 
