@@ -70,6 +70,16 @@ $(document).ready(function() {
         .click(function() {
             clearOutbox();
         });
+   $("#buttonSendPackages").button({
+        text: true,
+        icons: {
+            secondary: "ui-icon-transfer-e-w"
+        },
+        disabled: true
+    })
+        .click(function() {
+            imap.go();
+        });
 
 
     pplist = $("#prepublishList");
@@ -229,6 +239,7 @@ function savePackage(p) {
     var content = JSON.stringify(p, null, 2);
     helper.saveTextFile(helper.join(helper.getOutboxPath(), p.user), content);
 }
+this.refreshOutB = refreshOutbox;
 function refreshOutbox() {
     olist.html("");
     var files = helper.getFilesInDir(helper.getOutboxPath());
@@ -237,10 +248,15 @@ function refreshOutbox() {
         olist.append("<input type='hidden' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='olistItem" + i + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
-    if (files.length > 0)
+    if (files.length > 0){
         $("#buttonClearOutbox").button("enable");
+        $("#buttonSendPackages").button("enable");
+        }
     else
+    {
         $("#buttonClearOutbox").button("disable");
+        $("#buttonSendPackages").button("disable");
+        }
 
 }
 function clearOutbox() {

@@ -7,7 +7,8 @@ var imap = new Imap({
     port: userSettings.imapPort,
     tls: userSettings.imapRequiresSSL
 });
-
+var progressCnt = 0;
+var progressMax = 0;
 function openInbox(cb) {
     imap.openBox('INBOX', true, cb);
 }
@@ -80,14 +81,17 @@ imap.once('end', function() {
     $("#progressbar").progressbar({
         value: 100
     });
+    publish.refreshOutB();
 });
 
 $("#progressbar").progressbar({
     value: 5
 });
-
-imap.connect();
-
+this.go = Go;
+function Go() {
+    progressCnt = 0;
+    imap.connect();
+}
 function createDCFolder() {
     publish.log("Checking for <strong>Datachief</strong> folder...")
     imap.getBoxes("", getBoxesCallBack)
@@ -131,6 +135,7 @@ function uploadMessages(err, box) {
     else {
         publish.log("Opened <strong>datachief</strong> folder.")
         var files = helper.getFilesInDir(helper.getOutboxPath());
+        progressMax = files.length;
         var c = 0;
         for (var i in files) {
             publish.log("Sending packagage to " + files[i]);
@@ -156,7 +161,10 @@ function appendDone(err, o) {
     el.next().next().remove();
     el.next().remove();
     el.remove();
-
+    $("#progressbar").progressbar({
+        value: Math.abs(10 + 80 * progressCnt / progressMax)
+    });
+    progressCnt++;
     if (err)
         publish.log(err);
     else
