@@ -14,7 +14,7 @@ var listField = require("./listField.js");
 var currentDateTimeField = require("./currentDateTimeField.js");
 var currentUserField = require("./currentUserField.js");
 
-var helper = require("./utils.js");
+//var helper = require("./utils.js");
 
 this._propsMeta = {
     // Since string is the default no nees to specify type

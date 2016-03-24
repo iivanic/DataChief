@@ -1,7 +1,7 @@
 //var winstate = require("./winstate.js");
 var form = require("./objectmodel/form.js");
 var formEditor = require("./formEditor.js");
-var helper = require("./objectmodel/utils.js");
+
 
 function getWelcomeMessage(pjson) {
     var ret = "Welcome to " + pjson.name + " v" + pjson.version;

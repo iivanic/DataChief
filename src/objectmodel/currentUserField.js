@@ -1,6 +1,6 @@
 // iherit from base class
 this.__proto__ = require("./fieldBase.js");
-var helper = require("./utils.js");
+//var helper = require("./utils.js");
 
 this._type = "currentUserField";
 this._propsMeta = {

@@ -3,7 +3,7 @@ this.__proto__ = require("./fieldBase.js");
 
 this._type = "currentDateTimeField";
 
-var helper = require("./utils.js");
+//var helper = require("./utils.js");
 this._propsMeta = {
     // Since string is the default no nees to specify type
     _displayName: { group: 'Field Settings', name: 'Name', description: 'Name of the field.', showHelp: true },

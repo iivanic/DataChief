@@ -4,7 +4,7 @@ this._multiline = false;
 this._regexp = "";
 this._regexpErrorMessage = "";
 this._maxlength = 1000;
-var helper = require("./utils.js");
+//var helper = require("./utils.js");
 
 this._propsMeta = {
     // Since string is the default no nees to specify type

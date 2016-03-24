@@ -4,7 +4,7 @@ this._multiselect = false;
 this._options = "Yes;No";
 this._type = "listField";
 
-var helper = require("./utils.js");
+//var helper = require("./utils.js");
 
 this._propsMeta = {
     // Since string is the default no nees to specify type
