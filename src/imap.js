@@ -90,6 +90,8 @@ $("#progressbar").progressbar({
 this.go = Go;
 function Go() {
     progressCnt = 0;
+       publish.log('Connecting...');
+
     imap.connect();
 }
 function createDCFolder() {
