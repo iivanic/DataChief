@@ -100,55 +100,74 @@
 
             <div id="maintabs-2" class="fixmyheight">
 
-                <div style="height:10%;">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="prepublishList">Prepublish folder</label>
-                            <button id="button2Publish" style="float:right;">Move</button>
-                            <button id="buttonDeletePrepublished" style="float:right;">Delete</button>
-                            <button id="buttonEditPrepublished" style="float:right;">Edit</button>
+                <div style="height:100%;">
+                    <div class="row" style="height:70%;">
+                        <div class="col-sm-4" style="height:100%;">
+                            <div class="row" style="height:8%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <label for="prepublishList">Prepublish folder</label>
+                                </div>
+                            </div>
+                            <div class="row" style="height:10%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <button id="button2Publish" style="float:right;">Move</button>
+                                    <button id="buttonDeletePrepublished" style="float:right;">Delete</button>
+                                    <button id="buttonEditPrepublished" style="float:right;">Edit</button>
+                                </div>
+                            </div>
+                            <div class="row" style="height:82%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <div id="prepublishList" style="height:100%;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-sm-4" style="text-align:center;">
-                            <button id="button2Prepublish" style="float:left">Move</button>
-                            <label for="publishList">Publish folder</label>
-                            <button id="buttonPublish" style="float:right;">Publish all forms</button>
+                        <div class="col-sm-4" style="text-align:center;height:100%;">
+                            <div class="row" style="height:8%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <label for="publishList">Publish folder</label>
+                                </div>
+                            </div>
+                            <div class="row" style="height:10%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <button id="button2Prepublish" style="float:left">Move</button>
+                                    <button id="buttonPublish" style="float:right;">Publish all forms</button>
+                                </div>
+                            </div>
+                            <div class="row" style="height:82%;">
+                                <div class="col-sm-12" style="text-align:center;height:100%;">
+                                    <div id="publishList" style="height:100%;text-align:left;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-4">
-                            <label for="outboxList">Outbox - sending</label>
-                            <button id="buttonClearOutbox" style="float:right;">Clear Outbox</button>
-                            <button id="buttonSendPackages" style="float:right;">Send</button>
+                        <div class="col-sm-4" style="height:100%;">
+                            <div class="row" style="height:8%;">
+                                <div class="col-sm-12" style="height:100%;text-align:right;">
+                                    <label for="outboxList">Outbox - sending</label>
+                                </div>
+                            </div>
+                            <div class="row" style="height:10%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <button id="buttonClearOutbox" style="float:right;">Clear Outbox</button>
+                                    <button id="buttonSendPackages" style="float:right;">Send</button>
+                                </div>
+                            </div>
+                            <div class="row" style="height:82%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <div id="outboxList" style="height:100%;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row" style="height:50%;">
-
-                    <div class="col-sm-4" style="height:100%;">
-
-                        <div id="prepublishList">
-
+                    <div class="row" style="height:30%;">
+                        <div class="col-sm-12" style="height:100%;">
+                            <div id="logList" style="margin-top:10px;box-sizing: border-box; width:100%;height:100%;overflow:auto;">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-4" style="height:100%;">
 
-                        <div id="publishList">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="height:100%;">
-
-                        <div id="outboxList">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="height:40%;">
-                    <div class="col-sm-12" style="height:100%;">
-
-                        <div id="logList" style="margin-top:10px;box-sizing: border-box; width:100%;height:100%;overflow:auto;">
-
-                        </div>
-                    </div>
                 </div>
             </div>
             <div id="maintabs-3" class="fixmyheight">
@@ -358,7 +377,10 @@
 
         </div>
         <div style="height:30px;width:100%;font-weight:bold;background-color:white;border: 1px solid silver;text-align:right;padding-right:15px;padding-left:15px;padding-top:2px;">
-            <div style="width:200px;float:right" ><div id="progressbar" style="height:1.5em;"></div></div><div id="statusbar-message" style="width:200px;float:right;padding-right:10px;" >Ready.</div>
+            <div style="width:200px;float:right">
+                <div id="progressbar" style="height:1.5em;"></div>
+            </div>
+            <div id="statusbar-message" style="width:200px;float:right;padding-right:10px;">Ready.</div>
         </div>
     </div>
 
