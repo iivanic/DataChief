@@ -4,6 +4,7 @@
 -Filler - Form templates, work, recieved forms.
 -Real Queue for outbox
 -Data Collection + broadcast graphs
+-Passwords and org secret encryption
 
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
