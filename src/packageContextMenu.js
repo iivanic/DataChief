@@ -7,26 +7,33 @@ function bindPackageContextMenu()
 		preventSelect: true,
 		taphold: true,
 		menu: [
-			{title: "Cut <kbd>Ctrl+X</kbd>", cmd: "cut", uiIcon: "ui-icon-scissors"},
-			{title: "Copy <kbd>Ctrl+C</kbd>", cmd: "copy", uiIcon: "ui-icon-copy"},
-			{title: "Paste <kbd>Ctrl+V</kbd>", cmd: "paste", uiIcon: "ui-icon-clipboard", disabled: true },
+		//	{title: "Cut <kbd>Ctrl+X</kbd>", cmd: "cut", uiIcon: "ui-icon-scissors"},
+			
+			{title: "Delete", cmd: "delete", uiIcon: "ui-icon-trash"},
 			{title: "----"},
-			{title: "More", children: [
-				{title: "Sub 1 (using callback)", action: function(event, ui) { alert("action callback sub1");} },
-				{title: "Sub 2 with a long title<kbd>[F2]</kbd>", cmd: "sub2"},
-				{title: "Sub 3 <label>Please select: <input type='checkbox' name='sub2'></label>", cmd: "sub3"}
+			{title: "Add Command to package",  uiIcon: "ui-icon-script", children: [
+				
+				{title: "Revoke published templates",  uiIcon: "ui-icon-close", cmd: "revoke"},
+				{title: "Delete local copies",  uiIcon: "ui-icon-cancel", cmd: "deletelocalcopies"},
+				{title: "Send message",  uiIcon: "ui-icon-note", cmd: "message"}
 				]}
 			],
 		// Handle menu selection to implement a fake-clipboard
 		select: function(event, ui) {
 			var $target = ui.target;
 			switch(ui.cmd){
-			case "copy":
+			case "delete":
 				CLIPBOARD = $target.text();
 				break
-			case "paste":
+			case "revoke":
 				CLIPBOARD = "";
-				break
+				break;
+           case "deletelocalcopies":
+				CLIPBOARD = "";
+				break;
+           case "message":
+				CLIPBOARD = "";
+				break;
 			}
 			alert("select " + ui.cmd + " on " + $target.text());
 			// Optionally return false, to prevent closing the menu now

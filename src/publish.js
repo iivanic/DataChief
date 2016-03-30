@@ -18,7 +18,8 @@ $(document).ready(function() {
         disabled: true
     })
         .click(function() {
-            helper.confirm("Move to Publish Folder?", move2Published);
+            //helper.confirm("Move to Publish Folder?", move2Published);
+            move2Published();
         });
     $("#buttonEditPrepublished").button({
         text: true,
@@ -38,7 +39,8 @@ $(document).ready(function() {
         disabled: true
     })
         .click(function() {
-            helper.confirm("Move back to Prepublish Folder?", move2Prepublished);
+            //helper.confirm("Move back to Prepublish Folder?", move2Prepublished);
+            move2Prepublished();
         });
     $("#buttonPublish").button({
         text: true,
@@ -191,6 +193,12 @@ this.info = function() {
 
     }
 }
+this.packageinfo = function(filename) {
+    file = helper.loadFile(filename);
+    var loadedObj = JSON.parse(file);
+    this.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
+
+}
 function publishEverything() {
     items = $("#publishList input");
     var packages = new Array();
@@ -202,7 +210,7 @@ function publishEverything() {
         var users = loadedObj.publishTo.split(",");
         for (var ui = 0; ui < users.length; ui++) {
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { user: users[ui], forms: new Array() };
+                packages[users[ui]] = { user: users[ui], forms: new Array(), commands: new Array() };
                 pCount++;
             }
             packages[users[ui]].forms.push(loadedObj);
@@ -212,7 +220,7 @@ function publishEverything() {
     publish.log("<strong>" + pCount + "</strong> Package(s):");
 
     for (var i in packages) {
-        publish.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
+        publish.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s) and <strong>" + packages[i].commands.length + "</strong> commands(s).");
         savePackage(packages[i])
     }
     refreshOutbox();
@@ -228,7 +236,7 @@ function refreshOutbox() {
     var files = helper.getFilesInDir(helper.getOutboxPath());
     for (var i in files) {
         console.log("Found outboxed " + files[i]);
-        olist.append("<input type='hidden' class='hasmenu' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label  class='hasmenu' for='olistItem" + i + "'>" +
+        olist.append("<input type='hidden' class='hasmenu' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#olistItem" + i + "').val());\" class='hasmenu' for='olistItem" + i + "'>" +
             files[i] + "</label><br>");
     }
     if (files.length > 0) {
