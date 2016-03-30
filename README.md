@@ -18,8 +18,8 @@ You don't have to be blocked anymore by expensive Line of business (LOB) applica
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
 * Multiplatform (developed in Electron)
     * Windows
-    * Linux 'works, additional testing needed'
-    * Mac OSX 'testing needed'
+    * Linux
+    * Mac OSX
 * Planned features
     * - Visual and user friendly form designer '90%'
     * Many type of controls

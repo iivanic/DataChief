@@ -90,3 +90,7 @@ z-index:9999 ;}
 .ui-tabs-panel {
     background-color: white;
 }
+#prepublishList>input, #prepublishList>label, #publishList>input, #publishList>label, #outboxList>input, #outboxList>label
+{
+    cursor:pointer;
+}

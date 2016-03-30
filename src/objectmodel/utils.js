@@ -3,7 +3,10 @@ var fs = require("fs");
 var path = require("path");
 var remote = require('remote'); 
 var dialog = remote.require('dialog');
-
+var pwd="P@s$w0Rd";
+var crypto = require('crypto');
+var cipher = crypto.createCipher('aes192', pwd);
+var decipher = crypto.createDecipher('aes192', pwd);
 
 this.generateGUID = function () {
     // not a real GUID, just a big random number
@@ -162,27 +165,25 @@ this.getSentPath = function () {
 this.getFilesInDir = function (p) {
   return fs.readdirSync(p);
 };
-this.ensureFileNameUnique= function(p,filename)
+this.padNumber = function(number, size) {
+      var s = String(number);
+      while (s.length < (size || 2)) {s = "0" + s;}
+      return s;
+    } 
+this.addNumberPrefix2File= function(p,filename)
 {
+  var maxFile = 0;
   var files =   this.getFilesInDir(p);
   for(var i in files)
   {
-      if(files[i]==filename)
-      {
-        var cnt=0;
-        do{
-            var fn = path.basename(filename);
-            var end = fn.lastIndexOf("_");
-            if(end<0)
-                end = fn.length;
-            filename = fn.substr(0,end) + "_" + cnt.toString() + path.extname(filename) ;
-            cnt++;
-        } while(files[i]==filename)
+      var existingFileIndex=Math.abs(files[i].substr(0,5));
+     if(existingFileIndex>maxFile)
+     maxFile=existingFileIndex;
       
-        }   
   }
   
-  return path.join(p,filename);
+  
+  return path.join(p,this.padNumber(maxFile+1,5) + " " + filename);
 }
 this.moveFile = function(srcP, dstP)
 {
@@ -229,12 +230,16 @@ this.confirm = function(message, callback)
                 }
             });
 }
-// fs.renameSync(oldPath, newPath)
-this.watchFolder = function(dir, callback, publishObj)
-{
-    // instantiate the watcher
-    var watcher = fs.watch(dir);
 
-    // track changes later
-    watcher.on('change',callback); 
+this.encrypt = function(text)
+{
+    var encrypted = cipher.update('some clear text data', 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
+}
+this.decrypt= function(encrypted)
+{
+    var decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
 }

@@ -70,7 +70,7 @@ $(document).ready(function() {
         .click(function() {
             clearOutbox();
         });
-   $("#buttonSendPackages").button({
+    $("#buttonSendPackages").button({
         text: true,
         icons: {
             secondary: "ui-icon-transfer-e-w"
@@ -163,24 +163,7 @@ function readFiles() {
     }
     refreshOutbox();
 }
-function prepublishWatchEvent(event, filename) {
 
-    switch (event) {
-        case "rename":
-            break;
-        case "change":
-            break;
-    }
-}
-function publishWatchEvent(event, filename) {
-
-    switch (event) {
-        case "rename":
-            break;
-        case "change":
-            break;
-    }
-}
 this.log = function(txt) {
 
     llist.append(txt + "<br>");
@@ -237,7 +220,7 @@ function publishEverything() {
 }
 function savePackage(p) {
     var content = JSON.stringify(p, null, 2);
-    helper.saveTextFile(helper.join(helper.getOutboxPath(), p.user), content);
+    helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), p.user), content);
 }
 this.refreshOutB = refreshOutbox;
 function refreshOutbox() {
@@ -245,18 +228,18 @@ function refreshOutbox() {
     var files = helper.getFilesInDir(helper.getOutboxPath());
     for (var i in files) {
         console.log("Found outboxed " + files[i]);
-        olist.append("<input type='hidden' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label for='olistItem" + i + "'>" +
-            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
+        olist.append("<input type='hidden' class='hasmenu' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label  class='hasmenu' for='olistItem" + i + "'>" +
+            files[i] + "</label><br>");
     }
-    if (files.length > 0){
+    if (files.length > 0) {
         $("#buttonClearOutbox").button("enable");
         $("#buttonSendPackages").button("enable");
-        }
-    else
-    {
+        bindPackageContextMenu();
+    }
+    else {
         $("#buttonClearOutbox").button("disable");
         $("#buttonSendPackages").button("disable");
-        }
+    }
 
 }
 function clearOutbox() {

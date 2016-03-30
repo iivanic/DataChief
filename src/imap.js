@@ -140,12 +140,13 @@ function uploadMessages(err, box) {
         progressMax = files.length;
         var c = 0;
         for (var i in files) {
-            publish.log("Sending packagage to " + files[i]);
+            var to = files[i].substring(6);
+            publish.log("Sending packagage to " + to);
             var filename = helper.join(helper.getOutboxPath(), files[i]);
             var body = helper.loadFile(filename);
             var message =
                 "From: " + userSettings.email + "\n" +
-                "To: " + files[i] + " \n" +
+                "To: " + to + " \n" +
                 "Subject: DataChief package\n" +
                 "\n" + body + "\n";
 
