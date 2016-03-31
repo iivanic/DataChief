@@ -1,7 +1,7 @@
 var remote = require("remote");
 
 var Menu = remote.require("menu");
-var menu = Menu.buildFromTemplate([
+/*var menu = Menu.buildFromTemplate([
     {
         label: "DataChief Filler",
         submenu: [
@@ -14,5 +14,5 @@ var menu = Menu.buildFromTemplate([
 
         ]
     }
-]);
-Menu.setApplicationMenu(menu);
+]); */
+//Menu.setApplicationMenu(null); //menu);

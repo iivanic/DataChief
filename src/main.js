@@ -1,5 +1,3 @@
-var debug = true;
-
 var app = require("app");
 var BrowserWindow = require("browser-window");
 var path = require("path");
