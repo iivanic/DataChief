@@ -68,8 +68,6 @@ function addTab(opened, exampleName) {
 var boolfix = false;
 $(document).ready(function() {
     userSettings.toGui();
-    $("#resettings").button();
-    $("#savesettings").button();
     var shell = require('electron').shell;
     //open links externally by default
     $(document).on('click', 'a[href^="http"]', function(event) {

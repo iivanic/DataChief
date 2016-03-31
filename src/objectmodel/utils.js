@@ -233,7 +233,7 @@ this.confirm = function(message, callback)
 
 this.encrypt = function(text)
 {
-    var encrypted = cipher.update('some clear text data', 'utf8', 'hex');
+    var encrypted = cipher.update(text, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
 }

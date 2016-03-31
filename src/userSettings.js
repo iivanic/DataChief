@@ -14,6 +14,7 @@ this.ctor = function() {
     console.log("userfile=" + this.filePath);
     this.email = "";
     this.name = "";
+    this.userSecret = "";
     this.organization = "";
 
     this.imapUserName = "";
@@ -33,9 +34,11 @@ this.ctor = function() {
     this.takeOnlyOne = true;
 
     this.userList = new Array();
+    this.organizationMembers = new Array();
+
     var file = "";
     try {
-        file = helper.loadFile(this.filePath)
+        file = helper.decrypt(helper.loadFile(this.filePath));
     } catch (ex)
     { }
     if (!file) {
@@ -43,7 +46,7 @@ this.ctor = function() {
         this.email = helper.getCurrentUsername();
         this.userList.push(this.email);
         this.userList.push("initiator");
-        helper.saveTextFile(this.filePath, JSON.stringify(this, null, 5));
+        helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
     }
     else {
         var loadedObj = JSON.parse(file);
@@ -54,7 +57,7 @@ this.ctor = function() {
 
 }
 this.save = function() {
-    helper.saveTextFile(this.filePath, JSON.stringify(this, null, 5));
+    helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
 }
 this.toGui = function() {
     $("#textSettingsEmail").val(this.email);
@@ -75,8 +78,64 @@ this.toGui = function() {
     $("#textSettingsSMTPRequiresAuthentication").prop("checked", (this.RequiresAuthentication));
 
     $("#checkboxSettingsSingleAccount").prop("checked", this.useSingleAccount);
-    $("#checkboxSettingsTakeOnlyOne").prop("checked", this.takeOnlyOne);;
+    $("#checkboxSettingsTakeOnlyOne").prop("checked", this.takeOnlyOne);
+
+    $("#textSettingsUSerSecret").val(this.userSecret);
+    $("#textSettingsUSerSecret1").val(this.userSecret);
+
+
     userSettings.singleAccountToggle();
+
+    $("#resettings").button();
+    $("#savesettings").button();
+
+
+    $("#editOrgMemberShowPassword").button(
+        { icons: {
+            secondary: "ui-icon-notice"
+        }
+ 
+    }).click(
+         function() {
+            if ($("#editOrgMemberSecret").prop("type") == "password")
+                $("#editOrgMemberSecret").prop("type", "text");
+            else
+                $("#editOrgMemberSecret").prop("type", "password");
+
+        }
+    ) ;
+    $("#addOrgMember").button().click(
+        function() {
+            addOrgMember();
+        }
+    );
+
+
+}
+function addOrgMember() {
+    var newFormDialog = $("#editOrgMember").dialog({
+        autoOpen: true,
+        modal: true,
+        width: "470",
+        height: "440",
+
+        buttons: {
+            "Save user": function() {
+                addTab(false, "");
+                $(this).dialog("close");
+            },
+            Cancel: function() {
+                $("#editOrgMemberEmail").val("");
+                $("#editOrgMemberName").val("");
+                $("#editOrgMemberSecret").val("");
+                $("#editOrgMemberSecret1").val("");
+                $(this).dialog("close");
+            }
+        },
+        close: function() {
+
+        }
+    });
 }
 this.fromGui = function() {
     this.email = $("#textSettingsEmail").val();
@@ -96,6 +155,8 @@ this.fromGui = function() {
     this.RequiresAuthentication = $("#textSettingsSMTPRequiresAuthentication").is(':checked');
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
     this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
+    this.userSecret = $("#textSettingsUSerSecret").val();
+
 
 }
 this.singleAccountToggle = function() {

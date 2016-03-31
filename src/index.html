@@ -17,9 +17,9 @@
         var helper = require("./objectmodel/utils.js");
     </script>
     <script src='ctlBox.js'></script>
-	<script src="packageContextMenu.js" type="text/javascript"></script>
-	<script src="jquery-taphold/taphold.js" type="text/javascript"></script>
-	<script src="jquery.ui-contextmenu/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
+    <script src="packageContextMenu.js" type="text/javascript"></script>
+    <script src="jquery-taphold/taphold.js" type="text/javascript"></script>
+    <script src="jquery.ui-contextmenu/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
@@ -48,7 +48,29 @@
                 </fieldset>
             </form>
         </div>
+        <div id="editOrgMember" title="Organization member" style="display:none;">
+            <fieldset class="ui-helper-reset">
+                <label for="editOrgMemberEmail">User Email</label>
+                <br> Please enter user Email
+                <input type="email" id="editOrgMemberEmail" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
+                <br />
+                <label for="editOrgMemberName">User Name</label>
+                <br> Please enter user Name
+                <input type="text" id="editOrgMemberName" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
+                <br />
+                <label for="editOrgMemberSecret">User Secret</label>
+                <br> Please enter user Secret <button id="editOrgMemberShowPassword" style="float:right">Show/hide secret</button><br><br>
+                <input type="password" id="editOrgMemberSecret" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
+                <br />
+                <label for="editOrgMemberSecret1">User Email</label>
+                <br> Please enter name for your form
+                <input type="password" id="editOrgMemberSecret1" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
+                <br />
+                <br />
 
+            </fieldset>
+
+        </div>
         <div id="dialog-confirm-remove-tab" style="display:none;" title="Delete not saved Form?">
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Form has not been saved.
                 Are you sure you want to delete it?</p>
@@ -201,6 +223,22 @@
                                     <input type="text" class="datachiefFieldText" id="textSettingsName" />
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsUSerSecret">Your secret: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="password" class="datachiefFieldText" id="textSettingsUSerSecret" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsUSerSecret1">Repeat Your secret: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="password" class="datachiefFieldText" id="textSettingsUSerSecret1" />
+                                </div>
+                            </div>
                         </fieldset>
                         <fieldset id="settingsOrg">
                             <legend>Organization</legend>
@@ -229,7 +267,43 @@
                                     <input type="password" class="datachiefFieldText" id="textSettingsOrganizationSecret1" />
                                 </div>
                             </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="textSettingsOrganizationSecret1">Organization Members: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Email
+                                        </div>
+                                        <div class="col-sm-3">
+                                            Name
+                                        </div>
+                                        <div class="col-sm-3">
+                                            Secret
+                                        </div>
+                                        <div class="col-sm-3">
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-sm-12">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <button id="addOrgMember" style="float:right;">Add organization member</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </fieldset>
+
+                    </div>
+                    <div class="col-sm-6">
                         <fieldset id="settingsApp">
                             <legend>Behavior</legend>
                             <p>Data Chief config</p>
@@ -251,8 +325,6 @@
                                 </div>
                             </div>
                         </fieldset>
-                    </div>
-                    <div class="col-sm-6">
                         <fieldset id="IMAPSettings">
                             <legend>IMAP Settings</legend>
                             <p>IMAP is used for managing mailbox folder</p>
