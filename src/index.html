@@ -199,353 +199,286 @@
                 </div>
             </div>
             <div id="maintabs-3" class="fixmyheight">
-                            <div id="FillerVtabs" style="height:100%;">
-                    <script>
-                        $(function() {
-    $( "#FillerVtabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    $( "#FillerVtabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-  });
-                    </script>
-                    <style>
-                        .ui-tabs-vertical .ui-tabs-nav {
-                            padding: .2em .1em .2em .2em;
-                            float: left;
-                        }
-                        
-                        .ui-tabs-vertical .ui-tabs-nav li {
-                            clear: left;
-                            width: 100%;
-                            border-bottom-width: 1px !important;
-                            border-right-width: 0 !important;
-                            margin: 0 -1px .2em 0;
-                        }
-                        
-                        .ui-tabs-vertical .ui-tabs-nav li a {
-                            display: block;
-                        }
-                        
-                        .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
-                            padding-bottom: 0;
-                            padding-right: .1em;
-                            border-right-width: 1px;
-                        }
-                        
-                        .ui-tabs-vertical .ui-tabs-panel {
-                            padding: 1em;
-                            float: right;
-                            width: 40em;
-                        }
-                    </style>
+
+                <ul style="width:100%">
+
+                    <li style="width:100%"><a style="width:100%" href="#FillerVtabs-1">Published to me</a></li>
+                    <li style="width:100%"><a style="width:100%" href="#FillerVtabs-2">Recieved from other employees</a></li>
+                    <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3">Work / half-filled</a></li>
+                    <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3">Sent forms</a></li>
+
+                </ul>
 
 
-                    <div class="row" style="width:100%;height:100%;">
-                        <div class="col-sm-3">
-                            <ul style="width:100%">
+            </div>
 
-                                <li  style="width:100%"><a style="width:100%" href="#FillerVtabs-1">Create new Form</a></li>
 
-                                <li  style="width:100%"><a style="width:100%" href="#FillerVtabs-2">Fill out recieved Form</a></li>
 
-                                <li  style="width:100%"><a style="width:100%" href="#FillerVtabs-3">Work </a></li>
-
-                            </ul>
+     
+        <div id="maintabs-4" class="fixmyheight">
+            <p>Data collection & analysis</p>
+            <p>Please choose form:</p>
+            <select>
+                <option>dsadasdas</option>
+                <option>e12e23</option>
+                <option>r432rr43r34t</option>
+            </select>
+            <button>Export data</button>
+            <button>Delete data</button>
+        </div>
+        <div id="maintabs-5" class="fixmyheight">
+            <h1>Application settings</h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <fieldset id="settingsField">
+                        <legend>User information</legend>
+                        <p>Enter your email and Name</p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsEmail">Your Email: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="email" class="datachiefFieldText" id="textSettingsEmail" />
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <div id="FillerVtabs-1"  style="width:100%;">
-
-                                <h2>Create new Form(s)</h2>
-
-                                <p>Here is the list of Forms that are published to you.</p>
-
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsName">Your name: </label>
                             </div>
-
-                            <div id="FillerVtabs-2"  style="width:100%">
-
-                                <h2>Fill out recieved Form(s)</h2>
-
-                                <p>This is list of forms that are sent to you from other users in your organization. You need to fill out your part and submit them.
-                                </p>
-
+                            <div class="col-sm-8">
+                                <input type="text" class="datachiefFieldText" id="textSettingsName" />
                             </div>
-
-                            <div id="FillerVtabs-3"  style="width:100%">
-
-                                <h2>Half-filled/Work forms</h2>
-
-                                <p>Here are forms tha you have not yet finished.</p>
-
-                            </div>
-
                         </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div id="maintabs-4" class="fixmyheight">
-                <p>Data collection & analysis</p>
-                <p>Please choose form:</p>
-                <select>
-                    <option>dsadasdas</option>
-                    <option>e12e23</option>
-                    <option>r432rr43r34t</option>
-                </select>
-                <button>Export data</button>
-                <button>Delete data</button>
-            </div>
-            <div id="maintabs-5" class="fixmyheight">
-                <h1>Application settings</h1>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <fieldset id="settingsField">
-                            <legend>User information</legend>
-                            <p>Enter your email and Name</p>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsEmail">Your Email: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="email" class="datachiefFieldText" id="textSettingsEmail" />
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsUSerSecret">Your secret: </label>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsName">Your name: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" class="datachiefFieldText" id="textSettingsName" />
-                                </div>
+                            <div class="col-sm-8">
+                                <input type="password" class="datachiefFieldText" id="textSettingsUSerSecret" />
                             </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsUSerSecret">Your secret: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="password" class="datachiefFieldText" id="textSettingsUSerSecret" />
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsUSerSecret1">Repeat Your secret: </label>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsUSerSecret1">Repeat Your secret: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="password" class="datachiefFieldText" id="textSettingsUSerSecret1" />
-                                </div>
+                            <div class="col-sm-8">
+                                <input type="password" class="datachiefFieldText" id="textSettingsUSerSecret1" />
                             </div>
-                        </fieldset>
-                        <fieldset id="settingsOrg">
-                            <legend>Organization</legend>
-                            <p>Important info about your organization</p>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsOrganization">Comapny or Organization: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" class="datachiefFieldText" id="textSettingsOrganization" />
-                                </div>
+                        </div>
+                    </fieldset>
+                    <fieldset id="settingsOrg">
+                        <legend>Organization</legend>
+                        <p>Important info about your organization</p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsOrganization">Comapny or Organization: </label>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsOrganizationSecret">Organization secret: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="password" class="datachiefFieldText" id="textSettingsOrganizationSecret" />
-                                </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="datachiefFieldText" id="textSettingsOrganization" />
                             </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsOrganizationSecret1">Repeat organization secret: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="password" class="datachiefFieldText" id="textSettingsOrganizationSecret1" />
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsOrganizationSecret">Organization secret: </label>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsOrganizationSecret1">Organization Members: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            Email
-                                        </div>
-                                        <div class="col-sm-4">
-                                            Name
-                                        </div>
-                                        <div class="col-sm-4">
-
-                                        </div>
+                            <div class="col-sm-8">
+                                <input type="password" class="datachiefFieldText" id="textSettingsOrganizationSecret" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsOrganizationSecret1">Repeat organization secret: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="password" class="datachiefFieldText" id="textSettingsOrganizationSecret1" />
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsOrganizationSecret1">Organization Members: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        Email
                                     </div>
-                                    <div class="row">
-
-                                        <div class="col-sm-12">
-                                            <hr />
-                                        </div>
+                                    <div class="col-sm-4">
+                                        Name
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <button id="addOrgMember" style="float:right;">Add organization member</button>
-                                        </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+                                        <hr />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button id="addOrgMember" style="float:right;">Add organization member</button>
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
-
-                    </div>
-                    <div class="col-sm-6">
-                        <fieldset id="settingsApp">
-                            <legend>Behavior</legend>
-                            <p>Data Chief config</p>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="checkboxSettingsSingleAccount">Use single IMAP account for everything </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input disabled="disabled" type="checkbox" onchange="userSettings.singleAccountToggle()" class="datachiefFieldText" id="checkboxSettingsSingleAccount"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="checkboxSettingsTakeOnlyOne">Take only one message</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="checkbox" class="datachiefFieldText" id="checkboxSettingsTakeOnlyOne" />
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset id="IMAPSettings">
-                            <legend>IMAP Settings</legend>
-                            <p>IMAP is used for managing mailbox folder</p>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsIMAPUsername">IMAP Username: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="email" class="datachiefFieldText" id="textSettingsIMAPUsername" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsIMAPPassword">IMAP Password: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="password" class="datachiefFieldText" id="textSettingsIMAPPassword" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsIMAPServer">IMAP Server: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" class="datachiefFieldText" id="textSettingsIMAPServer" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsIMAPServerPort">IMAP Server port: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsIMAPServerPort" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="checkbox" class="datachiefFieldText" id="textSettingsIMAPRequiresSSL" />
-                                </div>
-                            </div>
-
-                        </fieldset>
-
-                        <fieldset id="SMTPSettings">
-                            <legend>SMTP Settings</legend>
-                            <p>SMTP is used for sending Emails</p>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsSMTPRequiresAuthentication">SMTP Requires authentication: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresAuthentication" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsSMTPUsername">SMTP Username: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="email" class="datachiefFieldText" id="textSettingsSMTPUsername" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsSMTPPassword">SMTP Password: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="password" class="datachiefFieldText" id="textSettingsSMTPPassword" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsSMTPServer">SMTP Server: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" class="datachiefFieldText" id="textSettingsSMTPServer" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsSMTPServerPort">SMTP Server port: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsSMTPServerPort" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresSSL" />
-                                </div>
-                            </div>
-
-
-                        </fieldset>
-                    </div>
+                        </div>
+                    </fieldset>
 
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
-                        <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
-                    </div>
+                <div class="col-sm-6">
+                    <fieldset id="settingsApp">
+                        <legend>Behavior</legend>
+                        <p>Data Chief config</p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="checkboxSettingsSingleAccount">Use single IMAP account for everything </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input disabled="disabled" type="checkbox" onchange="userSettings.singleAccountToggle()" class="datachiefFieldText" id="checkboxSettingsSingleAccount"
+                                />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="checkboxSettingsTakeOnlyOne">Take only one message</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="checkbox" class="datachiefFieldText" id="checkboxSettingsTakeOnlyOne" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset id="IMAPSettings">
+                        <legend>IMAP Settings</legend>
+                        <p>IMAP is used for managing mailbox folder</p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsIMAPUsername">IMAP Username: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="email" class="datachiefFieldText" id="textSettingsIMAPUsername" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsIMAPPassword">IMAP Password: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="password" class="datachiefFieldText" id="textSettingsIMAPPassword" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsIMAPServer">IMAP Server: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="datachiefFieldText" id="textSettingsIMAPServer" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsIMAPServerPort">IMAP Server port: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsIMAPServerPort" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="checkbox" class="datachiefFieldText" id="textSettingsIMAPRequiresSSL" />
+                            </div>
+                        </div>
 
+                    </fieldset>
+
+                    <fieldset id="SMTPSettings">
+                        <legend>SMTP Settings</legend>
+                        <p>SMTP is used for sending Emails</p>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsSMTPRequiresAuthentication">SMTP Requires authentication: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresAuthentication" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsSMTPUsername">SMTP Username: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="email" class="datachiefFieldText" id="textSettingsSMTPUsername" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsSMTPPassword">SMTP Password: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="password" class="datachiefFieldText" id="textSettingsSMTPPassword" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsSMTPServer">SMTP Server: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" class="datachiefFieldText" id="textSettingsSMTPServer" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsSMTPServerPort">SMTP Server port: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsSMTPServerPort" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresSSL" />
+                            </div>
+                        </div>
+
+
+                    </fieldset>
                 </div>
+
             </div>
-            <div id="maintabs-6" class="fixmyheight">
-                <div style="height:100%;">
-                    <img src="../icons/Filler.png" style="float:left;padding-right:24px;;padding-top:12px;" />
-                    <br>
-                    <p>Version: <strong id="about_ver">.</strong></p>
-                    <p>Author: <strong id="about_author">.</strong></p>
-                    <p>Released under: <strong id="about_lic">.</strong></p>
-                    <p>Get the source code <a href="http://www.github.com/iivanic/datachief" target="_blank">from GitHub</a>.</p>
-                    <p id="description">...</p>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
+                    <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
                 </div>
 
+            </div>
+        </div>
+        <div id="maintabs-6" class="fixmyheight">
+            <div style="height:100%;">
+                <img src="../icons/Filler.png" style="float:left;padding-right:24px;;padding-top:12px;" />
+                <br>
+                <p>Version: <strong id="about_ver">.</strong></p>
+                <p>Author: <strong id="about_author">.</strong></p>
+                <p>Released under: <strong id="about_lic">.</strong></p>
+                <p>Get the source code <a href="http://www.github.com/iivanic/datachief" target="_blank">from GitHub</a>.</p>
+                <p id="description">...</p>
             </div>
 
         </div>
-        <div style="height:30px;width:100%;font-weight:bold;background-color:white;border: 1px solid silver;text-align:right;padding-right:15px;padding-left:15px;padding-top:2px;">
-            <div style="width:200px;float:right">
-                <div id="progressbar" style="height:1.5em;"></div>
-            </div>
-            <div id="statusbar-message" style="width:200px;float:right;padding-right:10px;">Ready.</div>
+
+    </div>
+    <div style="height:30px;width:100%;font-weight:bold;background-color:white;border: 1px solid silver;text-align:right;padding-right:15px;padding-left:15px;padding-top:2px;">
+        <div style="width:200px;float:right">
+            <div id="progressbar" style="height:1.5em;"></div>
         </div>
+        <div id="statusbar-message" style="width:200px;float:right;padding-right:10px;">Ready.</div>
+    </div>
     </div>
 
 
