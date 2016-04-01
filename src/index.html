@@ -60,7 +60,10 @@
                 <input type="text" id="editOrgMemberName" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
                 <br />
                 <label for="editOrgMemberSecret">User Secret</label>
-                <br> Please enter user Secret <button id="editOrgMemberShowPassword" style="float:right">Show/hide secret</button><br><br>
+                <br> Please enter user Secret
+                <button id="editOrgMemberShowPassword" style="float:right">Show/hide secret</button>
+                <br>
+                <br>
                 <input type="password" id="editOrgMemberSecret" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
                 <br />
                 <label for="editOrgMemberSecret1">User Email</label>
@@ -196,10 +199,99 @@
                 </div>
             </div>
             <div id="maintabs-3" class="fixmyheight">
-                <p>Filler</p>
+                            <div id="FillerVtabs" style="height:100%;">
+                    <script>
+                        $(function() {
+    $( "#FillerVtabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    $( "#FillerVtabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+  });
+                    </script>
+                    <style>
+                        .ui-tabs-vertical .ui-tabs-nav {
+                            padding: .2em .1em .2em .2em;
+                            float: left;
+                        }
+                        
+                        .ui-tabs-vertical .ui-tabs-nav li {
+                            clear: left;
+                            width: 100%;
+                            border-bottom-width: 1px !important;
+                            border-right-width: 0 !important;
+                            margin: 0 -1px .2em 0;
+                        }
+                        
+                        .ui-tabs-vertical .ui-tabs-nav li a {
+                            display: block;
+                        }
+                        
+                        .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+                            padding-bottom: 0;
+                            padding-right: .1em;
+                            border-right-width: 1px;
+                        }
+                        
+                        .ui-tabs-vertical .ui-tabs-panel {
+                            padding: 1em;
+                            float: right;
+                            width: 40em;
+                        }
+                    </style>
+
+
+                    <div class="row" style="width:100%;height:100%;">
+                        <div class="col-sm-3">
+                            <ul style="width:100%">
+
+                                <li  style="width:100%"><a style="width:100%" href="#FillerVtabs-1">Create new Form</a></li>
+
+                                <li  style="width:100%"><a style="width:100%" href="#FillerVtabs-2">Fill out recieved Form</a></li>
+
+                                <li  style="width:100%"><a style="width:100%" href="#FillerVtabs-3">Work </a></li>
+
+                            </ul>
+                        </div>
+                        <div class="col-sm-9">
+                            <div id="FillerVtabs-1"  style="width:100%;">
+
+                                <h2>Create new Form(s)</h2>
+
+                                <p>Here is the list of Forms that are published to you.</p>
+
+                            </div>
+
+                            <div id="FillerVtabs-2"  style="width:100%">
+
+                                <h2>Fill out recieved Form(s)</h2>
+
+                                <p>This is list of forms that are sent to you from other users in your organization. You need to fill out your part and submit them.
+                                </p>
+
+                            </div>
+
+                            <div id="FillerVtabs-3"  style="width:100%">
+
+                                <h2>Half-filled/Work forms</h2>
+
+                                <p>Here are forms tha you have not yet finished.</p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
             <div id="maintabs-4" class="fixmyheight">
                 <p>Data collection & analysis</p>
+                <p>Please choose form:</p>
+                <select>
+                    <option>dsadasdas</option>
+                    <option>e12e23</option>
+                    <option>r432rr43r34t</option>
+                </select>
+                <button>Export data</button>
+                <button>Delete data</button>
             </div>
             <div id="maintabs-5" class="fixmyheight">
                 <h1>Application settings</h1>
