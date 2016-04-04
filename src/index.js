@@ -195,6 +195,7 @@ $(document).ready(function() {
     });
 
     $(window).trigger('resize');
+    MenuTree.walk();
 });
 this.closeTab = function(el) {
     //remove tab
@@ -261,4 +262,42 @@ function keydown(e) {
         toggleEditor();
     }
 }
+var MenuTree = {
+    collapse: function(element) {
+
+        element.slideToggle(250);
+
+    },
+
+    walk: function() {
+
+        $('a', '#fillerTree').each(function() {
+
+            var $a = $(this);
+            var $li = $a.parent();
+
+            if ($a.next().is('ul')) {
+
+                var $ul = $a.next();
+
+                $a.click(function(e) {
+
+                    e.preventDefault();
+                    MenuTree.collapse($ul);
+
+                    $a.toggleClass('active');
+
+                });
+
+            }
+
+
+
+        });
+
+
+    }
+};
+
+
 
