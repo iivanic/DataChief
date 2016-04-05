@@ -244,7 +244,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="maintabs-4" class="fixmyheight">
                 <p>Data collection & analysis</p>
                 <p>Please choose form:</p>
@@ -258,6 +257,12 @@
             </div>
             <div id="maintabs-5" class="fixmyheight">
                 <h1>Application settings</h1>
+                <select style="float:right;" id="selectActiveProfile">
+                    <option value="main">Main profile</option>
+                    <option value="-1">Create new profile</option>
+                </select>
+                <label style="float:right;" for="selectActiveProfile">Active profile:&nbsp;</label>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <fieldset id="settingsField">
