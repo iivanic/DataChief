@@ -49,10 +49,12 @@ this.getUserSettingsFilePath = function ()
 }
 this.getIdentitySettingsFilePath = function(email)
 {
-    return path.resolve(path.join(checkFolderAndImpersonationFolder( this.getUserFolder() , email) ,"datachiefIdentitySettings.json"));
+    return path.resolve(path.join(this.checkFolderAndImpersonationFolder( this.getUserFolder() , email) ,"datachiefIdentitySettings.json"));
 }
 this.getCurrentUsername = function (filename) {
     var username = require('child_process').execSync("whoami", { encoding: 'utf8', timeout: 1000 });
+    username = username.replace('\n','').replace('\r','').replace('\v','').split('\\');
+    username = username[username.length-1] + "@" + require("os").hostname().toLowerCase();
     return String(username).trim();
 };
 this.saveTextFile = function (filename, content) {

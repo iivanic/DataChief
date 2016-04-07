@@ -32,8 +32,6 @@ this.ctor = function(email) {
     if (!file) {
         // first time creation
         this.email = helper.getCurrentUsername();
-        this.userList.push(this.email);
-        this.userList.push("initiator");
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
     }
     else {

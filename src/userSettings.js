@@ -1,5 +1,6 @@
 
 var helper = require("./objectmodel/utils.js");
+var identitySetting = require("./identitySetting.js");
 
 this.userList = new Array();
 
@@ -36,25 +37,32 @@ this.ctor = function() {
             this[attrname] = loadedObj[attrname];
         }
     }
+    this.loadIdentitySetting(this.email)
 
+}
+this.loadIdentitySetting = function(email)
+{
+    identitySetting.ctor(email); 
 }
 this.save = function() {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
+    identitySetting.save();
 }
 this.toGui = function() {
 
     $("#textSettingsOrganization").val(this.organization);
 
-
-
     $("#checkboxSettingsSingleAccount").prop("checked", this.useSingleAccount);
     $("#checkboxSettingsTakeOnlyOne").prop("checked", this.takeOnlyOne);
-
 
     userSettings.singleAccountToggle();
 
     $("#resettings").button();
     $("#savesettings").button();
+    $("#deleteProfile").button().click(
+         function() {
+             alert("delete profile");
+         });
 
 
     $("#editOrgMemberShowPassword").button(
@@ -76,7 +84,7 @@ this.toGui = function() {
             addOrgMember();
         }
     );
-
+    identitySetting.toGui();
 
 }
 function addOrgMember() {
@@ -112,7 +120,7 @@ this.fromGui = function() {
  
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
     this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
- 
+  identitySetting.fromGui();
 
 }
 this.singleAccountToggle = function() {
