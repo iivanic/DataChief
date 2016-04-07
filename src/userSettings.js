@@ -5,7 +5,6 @@ this.email = "";
 this.name = "";
 this.organization = "";
 
-
 this.userList = new Array();
 this.filePath = "";
 

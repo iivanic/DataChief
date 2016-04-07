@@ -89,14 +89,8 @@ this.getPrepublishPath = function () {
         fs.mkdirSync(p);
    }
    p=path.join(p,"prepublish");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+  checkFolderAndImpersonationFolder(p);
+
      return p;
 };
 this.getPublishPath = function () {
@@ -110,14 +104,8 @@ this.getPublishPath = function () {
         fs.mkdirSync(p);
    }
    p=path.join(p,"publish");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+   checkFolderAndImpersonationFolder(p);
+
    return p;
 };
 this.getOutboxPath = function () {
@@ -131,7 +119,13 @@ this.getOutboxPath = function () {
         fs.mkdirSync(p);
    }
    p=path.join(p,"outbox");
-  try
+   checkFolderAndImpersonationFolder(p);
+
+   return p;
+};
+this.getInboxPath = function () {
+   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
+    try
    {
        fs.accessSync(p);
     }
@@ -139,8 +133,38 @@ this.getOutboxPath = function () {
    {
         fs.mkdirSync(p);
    }
+   p=path.join(p,"inbox");
+   checkFolderAndImpersonationFolder(p);
+
    return p;
 };
+this.getPublishersPath = function () {
+   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
+    try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   p=path.join(p,"publishers");
+   checkFolderAndImpersonationFolder(p);
+   return p;
+};
+this.checkFolderAndImpersonationFolder = function(folder)
+{
+    
+   try
+   {
+       fs.accessSync(folder);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(folder);
+   }
+   return folder;
+}
 this.getSentPath = function () {
    var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
     try
