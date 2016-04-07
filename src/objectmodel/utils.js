@@ -32,11 +32,24 @@ this.fileExists = function(fileName){
     return path.existsSync(fileName);
 }  
 this.getUserFolder = function () {
-   return remote.getGlobal('sharedObject').userData;
+    var p =  path.join( remote.getGlobal('sharedObject').userData, "datachief" );
+   try
+   {
+       fs.accessSync(p);
+    }
+    catch(e)
+   {
+        fs.mkdirSync(p);
+   }
+   return p
 };
 this.getUserSettingsFilePath = function ()
 {
   return path.resolve(path.join(this.getUserFolder(),"datachiefUserSettings.json"));  
+}
+this.getIdentitySettingsFilePath = function(email)
+{
+    return path.resolve(path.join(checkFolderAndImpersonationFolder( this.getUserFolder() , email) ,"datachiefIdentitySettings.json"));
 }
 this.getCurrentUsername = function (filename) {
     var username = require('child_process').execSync("whoami", { encoding: 'utf8', timeout: 1000 });
@@ -79,82 +92,47 @@ this.loadGroupBox = function () {
 };
 
 this.getPrepublishPath = function () {
-   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+   var p = this.getUserFolder();
+
    p=path.join(p,"prepublish");
-  checkFolderAndImpersonationFolder(p);
+    p = this.checkFolderAndImpersonationFolder(p);
 
      return p;
 };
 this.getPublishPath = function () {
-   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
-   p=path.join(p,"publish");
-   checkFolderAndImpersonationFolder(p);
+     var p = this.getUserFolder();
+    p=path.join(p,"publish");
+     p = this.checkFolderAndImpersonationFolder(p);
 
    return p;
 };
 this.getOutboxPath = function () {
-   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+   var p = this.getUserFolder();
    p=path.join(p,"outbox");
-   checkFolderAndImpersonationFolder(p);
+    p = this.checkFolderAndImpersonationFolder(p);
 
    return p;
 };
 this.getInboxPath = function () {
-   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+    var p = this.getUserFolder();
    p=path.join(p,"inbox");
-   checkFolderAndImpersonationFolder(p);
+    p = this.checkFolderAndImpersonationFolder(p);
 
    return p;
 };
 this.getPublishersPath = function () {
-   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+   var p = this.getUserFolder();
    p=path.join(p,"publishers");
-   checkFolderAndImpersonationFolder(p);
+   p = this.checkFolderAndImpersonationFolder(p);
    return p;
 };
-this.checkFolderAndImpersonationFolder = function(folder)
+this.checkFolderAndImpersonationFolder = function(folder, email)
 {
-    
+    if(!email)
+    {
+        email=userSettings.email;
+    }
+    folder = path.join(folder,email);
    try
    {
        fs.accessSync(folder);
@@ -166,29 +144,19 @@ this.checkFolderAndImpersonationFolder = function(folder)
    return folder;
 }
 this.getSentPath = function () {
-   var p = path.join(remote.getGlobal('sharedObject').userData,"datachief");
-    try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+   var p = this.getUserFolder();
    p=path.join(p,"sent");
-   try
-   {
-       fs.accessSync(p);
-    }
-    catch(e)
-   {
-        fs.mkdirSync(p);
-   }
+    this.checkFolderAndImpersonationFolder(p);
    return p;
 };
 this.getFilesInDir = function (p) {
   return fs.readdirSync(p);
 };
+this.getDirectories = function (p) {
+  return fs.readdirSync(p).filter(function (file) {
+    return fs.statSync(path.join(p,file)).isDirectory();
+  });
+}
 this.padNumber = function(number, size) {
       var s = String(number);
       while (s.length < (size || 2)) {s = "0" + s;}

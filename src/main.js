@@ -21,6 +21,7 @@ app.on("ready", function () {
         icon: "./Icons/Filler.png"
     });
     // In the main process.
+    
     global.sharedObject = {
         userData: app.getPath("userData")
     };
