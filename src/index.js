@@ -66,11 +66,11 @@ function addTab(opened, exampleName) {
 
 }
 var boolfix = false;
-$(document).ready(function() {
+$(document).ready(function () {
     userSettings.toGui();
     var shell = require('electron').shell;
     //open links externally by default
-    $(document).on('click', 'a[href^="http"]', function(event) {
+    $(document).on('click', 'a[href^="http"]', function (event) {
         event.preventDefault();
         shell.openExternal(this.href);
     });
@@ -101,19 +101,19 @@ $(document).ready(function() {
         width: "470px",
 
         buttons: {
-            "Create Emtpy": function() {
+            "Create Emtpy": function () {
                 addTab(false, "");
                 $(this).dialog("close");
             },
-            "Create from template": function() {
+            "Create from template": function () {
                 addTab(false, $("#exampleforms").val());
                 $(this).dialog("close");
             },
-            Cancel: function() {
+            Cancel: function () {
                 $(this).dialog("close");
             }
         },
-        close: function() {
+        close: function () {
 
         }
     });
@@ -131,7 +131,7 @@ $(document).ready(function() {
     // addTab button: just opens the dialog
     $("#add_form")
         .button()
-        .click(function() {
+        .click(function () {
             $("#tab_title").val("My Form");
             newFormDialog.dialog("open");
             if (!boolfix)
@@ -141,11 +141,11 @@ $(document).ready(function() {
         });
     $("#open_form")
         .button()
-        .click(function() {
+        .click(function () {
             helper.openForm(addTab);
         });
     // close icon: removing the tab on click
-    tabs.delegate("span.ui-icon-close", "click", function() {
+    tabs.delegate("span.ui-icon-close", "click", function () {
         //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
         var el = $(this).closest("li");
         var panelId = el.attr("aria-controls") + "_dirty";
@@ -155,14 +155,14 @@ $(document).ready(function() {
                 height: 185,
                 modal: true,
                 buttons: {
-                    "Delete Form": function() {
+                    "Delete Form": function () {
                         console.log(2);
                         el.remove()
                         $("#" + panelId.replace("_dirty", "")).remove();
                         tabs.tabs("refresh");
                         $(this).dialog("close");
                     },
-                    Cancel: function() {
+                    Cancel: function () {
                         $(this).dialog("close");
                     }
                 }
@@ -176,28 +176,28 @@ $(document).ready(function() {
         }
     });
 
-    tabs.bind("keyup", function(event) {
+    tabs.bind("keyup", function (event) {
         if (event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE) {
             var panelId = tabs.find(".ui-tabs-active").remove().attr("aria-controls");
             //  $("#" + panelId).remove();
             tabs.tabs("refresh");
         }
     });
-    $("#tabs").on("tabsactivate", function(event, ui) {
+    $("#tabs").on("tabsactivate", function (event, ui) {
         fixTabsHeight();
     });
-    $("#maintabs").on("tabsactivate", function(event, ui) {
+    $("#maintabs").on("tabsactivate", function (event, ui) {
         fixTabsHeight();
     });
 
-    $(window).resize(function() {
+    $(window).resize(function () {
         fixTabsHeight();
     });
 
     $(window).trigger('resize');
     MenuTree.walk();
 });
-this.closeTab = function(el) {
+this.closeTab = function (el) {
     //remove tab
     $("li[aria-controls='" + el + "']").remove();
     $("#" + el).remove();
@@ -208,7 +208,7 @@ this.closeTab = function(el) {
     maintabs.tabs("option", "active", 1);
     publish.refreshFolders();
 }
-this.activateEditorTab = function() {
+this.activateEditorTab = function () {
     maintabs.tabs("option", "active", 0);
 }
 function fixTabsHeight() {
@@ -219,8 +219,8 @@ function fixTabsHeight() {
                $(this).css("overflow", "auto");
            }
        });*/
-    $('.fixmyheight').each(function() {
-        $(this).height(winH - $(this).offset().top - 66 ) ; //- $("#maintabs-1").position().top- 20);
+    $('.fixmyheight').each(function () {
+        $(this).height(winH - $(this).offset().top - 66 - ( $("#expandlog").hasClass( "ui-icon-arrow-1-n" ) ? 0 : 100)); //- $("#maintabs-1").position().top- 20);
         $(this).css("overflow", "auto");
     });
 
@@ -228,17 +228,34 @@ function fixTabsHeight() {
 var fieldBase = require("./objectmodel/fieldBase.js");
 var textField = require("./objectmodel/textField.js");
 
-$(document).ready(function() {
+$(document).ready(function () {
     $(document).keydown(keydown);
     var params = document.location.href.split('?');
     if (params.length > 0) {
         if (params[1] != 'editor')
-            toggleEditor()
+            toggleEditor();
     }
     else
-        toggleEditor()
-
+        toggleEditor();
+    $(expandlog).click(expandlog_click);
+    helper.log("Welcome to Data Chief.");
+    helper.log("Ready.");
 });
+
+function expandlog_click() {
+   
+    if ($("#expandlog").hasClass( "ui-icon-arrow-1-n" )) {
+        $("#logrow").height( $("#logrow").height() + 100);
+        $("#expandlog").removeClass("ui-icon-arrow-1-n");
+        $("#expandlog").addClass("ui-icon-arrow-1-s");
+    }
+    else {
+        $("#logrow").height($("#logrow").height()-100);
+        $("#expandlog").removeClass("ui-icon-arrow-1-s");
+        $("#expandlog").addClass("ui-icon-arrow-1-n");
+    }
+    fixTabsHeight();
+}
 function toggleEditor() {
     if ($("a[href='#maintabs-1']").parent().css('display') != 'none') {
         $("#maintabs-1").hide();
@@ -263,15 +280,15 @@ function keydown(e) {
     }
 }
 var MenuTree = {
-    collapse: function(element) {
+    collapse: function (element) {
 
         element.slideToggle(250);
 
     },
 
-    walk: function() {
+    walk: function () {
 
-        $('a', '#fillerTree').each(function() {
+        $('a', '#fillerTree').each(function () {
 
             var $a = $(this);
             var $li = $a.parent();
@@ -280,7 +297,7 @@ var MenuTree = {
 
                 var $ul = $a.next();
 
-                $a.click(function(e) {
+                $a.click(function (e) {
 
                     e.preventDefault();
                     MenuTree.collapse($ul);

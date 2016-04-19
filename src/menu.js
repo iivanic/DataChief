@@ -15,4 +15,5 @@ var Menu = remote.require("menu");
         ]
     }
 ]); */
-//Menu.setApplicationMenu(null); //menu);
+
+//    Menu.setApplicationMenu(null); //menu);

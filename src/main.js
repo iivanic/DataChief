@@ -1,3 +1,5 @@
+
+//const debug=true;
 var app = require("app");
 var BrowserWindow = require("browser-window");
 var path = require("path");
@@ -42,8 +44,8 @@ app.on("ready", function () {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
-    //  if (debug)
-    //     mainWindow.openDevTools();
+   //   if (debug)
+   //      mainWindow.openDevTools();
 });
 
 // Quit when all windows are closed.

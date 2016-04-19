@@ -237,3 +237,15 @@ this.decrypt= function(encrypted)
     decrypted += decipher.final('utf8');
     return decrypted;
 }
+this.leadingZeros = function(txt, c)
+{
+    var s = "000000" + txt;
+    return s.substr(s.length - c);
+}
+this.log = function(txt) {
+    var d= new Date();
+    $("#logList").append(userSettings.mainEmail + " - "+  this.leadingZeros(d.getHours(),2) + ":" + this.leadingZeros(d.getMinutes(),2)  + ":" + this.leadingZeros(d.getSeconds(),2)    + " > " + txt + "<br>");
+  //  $("#logList").scrollTop($("#logList").scrollHeight);
+    $("#logList").animate({scrollTop:$("#logList").height()}, 200);
+
+}

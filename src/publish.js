@@ -166,12 +166,7 @@ function readFiles() {
     refreshOutbox();
 }
 
-this.log = function(txt) {
 
-    llist.append(txt + "<br>");
-    llist.scrollTop(llist[0].scrollHeight);
-
-}
 this.refreshFolders = readFiles;
 
 this.info = function() {
@@ -181,7 +176,7 @@ this.info = function() {
 
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
-        this.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
+        helper.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
 
     }
     items = $("#publishList input:checked");
@@ -189,14 +184,14 @@ this.info = function() {
 
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
-        this.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
+        helper.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
 
     }
 }
 this.packageinfo = function(filename) {
     file = helper.loadFile(filename);
     var loadedObj = JSON.parse(file);
-    this.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
+    helper.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
 
 }
 function publishEverything() {
@@ -217,10 +212,10 @@ function publishEverything() {
         }
     }
     llist.html("");
-    publish.log("<strong>" + pCount + "</strong> Package(s):");
+    helper.log("<strong>" + pCount + "</strong> Package(s):");
 
     for (var i in packages) {
-        publish.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s) and <strong>" + packages[i].commands.length + "</strong> commands(s).");
+        helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s) and <strong>" + packages[i].commands.length + "</strong> commands(s).");
         savePackage(packages[i])
     }
     refreshOutbox();
