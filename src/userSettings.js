@@ -4,11 +4,12 @@ var identitySetting = require("./identitySetting.js");
 
 this.userList = new Array();
 
-this.ctor = function() {
+this.ctor = function () {
+    
     this.filePath = helper.getUserSettingsFilePath();
-    console.log("UserSettings=" + this.filePath);
+    
     this.mainEmail = helper.getCurrentUsername();
-    this.Identities = helper.getDirectories(helper.getUserFolder());
+ 
     this.email = "";
 
     this.organization = "";
@@ -17,7 +18,7 @@ this.ctor = function() {
     this.takeOnlyOne = true;
 
     this.userList = new Array();
-  
+
 
     var file = "";
     try {
@@ -40,15 +41,14 @@ this.ctor = function() {
     this.loadIdentitySetting(this.email)
 
 }
-this.loadIdentitySetting = function(email)
-{
-    identitySetting.ctor(email); 
+this.loadIdentitySetting = function (email) {
+    identitySetting.ctor(email);
 }
-this.save = function() {
+this.save = function () {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
     identitySetting.save();
 }
-this.toGui = function() {
+this.toGui = function () {
 
     $("#textSettingsOrganization").val(this.organization);
 
@@ -60,70 +60,92 @@ this.toGui = function() {
     $("#resettings").button();
     $("#savesettings").button();
     $("#deleteProfile").button().click(
-         function() {
-             alert("delete profile");
-         });
+        function () {
+            alert("delete profile");
+        });
 
 
     $("#editOrgMemberShowPassword").button(
-        { icons: {
-            secondary: "ui-icon-notice"
-        }
- 
-    }).click(
-         function() {
+        {
+            icons: {
+                secondary: "ui-icon-notice"
+            }
+
+        }).click(
+        function () {
             if ($("#editOrgMemberSecret").prop("type") == "password")
                 $("#editOrgMemberSecret").prop("type", "text");
             else
                 $("#editOrgMemberSecret").prop("type", "password");
 
         }
-    ) ;
-    $("#addOrgMember").button().click(
-        function() {
-            addOrgMember();
-        }
-    );
+        );
+
+
+    this.reloadIndentityChooser();
+
     identitySetting.toGui();
 
 }
-function addOrgMember() {
-    var newFormDialog = $("#editOrgMember").dialog({
-        autoOpen: true,
-        modal: true,
-        width: "470",
-        height: "440",
+this.reloadIndentityChooser = function () {
+    var html = "<option value='main'>Main profile</option>";
+    this.Identities = helper.getDirectories(helper.getSettingsFolder());
 
-        buttons: {
-            "Save user": function() {
-                addTab(false, "");
-                $(this).dialog("close");
-            },
-            Cancel: function() {
-                $("#editOrgMemberEmail").val("");
-                $("#editOrgMemberName").val("");
-                $("#editOrgMemberSecret").val("");
-                $("#editOrgMemberSecret1").val("");
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
+    for (var i in this.Identities) {
+        html += "<option value='" + this.Identities[i] + "'>" +  this.Identities[i] + "</option>";
+    }
+    html += "<option value='-1'>Create new profile</option>";
+    $("#selectActiveProfile").html(html);
 
+    $("#selectActiveProfile").selectmenu({
+        change: function () {
+            selectActiveProfile_change();
         }
-    });
+    }
+    );
 }
-this.fromGui = function() {
- 
-    this.organization = $("#textSettingsOrganization").val();
- 
+function selectActiveProfile_change() {
 
- 
+    var val = $("#selectActiveProfile").val();
+    if (val == "-1") {
+        //new profile
+        var newFormDialog = $("#editOrgMember").dialog({
+            autoOpen: true,
+            modal: true,
+            width: "470",
+            height: "310",
+
+            buttons: {
+                "Save user": function () {
+                    addTab(false, "");
+                    $(this).dialog("close");
+                },
+                Cancel: function () {
+                    $("#editOrgMemberEmail").val("");
+                    $("#editOrgMemberName").val("");
+                    $("#editOrgMemberSecret").val("");
+                    $("#editOrgMemberSecret1").val("");
+                    $(this).dialog("close");
+                }
+            },
+            close: function () {
+
+            }
+        });
+    }
+}
+this.fromGui = function () {
+
+    this.organization = $("#textSettingsOrganization").val();
+
+
+
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
     this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
-  identitySetting.fromGui();
+    identitySetting.fromGui();
 
 }
-this.singleAccountToggle = function() {
+this.singleAccountToggle = function () {
     if ($("#checkboxSettingsSingleAccount").is(':checked'))
         $("#SMTPSettings").attr('disabled', 'disabled');
     else

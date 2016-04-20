@@ -9,12 +9,13 @@
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
+        var helper = require("./objectmodel/utils.js");
+        var publish = require("./publish.js");
+          
         var userSettings = require("./userSettings.js")
         userSettings.ctor();
+        var imap = require("./imap.js");    
         var index = require("./index.js");
-        var publish = require("./publish.js");
-        var imap = require("./imap.js");
-        var helper = require("./objectmodel/utils.js");
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -51,14 +52,10 @@
         </div>
         <div id="editOrgMember" title="Organization member" style="display:none;">
             <fieldset class="ui-helper-reset">
-                <label for="editOrgMemberEmail">User Email</label>
+                <label for="editOrgMemberEmail">User Email / Identifier</label>
                 <br> Please enter user Email
                 <input type="email" id="editOrgMemberEmail" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
-                <br />
-                <label for="editOrgMemberName">User Name</label>
-                <br> Please enter user Name
-                <input type="text" id="editOrgMemberName" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
-                <br />
+                <br> <br>
                 <label for="editOrgMemberSecret">User Secret</label>
                 <br> Please enter user Secret
                 <button id="editOrgMemberShowPassword" style="float:right">Show/hide secret</button>
@@ -66,12 +63,6 @@
                 <br>
                 <input type="password" id="editOrgMemberSecret" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
                 <br />
-                <label for="editOrgMemberSecret1">User Email</label>
-                <br> Please enter name for your form
-                <input type="password" id="editOrgMemberSecret1" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
-                <br />
-                <br />
-
             </fieldset>
 
         </div>
@@ -283,34 +274,6 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="textSettingsOrganizationSecret1">Organization Members: </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            Email
-                                        </div>
-                                        <div class="col-sm-4">
-                                            Name
-                                        </div>
-                                        <div class="col-sm-4">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-
-                                        <div class="col-sm-12">
-                                            <hr />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <button id="addOrgMember" style="float:right;">Add organization member</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </fieldset>
                         <fieldset id="settingsApp">
                             <legend>Behavior</legend>
@@ -338,13 +301,8 @@
                     <div class="col-sm-6">
 
                         <fieldset id="profileField">
-                            <legend>Profile:
-                                <select id="selectActiveProfile">
-                                    <option value="main">Main profile</option>
-                                    <option value="-1">Create new profile</option>
-                                </select>
-                            </legend>
-
+                            <legend>Profile:</legend>
+                            <select id="selectActiveProfile" style="min-width:300px;"></select>
                             <fieldset id="settingsField">
                                 <legend>User information</legend>
                                 <p>Enter your email and Name</p>
@@ -514,11 +472,11 @@
         </div>
         <div id="logrow" style="height:30px;width:100%;font-weight:bold;background-color:white;border: 1px solid silver;padding-right:15px;padding-left:15px;padding-top:2px;">
             <div class="row" style="height:100%;">
-                
+
                 <div class="col-sm-9" style="height:100%;">
                     <span class="ui-icon ui-icon-arrow-1-n" id="expandlog" title="Click to expand/collapse" style="float:left;"></span>
                     <div id="logList" style="margin-left:40px;height:100%;overflow:auto; border: 1px dashed silver;">
-                   
+
                     </div>
                 </div>
 
