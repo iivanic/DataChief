@@ -1,12 +1,12 @@
 var helper = require("./objectmodel/utils.js");
 
 
-this.ctor = function(email) {
+this.ctor = function (email) {
     this.filePath = helper.getIdentitySettingsFilePath(email);
     console.log("IdentitySettings('" + email + "') =" + this.filePath);
 
 
-    this.email = "";
+    this.email = email;
     this.name = "";
     this.userSecret = "";
     this.organization = "";
@@ -31,7 +31,8 @@ this.ctor = function(email) {
     { }
     if (!file) {
         // first time creation
-        this.email = helper.getCurrentUsername();
+        if (!this.email)
+            this.email = helper.getCurrentUsername();
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
     }
     else {
@@ -42,10 +43,10 @@ this.ctor = function(email) {
     }
 
 }
-this.save = function() {
+this.save = function () {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
 }
-this.toGui = function() {
+this.toGui = function () {
     $("#textSettingsEmail").val(this.email);
     $("#textSettingsName").val(this.name);
 
@@ -70,7 +71,7 @@ this.toGui = function() {
 
 
 
-this.fromGui = function() {
+this.fromGui = function () {
     this.email = $("#textSettingsEmail").val();
     this.name = $("#textSettingsName").val();
     this.imapUserName = $("#textSettingsIMAPUsername").val();

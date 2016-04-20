@@ -5,11 +5,11 @@ var identitySetting = require("./identitySetting.js");
 this.userList = new Array();
 
 this.ctor = function () {
-    
+
     this.filePath = helper.getUserSettingsFilePath();
-    
+
     this.mainEmail = helper.getCurrentUsername();
- 
+
     this.email = "";
 
     this.organization = "";
@@ -88,13 +88,20 @@ this.toGui = function () {
 
 }
 this.reloadIndentityChooser = function () {
-    var html = "<option value='main'>Main profile</option>";
+    var html = "<option " + (this.mainEmail == this.email ? "selected=\"selected\"" : "") + " value=\"" + this.mainEmail + "\">Main profile (" + this.mainEmail + ")</option>";
     this.Identities = helper.getDirectories(helper.getSettingsFolder());
 
     for (var i in this.Identities) {
-        html += "<option value='" + this.Identities[i] + "'>" +  this.Identities[i] + "</option>";
+        if (this.Identities[i] != this.mainEmail)
+            html += "<option " + (this.Identities[i] == this.email ? "selected=\"selected\"" : "") + " value=\"" + this.Identities[i] + "\">" + this.Identities[i] + "</option>";
     }
-    html += "<option value='-1'>Create new profile</option>";
+    html += "<option value=\"-1\">Create new profile</option>";
+    try {
+        $("#selectActiveProfile").selectmenu("destroy");
+    }
+    catch (e)
+    { }
+  
     $("#selectActiveProfile").html(html);
 
     $("#selectActiveProfile").selectmenu({
@@ -117,7 +124,20 @@ function selectActiveProfile_change() {
 
             buttons: {
                 "Save user": function () {
-                    addTab(false, "");
+
+                    // create identitySetting
+
+                    userSettings.loadIdentitySetting($("#editOrgMemberEmail").val());
+                    identitySetting.userSecret = $("#editOrgMemberSecret").val();
+                    // save it
+                    identitySetting.save();
+                    // set value this.email to identitySetting
+                    userSettings.email = identitySetting.email;
+                    // set identitySetting to GUI
+                    identitySetting.toGui();
+                    // refresh profiles
+                    userSettings.reloadIndentityChooser();
+                    
                     $(this).dialog("close");
                 },
                 Cancel: function () {
@@ -132,6 +152,15 @@ function selectActiveProfile_change() {
 
             }
         });
+    }
+    else {
+        userSettings.loadIdentitySetting(val);
+        // set value this.email to identitySetting
+        userSettings.email = identitySetting.email;
+        // set identitySetting to GUI
+        identitySetting.toGui();
+        // refresh profiles
+        userSettings.reloadIndentityChooser();
     }
 }
 this.fromGui = function () {
