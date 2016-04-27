@@ -42,7 +42,10 @@ this.getUserSettingsFilePath = function () {
     return path.resolve(path.join(this.getSettingsFolder(), "datachiefUserSettings.json"));
 }
 this.getIdentitySettingsFilePath = function (email) {
-    return path.resolve(path.join(this.checkFolderAndImpersonationFolder(this.getSettingsFolder(), email), "datachiefIdentitySettings.json"));
+    return path.resolve(this.getIdentityFolder(email), "datachiefIdentitySettings.json");
+}
+this.getIdentityFolder = function (email) {
+    return path.join(this.checkFolderAndImpersonationFolder(this.getSettingsFolder(), email));
 }
 this.getCurrentUsername = function (filename) {
     var username = require('child_process').execSync("whoami", { encoding: 'utf8', timeout: 1000 });
@@ -189,6 +192,20 @@ this.getOnlyFileName = function (fileName) {
 this.deleteFile = function (fileName) {
     fs.unlink(fileName)
 }
+this.deleteFolder = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
+
 this.alert = function (message) {
     $("#dialog-alert-text").text(message);
     $("#dialog-alert").dialog({
@@ -239,6 +256,6 @@ this.log = function (txt) {
     var d = new Date();
     $("#logList").append(userSettings.mainEmail + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
     //  $("#logList").scrollTop($("#logList").scrollHeight);
-    $("#logList").animate({ scrollTop: $("#logList").height() }, 200);
+    $("#logList").animate({ scrollTop: $("#logList").scrollHeight() }, 200);
 
 }

@@ -61,7 +61,8 @@ this.toGui = function () {
     $("#savesettings").button();
     $("#deleteProfile").button().click(
         function () {
-            alert("delete profile");
+            helper.confirm("Delete profile? Are You sure? All data linked wth this profile will be lost.", deleteProfile);
+
         });
 
 
@@ -87,6 +88,19 @@ this.toGui = function () {
     identitySetting.toGui();
 
 }
+function deleteProfile() {
+    var profile = $("#selectActiveProfile").val();
+    if (profile != userSettings.mainEmail) {
+        helper.deleteFolder(helper.getIdentityFolder(profile));
+        helper.log("Identity profile " + profile + " deleted.");
+        userSettings.loadIdentitySetting(userSettings.mainEmail);
+        userSettings.email = userSettings.mainEmail;
+        userSettings.reloadIndentityChooser();
+    }
+    else {
+        helper.alert("The main profile can not been deleted!");
+    }
+}
 this.reloadIndentityChooser = function () {
     var html = "<option " + (this.mainEmail == this.email ? "selected=\"selected\"" : "") + " value=\"" + this.mainEmail + "\">Main profile (" + this.mainEmail + ")</option>";
     this.Identities = helper.getDirectories(helper.getSettingsFolder());
@@ -101,7 +115,7 @@ this.reloadIndentityChooser = function () {
     }
     catch (e)
     { }
-  
+
     $("#selectActiveProfile").html(html);
 
     $("#selectActiveProfile").selectmenu({
@@ -110,10 +124,14 @@ this.reloadIndentityChooser = function () {
         }
     }
     );
+    this.manageDeleteProfile();
+    helper.log("Running DataChief as " + this.email);
 }
 function selectActiveProfile_change() {
 
     var val = $("#selectActiveProfile").val();
+
+    userSettings.manageDeleteProfile();
     if (val == "-1") {
         //new profile
         var newFormDialog = $("#editOrgMember").dialog({
@@ -126,25 +144,33 @@ function selectActiveProfile_change() {
                 "Save user": function () {
 
                     // create identitySetting
+                    if ($("#editOrgMemberEmail")[0].checkValidity()) {
 
+                    }
+                    else {
+                        helper.alert("Please check email adress. Email is required and needs to be in valid form.");
+                        return;
+                    }
+                    if ($("#editOrgMemberSecret").val().length == 0) {
+                        helper.alert("User secret need to have at least on character.");
+                        return;
+                    }
                     userSettings.loadIdentitySetting($("#editOrgMemberEmail").val());
                     identitySetting.userSecret = $("#editOrgMemberSecret").val();
                     // save it
                     identitySetting.save();
+                    helper.log("Identity profile " + $("#editOrgMemberEmail").val() + " created.");
                     // set value this.email to identitySetting
                     userSettings.email = identitySetting.email;
                     // set identitySetting to GUI
                     identitySetting.toGui();
                     // refresh profiles
                     userSettings.reloadIndentityChooser();
-                    
+
                     $(this).dialog("close");
                 },
                 Cancel: function () {
-                    $("#editOrgMemberEmail").val("");
-                    $("#editOrgMemberName").val("");
-                    $("#editOrgMemberSecret").val("");
-                    $("#editOrgMemberSecret1").val("");
+                    userSettings.cancelNewProfile();
                     $(this).dialog("close");
                 }
             },
@@ -161,6 +187,29 @@ function selectActiveProfile_change() {
         identitySetting.toGui();
         // refresh profiles
         userSettings.reloadIndentityChooser();
+    }
+}
+this.cancelNewProfile = function () {
+    $("#editOrgMemberEmail").val("");
+    $("#editOrgMemberName").val("");
+    $("#editOrgMemberSecret").val("");
+    $("#editOrgMemberSecret1").val("");
+
+    userSettings.reloadIndentityChooser();
+}
+this.manageDeleteProfile = function () {
+    var val = $("#selectActiveProfile").val();
+    if (val == userSettings.mainEmail) {
+        //  $("#deleteProfile").prop('disabled', true);
+        $("#deleteProfile").button({
+            disabled: true
+        });
+    }
+    else {
+        // $("#deleteProfile").prop('disabled', false);
+        $("#deleteProfile").button({
+            disabled: false
+        });
     }
 }
 this.fromGui = function () {
