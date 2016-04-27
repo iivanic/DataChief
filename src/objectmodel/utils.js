@@ -256,6 +256,6 @@ this.log = function (txt) {
     var d = new Date();
     $("#logList").append(userSettings.mainEmail + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
     //  $("#logList").scrollTop($("#logList").scrollHeight);
-    $("#logList").animate({ scrollTop: $("#logList").scrollHeight() }, 200);
+    $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 200);
 
 }
