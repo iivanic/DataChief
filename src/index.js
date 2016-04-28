@@ -253,6 +253,8 @@ function expandlog_click() {
         $("#logrow").height($("#logrow").height()-100);
         $("#expandlog").removeClass("ui-icon-arrow-1-s");
         $("#expandlog").addClass("ui-icon-arrow-1-n");
+               // position scroll
+        $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 0);
     }
     fixTabsHeight();
 }
