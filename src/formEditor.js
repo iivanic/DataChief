@@ -311,6 +311,9 @@ this.applyFormChanges = function () {
     this.setImpersonationList();
        
 }
+
+this.saveJSONReplacer = SaveJSONReplacer;
+
 function SaveJSONReplacer(key,value)
 {
     /*
@@ -340,7 +343,7 @@ function SaveJSONReplacer(key,value)
 
 this.saveForm = function (dirtyMarkId) {
     var success=true;
-    var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
+    var content = JSON.stringify(this.currentForm, SaveJSONReplacer,2);
 
     dialog.showSaveDialog(
         {   title: "Save " + this.currentForm.name,

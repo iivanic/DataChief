@@ -205,7 +205,7 @@ function publishEverything() {
         var users = loadedObj.publishTo.split(",");
         for (var ui = 0; ui < users.length; ui++) {
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { user: users[ui], forms: new Array(), commands: new Array() };
+                packages[users[ui]] = { publisher: userSettings.organization , published:true, user: users[ui], forms: new Array(), commands: new Array() };
                 pCount++;
             }
             packages[users[ui]].forms.push(loadedObj);
@@ -222,7 +222,7 @@ function publishEverything() {
 
 }
 function savePackage(p) {
-    var content = JSON.stringify(p, null, 2);
+    var content = "START"  + helper.encrypt( JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
     helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), p.user), content);
 }
 this.refreshOutB = refreshOutbox;

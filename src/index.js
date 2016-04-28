@@ -2,6 +2,7 @@
 var form = require("./objectmodel/form.js");
 var formEditor = require("./formEditor.js");
 
+this._formEditor = formEditor;
 
 function getWelcomeMessage(pjson) {
     var ret = "Welcome to " + pjson.name + " v" + pjson.version;
@@ -238,6 +239,7 @@ $(document).ready(function () {
     else
         toggleEditor();
     $(expandlog).click(expandlog_click);
+
     helper.log("Welcome to Data Chief.");
     helper.log("Ready.");
 });
@@ -253,6 +255,8 @@ function expandlog_click() {
         $("#logrow").height($("#logrow").height()-100);
         $("#expandlog").removeClass("ui-icon-arrow-1-s");
         $("#expandlog").addClass("ui-icon-arrow-1-n");
+               // position scroll
+        $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 0);
     }
     fixTabsHeight();
 }

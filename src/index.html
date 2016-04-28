@@ -16,6 +16,8 @@
         userSettings.ctor();
         var imap = require("./imap.js");    
         var index = require("./index.js");
+        var filler = require("./filler.js");
+        var package = require("./package.js");
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -187,6 +189,8 @@
             <div id="maintabs-3" class="fixmyheight">
                 <div class="row" style="height:100%">
                     <div class="col-sm-2" style="height:100%">
+                        <button style="width:100%;" id="btnSendRecieve">Send/Recieve</button>
+                        <hr />
                         <ul id="fillerTree" style="width:100%;padding-left:0px;">
 
                             <li style="width:100%"><a style="width:100%" href="#">Published to me</a>
@@ -311,7 +315,7 @@
                                         <label for="textSettingsEmail">Your Email: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input type="email" class="datachiefFieldText" id="textSettingsEmail" />
+                                        <input type="email" disabled class="datachiefFieldText" id="textSettingsEmail" />
                                     </div>
                                 </div>
                                 <div class="row">
