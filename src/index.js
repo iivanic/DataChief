@@ -2,6 +2,7 @@
 var form = require("./objectmodel/form.js");
 var formEditor = require("./formEditor.js");
 
+this._formEditor = formEditor;
 
 function getWelcomeMessage(pjson) {
     var ret = "Welcome to " + pjson.name + " v" + pjson.version;

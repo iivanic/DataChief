@@ -55,12 +55,9 @@ this.getCurrentUsername = function (filename) {
 };
 this.saveTextFile = function (filename, content) {
     var fs = require('fs');
-    fs.writeFile(filename, content, function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log("The file " + filename + " was saved!");
-    });
+    fs.writeFileSync(filename, content);
+    console.log("The file " + filename + " was saved!");
+    
 }
 this.openForm = function (callback) {
 
@@ -116,6 +113,20 @@ this.getInboxPath = function () {
     var p = this.getSettingsFolder();
     p = this.checkFolderAndImpersonationFolder(p);
     p = path.join(p, "inbox");
+    p = this.checkFolder(p);
+    return p;
+};
+this.getWorkPath = function () {
+    var p = this.getSettingsFolder();
+    p = this.checkFolderAndImpersonationFolder(p);
+    p = path.join(p, "work");
+    p = this.checkFolder(p);
+    return p;
+};
+this.getRecievedPath = function () {
+    var p = this.getSettingsFolder();
+    p = this.checkFolderAndImpersonationFolder(p);
+    p = path.join(p, "recieved");
     p = this.checkFolder(p);
     return p;
 };
@@ -190,7 +201,7 @@ this.getOnlyFileName = function (fileName) {
     return path.basename(fileName)
 }
 this.deleteFile = function (fileName) {
-    fs.unlink(fileName)
+    fs.unlinkSync(fileName)
 }
 this.deleteFolder = function(path) {
   if( fs.existsSync(path) ) {
@@ -238,16 +249,16 @@ this.confirm = function (message, callback) {
     });
 }
 
-this.encrypt = function (text) {
+this.encrypt = function (text, additionalpassword) {
 //   return text;
-    var cipher = crypto.createCipher('aes192', pwd);
+    var cipher = crypto.createCipher('aes192', pwd + (additionalpassword?additionalpassword:""));
     var encrypted = cipher.update(text, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
 }
-this.decrypt = function (encrypted) {
+this.decrypt = function (encrypted, additionalpassword) {
 //  return encrypted;
-    var decipher = crypto.createDecipher('aes192', pwd);
+    var decipher = crypto.createDecipher('aes192', pwd + (additionalpassword?additionalpassword:""));
 
     var decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');

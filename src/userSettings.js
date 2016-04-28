@@ -12,7 +12,7 @@ this.ctor = function () {
 
     this.email = "";
 
-    this.organization = "";
+    this.organization = "Unknown organization";
 
     this.useSingleAccount = true;
     this.takeOnlyOne = true;

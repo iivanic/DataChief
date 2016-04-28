@@ -15,3 +15,7 @@ this.sendRecieve = function () {
 
         imap.go();
     }
+this.refreshFolders = function()
+{
+    // we need to refresh all folders
+}

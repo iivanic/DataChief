@@ -211,6 +211,7 @@ function readMessages1() {
         if (results.length == 0) {
             helper.log("Found none.");
             imap.end();
+            package.loadPackages();
             return;
 
         }
@@ -221,8 +222,22 @@ function readMessages1() {
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
                 console.log(prefix + 'Body');
-                stream.pipe(fs.createWriteStream(helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt')));
+                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt');
+                try {
+                    stream.pipe(fs.createWriteStream(path));
+                }
+                catch (err) {
+                    if (err) {
+                        if (error)
+                            error += err;
+                        else
+                            error = err;
+                        imap.end();
+                        return;
+                    }
+                }
                 recievedCnt++;
+
             });
             msg.once('attributes', function (attrs) {
                 console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
@@ -245,7 +260,7 @@ function readMessages1() {
         f.once('end', function () {
             helper.log('Done fetching all messages!');
             deleteMessages(results);
-
+            
         });
     });
 
@@ -263,11 +278,23 @@ function deleteMessages(msgs) {
                 imap.end();
                 return;
             }
+            else
+            {
+                 imap.end();
+                 package.loadPackages();
+            }
         });
     }
-    catch (e) {
-        helper.log(e);
+    catch (err) {
+        if (err) {
+            if (error)
+                error += err;
+            else
+                error = err;
+            imap.end();
+            return;
+        }
     }
 
-    imap.end();
+   
 }
