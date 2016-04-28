@@ -1,97 +1,94 @@
 var Imap = require('imap'), inspect = require('util').inspect;
+var fs = require('fs'), fileStream;
 
-var imap = new Imap({
-    user: userSettings.imapUserName,
-    password: userSettings.imapPassword,
-    host: userSettings.imapServer,
-    port: userSettings.imapPort,
-    tls: userSettings.imapRequiresSSL
-});
+var imap;
 var progressCnt = 0;
 var progressMax = 0;
+var recievedCnt = 0;
+var error = null;
+var _box;
 function openInbox(cb) {
     imap.openBox('INBOX', true, cb);
 }
 
-imap.once('ready', function() {
-    $("#progressbar").progressbar({
-        value: 5
+
+
+var imapbusy = false;
+this.go = Go;
+function Go() {
+    if (imapbusy) {
+        helper.alert("Send/recieve job already running. Please wait for finish.");
+        return;
+    }
+    imapbusy = true;
+    error = null;
+    recievedCnt = 0;
+    progressCnt = 0;
+    imap = new Imap({
+        user: userSettings.identitySetting.imapUserName,
+        password: userSettings.identitySetting.imapPassword,
+        host: userSettings.identitySetting.imapServer,
+        port: userSettings.identitySetting.imapPort,
+        tls: userSettings.identitySetting.imapRequiresSSL
     });
-    // 1. Connect
-    helper.log("Connected to <strong>" + imap._config.host + ":" + imap._config.port + "</strong> as <strong>" + imap._config.user + "</strong>.");
-    // 2. Check for DC folder
 
-    openInbox(function(err, box) {
-        if (err) throw err;
+    imap.once('ready', function () {
+        $("#progressbar").progressbar({
+            value: 5
+        });
+        // 1. Connect
+        helper.log("Connected.");
+        // 2. Check for DC folder
 
-        createDCFolder();
-        // 3. Take package by package, check folder and upload
+        openInbox(function (err, box) {
+            if (err) throw err;
+            _box = box;
+            createDCFolder();
+            // 3. Take package by package, check folder and upload
 
-        // 4. Check incoming messages in my folder and download them
-        var f = imap.seq.fetch('1:3', {
-            bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
-            struct: true
+            $("#progressbar").progressbar({
+                value: 10
+            });
+            return;
 
         });
+    });
 
+    imap.once('error', function (err) {
+        helper.log(err + ".");
+        if (err) {
+            if (error)
+                error += err;
+            else
+                error = err;
+        }
+        imap.end();
 
 
         $("#progressbar").progressbar({
-            value: 10
-        });
-        return;
-        f.on('message', function(msg, seqno) {
-            helper.log('Message ' + seqno);
-            var prefix = '(#' + seqno + ') ';
-            msg.on('body', function(stream, info) {
-                var buffer = '';
-                stream.on('data', function(chunk) {
-                    buffer += chunk.toString('utf8');
-                });
-                stream.once('end', function() {
-                    helper.log(prefix + 'Parsed header: ' + inspect(Imap.parseHeader(buffer)));
-                });
-            });
-            msg.once('attributes', function(attrs) {
-                helper.log(prefix + 'Attributes: ' + inspect(attrs, false, 8));
-            });
-            msg.once('end', function() {
-                helper.log(prefix + 'Finished');
-            });
-        });
-        f.once('error', function(err) {
-            helper.log('Fetch error: ' + err);
-        });
-        f.once('end', function() {
-            helper.log('Done fetching all messages!');
-            imap.end();
+            value: 95
         });
     });
-});
 
-imap.once('error', function(err) {
-    helper.log(err + ".");
+    imap.once('end', function () {
+        helper.log('Connection ended.');
+        $("#progressbar").progressbar({
+            value: 100
+        });
+        publish.refreshOutB();
+        if (!error)
+            helper.alert("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
+        else
+            helper.alert(error);
+        imapbusy = false;
+    });
+
+
+
+    helper.log("Connecting to <strong>" + imap._config.host + ":" + imap._config.port + "</strong> as <strong>" + imap._config.user + "</strong>.");
     $("#progressbar").progressbar({
-        value: 90
+        value: 5
     });
-});
-
-imap.once('end', function() {
-    helper.log('Connection ended.');
-    $("#progressbar").progressbar({
-        value: 100
-    });
-    publish.refreshOutB();
-});
-
-$("#progressbar").progressbar({
-    value: 5
-});
-this.go = Go;
-function Go() {
-    progressCnt = 0;
-       helper.log('Connecting...');
-
     imap.connect();
 }
 function createDCFolder() {
@@ -117,8 +114,15 @@ function getBoxesCallBack(err, boxes) {
         openDCFolder();
 }
 function addBoxCallback(err) {
-    if (err)
-        helper.log(err);
+
+    if (err) {
+        if (error)
+            error += err;
+        else
+            error = err;
+        imap.end();
+        return;
+    }
     else {
         helper.log("Folder <strong>Datachief</strong> created.");
         openDCFolder();
@@ -132,7 +136,12 @@ function openDCFolder(user) {
 }
 function uploadMessages(err, box) {
     if (err) {
-        helper.log(err);
+        if (error)
+            error += err;
+        else
+            error = err;
+        imap.end();
+        return;
     }
     else {
         helper.log("Opened <strong>datachief</strong> folder.")
@@ -141,7 +150,7 @@ function uploadMessages(err, box) {
         var c = 0;
         for (var i in files) {
             var to = files[i].substring(6);
-            helper.log("Sending packagage to " + to);
+            helper.log("Sending package to " + to);
             var filename = helper.join(helper.getOutboxPath(), files[i]);
             var body = helper.loadFile(filename);
             var message =
@@ -155,7 +164,9 @@ function uploadMessages(err, box) {
             var r = imap.append(message, "", appendDone)
 
         }
-        imap.end();
+        if (files.length == 0)
+            readMessages1();
+
     }
 }
 function appendDone(err, o) {
@@ -167,9 +178,96 @@ function appendDone(err, o) {
     $("#progressbar").progressbar({
         value: Math.abs(10 + 80 * progressCnt / progressMax)
     });
-    progressCnt++;
-    if (err)
-        helper.log(err);
+    if (err) {
+        if (error)
+            error += err;
+        else
+            error = err;
+        imap.end();
+        return;
+    }
     else
         helper.log("Append done (id=" + o + ").")
+    progressCnt++;
+    helper.log(progressCnt + ", " + progressMax)
+    if (progressCnt == progressMax)
+        readMessages1();
+
+}
+function readMessages1() {
+
+    // 
+    // 4. Check incoming messages in my folder and download them
+    helper.log("Search for my messages...");
+    imap.search([['HEADER', 'TO', userSettings.identitySetting.email]], function (err, results) {
+        if (err) {
+            if (error)
+                error += err;
+            else
+                error = err;
+            imap.end();
+            return;
+        }
+        if (results.length == 0) {
+            helper.log("Found none.");
+            imap.end();
+            return;
+
+        }
+        helper.log("Found " + results.length + ".");
+        var f = imap.fetch(results, { bodies: '' });
+        f.on('message', function (msg, seqno) {
+            helper.log('Message #' + seqno);
+            var prefix = '(#' + seqno + ') ';
+            msg.on('body', function (stream, info) {
+                console.log(prefix + 'Body');
+                stream.pipe(fs.createWriteStream(helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt')));
+                recievedCnt++;
+            });
+            msg.once('attributes', function (attrs) {
+                console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+            });
+            msg.once('end', function () {
+                helper.log(prefix + 'Finished recieving message ' + seqno + '.');
+
+            });
+        });
+        f.once('error', function (err) {
+            if (err) {
+                if (error)
+                    error += err;
+                else
+                    error = err;
+                imap.end();
+                return;
+            }
+        });
+        f.once('end', function () {
+            helper.log('Done fetching all messages!');
+            deleteMessages(results);
+
+        });
+    });
+
+
+}
+function deleteMessages(msgs) {
+    helper.log("Deleting " + msgs.length + " message(s).");
+    try {
+        imap.addFlags(msgs, '\\Deleted', function (err) {
+            if (err) {
+                if (error)
+                    error += err;
+                else
+                    error = err;
+                imap.end();
+                return;
+            }
+        });
+    }
+    catch (e) {
+        helper.log(e);
+    }
+
+    imap.end();
 }

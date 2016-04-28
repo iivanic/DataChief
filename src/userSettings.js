@@ -41,12 +41,21 @@ this.ctor = function () {
     this.loadIdentitySetting(this.email)
 
 }
+this.identitySetting = identitySetting;
 this.loadIdentitySetting = function (email) {
     identitySetting.ctor(email);
 }
 this.save = function () {
-    helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
+    helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, saveJSONReplacer, 5)));
     identitySetting.save();
+    helper.log("Settings saved.");
+}
+function saveJSONReplacer(key,value)
+{
+
+    if (key=="identitySetting") return undefined;
+    else if (key=="_parent") return undefined;
+    else return value;
 }
 this.toGui = function () {
 
@@ -215,9 +224,6 @@ this.manageDeleteProfile = function () {
 this.fromGui = function () {
 
     this.organization = $("#textSettingsOrganization").val();
-
-
-
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
     this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
     identitySetting.fromGui();

@@ -239,12 +239,14 @@ this.confirm = function (message, callback) {
 }
 
 this.encrypt = function (text) {
+//   return text;
     var cipher = crypto.createCipher('aes192', pwd);
     var encrypted = cipher.update(text, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
 }
 this.decrypt = function (encrypted) {
+//  return encrypted;
     var decipher = crypto.createDecipher('aes192', pwd);
 
     var decrypted = decipher.update(encrypted, 'hex', 'utf8');
@@ -254,7 +256,7 @@ this.decrypt = function (encrypted) {
 
 this.log = function (txt) {
     var d = new Date();
-    $("#logList").append(userSettings.mainEmail + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
+    $("#logList").append(( userSettings.email!=userSettings.mainEmail? userSettings.mainEmail +" impersonating ": "" ) + userSettings.email + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
     //  $("#logList").scrollTop($("#logList").scrollHeight);
     $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 200);
 

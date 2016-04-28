@@ -38,13 +38,14 @@ this.ctor = function (email) {
     else {
         var loadedObj = JSON.parse(file);
         for (var attrname in loadedObj) {
-            this[attrname] = loadedObj[attrname];
+            this[attrname] = loadedObj[attrname]
         }
     }
 
 }
 this.save = function () {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
+        helper.log("Profile " + this.email + " saved.");
 }
 this.toGui = function () {
     $("#textSettingsEmail").val(this.email);
@@ -78,6 +79,7 @@ this.fromGui = function () {
     this.imapPassword = $("#textSettingsIMAPPassword").val();
     this.imapServer = $("#textSettingsIMAPServer").val();
     this.imapPort = $("#textSettingsIMAPServerPort").val();
+  //  helper.log(" textSettingsIMAPServerPort" +  $("#textSettingsIMAPServerPort").val() + "," + this.imapPort + this.name) ;
     this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
 
     this.smtpUserName = $("#textSettingsSMTPUsername").val();

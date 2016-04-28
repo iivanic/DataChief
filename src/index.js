@@ -238,6 +238,7 @@ $(document).ready(function () {
     else
         toggleEditor();
     $(expandlog).click(expandlog_click);
+
     helper.log("Welcome to Data Chief.");
     helper.log("Ready.");
 });
