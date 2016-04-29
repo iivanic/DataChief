@@ -49,7 +49,7 @@ this.refreshFolders = function () {
         html += " <li><span style='cursor:pointer;width:100%' href='#'>" + recieved[i] + "</span";
     }
     if (recieved.length == 0) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>No forms in folder</span";
+        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span";
     }
     $("#fillerTreeRecieved").html(html);
     html = "";
@@ -59,7 +59,7 @@ this.refreshFolders = function () {
         html += " <li><span style='cursor:pointer;width:100%' href='#'>" + work[i] + "</span";
     }
     if (work.length == 0) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>No forms in folder</span";
+        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span";
     }
     $("#fillerTreeWork").html(html);
     html = "";
@@ -69,7 +69,7 @@ this.refreshFolders = function () {
         html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span";
     }
     if (sent.length == 0) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>No forms in folder</span";
+        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span";
     }
     $("#fillerTreeSent").html(html);
 
