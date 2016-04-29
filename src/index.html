@@ -193,8 +193,8 @@
                         <hr />
                         <ul id="fillerTree" style="width:100%;padding-left:0px;">
 
-                            <li style="width:100%"><a style="width:100%" href="#">Published to me</a>
-                                <ul>
+                            <li style="width:100%"><a style="width:100%"  href="#">Published to me</a>
+                                <ul id="fillerTreePublishedToMe">
                                     <li><a style="width:100%" href="#">Publisher 1</a>
                                         <ul>
                                             <li>Test1</li>
@@ -210,19 +210,19 @@
                                 </ul>
                             </li>
                             <li style="width:100%"><a style="width:100%" href="#FillerVtabs-2">Recieved from other employees</a>
-                                <ul>
+                                <ul id="fillerTreeRecieved">
                                     <li>Test1</li>
                                     <li>tewt</li>
                                 </ul>
                             </li>
                             <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3">Work / half-filled</a>
-                                <ul>
+                                <ul id="fillerTreeWork">
                                     <li>Test1</li>
                                     <li>tewt</li>
                                 </ul>
                             </li>
                             <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3">Sent forms</a>
-                                <ul>
+                                <ul id="fillerTreeSent">
                                     <li>Test1</li>
                                     <li>tewt</li>
                                 </ul>
@@ -390,7 +390,7 @@
 
                             </fieldset>
 
-                            <fieldset id="SMTPSettings">
+                            <fieldset style="display:none;" id="SMTPSettings">
                                 <legend>SMTP Settings</legend>
                                 <p>SMTP is used for sending Emails</p>
                                 <div class="row">

@@ -196,7 +196,7 @@ $(document).ready(function () {
     });
 
     $(window).trigger('resize');
-    MenuTree.walk();
+   // MenuTree.walk();
 });
 this.closeTab = function (el) {
     //remove tab
@@ -283,7 +283,13 @@ function keydown(e) {
         toggleEditor();
     }
 }
-var MenuTree = {
+var MenuTree;
+initMenu();
+this._initMenu=initMenu;
+function initMenu()
+{
+
+    MenuTree = {
     collapse: function (element) {
 
         element.slideToggle(250);
@@ -300,12 +306,12 @@ var MenuTree = {
             if ($a.next().is('ul')) {
 
                 var $ul = $a.next();
-
+                $a.off("click");
                 $a.click(function (e) {
 
                     e.preventDefault();
+                    
                     MenuTree.collapse($ul);
-
                     $a.toggleClass('active');
 
                 });
@@ -319,6 +325,9 @@ var MenuTree = {
 
     }
 };
+MenuTree.walk();
+}
+
 
 
 
