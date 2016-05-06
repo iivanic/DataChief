@@ -52,7 +52,7 @@ function addTab(opened, exampleName) {
     //  var index = $('#' + id).index() - 1;
     //  console.log("index=" + index + ", id=" + id);
 
-    tabs.tabs("option", "active", -1);;
+    tabs.tabs("option", "active", -1);
     var newFormEditor = Object.create(formEditor); //Object.create(formEditor);
     if (opened) {
         newFormEditor.newForm(label, $('#' + id + "Form"), tabCounter, $('#tabs-' + tabCounter + '_dirty'), opened);
@@ -212,7 +212,9 @@ this.closeTab = function (el) {
 this.activateEditorTab = function () {
     maintabs.tabs("option", "active", 0);
 }
+this.FixTabsHeight = fixTabsHeight;
 function fixTabsHeight() {
+  
     var winH = $(window).outerHeight();
     /*   $('#tabs-1').each(function() {
            if ($(this).attr("id").lastIndexOf("tabs-", 0) == 0) {

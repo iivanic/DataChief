@@ -1,3 +1,5 @@
+var formDisplay = require("./formDisplay.js");
+
 var tabs;
 var tabTitle = "";
 var tabContent = "";
@@ -38,16 +40,22 @@ $(document).ready(function () {
 });
 
 // actual addTab function: adds new tab using the input from the form above
-function addTab() {
-    var label = tabTitle.val() || "Tab " + tabCounter,
-        id = "tabs-" + tabCounter,
+this.addtab = function(title) {
+    var label = title || "Tab " + tabCounter,
+        id = "Fillertabs-" + tabCounter,
         li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)),
-        tabContentHtml = tabContent.val() || "Tab " + tabCounter + " content.";
+        tabContentHtml = tabContent || "Tab " + tabCounter + " content.";
 
     tabs.find(".ui-tabs-nav").append(li);
-    tabs.append("<div id='" + id + "'><p>" + tabContentHtml + "</p></div>");
+    tabs.append("<div id='" + id + "' class='fixmyheight'><p>" + tabContentHtml + "</p></div>");
     tabs.tabs("refresh");
+    tabs.tabs("option", "active", -1);
     tabCounter++;
+    index.FixTabsHeight();
+    
+    var newFormDisplay = Object.create(formDisplay); //Object.create(formEditor);
+
+   // newFormDisplay.newForm(label, $('#' + id + "Form"), tabCounter, $('#Fillertabs-' + tabCounter + '_dirty'), true);
 }
 
 this.sendRecieve = function () {
@@ -73,7 +81,7 @@ this.refreshFolders = function () {
 
         for (var j in forms) {
 
-            fhtml += "            <li><span style='cursor:pointer;' onclick='alert(2);' href='#" + forms[j] + "'>" +
+            fhtml += "            <li><span style='cursor:pointer;' onclick=\"filler.addtab('" + forms[j].split("_")[3] + "')\" href='#" + forms[j] + "'>" +
                 (forms[j].substring(0, 1) == 'N' ? "<img style='width:37px;height:15px;' src='../icons/new-icon-37x15.png'>" : (forms[j].substring(0, 1) == 'U' ? "<img style='width:55px;height:15px;' src='../icons/updated-icon-55x15.png'>" : "")) + forms[j].split("_")[3] + "</span></li>"
         }
         if (forms.length == 0) {
