@@ -3,7 +3,7 @@ var formDisplay = require("./formDisplay.js");
 var tabs;
 var tabTitle = "";
 var tabContent = "";
-var tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
+var tabTemplate = "<li><span id='{dirty}' style='color:red;'>*</span><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
 var tabCounter = 2;
 
 $(document).ready(function () {
@@ -43,7 +43,7 @@ $(document).ready(function () {
 this.addtab = function(title) {
     var label = title || "Tab " + tabCounter,
         id = "Fillertabs-" + tabCounter,
-        li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label)),
+        li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label).replace("{dirty}", "Fillertabs-" + tabCounter + "_dirty")),
         tabContentHtml = tabContent || "Tab " + tabCounter + " content.";
 
     tabs.find(".ui-tabs-nav").append(li);
