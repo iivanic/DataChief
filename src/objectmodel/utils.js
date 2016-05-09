@@ -15,7 +15,7 @@ this.generateGUID = function () {
     });
 }
 this.join = function (a, b) {
-    return path.resolve(path.join(a, b));
+    return path.join(a, b); //path.resolve(
 }
 this.loadTextFile = function (filename) {
     var data = fs.readFileSync(path.resolve(path.join(__dirname, filename)));

@@ -4,7 +4,7 @@ var tabs;
 var tabTitle = "";
 var tabContent = "";
 var tabTemplate = "<li><span id='{dirty}' style='color:red;'>*</span><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>";
-var tabCounter = 2;
+var tabCounter = 1;
 
 $(document).ready(function () {
     $("#btnSendRecieve").button({
@@ -21,12 +21,36 @@ $(document).ready(function () {
     tabs = $("#Fillertabs").tabs();
 
 
-    // close icon: removing the tab on click
-      tabs.delegate( "span.ui-icon-close", "click", function() {
-        var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
-        $( "#" + panelId ).remove();
-        tabs.tabs( "refresh" );
-      });
+         tabs.delegate("span.ui-icon-close", "click", function () {
+        //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
+        var el = $(this).closest("li");
+        var panelId = el.attr("aria-controls") + "_dirty";
+        if ($("#" + panelId).css('display') != 'none') {
+            $("#dialog-confirm-remove-fillertab").dialog({
+                resizable: false,
+                height: 225,
+                modal: true,
+                buttons: {
+                    "Close Form": function () {
+                        console.log(2);
+                        el.remove()
+                        $("#" + panelId.replace("_dirty", "")).remove();
+                        tabs.tabs("refresh");
+                        $(this).dialog("close");
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        }
+        else {
+            el.remove()
+            $("#" + panelId.replace("_dirty", "")).remove();
+            tabs.tabs("refresh");
+
+        }
+    });
       
 /*
     tabs.bind("keyup", function (event) {
@@ -40,22 +64,23 @@ $(document).ready(function () {
 });
 
 // actual addTab function: adds new tab using the input from the form above
-this.addtab = function(title) {
+this.addtab = function(title, filename) {
+       tabCounter++;
     var label = title || "Tab " + tabCounter,
         id = "Fillertabs-" + tabCounter,
         li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label).replace("{dirty}", "Fillertabs-" + tabCounter + "_dirty")),
-        tabContentHtml = tabContent || "Tab " + tabCounter + " content.";
+       tabContentHtml = tabContent || "Tab " + tabCounter + " content.";
 
     tabs.find(".ui-tabs-nav").append(li);
-    tabs.append("<div id='" + id + "' class='fixmyheight'><p>" + tabContentHtml + "</p></div>");
+    tabs.append("<div id='" + id + "' class='fixmyheight'><div id='" + id + "DisplayForm'>FormPlaceHolder</div></div>");
     tabs.tabs("refresh");
     tabs.tabs("option", "active", -1);
-    tabCounter++;
+ 
     index.FixTabsHeight();
     
     var newFormDisplay = Object.create(formDisplay); //Object.create(formEditor);
 
-   // newFormDisplay.newForm(label, $('#' + id + "Form"), tabCounter, $('#Fillertabs-' + tabCounter + '_dirty'), true);
+    newFormDisplay.newForm(label, $('#' + id + "DisplayForm"), tabCounter, $('#Fillertabs-' + tabCounter + '_dirty'), filename);
 }
 
 this.sendRecieve = function () {
@@ -80,8 +105,11 @@ this.refreshFolders = function () {
         var fhtml = "";
 
         for (var j in forms) {
-
-            fhtml += "            <li><span style='cursor:pointer;' onclick=\"filler.addtab('" + forms[j].split("_")[3] + "')\" href='#" + forms[j] + "'>" +
+             var path = helper.join(helper.getPublishersPath(), publishers[i]);
+          //   alert(path);
+          //   path = path.replace(/\\/g, "\\\\");
+          //   alert(path);   
+            fhtml += "            <li><span style='cursor:pointer;' onclick=\"filler.addtab('" + forms[j].split("_")[3] + "', '" +  helper.join(path, forms[j]).replace(/\\/g, "\\\\") + "')\" href='#" + forms[j] + "'>" +
                 (forms[j].substring(0, 1) == 'N' ? "<img style='width:37px;height:15px;' src='../icons/new-icon-37x15.png'>" : (forms[j].substring(0, 1) == 'U' ? "<img style='width:55px;height:15px;' src='../icons/updated-icon-55x15.png'>" : "")) + forms[j].split("_")[3] + "</span></li>"
         }
         if (forms.length == 0) {
