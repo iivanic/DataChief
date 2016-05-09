@@ -113,19 +113,19 @@ z-index:9999 ;}
 }
 
 #fillerTree  li > a:before {
-    content: '+';
+    content: '-';
     padding-right: 4px;
     font-weight: bold;
 }
 
 #fillerTree  li >a.active:before {
-    content: '-';
+    content: '+';
     padding-right: 4px;
     font-weight: bold;
 }
 
 #fillerTree li ul {
     margin: 0.5em 0 0.5em 2em;
-    display: none;
+  /*  display: none;*/
 }
 

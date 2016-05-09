@@ -124,6 +124,6 @@ this.refreshFolders = function () {
     }
     $("#fillerTreeSent").html(html);
 
-
     index._initMenu();
+
 }
