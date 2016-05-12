@@ -25,7 +25,8 @@ $(document).ready(function () {
         //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
         var el = $(this).closest("li");
         var panelId = el.attr("aria-controls") + "_dirty";
-        if ($("#" + panelId).css('display') != 'none') {
+     
+        if ($("#" + panelId).css('display') != 'none' && $("#" + panelId)[0]) {
             $("#dialog-confirm-remove-fillertab").dialog({
                 resizable: false,
                 height: 225,
