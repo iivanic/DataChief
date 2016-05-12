@@ -20,7 +20,7 @@ this._propsMeta = {
     _type: { browsable: false }
 }
 
-this.render = function(form, parent, placeholder, editable, user, idprefix) {
+this.render = function (form, parent, placeholder, editable, user, idprefix) {
     //  console.log("currentUserField.render()");
     var disabled = parent.disabled;
     this._form = form;
@@ -36,20 +36,20 @@ this.render = function(form, parent, placeholder, editable, user, idprefix) {
         ret += ctlbox;
     ret += "<div id='field_" + idprefix + "_" + this.id + "' class='datachiefFieldRow'><label for='" + idprefix + "_" + this.id + "' title='" + this.toolTip + "'>" + this.displayName + (this.required ? "<span title='This field is Required' class='datachiefFieldRequired'>*</span>" : "") + "</label>";
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
- //   if (this._value == "" && !disabled) {
-        ret += "<div class=row><div class='col-sm-6'>";
-        ret += "<button  id='" + idprefix + "_" + this.id + "_button' type='button' style='width:100%;' class='btn btn-secondary'>" + (this._value == ""?"Sign (" + user + ")":"Remove signature") + "</button>";
-        ret += "</div><div class='col-sm-6'>";
-  //  }
-    ret += "<input data-validation-required-message='" + this._requiredErrorMessage + "' " + 
-            (this._required?"required":"" ) + " readonly style='width:100%' type='text'  id='" + idprefix + "_" + this.id + "' class='datachiefField currentUserFieldMarker' value='" + this._value + "' />";
-   // if (this._value == "" && !disabled) {
-        ret += "<p class='help-block'></p></div></div>";
-   // }
+    //   if (this._value == "" && !disabled) {
+    ret += "<div class=row><div class='col-sm-6'>";
+    ret += "<button  id='" + idprefix + "_" + this.id + "_button' type='button' style='width:100%;' class='btn btn-secondary'>" + (this._value == "" ? "Sign (" + helper.extractUser(user) + ")" : "Remove signature") + "</button>";
+    ret += "</div><div class='col-sm-6'>";
+    //  }
+    ret += "<input data-validation-required-message='" + this._requiredErrorMessage + "' " +
+        (this._required ? "required" : "") + " readonly style='width:100%' type='text'  id='" + idprefix + "_" + this.id + "' class='datachiefField currentUserFieldMarker' value='" + this._value + "' />";
+    // if (this._value == "" && !disabled) {
+    ret += "<p class='help-block'></p></div></div>";
+    // }
     ret += "</div>";
     return ret;
 };
-this.ctor = function() {
+this.ctor = function () {
     this._children = new Array();
     this.__proto__.ctor();
     this._type = "currentUserField";
@@ -63,7 +63,7 @@ this.ctor = function() {
     this._form = null;
     this._parent = null;
 }
-this.findField = function(idwithprefix) {
+this.findField = function (idwithprefix) {
     //   console.log("currentUserField.findField(" + idwithprefix + ")");
 
     if (this._lastCumulativeId == idwithprefix) {

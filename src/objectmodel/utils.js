@@ -57,7 +57,7 @@ this.saveTextFile = function (filename, content) {
     var fs = require('fs');
     fs.writeFileSync(filename, content);
     console.log("The file " + filename + " was saved!");
-    
+
 }
 this.openForm = function (callback) {
 
@@ -203,18 +203,18 @@ this.getOnlyFileName = function (fileName) {
 this.deleteFile = function (fileName) {
     fs.unlinkSync(fileName)
 }
-this.deleteFolder = function(path) {
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file,index){
-      var curPath = path + "/" + file;
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-    fs.rmdirSync(path);
-  }
+this.deleteFolder = function (path) {
+    if (fs.existsSync(path)) {
+        fs.readdirSync(path).forEach(function (file, index) {
+            var curPath = path + "/" + file;
+            if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
 };
 
 this.alert = function (message) {
@@ -250,15 +250,15 @@ this.confirm = function (message, callback) {
 }
 
 this.encrypt = function (text, additionalpassword) {
-//   return text;
-    var cipher = crypto.createCipher('aes192', pwd + (additionalpassword?additionalpassword:""));
+    //   return text;
+    var cipher = crypto.createCipher('aes192', pwd + (additionalpassword ? additionalpassword : ""));
     var encrypted = cipher.update(text, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
 }
 this.decrypt = function (encrypted, additionalpassword) {
-//  return encrypted;
-    var decipher = crypto.createDecipher('aes192', pwd + (additionalpassword?additionalpassword:""));
+    //  return encrypted;
+    var decipher = crypto.createDecipher('aes192', pwd + (additionalpassword ? additionalpassword : ""));
 
     var decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
@@ -267,8 +267,70 @@ this.decrypt = function (encrypted, additionalpassword) {
 
 this.log = function (txt) {
     var d = new Date();
-    $("#logList").append(( userSettings.email!=userSettings.mainEmail? userSettings.mainEmail +" impersonating ": "" ) + userSettings.email + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
+    $("#logList").append((userSettings.email != userSettings.mainEmail ? userSettings.mainEmail + " impersonating " : "") + userSettings.email + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
     //  $("#logList").scrollTop($("#logList").scrollHeight);
     $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 200);
+}
 
+//checks weather roles comply with required roles
+this.checkUser = function (userRoles, requiredRoles) {
+    //nothing is required
+    if (!requiredRoles)
+        return true;
+    //no credentials
+    if (!userRoles)
+        return false;
+
+    // parameters can be either string(s) or array(s)
+    // if both are strings
+    if (!(userRoles instanceof Array) && !(requiredRoles instanceof Array)) {
+        // strings can be lists delimited with comma
+        var req = requiredRoles.split(",");
+        var usr = userRoles.split(",");
+        for (var i in req)
+            for (var j in usr)
+                if (req[i].toLowerCase().trim() == usr[j].toLowerCase().trim())
+                    return true;
+
+        return false;
+
+    }
+    else {
+        // requiredRoles are array, and userroles are not
+        if ((requiredRoles instanceof Array) && !(userRoles instanceof Array)) {
+            for (var i in requiredRoles) {
+                if (requiredRoles[i].toLowerCase().trim() == userRoles.toLowerCase().trim())
+                    return true;
+            }
+        }
+        else {
+            // userroles are array, and requiredRoles are not
+            if (!(requiredRoles instanceof Array) && (userRoles instanceof Array)) {
+                for (var i in userRoles) {
+                    if (userRoles[i].toLowerCase().trim() == requiredRoles.toLowerCase().trim())
+                        return true;
+                }
+            }
+            else {
+                // both userroles and requiredRoles are arrays, we are looking only for one match
+                if ((requiredRoles instanceof Array) && (userRoles instanceof Array)) {
+                    for (var i in userRoles) {
+                        for (var j in requiredRoles) {
+                            if (userRoles[i].toLowerCase().trim() == requiredRoles[j].toLowerCase().trim())
+                                return true;
+                        }
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+}
+this.extractUser = function (user) {
+    var usr = user.split(",");
+    for (var i in usr) {
+        if (usr[i].toLowerCase().trim() != "initiator")
+            return usr[i].toLowerCase().trim();
+    }
 }

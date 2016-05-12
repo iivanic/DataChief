@@ -91,7 +91,7 @@ this.render = function(form, parent, placeholder, editable, user, idprefix) {
     this._parent = parent;
     this._editable = editable;
     this._lastCumulativeId = idprefix + "_" + this.id;
-    var disabled = ((this.editors.replace(' ', '').split(",").indexOf(user) < 0 || this._parent._disabled) && !editable ? "disabled" : "");
+    var disabled = ((helper.checkUser(user , this.editors) || this._parent._disabled) && !editable ? "disabled" : "");
     this._disabled = disabled == "disabled";
     var ctlbox = "";
     if (editable)

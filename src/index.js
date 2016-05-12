@@ -328,6 +328,11 @@ function initMenu() {
     };
     MenuTree.walk();
 }
+this.reloadEditor = function()
+{
+    // we need to refresh all displayed forms
+  //  alert("index.reloadEditor()");
+}
 
 
 

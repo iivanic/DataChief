@@ -252,8 +252,8 @@ this.render = function(placeholder, editable, user) {
         $(signButton).prop("field", f).
             click(function() {
                 if ($("#" + this.field._lastCumulativeId).val() == "") {
-                    $("#" + this.field._lastCumulativeId).val(userSettings.email);
-                    this.field._value = userSettings.email;
+                    $("#" + this.field._lastCumulativeId).val( helper.extractUser(user) );
+                    this.field._value = helper.extractUser(user);
                 }
                 else {
                     $("#" + this.field._lastCumulativeId).val("");

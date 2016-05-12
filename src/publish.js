@@ -252,3 +252,9 @@ function clearOutbox() {
     }
     refreshOutbox();
 }
+
+this.reload = function()
+{
+    // we need to refresh folders...
+   // alert("publish.reload()");
+}

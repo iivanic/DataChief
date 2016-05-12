@@ -118,7 +118,7 @@ function uniq(a) {
 }
 
 this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
- 
+
     this.dirtyMark = dirtyMark;
     this.tabTitle = "#Fillertabs a[href='#Fillertabs-" + tabCounter + "']";
     this.placeHolder = placeHolder;
@@ -140,10 +140,11 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
 
     this.currentForm.render($("#" + this.prefix + "formPreview"),
         false
-        , userSettings.email);
+        // initiator can be only if no impersonation ... ???  ( userSettings.email == userSettings.identitySetting.email ? ", initiator": "" )
+        , userSettings.identitySetting.email + (loadedObj.published ? ", initiator" : ""));
 
-
-      this.bindSaveButton();
+    $("#Fillertabs-" + tabCounter).prop("current", this.currentForm);
+    this.bindSaveButton();
 }
 
 this.applyFormChanges = function () {
@@ -282,16 +283,14 @@ this.bindSaveButton = function () {
             this.me.saveToWork(this.me.dirtyMark.attr('id'));
         });
 };
-this.submit = function(dirtyMarkId)
-{
+this.submit = function (dirtyMarkId) {
     alert("submit");
     $("#" + dirtyMarkId).hide();
 }
-this.saveToWork = function(dirtyMarkId)
-{
+this.saveToWork = function (dirtyMarkId) {
     alert("saveToWork");
     $("#" + dirtyMarkId).hide();
-   
+
 }
 
 // dolje obrisati

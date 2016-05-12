@@ -21,11 +21,11 @@ $(document).ready(function () {
     tabs = $("#Fillertabs").tabs();
 
 
-         tabs.delegate("span.ui-icon-close", "click", function () {
+    tabs.delegate("span.ui-icon-close", "click", function () {
         //     var panelId = $(this).closest("li").remove().attr("aria-controls") + "_dirty";
         var el = $(this).closest("li");
         var panelId = el.attr("aria-controls") + "_dirty";
-     
+
         if ($("#" + panelId).css('display') != 'none' && $("#" + panelId)[0]) {
             $("#dialog-confirm-remove-fillertab").dialog({
                 resizable: false,
@@ -52,33 +52,33 @@ $(document).ready(function () {
 
         }
     });
-      
-/*
-    tabs.bind("keyup", function (event) {
-        if (event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE) {
-            var panelId = tabs.find(".ui-tabs-active").remove().attr("aria-controls");
-            $("#" + panelId).remove();
-            tabs.tabs("refresh");
-        }
-    });*/
+
+    /*
+        tabs.bind("keyup", function (event) {
+            if (event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE) {
+                var panelId = tabs.find(".ui-tabs-active").remove().attr("aria-controls");
+                $("#" + panelId).remove();
+                tabs.tabs("refresh");
+            }
+        });*/
 
 });
 
 // actual addTab function: adds new tab using the input from the form above
-this.addtab = function(title, filename) {
-       tabCounter++;
+this.addtab = function (title, filename) {
+    tabCounter++;
     var label = title || "Tab " + tabCounter,
         id = "Fillertabs-" + tabCounter,
         li = $(tabTemplate.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label).replace("{dirty}", "Fillertabs-" + tabCounter + "_dirty")),
-       tabContentHtml = tabContent || "Tab " + tabCounter + " content.";
+        tabContentHtml = tabContent || "Tab " + tabCounter + " content.";
 
     tabs.find(".ui-tabs-nav").append(li);
     tabs.append("<div id='" + id + "' class='fixmyheight'><div id='" + id + "DisplayForm'>FormPlaceHolder</div></div>");
     tabs.tabs("refresh");
     tabs.tabs("option", "active", -1);
- 
+
     index.FixTabsHeight();
-    
+
     var newFormDisplay = Object.create(formDisplay); //Object.create(formEditor);
 
     newFormDisplay.newForm(label, $('#' + id + "DisplayForm"), tabCounter, $('#Fillertabs-' + tabCounter + '_dirty'), filename);
@@ -106,11 +106,11 @@ this.refreshFolders = function () {
         var fhtml = "";
 
         for (var j in forms) {
-             var path = helper.join(helper.getPublishersPath(), publishers[i]);
-          //   alert(path);
-          //   path = path.replace(/\\/g, "\\\\");
-          //   alert(path);   
-            fhtml += "            <li><span style='cursor:pointer;' onclick=\"filler.addtab('" + forms[j].split("_")[3] + "', '" +  helper.join(path, forms[j]).replace(/\\/g, "\\\\") + "')\" href='#" + forms[j] + "'>" +
+            var path = helper.join(helper.getPublishersPath(), publishers[i]);
+            //   alert(path);
+            //   path = path.replace(/\\/g, "\\\\");
+            //   alert(path);   
+            fhtml += "            <li><span style='cursor:pointer;' onclick=\"filler.addtab('" + forms[j].split("_")[3] + "', '" + helper.join(path, forms[j]).replace(/\\/g, "\\\\") + "')\" href='#" + forms[j] + "'>" +
                 (forms[j].substring(0, 1) == 'N' ? "<img style='width:37px;height:15px;' src='../icons/new-icon-37x15.png'>" : (forms[j].substring(0, 1) == 'U' ? "<img style='width:55px;height:15px;' src='../icons/updated-icon-55x15.png'>" : "")) + forms[j].split("_")[3] + "</span></li>"
         }
         if (forms.length == 0) {
@@ -155,4 +155,19 @@ this.refreshFolders = function () {
 
     index._initMenu();
 
+}
+this.reload = function () {
+    
+    // we need to refresh all displayed forms
+    var tabs = $("[id^='Fillertabs-']");
+    for (var t = 0; t < tabs.length; t++) {
+        var tab = $(tabs[t]);
+        if (tab.attr("id").match(/^Fillertabs-\d+$/gi)) {
+            var f = tab.prop("current");
+            f._lastUser = userSettings.identitySetting.email + (f.published ? ", initiator" : "");
+            f.refresh();
+            helper.log("Refreshing opened forms in filler: " + f.name);
+        }
+    }
+    this.refreshFolders();
 }

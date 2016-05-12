@@ -135,6 +135,9 @@ this.reloadIndentityChooser = function () {
     );
     this.manageDeleteProfile();
     helper.log("Running DataChief as " + this.email);
+    filler.reload();
+    publish.reload();
+    index.reloadEditor();
 }
 function selectActiveProfile_change() {
 
