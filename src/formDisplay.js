@@ -210,32 +210,50 @@ function SaveJSONReplacer(key, value) {
     else return value;
 }
 
-this.saveForm = function (dirtyMarkId) {
+this.saveForm = function (dirtyMarkId, folder) {
     var success = true;
     var content = JSON.stringify(this.currentForm, SaveJSONReplacer, 2);
+    if (!folder) {
+        dialog.showSaveDialog(
+            {
+                title: "Save " + this.currentForm.name,
+                defaultPath: this.currentForm.name,
+                filters: [
+                    { name: 'DataChief Form', extensions: ['DataChiefForm'] },
+                    { name: 'All files', extensions: ['*'] },
+                ]
+            },
+            function (fileName) {
+                if (fileName === undefined) return;
+                fs.writeFile(fileName, content, function (err) {
+                    if (err) {
+                        console.log("Saving failed. " + err.toString());
+                        success = false;
+                    }
 
-    dialog.showSaveDialog(
-        {
-            title: "Save " + this.currentForm.name,
-            defaultPath: this.currentForm.name,
-            filters: [
-                { name: 'DataChief Form', extensions: ['DataChiefForm'] },
-                { name: 'All files', extensions: ['*'] },
-            ]
-        },
-        function (fileName) {
-            if (fileName === undefined) return;
-            fs.writeFile(fileName, content, function (err) {
-                if (err) {
-                    console.log("Saving failed. " + err.toString());
-                    success = false;
-                }
+                });
+                if (success)
+                    $("#" + dirtyMarkId).hide();
 
             });
-            if (success)
-                $("#" + dirtyMarkId).hide();
+    }
+    else {
+  
+        if (folder === undefined) return;
+        fs.writeFile(folder, content, function (err) {
+            if (err) {
+                console.log("Saving failed. " + err.toString());
+                success = false;
+            }
 
         });
+        if (success)
+        {
+            $("#" + dirtyMarkId).hide();
+            filler.refreshFolders();
+            
+    }}
+
 }
 this.resetDirty = function () {
     this.dirtyMark.hide();
@@ -282,17 +300,37 @@ this.bindSaveButton = function () {
         .click(function () {
             this.me.saveToWork(this.me.dirtyMark.attr('id'));
         });
+    $("#" + this.prefix + "selectFiller_fillerDelete").prop("me", this);
+    $("#" + this.prefix + "selectFiller_fillerDelete")
+        //  .button()
+        .click(function () {
+            this.me.fillerDeleteForm(this.me.dirtyMark.attr('id'));
+        });
 };
 this.submit = function (dirtyMarkId) {
     alert("submit");
     $("#" + dirtyMarkId).hide();
 }
 this.saveToWork = function (dirtyMarkId) {
-    alert("saveToWork");
-    $("#" + dirtyMarkId).hide();
+    var d = new Date();
+    this.saveForm(
+        dirtyMarkId, 
+        helper.join(
+            
+            helper.getWorkPath(), this.currentForm.name + " " + 
+    helper.padNumber(d.getMonth().toString(),2 ) + 
+    "-"  + helper.padNumber(d.getDay().toString(),2 ) + 
+    "-" + d.getFullYear().toString() + 
+    " " + helper.padNumber( d.getHours(),2 ) + 
+    "-" + helper.padNumber( d.getMinutes().toString(),2 ) + 
+    "-" + helper.padNumber( d.getSeconds().toString(),2 ) 
+    )); 
+   
 
 }
-
+this.fillerDeleteForm = function (dirtyMarkId) {
+    alert("fillerDeleteForm");
+}
 // dolje obrisati
 
 this.prepublish = function (dirtyMarkId) {

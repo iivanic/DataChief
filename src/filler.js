@@ -136,20 +136,20 @@ this.refreshFolders = function () {
 
     var work = helper.getFilesInDir(helper.getWorkPath());
     for (var i in work) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + work[i] + "</span";
+        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + work[i] + "</span></li>";
     }
     if (work.length == 0) {
-        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span";
+        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
     }
     $("#fillerTreeWork").html(html);
     html = "";
     var sent = helper.getFilesInDir(helper.getSentPath());
 
     for (var i in sent) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span";
+        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span></li>";
     }
     if (sent.length == 0) {
-        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span";
+        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
     }
     $("#fillerTreeSent").html(html);
 
