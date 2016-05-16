@@ -609,6 +609,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-progressbar-indeterminate .ui-progressbar-value {
 	background-image: none;
+
 }
 .ui-selectmenu-menu {
 	padding: 0;

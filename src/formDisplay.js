@@ -313,11 +313,17 @@ this.submit = function (dirtyMarkId) {
 }
 this.saveToWork = function (dirtyMarkId) {
     var d = new Date();
+    if(this.currentForm.published)
+    {
+        // when saving form that was created from templatet, we need to give it an intance id
+        this.currentForm.published=false;
+        this.currentForm.formid=helper.generateGUID();
+    }
     this.saveForm(
         dirtyMarkId, 
         helper.join(
             
-            helper.getWorkPath(), this.currentForm.name + " " + 
+            helper.getWorkPath(), this.currentForm.formid + "_" +  this.currentForm.name + " " + 
     helper.padNumber(d.getMonth().toString(),2 ) + 
     "-"  + helper.padNumber(d.getDay().toString(),2 ) + 
     "-" + d.getFullYear().toString() + 
@@ -325,13 +331,14 @@ this.saveToWork = function (dirtyMarkId) {
     "-" + helper.padNumber( d.getMinutes().toString(),2 ) + 
     "-" + helper.padNumber( d.getSeconds().toString(),2 ) 
     )); 
-   
+   filler.removeTab(this.dirtyMark);
 
 }
-this.fillerDeleteForm = function (dirtyMarkId) {
-    alert("fillerDeleteForm");
+this.fillerDeleteForm = function () {
+    if(this.currentForm.published)
+        filler.removeTab(this.dirtyMark);
 }
-// dolje obrisati
+
 
 this.prepublish = function (dirtyMarkId) {
     var success = true;

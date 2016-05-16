@@ -139,7 +139,7 @@ this.getPublishersPath = function () {
 };
 this.getSentPath = function () {
     var p = this.getSettingsFolder();
-    this.checkFolderAndImpersonationFolder(p);
+    p = this.checkFolderAndImpersonationFolder(p);
     p = path.join(p, "sent");
     p = this.checkFolder(p);
     return p;
@@ -217,7 +217,7 @@ this.deleteFolder = function (path) {
     }
 };
 
-this.alert = function (message) {
+this.alert = function (message, callback) {
     $("#dialog-alert-text").text(message);
     $("#dialog-alert").dialog({
         resizable: false,
@@ -226,6 +226,8 @@ this.alert = function (message) {
         buttons: {
             Ok: function () {
                 $(this).dialog("close");
+                if(callback)
+                    callback();
             }
         }
     });

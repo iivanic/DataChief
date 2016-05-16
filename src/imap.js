@@ -24,6 +24,15 @@ function Go() {
     error = null;
     recievedCnt = 0;
     progressCnt = 0;
+    progressbar = $("#progressbar").progressbar({
+            value: 1
+        });
+    progressbarValue = progressbar.find( ".ui-progressbar-value" );
+ 
+    progressbarValue.css({
+          "background": '#FF1B0F' });  
+    
+        
     imap = new Imap({
         user: userSettings.identitySetting.imapUserName,
         password: userSettings.identitySetting.imapPassword,
@@ -77,10 +86,11 @@ function Go() {
         });
         publish.refreshOutB();
         if (!error)
-            helper.alert("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
+            helper.alert("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).", resetProgressBar);
         else
-            helper.alert(error);
+            helper.alert(error, resetProgressBar);
         imapbusy = false;
+       
     });
 
 
@@ -90,6 +100,12 @@ function Go() {
         value: 5
     });
     imap.connect();
+}
+function resetProgressBar()
+{
+     $("#progressbar").progressbar({
+            value: 0
+        });
 }
 function createDCFolder() {
     helper.log("Checking for <strong>Datachief</strong> folder...")

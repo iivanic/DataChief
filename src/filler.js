@@ -33,7 +33,7 @@ $(document).ready(function () {
                 modal: true,
                 buttons: {
                     "Close Form": function () {
-                        console.log(2);
+
                         el.remove()
                         $("#" + panelId.replace("_dirty", "")).remove();
                         tabs.tabs("refresh");
@@ -82,6 +82,15 @@ this.addtab = function (title, filename) {
     var newFormDisplay = Object.create(formDisplay); //Object.create(formEditor);
 
     newFormDisplay.newForm(label, $('#' + id + "DisplayForm"), tabCounter, $('#Fillertabs-' + tabCounter + '_dirty'), filename);
+}
+
+this.removeTab = function(currentFormDirty)
+{
+    var id = currentFormDirty.attr("id").replace("_dirty","");
+    $("#" + id ).remove();
+    $("[aria-controls=\"" + id + "\"]" ).remove();
+    tabs.tabs("refresh");
+
 }
 
 this.sendRecieve = function () {
@@ -157,7 +166,7 @@ this.refreshFolders = function () {
 
 }
 this.reload = function () {
-    
+
     // we need to refresh all displayed forms
     var tabs = $("[id^='Fillertabs-']");
     for (var t = 0; t < tabs.length; t++) {

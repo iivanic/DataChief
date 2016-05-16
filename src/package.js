@@ -32,6 +32,7 @@ this.loadPackage = function (file) {
     for (var i in loadedObj.forms) {
         var version = loadedObj.forms[i]._version;
         var id = loadedObj.forms[i]._id;
+        loadedObj.forms[i].published=true;
         var content = JSON.stringify(loadedObj.forms[i], index._formEditor.saveJSONReplacer, 2);
         var status = this.findFileStatus(id, version, oldFiles);
         var fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name);
