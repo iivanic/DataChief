@@ -1,11 +1,3 @@
-#TODO
-* Full impersonation - for workflow testing and development
-* Communication object model
-* Filler - Form templates, work, recieved forms.
-* Real Queue for outbox
-* Data Collection + broadcast graphs
-* Passwords and org secret encryption
-
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 
@@ -45,20 +37,16 @@ Smartphone versions are planned, and are crucial part of DataChief. This softwar
 * You will need **Node.js**, **Git** and **Microsoft Visual Studio Code** already installed.
 * From command line:
     * pull source code from GitHub:
-    ```shell
-    git clone https://www.github.com/iivanic/datachief.git
-    ```
+    
+        `git clone https://www.github.com/iivanic/datachief.git`
     * go to project root: 
-    ```shell
-    cd datachief/
-    ```
+    
+        `cd datachief/`
     * install electron-prebuild - it is not included: 
-    ```shell
-    npm install electron-prebuilt --save-dev
-    ```
+    
+        `npm install electron-prebuilt --save-dev`
     * install node-imap: 
-    ```shell
-    npm install imap
-    ```
+    
+        `npm install imap`
     * now You can open it with **Microsoft Visual Studio Code**. Depending on the platform You may also need to change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**"
     * press **F5** to run DataChief

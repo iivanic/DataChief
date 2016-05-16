@@ -135,7 +135,7 @@ this.refreshFolders = function () {
     html = "";
     var recieved = helper.getFilesInDir(helper.getRecievedPath());
     for (var i in recieved) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + recieved[i] + "</span></li>";
+        html += " <li><span style='cursor:pointer;width:100%' href='" + recieved[i] + "'>" + recieved[i].substring(37) + "</span></li>";
     }
     if (recieved.length == 0) {
         html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
@@ -145,7 +145,7 @@ this.refreshFolders = function () {
 
     var work = helper.getFilesInDir(helper.getWorkPath());
     for (var i in work) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + work[i] + "</span></li>";
+        html += " <li><span style='cursor:pointer;width:100%' onclick=\"filler.addtab('" + work[i].split("_")[1] + "', '" + helper.join(helper.getWorkPath(), work[i]).replace(/\\/g, "\\\\") + "')\" href='#" +work[i] + "'>" + work[i].substring(37) + "</span></li>";
     }
     if (work.length == 0) {
         html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
@@ -153,13 +153,16 @@ this.refreshFolders = function () {
     $("#fillerTreeWork").html(html);
     html = "";
     var sent = helper.getFilesInDir(helper.getSentPath());
-
+/*
     for (var i in sent) {
         html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span></li>";
     }
-    if (sent.length == 0) {
+    */
+     html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });'>Sent " + sent.length + " forms</span></li>";
+  /*  if (sent.length == 0) {
         html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
     }
+    */
     $("#fillerTreeSent").html(html);
 
     index._initMenu();
