@@ -44,7 +44,7 @@ Smartphone versions are planned, and are crucial part of DataChief. This softwar
         `cd datachief/`
     * install electron-prebuild - it is not included: 
     
-        `npm install electron-prebuilt --save-dev`
+        `npm install electron-prebuilt@0.37.8 --save-dev`
     * install node-imap: 
     
         `npm install imap`
