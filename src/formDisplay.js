@@ -141,7 +141,7 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
     this.currentForm.render($("#" + this.prefix + "formPreview"),
         false
         // initiator can be only if no impersonation ... ???  ( userSettings.email == userSettings.identitySetting.email ? ", initiator": "" )
-        , userSettings.identitySetting.email + (loadedObj.published ? ", initiator" : ""));
+        , userSettings.identitySetting.email + (loadedObj.published ? ", initiator" : ""), "dcformFiller");
 
     $("#Fillertabs-" + tabCounter).prop("current", this.currentForm);
     this.bindSaveButton();
@@ -211,6 +211,7 @@ function SaveJSONReplacer(key, value) {
 }
 
 this.saveForm = function (dirtyMarkId, folder) {
+    this.currentForm.readValues();
     var success = true;
     var content = JSON.stringify(this.currentForm, SaveJSONReplacer, 2);
     if (!folder) {
@@ -238,7 +239,7 @@ this.saveForm = function (dirtyMarkId, folder) {
             });
     }
     else {
-  
+
         if (folder === undefined) return;
         fs.writeFile(folder, content, function (err) {
             if (err) {
@@ -247,12 +248,12 @@ this.saveForm = function (dirtyMarkId, folder) {
             }
 
         });
-        if (success)
-        {
+        if (success) {
             $("#" + dirtyMarkId).hide();
             filler.refreshFolders();
-            
-    }}
+
+        }
+    }
 
 }
 this.resetDirty = function () {
@@ -313,30 +314,61 @@ this.submit = function (dirtyMarkId) {
 }
 this.saveToWork = function (dirtyMarkId) {
     var d = new Date();
-    if(this.currentForm.published)
-    {
+
+
+
+    if (this.currentForm.published) {
         // when saving form that was created from templatet, we need to give it an intance id
-        this.currentForm.published=false;
-        this.currentForm.formid=helper.generateGUID();
+        this.currentForm.formid = helper.generateGUID();
+    }
+    
+ 
+    var filename = helper.join(
+        helper.getWorkPath(), this.currentForm.formid + "_" + this.currentForm.name + " " +
+        helper.padNumber(d.getMonth().toString(), 2) +
+        "-" + helper.padNumber(d.getDay().toString(), 2) +
+        "-" + d.getFullYear().toString() +
+        " " + helper.padNumber(d.getHours(), 2) +
+        "-" + helper.padNumber(d.getMinutes().toString(), 2) +
+        "-" + helper.padNumber(d.getSeconds().toString(), 2)
+    );
+    var fname = this.currentForm.filename;
+    if (fname) {
+        helper.deleteFile(fname);
+        this.currentForm.filename = filename;
+    }
+    if (this.currentForm.published) {
+        this.currentForm.published = false;
+        this.currentForm.createdByMe = true;
+        this.currentForm.filename = filename;
     }
     this.saveForm(
-        dirtyMarkId, 
-        helper.join(
-            
-            helper.getWorkPath(), this.currentForm.formid + "_" +  this.currentForm.name + " " + 
-    helper.padNumber(d.getMonth().toString(),2 ) + 
-    "-"  + helper.padNumber(d.getDay().toString(),2 ) + 
-    "-" + d.getFullYear().toString() + 
-    " " + helper.padNumber( d.getHours(),2 ) + 
-    "-" + helper.padNumber( d.getMinutes().toString(),2 ) + 
-    "-" + helper.padNumber( d.getSeconds().toString(),2 ) 
-    )); 
-   filler.removeTab(this.dirtyMark);
+        dirtyMarkId,
+        filename
+    );
+    filler.removeTab(this.dirtyMark);
 
 }
 this.fillerDeleteForm = function () {
-    if(this.currentForm.published)
+    var al = false;
+    if (this.currentForm.published || this.currentForm.createdByMe) {
+        // is it saved to disk? 
+        var f = $("#" + this.dirtyMark.attr("id").replace("_dirty", "")).prop("current");
+        if (f)
+            if (f.filename) {
+                if (f.filename.startsWith(helper.getWorkPath())) {
+                    helper.deleteFile(f.filename);
+                    filler.refreshFolders();
+                }
+            }
+
+        //close its tab
         filler.removeTab(this.dirtyMark);
+    }
+    else
+        al = true;
+    if (al)
+        helper.alert("Form(s) recieved from other user(s) can not be deleted.");
 }
 
 

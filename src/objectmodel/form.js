@@ -122,17 +122,17 @@ this.refresh = function() {
     this.render(this._lastPlaceholder, this._lastEditable, this._lastUser);
 }
 
-this.render = function(placeholder, editable, user) {
+this.render = function(placeholder, editable, user, _idprefix) {
     this.readValues();
     console.log("form.render(placeholder, " + editable + ", " + user + ")");
     this._lastPlaceholder = placeholder;
     this._lastEditable = editable;
     this._lastUser = user;
 
-
-
     this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
-    this.idprefix = "dcform";
+    if(!_idprefix)
+        _idprefix="dcform"
+    this.idprefix = _idprefix ;
     this._lastCumulativeId = this.idprefix + "_" + this.id;
     var str = "";
 

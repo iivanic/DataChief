@@ -421,10 +421,10 @@ this.bindSaveButton = function(){
 this.prepublish = function(dirtyMarkId)
 {
     var success=true;
+    this.currentForm.version = Math.abs(this.currentForm.version)+1;
     var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
 
     var p=helper.getPrepublishPath();
-    this.currentForm.version = Math.abs(this.currentForm.version)+1;
     var fileName = this.currentForm.id + "_" + this.currentForm.version + "_" + this.currentForm.name;
     //fileName = helper.ensureFileNameUnique(p,fileName);
     // check if exists in prebublished
@@ -500,10 +500,10 @@ this.prepublish = function(dirtyMarkId)
 this.publish = function(dirtyMarkId)
 {
        var success=true;
+    this.currentForm.version = Math.abs(this.currentForm.version)+1;
     var content = JSON.stringify(this.currentForm,SaveJSONReplacer,2);
 
     var p=helper.getPublishPath();
-    this.currentForm.version = Math.abs(this.currentForm.version)+1;
     var fileName = this.currentForm.id + "_" + this.currentForm.version + "_" + this.currentForm.name;
     //fileName = helper.ensureFileNameUnique(p,fileName);
     // check if exists in prebublished

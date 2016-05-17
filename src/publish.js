@@ -202,6 +202,8 @@ function publishEverything() {
 
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
+        //mark form as published - this means it's a template.
+        loadedObj.published=true;
         var users = loadedObj.publishTo.split(",");
         for (var ui = 0; ui < users.length; ui++) {
             if (!packages[users[ui]]) {
