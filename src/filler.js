@@ -63,7 +63,30 @@ $(document).ready(function () {
         });*/
 
 });
+// this function check wather form is already opn (needed for work folder, recieved folder)
+this.checktab = function (title, filename) {
+    var formid = helper.getOnlyFileName(filename).substring(0, 36);
+    var openFormsSel = $("[id^=\"Fillertabs-\"]");
+    var cnt = 0;
+    for (var i = 0; i < openFormsSel.length; i++) {
 
+        var f = $(openFormsSel[i]).prop("current");
+        if (f) {
+            if ($(openFormsSel[i]).attr("id").match(/^Fillertabs-\d+$/gi)) {
+                 cnt++;
+                if (f.formid == formid) {
+                    //form already open, .. activate its tab
+                    tabs.tabs("option", "active", cnt);
+                    tabs.tabs("refresh");
+                    return;
+                }
+               
+            }
+        }
+
+    }
+    this.addtab(title, filename);
+}
 // actual addTab function: adds new tab using the input from the form above
 this.addtab = function (title, filename) {
     tabCounter++;
@@ -84,11 +107,10 @@ this.addtab = function (title, filename) {
     newFormDisplay.newForm(label, $('#' + id + "DisplayForm"), tabCounter, $('#Fillertabs-' + tabCounter + '_dirty'), filename);
 }
 
-this.removeTab = function(currentFormDirty)
-{
-    var id = currentFormDirty.attr("id").replace("_dirty","");
-    $("#" + id ).remove();
-    $("[aria-controls=\"" + id + "\"]" ).remove();
+this.removeTab = function (currentFormDirty) {
+    var id = currentFormDirty.attr("id").replace("_dirty", "");
+    $("#" + id).remove();
+    $("[aria-controls=\"" + id + "\"]").remove();
     tabs.tabs("refresh");
 
 }
@@ -145,7 +167,7 @@ this.refreshFolders = function () {
 
     var work = helper.getFilesInDir(helper.getWorkPath());
     for (var i in work) {
-        html += " <li><span style='cursor:pointer;width:100%' onclick=\"filler.addtab('" + work[i].split("_")[1] + "', '" + helper.join(helper.getWorkPath(), work[i]).replace(/\\/g, "\\\\") + "')\" href='#" +work[i] + "'>" + work[i].substring(37) + "</span></li>";
+        html += " <li><span style='cursor:pointer;width:100%' onclick=\"filler.checktab('" + work[i].split("_")[1] + "', '" + helper.join(helper.getWorkPath(), work[i]).replace(/\\/g, "\\\\") + "')\" href='#" + work[i] + "'>" + work[i].substring(37) + "</span></li>";
     }
     if (work.length == 0) {
         html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
@@ -153,16 +175,16 @@ this.refreshFolders = function () {
     $("#fillerTreeWork").html(html);
     html = "";
     var sent = helper.getFilesInDir(helper.getSentPath());
-/*
-    for (var i in sent) {
-        html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span></li>";
-    }
-    */
-     html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });'>Sent " + sent.length + " forms</span></li>";
-  /*  if (sent.length == 0) {
-        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
-    }
-    */
+    /*
+        for (var i in sent) {
+            html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span></li>";
+        }
+        */
+    html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });'>Sent " + sent.length + " forms</span></li>";
+    /*  if (sent.length == 0) {
+          html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
+      }
+      */
     $("#fillerTreeSent").html(html);
 
     index._initMenu();
