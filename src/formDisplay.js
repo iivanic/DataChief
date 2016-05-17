@@ -310,6 +310,8 @@ this.bindSaveButton = function () {
 };
 this.submit = function (dirtyMarkId) {
     alert("submit");
+    var myoutbox = helper.getMyOutboxPath();
+    
     $("#" + dirtyMarkId).hide();
 }
 this.saveToWork = function (dirtyMarkId) {
