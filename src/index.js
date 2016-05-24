@@ -20,9 +20,21 @@ function getDescription(pjson) {
     return ret;
 
 }
+function getCaseStudy() {
+    var ret = "";
+    var showdown = require('./showdown-1.3.0/showdown.min');
+    var converter = new showdown.Converter();
+    var fs = require("fs");
+    var path = require("path");
+    var data = fs.readFileSync(path.resolve(path.join(__dirname, "../Case study Barrique Works LLC.md")));
+    ret += converter.makeHtml(data.toString());;
+    return ret;
 
+}
 var tabs = null; // $( "#tabs" ).tabs();
 var maintabs = null;
+var abouttabs = null;
+
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
 this.AddTab = addTab;
@@ -76,11 +88,24 @@ $(document).ready(function () {
         shell.openExternal(this.href);
     });
 
+
     var pjson = require('../package.json');
     $('#header').text(getWelcomeMessage(pjson));
     $('#description').html(getDescription(pjson));
+    $('#casestudy').html(getCaseStudy());
+    $(document).on("click", 'a[href*="Case study Barrique Works LLC.md"]',
+        function (event) {
+            try {
+                abouttabs.tabs("option", "active", 1);
+            }
+            catch (e) {
+                alert(e);
+            }
+            event.preventDefault();
+        });
     maintabs = $("#maintabs").tabs();
     tabs = $("#tabs").tabs();
+    abouttabs = $("#abouttabs").tabs();
 
     $("#about_ver").text(pjson.version);
     $("#about_author").text(pjson.author);
@@ -197,7 +222,7 @@ $(document).ready(function () {
 
     $(window).trigger('resize');
     // MenuTree.walk();
-    window.setTimeout("imap.go(true)",4000);
+    window.setTimeout("imap.go(true)", 4000);
 });
 this.closeTab = function (el) {
     //remove tab
@@ -329,10 +354,9 @@ function initMenu() {
     };
     MenuTree.walk();
 }
-this.reloadEditor = function()
-{
+this.reloadEditor = function () {
     // we need to refresh all displayed forms
-  //  alert("index.reloadEditor()");
+    //  alert("index.reloadEditor()");
 }
 
 

@@ -76,7 +76,7 @@
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Data has not been saved.
                 Are you sure you want to close it without submitting or saving to Work folder?</p>
         </div>
-       <div id="dialog-confirm-remove-field" style="display:none;" title="Delete field?">
+        <div id="dialog-confirm-remove-field" style="display:none;" title="Delete field?">
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are You sure?</p>
         </div>
         <div id="dialog-confirm" style="display:none;" title="Are You sure?">
@@ -203,7 +203,7 @@
             </div>
             <div id="maintabs-3" class="fixmyheight">
                 <div class="row" style="height:100%">
-                    <div class="col-sm-2" style="height:100%"  class="fixmyheight" >
+                    <div class="col-sm-2" style="height:100%" class="fixmyheight">
                         <button style="width:100%;" id="btnSendRecieve">Send / Recieve</button>
                         <hr />
                         <ul id="fillerTree" style="width:100%;padding-left:0px;">
@@ -236,7 +236,7 @@
                                     <li>tewt</li>
                                 </ul>
                             </li>
-                           <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3"><strong>Outbox</strong></a>
+                            <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3"><strong>Outbox</strong></a>
                                 <ul id="fillerTreeMyOutbox">
                                     <li>Test1</li>
                                     <li>tewt</li>
@@ -490,16 +490,30 @@
                 </div>
             </div>
             <div id="maintabs-6" class="fixmyheight">
-                <div style="height:100%;">
-                    <img src="../icons/Filler.png" style="float:left;padding-right:24px;;padding-top:12px;" />
-                    <br>
-                    <p>Version: <strong id="about_ver">.</strong></p>
-                    <p>Author: <strong id="about_author">.</strong></p>
-                    <p>Released under: <strong id="about_lic">.</strong></p>
-                    <p>Get the source code <a href="http://www.github.com/iivanic/datachief" target="_blank">from GitHub</a>.</p>
-                    <p id="description">...</p>
+                <div class="row">
+                    <div class="col-sm-3" style="text-align:center">
+                        <img src="../icons/Filler.png" style="height:256px;padding-bottom:24px;padding-top:24px;" />
+                        <br>
+                        <p>Version: <strong id="about_ver">.</strong></p>
+                        <p>Author: <strong id="about_author">.</strong></p>
+                        <p>Released under: <a href="https://github.com/iivanic/DataChief/blob/master/LICENSE" target="_blank"><strong id="about_lic">.</a></strong></p>
+                        <p>Get the source code <a href="http://www.github.com/iivanic/datachief" target="_blank"><strong>from GitHub</strong></a>.</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <div id="abouttabs">
+                            <ul>
+                                <li><a href="#abouttabs-1">About</a></li>
+                                <li><a href="#abouttabs-2">Case Study</a></li>
+                            </ul>
+                            <div id="abouttabs-1" class="fixmyheight">
+                                <p id="description">...</p>
+                            </div>
+                            <div id="abouttabs-2" class="fixmyheight">
+                                <p id="casestudy">...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
         </div>
