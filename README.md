@@ -6,6 +6,8 @@ DataChief enables you to rapidly implement processes in your company/organizatio
 
 You don't have to be blocked anymore by expensive Line of business (LOB) applications development that never ends, and when they are finally ready, they are often obsolete.
 
+Take a look at [Brrique Works LLC Case Study](./Case study  Barrique Works LLC.md). 
+
 ##Roadmap
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
 * Multiplatform (developed in Electron)

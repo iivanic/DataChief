@@ -8,7 +8,7 @@ var olist;
 var slist;
 var llist;
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#button2Publish").button({
         text: true,
@@ -17,7 +17,7 @@ $(document).ready(function() {
         },
         disabled: true
     })
-        .click(function() {
+        .click(function () {
             //helper.confirm("Move to Publish Folder?", move2Published);
             move2Published();
         });
@@ -28,7 +28,7 @@ $(document).ready(function() {
         },
         disabled: true
     })
-        .click(function() {
+        .click(function () {
             helper.confirm("Open in Editor?", openInEditor);
         });
     $("#button2Prepublish").button({
@@ -38,7 +38,7 @@ $(document).ready(function() {
         },
         disabled: true
     })
-        .click(function() {
+        .click(function () {
             //helper.confirm("Move back to Prepublish Folder?", move2Prepublished);
             move2Prepublished();
         });
@@ -48,7 +48,7 @@ $(document).ready(function() {
             secondary: "ui-icon-arrow-1-e"
         }
     })
-        .click(function() {
+        .click(function () {
             helper.confirm("Generate packages and publish forms?", publishEverything);
         });
 
@@ -59,7 +59,7 @@ $(document).ready(function() {
         },
         disabled: true
     })
-        .click(function() {
+        .click(function () {
             helper.confirm("Delete?", deletePrepublished)
         });
     $("#buttonClearOutbox").button({
@@ -69,7 +69,7 @@ $(document).ready(function() {
         },
         disabled: true
     })
-        .click(function() {
+        .click(function () {
             clearOutbox();
         });
     $("#buttonSendPackages").button({
@@ -79,7 +79,7 @@ $(document).ready(function() {
         },
         disabled: true
     })
-        .click(function() {
+        .click(function () {
             imap.go();
         });
 
@@ -169,7 +169,7 @@ function readFiles() {
 
 this.refreshFolders = readFiles;
 
-this.info = function() {
+this.info = function () {
     llist.html("");
     var items = $("#prepublishList input:checked");
     for (var i = 0; i < items.length; i++) {
@@ -188,7 +188,7 @@ this.info = function() {
 
     }
 }
-this.packageinfo = function(filename) {
+this.packageinfo = function (filename) {
     file = helper.loadFile(filename);
     var loadedObj = JSON.parse(file);
     helper.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
@@ -196,6 +196,8 @@ this.packageinfo = function(filename) {
 }
 function publishEverything() {
     items = $("#publishList input");
+    // add users myoutbox to files
+    items.add($("#fillerTreeMyOutbox li"));
     var packages = new Array();
     var pCount = 0;
     for (var i = 0; i < items.length; i++) {
@@ -203,11 +205,27 @@ function publishEverything() {
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
         //mark form as published - this means it's a template.
-        loadedObj.published=true;
+        loadedObj.published = true;
         var users = loadedObj.publishTo.split(",");
+        // if form is not template then ...
+        if(loadedObj.workflowStep)
+        {
+            users = loadedObj.workflow.split(";");
+            // find workflow step 
+            if(users.length<loadedObj.workflowStep)
+            {
+                // or send it to final reciver
+                users = loadedObj.finalStep;
+            }
+            else
+            {
+                // find workflow step 
+                users = users[loadedObj.workflowStep-1];
+            }
+        }
         for (var ui = 0; ui < users.length; ui++) {
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { publisher: userSettings.organization , published:true, user: users[ui], forms: new Array(), commands: new Array() };
+                packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array() };
                 pCount++;
             }
             packages[users[ui]].forms.push(loadedObj);
@@ -224,7 +242,7 @@ function publishEverything() {
 
 }
 function savePackage(p) {
-    var content = "START"  + helper.encrypt( JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
+    var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
     helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), p.user), content);
 }
 this.refreshOutB = refreshOutbox;
@@ -255,8 +273,7 @@ function clearOutbox() {
     refreshOutbox();
 }
 
-this.reload = function()
-{
+this.reload = function () {
     // we need to refresh folders...
-   // alert("publish.reload()");
+    // alert("publish.reload()");
 }

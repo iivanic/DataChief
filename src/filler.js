@@ -73,14 +73,14 @@ this.checktab = function (title, filename) {
         var f = $(openFormsSel[i]).prop("current");
         if (f) {
             if ($(openFormsSel[i]).attr("id").match(/^Fillertabs-\d+$/gi)) {
-                 cnt++;
+                cnt++;
                 if (f.formid == formid) {
                     //form already open, .. activate its tab
                     tabs.tabs("option", "active", cnt);
                     tabs.tabs("refresh");
                     return;
                 }
-               
+
             }
         }
 
@@ -174,12 +174,18 @@ this.refreshFolders = function () {
     }
     $("#fillerTreeWork").html(html);
     html = "";
+  
+    var myoutbox = helper.getFilesInDir(helper.getMyOutboxPath());
+
+    for (var i in myoutbox) {
+        html += " <li><span style='cursor:not-allowed;width:100%' value='" + helper.join(helper.getMyOutboxPath(), myoutbox[i]).replace(/\\/g, "\\\\") + "'>" + myoutbox[i].substring(37)+ "</span></li>";
+    }
+
+    $("#fillerTreeMyOutbox").html(html);
+    html = "";
+
     var sent = helper.getFilesInDir(helper.getSentPath());
-    /*
-        for (var i in sent) {
-            html += " <li><span style='cursor:pointer;width:100%' href='#'>" + sent[i] + "</span></li>";
-        }
-        */
+
     html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });'>Sent " + sent.length + " forms</span></li>";
     /*  if (sent.length == 0) {
           html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";

@@ -309,24 +309,52 @@ this.bindSaveButton = function () {
         });
 };
 this.submit = function (dirtyMarkId) {
-    alert("submit");
+
+
     var myoutbox = helper.getMyOutboxPath();
-    
+    // 
+    fixForm(myoutbox);
+    // set workflow step.
+    if (!this.currentForm.workflowStep)
+        this.currentForm.workflowStep = 1;
+    else
+        this.currentForm.workflowStep++;
+
+    //  read values & save to outbox
+    var filename = helper.join(helper.getMyOutboxPath(), helper.getOnlyFileName(this.currentForm.filename));
+    this.saveForm(
+        dirtyMarkId,
+        filename
+    );
+    //delete old file
+    helper.deleteFile(this.currentForm.filename);
+
     $("#" + dirtyMarkId).hide();
+    filler.removeTab(this.dirtyMark);
+    filler.refreshFolders();
 }
 this.saveToWork = function (dirtyMarkId) {
     var d = new Date();
+    if (this.currentForm.published) {
+        this.currentForm.createdByMe = true;
+    }
+    fixForm(helper.getWorkPath());
 
+    this.saveForm(
+        dirtyMarkId,
+        filename
+    );
+    filler.removeTab(this.dirtyMark);
 
-
+}
+function fixForm(path) {
     if (this.currentForm.published) {
         // when saving form that was created from templatet, we need to give it an intance id
         this.currentForm.formid = helper.generateGUID();
     }
-    
- 
+
     var filename = helper.join(
-        helper.getWorkPath(), this.currentForm.formid + "_" + this.currentForm.name + " " +
+        path, this.currentForm.formid + "_" + this.currentForm.name + " " +
         helper.padNumber(d.getMonth().toString(), 2) +
         "-" + helper.padNumber(d.getDay().toString(), 2) +
         "-" + d.getFullYear().toString() +
@@ -344,12 +372,7 @@ this.saveToWork = function (dirtyMarkId) {
         this.currentForm.createdByMe = true;
         this.currentForm.filename = filename;
     }
-    this.saveForm(
-        dirtyMarkId,
-        filename
-    );
-    filler.removeTab(this.dirtyMark);
-
+    return filename;
 }
 this.fillerDeleteForm = function () {
     var al = false;

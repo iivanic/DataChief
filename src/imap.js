@@ -15,9 +15,10 @@ function openInbox(cb) {
 
 var imapbusy = false;
 this.go = Go;
-function Go() {
+function Go(automatic) {
     if (imapbusy) {
-        helper.alert("Send/recieve job already running. Please wait for finish.");
+        if(!automatic)
+            helper.log("Send/recieve job already running. Please wait for finish.");
         return;
     }
     imapbusy = true;
@@ -25,14 +26,15 @@ function Go() {
     recievedCnt = 0;
     progressCnt = 0;
     progressbar = $("#progressbar").progressbar({
-            value: 1
-        });
-    progressbarValue = progressbar.find( ".ui-progressbar-value" );
- 
+        value: 1
+    });
+    progressbarValue = progressbar.find(".ui-progressbar-value");
+
     progressbarValue.css({
-          "background": '#FF1B0F' });  
-    
-        
+        "background": '#FF1B0F'
+    });
+
+
     imap = new Imap({
         user: userSettings.identitySetting.imapUserName,
         password: userSettings.identitySetting.imapPassword,
@@ -72,27 +74,36 @@ function Go() {
                 error = err;
         }
         imap.end();
-
-
+        imapbusy = false;
         $("#progressbar").progressbar({
-            value: 95
+            value: 100
         });
+        window.setTimeout(resetProgressBar, 1000);
     });
 
     imap.once('end', function () {
         helper.log('Connection ended.');
+         if (imap.error)
+            return;
         $("#progressbar").progressbar({
             value: 100
         });
-        publish.refreshOutB();
-        if (!error)
-            helper.alert("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).", resetProgressBar);
-        else
-            helper.alert(error, resetProgressBar);
-        imapbusy = false;
        
-    });
+        publish.refreshOutB();
+        if (!error) {
+          //  if (progressMax != 0 && recievedCnt != 0) {
+                helper.log("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
+         //   }
+        }
+        else {
+            helper.log(error);
 
+        }
+
+        imapbusy = false;
+        window.setTimeout("imap.go(true)", 30000);
+        window.setTimeout(resetProgressBar, 1000);
+    });
 
 
     helper.log("Connecting to <strong>" + imap._config.host + ":" + imap._config.port + "</strong> as <strong>" + imap._config.user + "</strong>.");
@@ -101,11 +112,10 @@ function Go() {
     });
     imap.connect();
 }
-function resetProgressBar()
-{
-     $("#progressbar").progressbar({
-            value: 0
-        });
+function resetProgressBar() {
+    $("#progressbar").progressbar({
+        value: 0
+    });
 }
 function createDCFolder() {
     helper.log("Checking for <strong>Datachief</strong> folder...")
@@ -276,7 +286,7 @@ function readMessages1() {
         f.once('end', function () {
             helper.log('Done fetching all messages!');
             deleteMessages(results);
-            
+
         });
     });
 
@@ -294,10 +304,9 @@ function deleteMessages(msgs) {
                 imap.end();
                 return;
             }
-            else
-            {
-                 imap.end();
-                 package.loadPackages();
+            else {
+                imap.end();
+                package.loadPackages();
             }
         });
     }
@@ -312,5 +321,5 @@ function deleteMessages(msgs) {
         }
     }
 
-   
+
 }
