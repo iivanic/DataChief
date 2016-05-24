@@ -28,7 +28,7 @@ What are the options?
 Company organization structure:
 -------------------------------
 
--   **CEO** - Mary S, [*mary@barriqueworks.com*](mary@barriqueworks.com)
+-   **CEO** - Mary S, [*mary@barriqueworks.com*](mailto:mary@barriqueworks.com)
     -   **Accounting** - Richard V, [*richard@barriqueworks.com*](richard@barriqueworks.com)
     -   **HR -** John L, [*john@barriqueworks.com*](john@barriqueworks.com)
     -   **IT** - James R, [*james@barriqueworks.com*](james@barriqueworks.com)
