@@ -38,6 +38,17 @@ var abouttabs = null;
 var tabCounter = 2;
 // actual addTab function: adds new tab using the input from the form above
 this.AddTab = addTab;
+
+this.startWizard = function () {
+    $("#startDialog").dialog({
+        height: 680,
+        width: "80%",
+        modal: true
+    });
+  
+
+}
+
 function addTab(opened, exampleName) {
     //check if form is already open
     //TODO we actually deserialize twice, should be only once
@@ -223,6 +234,14 @@ $(document).ready(function () {
     $(window).trigger('resize');
     // MenuTree.walk();
     window.setTimeout("imap.go(true)", 4000);
+    
+//    startWizard();
+    $("#startwizard").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        stepsOrientation: "vertical"
+    });
 });
 this.closeTab = function (el) {
     //remove tab

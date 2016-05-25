@@ -8,8 +8,8 @@ var currentDateTimeField = require("./currentDateTimeField.js");
 var currentUserField = require("./currentUserField.js");
 
 //var helper =z require("./utils.js");
- 
-module.exports.exampleForms = ["Vehicle Usage Log", "Employee Vacation Request Form", "Corrective action - quality management"];
+
+module.exports.exampleForms = ["Vehicle Usage Log", "Employee Absence Request", "Corrective action - quality management"];
 
 
 // fields
@@ -61,68 +61,68 @@ this._propsMeta = {
 
 //properties
 Object.defineProperty(this, "children", {
-    get: function() {
+    get: function () {
         return this._children;
     },
-    set: function(val) {
+    set: function (val) {
         this._children = val;
     }
 });
 Object.defineProperty(this, "name", {
-    get: function() {
+    get: function () {
         return this._name;
     },
-    set: function(val) {
+    set: function (val) {
         this._name = val;
     }
 });
 Object.defineProperty(this, "displayName", {
-    get: function() {
+    get: function () {
         return this._name;
     },
 
 });
 Object.defineProperty(this, "id", {
-    get: function() {
+    get: function () {
         return this._id;
     },
-    set: function(val) {
+    set: function (val) {
         this._id = val;
     }
 });
 Object.defineProperty(this, "description", {
-    get: function() {
+    get: function () {
         return this._description;
     },
-    set: function(val) {
+    set: function (val) {
         this._description = val;
     }
 });
 Object.defineProperty(this, "footer", {
-    get: function() {
+    get: function () {
         return this._footer;
     },
-    set: function(val) {
+    set: function (val) {
         this._footer = val;
     }
 });
 Object.defineProperty(this, "version", {
-    get: function() {
+    get: function () {
         return this._version;
     },
-    set: function(val) {
+    set: function (val) {
         this._version = val;
     }
 });
 
 //methods
 
-this.refresh = function() {
+this.refresh = function () {
 
     this.render(this._lastPlaceholder, this._lastEditable, this._lastUser);
 }
 
-this.render = function(placeholder, editable, user, _idprefix) {
+this.render = function (placeholder, editable, user, _idprefix) {
     this.readValues();
     console.log("form.render(placeholder, " + editable + ", " + user + ")");
     this._lastPlaceholder = placeholder;
@@ -130,9 +130,9 @@ this.render = function(placeholder, editable, user, _idprefix) {
     this._lastUser = user;
 
     this.placeHolderPrefix = $(placeholder).attr("id").replace("formPreview", "");
-    if(!_idprefix)
-        _idprefix="dcform"
-    this.idprefix = _idprefix ;
+    if (!_idprefix)
+        _idprefix = "dcform"
+    this.idprefix = _idprefix;
     this._lastCumulativeId = this.idprefix + "_" + this.id;
     var str = "";
 
@@ -140,7 +140,7 @@ this.render = function(placeholder, editable, user, _idprefix) {
     if (editable)
         ctlbox = helper.loadFormBox();
     ctlbox = ctlbox.replace('{id}', "ctlbox_" + this.idprefix + this.id)
-    str = ctlbox + "<div id='field_" + this.idprefix + "_" + this.id + "'><h1>" + this._name +"</h1>";
+    str = ctlbox + "<div id='field_" + this.idprefix + "_" + this.id + "'><h1>" + this._name + "</h1>";
     str += "<p>" + this.description + "</p>";
     //   if (editable)
     //      str += "<ul id='sortable_" + idprefix + "_" + this.id + "'>";
@@ -193,12 +193,12 @@ this.render = function(placeholder, editable, user, _idprefix) {
     this.validator.ctor(fp);
     $("#" + placeholder.attr("id")).find(".testbutton").
         prop("me", this).
-        click(function() {
+        click(function () {
             if (this.me.validator.validate()) {
                 $("#dialog-validation-ok").dialog({
                     modal: true,
                     buttons: {
-                        Ok: function() {
+                        Ok: function () {
                             $(this).dialog("close");
                         }
                     }
@@ -208,7 +208,7 @@ this.render = function(placeholder, editable, user, _idprefix) {
                 $("#dialog-validation-failed").dialog({
                     modal: true,
                     buttons: {
-                        Ok: function() {
+                        Ok: function () {
                             $(this).dialog("close");
                         }
                     }
@@ -222,7 +222,7 @@ this.render = function(placeholder, editable, user, _idprefix) {
             var groupfieldId = $(addrowbottons[ind]).prop("id").replace("_addrow", "").replace("field_", "");
             var groupField = this.findField(groupfieldId);
             $(addrowbottons[ind]).prop("me", groupField).
-                click(function() {
+                click(function () {
                     this.me._form.readValues();
                     this.me.addRow();
                     this.me._form.refresh();
@@ -236,7 +236,7 @@ this.render = function(placeholder, editable, user, _idprefix) {
             groupfieldId = groupfieldId.substr(0, groupfieldId.lastIndexOf("_"))
             var groupField = this.findField(groupfieldId);
             $(removerowbottons[ind]).prop("me", groupField).prop("rowIndex", rowIndex).
-                click(function() {
+                click(function () {
                     this.me._form.readValues();
                     this.me.removeRow(this.rowIndex);
                     this.me._form.refresh();
@@ -250,9 +250,9 @@ this.render = function(placeholder, editable, user, _idprefix) {
         var signButton = $("#" + $(signfields[ind]).prop("id") + "_button");
         var f = this.findField($(signfields[ind]).prop("id"));
         $(signButton).prop("field", f).
-            click(function() {
+            click(function () {
                 if ($("#" + this.field._lastCumulativeId).val() == "") {
-                    $("#" + this.field._lastCumulativeId).val( helper.extractUser(user) );
+                    $("#" + this.field._lastCumulativeId).val(helper.extractUser(user));
                     this.field._value = helper.extractUser(user);
                 }
                 else {
@@ -268,7 +268,7 @@ this.render = function(placeholder, editable, user, _idprefix) {
         var timestampButton = $("#" + $(timestampfields[ind]).prop("id") + "_button");
         var f = this.findField($(timestampfields[ind]).prop("id"));
         $(timestampButton).prop("field", f).
-            click(function() {
+            click(function () {
                 if ($("#" + this.field._lastCumulativeId).val() == "") {
                     var d = new Date().toISOString().replace('Z', '');
                     $("#" + this.field._lastCumulativeId).val(d);
@@ -284,7 +284,7 @@ this.render = function(placeholder, editable, user, _idprefix) {
 
 };
 
-this.readValues = function() {
+this.readValues = function () {
 
     var renderedFields = $("[id^='" + this.idprefix + "_" + this.id + "']");
     for (var i = 0; i < renderedFields.length; i++) {
@@ -298,7 +298,7 @@ this.readValues = function() {
 };
 
 
-this.createForm = function(name, templateName) {
+this.createForm = function (name, templateName) {
     this._name = name;
     this._version = "0";
     this._author = userSettings.email;
@@ -357,6 +357,8 @@ this.createForm = function(name, templateName) {
             txt.description = "";
             txt.toolTip = "";
             txt.required = true;
+            txt._inputType = "datetime-local";
+            txt._multiline = false;
             grp1.children.push(txt);
 
             txt = Object.create(textField);
@@ -365,6 +367,8 @@ this.createForm = function(name, templateName) {
             txt.description = "";
             txt.toolTip = "";
             txt.required = true;
+            txt._inputType = "number";
+            txt._multiline = false;
             grp1.children.push(txt);
 
             txt = Object.create(textField);
@@ -373,6 +377,8 @@ this.createForm = function(name, templateName) {
             txt.description = "";
             txt.toolTip = "";
             txt.required = true;
+            txt._inputType = "datetime-local";
+            txt._multiline = false;
             grp1.children.push(txt);
 
             txt = Object.create(textField);
@@ -381,6 +387,8 @@ this.createForm = function(name, templateName) {
             txt.description = "";
             txt.toolTip = "";
             txt.required = true;
+            txt._inputType = "number";
+            txt._multiline = false;
             grp1.children.push(txt);
 
             lst = Object.create(listField);
@@ -461,18 +469,157 @@ this.createForm = function(name, templateName) {
             txt.multiline = true;
             txt.required = false;
             grp.children.push(txt);
+
+
+
             break;
-        case "Employee Vacation Request Form":
-            this._description = "this Vacation / leave request form should be submitted by employee and then approved by manager.";
-            this._footer = "Example Employee Vacation Request Form.";
+        case "Employee Absence Request":
+            this._description = "This Absence Request form should be submitted by employee and then approved by manager.";
+            this._footer = "Example Absence Request Request Form.";
+            this.workflow = "robert@barriqueworks.com";
+            this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
+            this.finalStep = "john@barriqueworks.com";
+            this.broadCastRecievers = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
+            this.broadcastStatusOfForm = true;
+
+            var grp = Object.create(groupField);
+            grp.ctor();
+            grp.displayName = "Absence Request";
+            grp.toolTip = "Enter Absence Request detailed infromation.";
+            grp.description = "Provide detailed information regarding your Absence Request. You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent. "
+            grp.editors = "initiator";
+            this.children.push(grp);
+
+            var lst = Object.create(listField);
+            lst.ctor();
+            lst.displayName = "Type of Absence Requested";
+            lst.description = "Specify kind of Absence you are requesting.";
+            lst.toolTip = "Are you requesting Sick Leave, Vacation or?";
+            lst.options = "Sick;Vacation;Bereavement;Time Off Without Pay;Military;Jury Duty;Maternity/Paternity;Other";
+            lst.multiselect = false
+            lst.required = true;
+            grp.children.push(lst);
+
+            var txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Start";
+            txt.description = "Absence Start date";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._inputType = "date";
+            txt._multiline = false;
+            grp.children.push(txt);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "End";
+            txt.description = "Absence end date";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._inputType = "date";
+            grp.children.push(txt);
+            txt._multiline = false;
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Reason";
+            txt.description = "Describe reason for Absence";
+            txt.toolTip = "";
+            txt.multiline = true;
+            txt.required = true;
+
+            grp.children.push(txt);
+            txt._multiline = true;
+
+            var cu = Object.create(currentDateTimeField);
+            cu.ctor();
+            cu.description = "Date";
+            grp.children.push(cu);
+            cu = Object.create(currentUserField);
+            cu.ctor();
+            cu.description = "User Signature";
+            grp.children.push(cu);
+
+            grp = Object.create(groupField);
+            grp.ctor();
+            grp.displayName = "Manager approval";
+            grp.toolTip = "Manager Must approve or disaprove this request.";
+            grp.description = "Manager Must approve or reject this request."
+            grp.editors = "robert@barriqueworks.com";
+            this.children.push(grp);
+
+            lst = Object.create(listField);
+            lst.ctor();
+            lst.displayName = "Aproval";
+            lst.options = "Approved;Rejected"
+            lst.description = "Aproval of Absence request."
+            lst.toolTip = lst.description;
+            lst.required = true;
+            grp.children.push(lst);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Comments";
+            txt.description = "Comments for approval (if any)";
+            txt.toolTip = "";
+            txt.multiline = true;
+            txt.required = false;
+            grp.children.push(txt);
+
+            cu = Object.create(currentDateTimeField);
+            cu.ctor();
+            cu.description = "Date";
+            grp.children.push(cu);
+            cu = Object.create(currentUserField);
+            cu.ctor();
+            cu.description = "Manager Signature";
+            grp.children.push(cu);
+
             break;
         case "Corrective action - quality management":
             this._description = "Corrective / preventive actions are implemented in response to customer complaints, unacceptable levels of product non-conformance, issues identified during internal, external or thirs party audit(s), adverse or unstable trends in product and process monitoring or any other non-conformity with policies and procedures.";
             this._footer = "Example Corrective action Form.";
+      
+            this.workflow = "robert@barriqueworks.com";
+            this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
+            this.finalStep = "john@barriqueworks.com";
+            this.broadCastRecievers = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
+            this.broadcastStatusOfForm = true;
+
+            var grp = Object.create(groupField);
+            grp.ctor();
+            grp.displayName = "Description";
+            grp.toolTip = "Non-conformitiy/potential non-conformity description";
+            grp.description = "Provide detailed information regarding non-conformitiy/potential non-conformity."
+            grp.editors = "initiator";
+            this.children.push(grp);
+
+  
+
+            var txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Description";
+            txt.description = "Description of non-conformitiy/potential non-conformity";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._multiline = true;
+            grp.children.push(txt);
+
+
+          var lst = Object.create(listField);
+            lst.ctor();
+            lst.displayName = "Type of Action";
+            lst.description = "Specify kind of action.";
+            lst.toolTip = "Is it Corrective or Preventive?";
+            lst.options = "Corrective action;Preventive action";
+            lst.multiselect = false
+            lst.required = true;
+            grp.children.push(lst);
+
             break;
     }
 }
-this.ctor = function() {
+this.ctor = function () {
     this._children = new Array();
     this._allUsersForImpersonation = new Array();
     this.workflow = "";
@@ -482,13 +629,13 @@ this.ctor = function() {
     this.publishTo = "user1@example.com, user2@example.com";
     this._id = helper.generateGUID();
 }
-this.regenerateGUID = function() {
+this.regenerateGUID = function () {
     this._id = helper.generateGUID();
 }
-this.dispose = function() {
+this.dispose = function () {
 
 }
-this.findField = function(idwithprefix) {
+this.findField = function (idwithprefix) {
     //      console.log("form.findField(" + idwithprefix + "), this._lastCumulativeId=" + this._lastCumulativeId);
     if (this._lastCumulativeId == idwithprefix) {
         console.log("groupField.findField(" + idwithprefix + ") FOUND");

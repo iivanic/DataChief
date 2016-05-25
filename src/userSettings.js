@@ -68,6 +68,7 @@ this.toGui = function () {
 
     $("#resettings").button();
     $("#savesettings").button();
+    $("#startStartWizerd").button();
     $("#deleteProfile").button().click(
         function () {
             helper.confirm("Delete profile? Are You sure? All data linked wth this profile will be lost.", deleteProfile);

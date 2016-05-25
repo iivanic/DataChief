@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="./jquery-ui-1.11.4/jquery-ui.css">
     <link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./datachief.css">
+    <link rel="stylesheet" href="./jquery.steps-1.1.0//jquery.steps.css">
     <script src="winstate.js"></script>
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
@@ -25,6 +26,8 @@
     <script src="jquery-taphold/taphold.js" type="text/javascript"></script>
     <script src="jquery.ui-contextmenu/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
+    <script src='jquery.steps-1.1.0/jquery.steps.min.js'></script>
+
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
 </head>
@@ -35,7 +38,40 @@
         var dialog = remote.require('dialog');
     </script>
     <div>
+        <div id="startDialog" style="display:none;" title="Welome to DataChief!">
+            <div id="startwizard">
+                <h3>Company</h3>
+                <section>
+                    <p>Let's get started in few easy steps!</p>
+                    <label for="startDialogCompanyName">Enter Your Organization or Company Name *</label>
+                    <input id="startDialogCompanyName" name="startDialogCompanyName" type="text" class="required">
+                    <label for="startDialogCompanPassword">Organization secret *</label>
+                    <p>Organization secret ensures that someone else can not claim to be Your organization Admin.</p>
+                    <input id="startDialogCompanPassword" name="startDialogCompanPassword" type="text" class="required">
+                </section>
+                <h3>DataChief Mode</h3>
+                <section>
+                    
+                    <label for="appMode">DataChief can work in two basic modes. First one, single IMAP account is simple and recommended for testing and learning. Drawback is lower security. Individual user account mode requires one IMAP account per user, which makes it more secure but more complicated to setup.</label>
+                    <input type="radio" name="appMode" id="appMode1" value="1"  checked=true /><label for="appMode1">For all communucation use only <strong>one IMAP account</strong></label>
+                    <input type="radio" name="appMode" id="appMode2" value="2" checked=false /><label for="appMode2">Use <strong>individual IMAP Accounts</strong> (advanced and more secure)</label>
 
+                </section>
+                <h3>Your Name and Email</h3>
+                <section>
+                    <p>Wonderful transition effects.</p>
+                    <label for="email">Email *</label>
+                    <input id="email" name="email" type="text" class="required email">
+                </section>
+                <h3>IMAP Account</h3>
+                <section>
+                    <p>The next and previous buttons help you to navigate through your content.</p>
+                </section>
+                <h3>Finish</h3>
+                <section>
+                    <p>Now You are ready to start!</p>
+                </section>           </div>
+        </div>
         <div id="newFormDialog" title="New Form">
             <form>
                 <fieldset class="ui-helper-reset">
@@ -485,6 +521,7 @@
                     <div class="col-sm-12">
                         <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
                         <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
+                        <button id="startStartWizerd" onclick="index.startWizard();">Start Wizard</button>
                     </div>
 
                 </div>
@@ -496,7 +533,9 @@
                         <br>
                         <p>Version: <strong id="about_ver">.</strong></p>
                         <p>Author: <strong id="about_author">.</strong></p>
-                        <p>Released under: <a href="https://github.com/iivanic/DataChief/blob/master/LICENSE" target="_blank"><strong id="about_lic">.</a></strong></p>
+                        <p>Released under:
+                            <a href="https://github.com/iivanic/DataChief/blob/master/LICENSE" target="_blank"><strong id="about_lic">.</a></strong>
+                        </p>
                         <p>Get the source code <a href="http://www.github.com/iivanic/datachief" target="_blank"><strong>from GitHub</strong></a>.</p>
                     </div>
                     <div class="col-sm-9">
