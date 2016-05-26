@@ -642,7 +642,7 @@ this.createForm = function (name, templateName) {
             txt = Object.create(textField);
             txt.ctor();
             txt.displayName = "Action needed";
-            txt.description = "Describe how to solve issue.";
+            txt.description = "Describe how to solve issue and what Follow up steps needs to be made.";
             txt.toolTip = "";
             txt.required = true;
             txt._multiline = true;

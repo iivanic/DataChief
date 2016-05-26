@@ -12,7 +12,7 @@ Simplified company organization structure:
 -   **CEO** - Mary S, [*mary@barriqueworks.com*](mailto:mary@barriqueworks.com)
     -   **Accounting** - Richard V, [*richard@barriqueworks.com*](mailto:richard@barriqueworks.com)
     -   **HR -** John L, [*john@barriqueworks.com*](mailto:john@barriqueworks.com)
-    -   **Quality management -** Daniel S, [*daniel@barriqueworks.com*](mailto:daniel@barriqueworks.com)
+    -   **Quality management -** - Quality Manager - Daniel S, [*daniel@barriqueworks.com*](mailto:daniel@barriqueworks.com)
     -   **IT** - James R, [*james@barriqueworks.com*](mailto:james@barriqueworks.com)
     -   **Sales** – Sales Manager - Patricia M, [*patricia@barriqueworks.com*](mailto:patricia@barriqueworks.com)
         -   Sales Representative - jennifer B, [*jennifer@barriqueworks.com*](mailto:jennifer@barriqueworks.com)
