@@ -735,10 +735,34 @@ this.findField = function (idwithprefix) {
 
 this.checkSettings = function()
 {
-    helper.alert("Check settigns");
-    // we need to check sytax onf following
+    helper.log("Check settigns");
+    // we need to check sytax of following
+     
         // Workflow
         // Broadcast recievers
         // Final step
         // Publish To
+        
+        // all properties van have multiple users
+        // delimiters are , or ;
+        
+        // regexp for email match : ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$
+        // multiple emails could be something like: ^([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\W*[,;]*\W*)+$
+        
+        // Workflow property is little bit more complicated     
+        // every email represents one step, but, if in brackets, then user can choose one of the emails within brackets when sending to that step
+        // for example, let's say Worflow is: user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com); userA@example.com
+        // this means that workflow will be user1@example.com -> user2@example.com -> 
+        // and the user2@example.com, when sending to next step, will be prompted to choose one of three options (igor@example.com; User3@example.com, User4@example.com).
+        // if, user2@example.com chooses igor@example.com, igor@example.com will be aple to send form to userA@example.com
+        //
+        // Another option is integer after ending bracket, for instance, let's say Worflow is:
+        // user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com)5; userA@example.com
+        // This means that users within 3rd step (igor@example.com; User3@example.com, User4@example.com) can 5 times send the form between
+        // themselves, or to next step (prompt will be shown).
+        // This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
+        // Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
+        // to final step.
+        
+        
 }
