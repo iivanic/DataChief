@@ -303,6 +303,7 @@ this.applyFormChanges = function () {
         this.setDirty();
         
     $(this.tabTitle).text(this.currentForm.name);
+    this.currentForm.checkSettings();
     this.currentForm.refresh();
     markSelected(this.currentForm);
     if(isDirty)

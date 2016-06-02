@@ -29,6 +29,7 @@ this.workflow;
 this.broadCastRecievers;
 this.finalStep;
 this.allowLocalCopies;
+this.allowSendOneStepBack = true
 
 // metadata for editing in jqPropertyGrid
 this._propsMeta = {
@@ -56,7 +57,8 @@ this._propsMeta = {
     broadcastStatusOfForm: { group: 'Workflow', name: 'Broadcast status of form', description: '', showHelp: true },
     broadCastRecievers: { group: 'Workflow', name: 'Broadcast recievers', description: 'To whom you wish to notify when form is sent between workflow steps? Some kind of dmin in your organization who needs to supervise business processes. If not specified, no broadcast will be made.', showHelp: true },
     finalStep: { group: 'Workflow', name: 'Final step', description: 'User who collects data - filled and completed forms.', showHelp: true },
-    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma separated list of users which will have local copies of forms they have filled out - orpartially filled out.', showHelp: true }
+    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma separated list of users which will have local copies of forms they have filled out - orpartially filled out.', showHelp: true },
+    allowSendOneStepBack: { group: 'Workflow', name: 'Allow return', description: 'Allow users to send form one step back in the workflow (for additional refinment, for example).', showHelp: true }
 }
 
 //properties
@@ -628,6 +630,7 @@ this.ctor = function () {
     this.allowLocalCopies = "initiator";
     this.publishTo = "user1@example.com, user2@example.com";
     this._id = helper.generateGUID();
+    this.allowSendOneStepBack = true;
 }
 this.regenerateGUID = function () {
     this._id = helper.generateGUID();
@@ -650,4 +653,14 @@ this.findField = function (idwithprefix) {
     }
     return null;
 
+}
+
+this.checkSettings = function()
+{
+    helper.alert("Check settigns");
+    // we need to check sytax onf following
+        // Workflow
+        // Broadcast recievers
+        // Final step
+        // Publish To
 }
