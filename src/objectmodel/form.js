@@ -581,10 +581,10 @@ this.createForm = function (name, templateName) {
         case "Corrective action - quality management":
             this._description = "Corrective / preventive actions are implemented in response to customer complaints, unacceptable levels of product non-conformance, issues identified during internal, external or thirs party audit(s), adverse or unstable trends in product and process monitoring or any other non-conformity with policies and procedures.";
             this._footer = "Example Corrective action Form.";
-      
+
             this.workflow = "robert@barriqueworks.com";
             this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
-            this.finalStep = "john@barriqueworks.com";
+            this.finalStep = "daniel@barriqueworks.com";
             this.broadCastRecievers = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
             this.broadcastStatusOfForm = true;
 
@@ -596,8 +596,6 @@ this.createForm = function (name, templateName) {
             grp.editors = "initiator";
             this.children.push(grp);
 
-  
-
             var txt = Object.create(textField);
             txt.ctor();
             txt.displayName = "Description";
@@ -607,16 +605,96 @@ this.createForm = function (name, templateName) {
             txt._multiline = true;
             grp.children.push(txt);
 
+            grp = Object.create(groupField);
+            grp.ctor();
+            grp.displayName = "Analysis";
+            grp.toolTip = "Analysis of report";
+            grp.description = "Analysis of non-conformitiy/potential non-conformity."
+            grp.editors = "daniel@barriqueworks.com";
+            this.children.push(grp);
 
-          var lst = Object.create(listField);
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Root cause";
+            txt.description = "Root couse of problem";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._multiline = true;
+            grp.children.push(txt);
+
+            var lst = Object.create(listField);
             lst.ctor();
             lst.displayName = "Type of Action";
-            lst.description = "Specify kind of action.";
+            lst.description = "Specify what kind of action is required.";
             lst.toolTip = "Is it Corrective or Preventive?";
             lst.options = "Corrective action;Preventive action";
             lst.multiselect = false
             lst.required = true;
             grp.children.push(lst);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Non-conformal to which requirements?";
+            txt.description = "Enter requirements that are not fulfilled";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._multiline = false;
+            grp.children.push(txt);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Action needed";
+            txt.description = "Describe how to solve issue and what Follow up steps needs to be made.";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._multiline = true;
+            grp.children.push(txt);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Deadline";
+            txt.description = "Deadline for solution";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._inputType = "date";
+            txt._multiline = false;
+            grp.children.push(txt);
+
+            var cu = Object.create(currentDateTimeField);
+            cu.ctor();
+            cu.description = "Date";
+            grp.children.push(cu);
+            cu = Object.create(currentUserField);
+            cu.ctor();
+            cu.description = "Quality Manager Signature";
+            grp.children.push(cu);
+
+            grp = Object.create(groupField);
+            grp.ctor();
+            grp.displayName = "Follow Up";
+            grp.toolTip = "Actions taken";
+            grp.description = "Evidence of actions taken."
+            grp.editors = "daniel@barriqueworks.com";
+            grp.repeater = true;
+            this.children.push(grp);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Action taken";
+            txt.description = "Describe what is done.";
+            txt.toolTip = "";
+            txt.required = true;
+            txt._multiline = true;
+            grp.newRowTemplate.push(txt);
+
+            cu = Object.create(currentDateTimeField);
+            cu.ctor();
+            cu.description = "Date";
+            grp.newRowTemplate.push(cu);
+            cu = Object.create(currentUserField);
+            cu.ctor();
+            cu.description = "Employee Signature";
+            grp.newRowTemplate.push(cu);
 
             break;
     }
