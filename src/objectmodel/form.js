@@ -863,6 +863,18 @@ function checkListSyntax(listString, isAdvanced) {
                 return ret;
             }
         }
+        else{
+            var a = new Array();
+            a.find
+            if(!userSettings.userList.find(function(m){
+          
+                return m.toLowerCase()== mail;
+
+            }))
+            {
+                helper.log("Warning: User <strong>" + mail + "</strong> not found in Profiles. Check for typing error.");
+            }
+        }
         current.push(mail);
         ret.optimizedString += (startbracket ? ";(" : " ") + mail + (endbracket ? ")" + current.counter + ";" : " ");
         ret.optimizedString = ret.optimizedString.replace("  ", ";");

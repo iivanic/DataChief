@@ -132,4 +132,8 @@ z-index:9999 ;}
     margin: 0.5em 0 0.5em 2em;
   /*  display: none;*/
 }
+.pgTooltip {
+ 
+    cursor: help;
+}
 
