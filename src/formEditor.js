@@ -304,6 +304,7 @@ this.applyFormChanges = function () {
         
     $(this.tabTitle).text(this.currentForm.name);
     this.currentForm.checkSettings();
+    pgrid.jqPropertyGrid(this.currentForm, this.currentForm._propsMeta)
     this.currentForm.refresh();
     markSelected(this.currentForm);
     if(isDirty)

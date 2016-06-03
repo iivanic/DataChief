@@ -52,12 +52,12 @@ this._propsMeta = {
     _lastCumulativeId: { browsable: false },
     validator: { browsable: false },
     idprefix: { browsable: false },
-    workflow: { group: 'Workflow', name: 'Workflow', description: 'Workflow steps delimited with semicolon (;), except last one - the final step of workflow. Also, firts step (creation of form by initiator) is not listed here. You choose first step by publishing form to the people who needs to create(initiate) this form. Multiple recipients can be specified within one step delimited with comma(,). If so, user, when sending form to that workflow step will be ble to choose recipient. ', showHelp: true },
-    publishTo: { group: 'Workflow', name: 'Publish To', description: 'Enter comma separated emails of users you wish to publish.', showHelp: true },
+    workflow: { group: 'Workflow', name: 'Workflow', description: 'Workflow steps delimited with semicolon (;) or coma(,), except last one - the final step of workflow. Also, firts step (creation of form by initiator) is not listed here. You choose first step by publishing form to the people who needs to create(initiate) this form. Multiple recipients can be specified within one step grouped with brackets (). After brackets you can also specify how many times users within the group can send forms between themselves. User, when sending form to that workflow step will be ble to choose recipient. ', showHelp: true },
+    publishTo: { group: 'Workflow', name: 'Publish To', description: 'Enter comma or semicolon separated emails of users you wish to publish.', showHelp: true },
     broadcastStatusOfForm: { group: 'Workflow', name: 'Broadcast status of form', description: '', showHelp: true },
-    broadCastRecievers: { group: 'Workflow', name: 'Broadcast recievers', description: 'To whom you wish to notify when form is sent between workflow steps? Some kind of dmin in your organization who needs to supervise business processes. If not specified, no broadcast will be made.', showHelp: true },
-    finalStep: { group: 'Workflow', name: 'Final step', description: 'User who collects data - filled and completed forms.', showHelp: true },
-    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma separated list of users which will have local copies of forms they have filled out - orpartially filled out.', showHelp: true },
+    broadCastRecievers: { group: 'Workflow', name: 'Broadcast recievers', description: 'Enter comma or semicolon separated emails of users to whom you wish to notify when form is sent between workflow steps? Some kind of admin in your organization who needs to supervise business processes. If not specified, no broadcast will be made.', showHelp: true },
+    finalStep: { group: 'Workflow', name: 'Final step', description: 'Enter comma or semicolon separated emails of user(s) who collects data - filled and completed forms.', showHelp: true },
+    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma or semicolon separated list of users which will have local copies of forms they have filled out - orpartially filled out.', showHelp: true },
     allowSendOneStepBack: { group: 'Workflow', name: 'Allow return', description: 'Allow users to send form one step back in the workflow (for additional refinment, for example).', showHelp: true }
 }
 
@@ -733,36 +733,166 @@ this.findField = function (idwithprefix) {
 
 }
 
-this.checkSettings = function()
-{
-    helper.log("Check settigns");
+this.checkSettings = function () {
     // we need to check sytax of following
-     
-        // Workflow
-        // Broadcast recievers
-        // Final step
-        // Publish To
-        
-        // all properties van have multiple users
-        // delimiters are , or ;
-        
-        // regexp for email match : ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$
-        // multiple emails could be something like: ^([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\W*[,;]*\W*)+$
-        
-        // Workflow property is little bit more complicated     
-        // every email represents one step, but, if in brackets, then user can choose one of the emails within brackets when sending to that step
-        // for example, let's say Worflow is: user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com); userA@example.com
-        // this means that workflow will be user1@example.com -> user2@example.com -> 
-        // and the user2@example.com, when sending to next step, will be prompted to choose one of three options (igor@example.com; User3@example.com, User4@example.com).
-        // if, user2@example.com chooses igor@example.com, igor@example.com will be aple to send form to userA@example.com
-        //
-        // Another option is integer after ending bracket, for instance, let's say Worflow is:
-        // user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com)5; userA@example.com
-        // This means that users within 3rd step (igor@example.com; User3@example.com, User4@example.com) can 5 times send the form between
-        // themselves, or to next step (prompt will be shown).
-        // This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
-        // Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
-        // to final step.
-        
-        
+
+    // Workflow
+    // Broadcast recievers
+    // Final step
+    // Publish To
+
+    // all properties van have multiple users
+    // delimiters are , or ;
+
+    // regexp for email match : ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$
+    // multiple emails could be something like: ^([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\W*[,;]*\W*)+$
+
+    // Workflow property is little bit more complicated     
+    // every email represents one step, but, if in brackets, then user can choose one of the emails within brackets when sending to that step
+    // for example, let's say Worflow is: user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com); userA@example.com
+    // this means that workflow will be user1@example.com -> user2@example.com -> 
+    // and the user2@example.com, when sending to next step, will be prompted to choose one of three options (igor@example.com; User3@example.com, User4@example.com).
+    // if, user2@example.com chooses igor@example.com, igor@example.com will be aple to send form to userA@example.com
+    //
+    // Another option is integer after ending bracket, for instance, let's say Worflow is:
+    // user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com)5; userA@example.com
+    // This means that users within 3rd step (igor@example.com; User3@example.com, User4@example.com) can 5 times send the form between
+    // themselves, or to next step (prompt will be shown).
+    // This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
+    // Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
+    // to final step.
+
+    var res = checkListSyntax(this.workflow, true);
+    if (res.errors) {
+        helper.alert("Workflow syntax error: " + res.errors);
+        return res.errors;
+    }
+    else
+        this.workflow = res.optimizedString;
+
+    res = checkListSyntax(this.broadCastRecievers);
+    if (res.errors) {
+        helper.alert("Broadcast recievers syntax error: " + res.errors);
+        return res.errors;
+    }
+    else
+        this.broadCastRecievers = res.optimizedString;
+
+    res = checkListSyntax(this.finalStep);
+    if (res.errors) {
+        helper.alert("Final step syntax error: " + res.errors);
+        return res.errors;
+    }
+    else
+        this.finalStep = res.optimizedString;
+
+    res = checkListSyntax(this.publishTo);
+    if (res.errors) {
+        helper.alert("Publish To syntax error: " + res.errors);
+        return res.errors;
+    }
+    else
+        this.publishTo = res.optimizedString;
+}
+// returns object with two arrays and error string:
+// optimizedString - string with unified delimiters and spaces
+// userList - array of user emails, or arrays (in case isAdvanced is true, used for workflow)
+// errors - error description, if any
+function checkListSyntax(listString, isAdvanced) {
+    //let's cjheck for allowed characters
+    var error = checkCharacters(listString);
+    if (error)
+        return { optimizedString: null, userList: null, errors: error }
+    //let's check for brackets if they are not allowed
+    if (!isAdvanced && (listString.indexOf("(") > -1 || listString.indexOf(")") > -1))
+        return { optimizedString: null, userList: null, errors: "Brackets () are not allowed for this type, only for Workflow." }
+
+    //    
+    var ret = { optimizedString: "", userList: new Array(), errors: "" };
+    if (listString.trim() == "")
+        return ret;
+    var elements = listString.split(/[,;]/gi);
+    var depth = 0;
+    var current = null;
+    for (var i in elements) {
+        var endbracket = false;
+        var startbracket = false;
+        current = ret.userList;
+        var s = new String();
+
+        // trim, lowercase, remove inner spaces...
+        var mail = elements[i].trim().toLowerCase().replace(/ /gi, '');
+        //bracket start
+        if (mail.startsWith("(")) {
+            depth++;
+            startbracket = true;
+            current = new Array();
+            ret.userList.push(current);
+        }
+        //bracket end
+        if (mail.indexOf(")") > -1) {
+            endbracket = true;
+
+            //is there an integer at the end?
+            if (!mail.endsWith(")")) {
+                //there's something at the end
+                var counter = mail.substr(mail.indexOf(")") + 1);
+                if (isNaN(counter)) {
+                    ret.errors = "Counter parameter for group seems to be invalid integer.";
+                    return ret;
+                }
+
+                current.counter = Math.abs(counter);
+
+                if (counter < 0) {
+                    ret.errors = "Counter parameter for group must be zero or greater.";
+                    return ret;
+                }
+                mail = mail.substr(0, mail.indexOf(")"));
+            }
+            else
+                current.counter = 0;
+        }
+        //remove brackets so we get valid email    
+        mail = mail.replace("(", "").replace(")", "").replace(";", "").replace(",", "");
+
+        //is mail valid?
+        if (!mail.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/gi)) {
+            if (mail != "initiator") {
+                ret.errors = "Email " + mail + " seems to be invalid.";
+                return ret;
+            }
+        }
+        current.push(mail);
+        ret.optimizedString += (startbracket ? ";(" : " ") + mail + (endbracket ? ")" + current.counter + ";" : " ");
+        ret.optimizedString = ret.optimizedString.replace("  ", ";");
+        //bracket end
+        if (endbracket) {
+            depth--;
+            current = ret.userList;
+        }
+    }
+    if (depth != 0)
+        ret.errors = "Brackets problem. " +
+            (depth < 0 ? "To many closed (" + depth + ") but not opened" : "To many opened (" + depth + ") but not closed");
+
+    ret.optimizedString = ret.optimizedString.trim();
+    ret.optimizedString = ret.optimizedString.replace(/;/gi, "; ");
+    ret.optimizedString = ret.optimizedString.replace(/ ; \(/gi, "; (");
+    //   ret.optimizedString = ret.optimizedString.replace(/ ; \)/gi, ");");
+    ret.optimizedString = ret.optimizedString.replace(/  /gi, " ");
+
+    ret.optimizedString = ret.optimizedString.trim();
+    return ret;
+}
+// returns error string if problems found
+function checkCharacters(listString) {
+    if (listString == null)
+        return;
+    if (listString.length == 0)
+        return;
+    if (
+        !listString.match(/[0-9A-Za-z_\-\.@,;()\W]/gi))
+        return "Character not allowed. Only nubers, letters, semicolon, comma, minus(-), underscore, brackets(for workflow) and at symbol (@) are allowed";
+
 }
