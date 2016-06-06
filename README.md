@@ -52,3 +52,34 @@ Smartphone versions are planned, and are crucial part of DataChief. This softwar
         `npm install imap`
     * now You can open it with **Microsoft Visual Studio Code**. Depending on the platform You may also need to change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**"
     * press **F5** to run DataChief
+    
+##How does it work?
+
+###Communication
+
+###Forms
+
+###Workflow
+* Following Form properties helps define workflow
+    * Workflow
+    * Broadcast recievers
+    * Final step
+    * Publish To
+     
+     All properties can have multiple users.
+     Delimiters are , or ;
+
+     Workflow property is most complex.   
+     Every email represents one step, but, if in brackets, then user can choose one of the emails within brackets when sending to that step
+     for example, let's say Worflow is: user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com); userA@example.com
+     this means that workflow will be user1@example.com -> user2@example.com -> 
+     and the user2@example.com, when sending to next step, will be prompted to choose one of three options (igor@example.com; User3@example.com, User4@example.com).
+     if, user2@example.com chooses igor@example.com, igor@example.com will be aple to send form to userA@example.com
+    
+     Another option is integer after ending bracket, for instance, let's say Worflow is:
+     user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com)5; userA@example.com
+     This means that users within 3rd step (igor@example.com; User3@example.com, User4@example.com) can 5 times send the form between
+     themselves, or to next step (prompt will be shown).
+     This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
+     Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
+     to final step.
