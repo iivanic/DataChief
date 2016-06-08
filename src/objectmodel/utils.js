@@ -245,7 +245,7 @@ this.confirm = function (message, callback) {
     $("#dialog-confirm-text").text(message);
     $("#dialog-confirm").dialog({
         resizable: false,
- height: 355,
+        height: 355,
         width: 500,
         modal: true,
         buttons: {
