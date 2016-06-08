@@ -228,7 +228,8 @@ this.alert = function (message, callback) {
     $("#dialog-alert-text").text(message);
     $("#dialog-alert").dialog({
         resizable: false,
-        height: 205,
+        height: 355,
+        width: 500,
         modal: true,
         buttons: {
             Ok: function () {

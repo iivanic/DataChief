@@ -2,11 +2,11 @@
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 
 ##What is it for?
-DataChief enables you to rapidly implement processes in your company/organization with no cost - all you need is email account(minimal requirement). Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL with ease. 
+DataChief enables you to **rapidly implement processes in your company/organization with no cost** - all you need is email account(minimal requirement). Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like **ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL** with ease. 
 
 You don't have to be blocked anymore by expensive Line of business (LOB) applications development that never ends, and when they are finally ready, they are often obsolete.
 
-Take a look at [Barrique Works LLC Case Study](./Case study Barrique Works LLC.md). 
+Take a look at **[Barrique Works LLC Case Study](./Case study Barrique Works LLC.md)**. 
 
 ##Roadmap
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
@@ -54,22 +54,22 @@ Smartphone versions are planned, and are crucial part of DataChief. This softwar
     * press **F5** to run DataChief
     
 ##How does it work?
-DataChief is simpe solution that allows you to define your forms, publish and collect them. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account(one for all users or one per user).
+DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account(one for all users or one per user).
 
 ###Users
-In DataChief users are identified with Emails. Emails are usualy in format username@domain.domainsufix. Even if you are using DataChief in "Single User Account" mode, you will still need to set Email for every user becouse email identifies the user, but in this mode those emails does not have to exists.
+In DataChief users are identified with **Emails**. Even if you are using DataChief in "Single User Account" mode, you will still need to set Email for every user becouse email identifies the user, but in this mode those emails does not have to exists.
 
 ###Communication
 Communication between user is made via IMAP account(s). DataChief can use existing Email accounts and accounts can be used paralledl with standard emails. Imap fodler called "datachief" will be created and datachief will not touch enything outside that folder. There are two modes:
-* Single user account - All users communicate only through one account. This is preferable when testing or with simple deployments. Drawback is lowered security. There is possibility to implement Network storage services such as DropBox, Goole drive, One Drive, etc. Implementation of these features depends on user interest.
-* One Account per User - This is preferable when dealing with sensitive data. Every DataChief installation has its own IMAP account.
+* **Single user account** - All users communicate only through one account. This is preferable when testing or with simple deployments. Drawback is lowered security. There is possibility to implement Network storage services such as DropBox, Goole drive, One Drive, etc. Implementation of these features depends on user interest.
+* **One Account per User** - This is preferable when dealing with sensitive data. Every DataChief installation has its own IMAP account.
 
 ###Forms
-DataChief allows you to define your data sets with custom forms designed in provided Form Editor. Multiple types of controls are available, including repeater groups to allow you to implement data that is on paper forms usualy defined as table.
+DataChief allows you to define your data sets with custom forms designed in provided **Form Editor**. Multiple types of controls are available, including repeater groups to allow you to implement data that is on paper forms usualy defined as table.
 
 ###Workflow
 * Following Form properties helps define workflow
-    * Workflow - this property defines workflow for the form
+    * Workflow - this property **defines workflow** for the form
     * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors.
     * Final step - this is one or more user(s) that collects the data. DataChief is not designed as database for millions of forms, so those users should periodacally export collected data as Text files, SpreadSheets or Databases.
     * Publish To - this property defines who cas start empty form. 
