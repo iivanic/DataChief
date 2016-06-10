@@ -12,7 +12,8 @@ this.ctor = function () {
 
     this.email = "";
 
-    this.organization = "Unknown organization";
+    this.organization = "Barrique Works LLC";
+    this.organizationSecret = "123";
 
     this.useSingleAccount = true;
     this.takeOnlyOne = true;
@@ -50,11 +51,10 @@ this.save = function () {
     identitySetting.save();
     helper.log("Settings saved.");
 }
-function saveJSONReplacer(key,value)
-{
+function saveJSONReplacer(key, value) {
 
-    if (key=="identitySetting") return undefined;
-    else if (key=="_parent") return undefined;
+    if (key == "identitySetting") return undefined;
+    else if (key == "_parent") return undefined;
     else return value;
 }
 this.toGui = function () {
@@ -63,6 +63,9 @@ this.toGui = function () {
 
     $("#checkboxSettingsSingleAccount").prop("checked", this.useSingleAccount);
     $("#checkboxSettingsTakeOnlyOne").prop("checked", this.takeOnlyOne);
+
+    $("#textSettingsOrganizationSecret").val(this.organizationSecret);
+    $("#textSettingsOrganizationSecret1").val( this.organizationSecret);
 
     userSettings.singleAccountToggle();
 
@@ -74,7 +77,11 @@ this.toGui = function () {
             helper.confirm("Delete profile? Are You sure? All data linked wth this profile will be lost.", deleteProfile);
 
         });
+ $("#addRemoveCaseStudyProfiles").button().click(
+        function () {
+            helper.confirm("OK?");
 
+        });
 
     $("#editOrgMemberShowPassword").button(
         {
@@ -227,9 +234,12 @@ this.manageDeleteProfile = function () {
 }
 this.fromGui = function () {
 
+
+
     this.organization = $("#textSettingsOrganization").val();
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
     this.takeOnlyOne = $("#checkboxSettingsTakeOnlyOne").is(':checked');
+    this.organizationSecret = $("#textSettingsOrganizationSecret").val();
     identitySetting.fromGui();
 
 }

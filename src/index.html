@@ -51,9 +51,9 @@
                 </section>
                 <h3>DataChief Mode</h3>
                 <section>
-                    
+
                     <label for="appMode">DataChief can work in two basic modes. First one, single IMAP account is simple and recommended for testing and learning. Drawback is lower security. Individual user account mode requires one IMAP account per user, which makes it more secure but more complicated to setup.</label>
-                    <input type="radio" name="appMode" id="appMode1" value="1"  checked=true /><label for="appMode1">For all communucation use only <strong>one IMAP account</strong></label>
+                    <input type="radio" name="appMode" id="appMode1" value="1" checked=true /><label for="appMode1">For all communucation use only <strong>one IMAP account</strong></label>
                     <input type="radio" name="appMode" id="appMode2" value="2" checked=false /><label for="appMode2">Use <strong>individual IMAP Accounts</strong> (advanced and more secure)</label>
 
                 </section>
@@ -70,7 +70,8 @@
                 <h3>Finish</h3>
                 <section>
                     <p>Now You are ready to start!</p>
-                </section>           </div>
+                </section>
+            </div>
         </div>
         <div id="newFormDialog" title="New Form">
             <form>
@@ -371,7 +372,8 @@
 
                         <fieldset id="profileField">
                             <legend>Profile:</legend>
-                            <select id="selectActiveProfile" style="min-width:300px;"></select>
+                            <select id="selectActiveProfile" style="min-width:300px;float:left;"></select><buttom style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</buttom>
+                            <br /><br /><br /><br />
                             <fieldset id="settingsField">
                                 <legend>User information</legend>
                                 <p>Enter your email and Name</p>
@@ -389,6 +391,14 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <input type="text" class="datachiefFieldText" id="textSettingsName" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label for="textSettingsNameComment">Comment: </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea id="textSettingsNameComment" rows="4" class="datachiefFieldText" ></textarea>
                                     </div>
                                 </div>
                                 <div class="row">

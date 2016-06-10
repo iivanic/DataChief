@@ -10,6 +10,7 @@ this.ctor = function (email) {
     this.name = "";
     this.userSecret = "";
     this.organization = "";
+    this.comment = "";
 
     this.imapUserName = "";
     this.imapPassword = "";
@@ -45,7 +46,7 @@ this.ctor = function (email) {
 }
 this.save = function () {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
-        helper.log("Profile " + this.email + " saved.");
+    helper.log("Profile " + this.email + " saved.");
 }
 this.toGui = function () {
     $("#textSettingsEmail").val(this.email);
@@ -66,6 +67,9 @@ this.toGui = function () {
 
     $("#textSettingsUSerSecret").val(this.userSecret);
     $("#textSettingsUSerSecret1").val(this.userSecret);
+    $("#textSettingsNameComment").val(this.comment);
+
+
 
 
 }
@@ -79,7 +83,7 @@ this.fromGui = function () {
     this.imapPassword = $("#textSettingsIMAPPassword").val();
     this.imapServer = $("#textSettingsIMAPServer").val();
     this.imapPort = $("#textSettingsIMAPServerPort").val();
-  //  helper.log(" textSettingsIMAPServerPort" +  $("#textSettingsIMAPServerPort").val() + "," + this.imapPort + this.name) ;
+    //  helper.log(" textSettingsIMAPServerPort" +  $("#textSettingsIMAPServerPort").val() + "," + this.imapPort + this.name) ;
     this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
 
     this.smtpUserName = $("#textSettingsSMTPUsername").val();
@@ -89,6 +93,7 @@ this.fromGui = function () {
     this.smtpRequiresSSL = $("#textSettingsSMTPRequiresSSL").is(':checked');
     this.RequiresAuthentication = $("#textSettingsSMTPRequiresAuthentication").is(':checked');
     this.userSecret = $("#textSettingsUSerSecret").val();
+    this.comment = $("#textSettingsNameComment").val();
 
 
 }
