@@ -5,7 +5,7 @@ var identitySetting = null;
 this.userList = new Array();
 
 this.ctor = function () {
-     
+
     this.filePath = helper.getUserSettingsFilePath();
 
     this.mainEmail = helper.getCurrentUsername();
@@ -31,7 +31,9 @@ this.ctor = function () {
         this.email = helper.getCurrentUsername();
         this.userList.push(this.email);
         this.userList.push("initiator");
+        this.wizadFinished=false;
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
+      
     }
     else {
         var loadedObj = JSON.parse(file);
@@ -40,7 +42,12 @@ this.ctor = function () {
         }
     }
     this.loadIdentitySetting(this.email)
-
+    if(!this.wizadFinished)
+    {
+          $(document).ready(function () {
+            window.setTimeout(index.startWizard,500);
+        });
+    }
 }
 this.identitySetting = identitySetting;
 this.loadIdentitySetting = function (email) {

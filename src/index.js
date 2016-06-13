@@ -43,10 +43,11 @@ this.startWizard = function () {
     $("#startDialog").dialog({
         height: 680,
         width: "80%",
-        modal: true
+        modal: true,
+        closeOnEscape: false,
+        dialogClass: "no-close",
+        position: { my: "center", at: "center", of: window }
     });
-  
-
 }
 
 function addTab(opened, exampleName) {
@@ -234,13 +235,22 @@ $(document).ready(function () {
     $(window).trigger('resize');
     // MenuTree.walk();
     window.setTimeout("imap.go(true)", 4000);
-    
-//    startWizard();
+
+    //    startWizard();
     $("#startwizard").steps({
         headerTag: "h3",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        stepsOrientation: "vertical"
+        stepsOrientation: "vertical",
+        onStepChanging: function (event, currentIndex, newIndex) {
+            return startwizardsteps.onStepChanging(event, currentIndex, newIndex);
+        },
+        onFinishing: function (event, currentIndex) {
+            return startwizardsteps.onFinishing(event, currentIndex);
+        },
+        onFinished: function (event, currentIndex) {
+            startwizardsteps.onFinished(event, currentIndex);
+        }
     });
 });
 this.closeTab = function (el) {

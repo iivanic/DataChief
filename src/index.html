@@ -6,20 +6,22 @@
     <link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./datachief.css">
     <link rel="stylesheet" href="./jquery.steps-1.1.0//jquery.steps.css">
-    <script src="winstate.js"></script>
+
     <script>
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
+        var startwizardsteps = require("./startwizardsteps.js");
+        var winstate = require("./winstate.js");
         var helper = require("./objectmodel/utils.js");
         var publish = require("./publish.js");
-          
         var userSettings = require("./userSettings.js")
         userSettings.ctor();
         var imap = require("./imap.js");    
-        var index = require("./index.js");
         var filler = require("./filler.js");
         var package = require("./package.js");
         var barrique = require("./barriqueworks.js");
+        var index = require("./index.js");
+
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -31,6 +33,11 @@
 
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
+    <style>
+        .no-close .ui-dialog-titlebar-close {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -373,7 +380,8 @@
 
                         <fieldset id="profileField">
                             <legend>Profile:</legend>
-                            <select id="selectActiveProfile" style="min-width:300px;float:left;"></select><buttom style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</buttom>
+                            <select id="selectActiveProfile" style="min-width:300px;float:left;"></select>
+                            <buttom style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</buttom>
                             <br /><br /><br /><br />
                             <fieldset id="settingsField">
                                 <legend>User information</legend>
@@ -399,7 +407,7 @@
                                         <label for="textSettingsNameComment">Comment: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <textarea id="textSettingsNameComment" rows="4" class="datachiefFieldText" ></textarea>
+                                        <textarea id="textSettingsNameComment" rows="4" class="datachiefFieldText"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
