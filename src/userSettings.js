@@ -1,11 +1,11 @@
 
-var helper = require("./objectmodel/utils.js");
-var identitySetting = require("./identitySetting.js");
+
+var identitySetting = null;
 
 this.userList = new Array();
 
 this.ctor = function () {
-
+     
     this.filePath = helper.getUserSettingsFilePath();
 
     this.mainEmail = helper.getCurrentUsername();
@@ -44,6 +44,8 @@ this.ctor = function () {
 }
 this.identitySetting = identitySetting;
 this.loadIdentitySetting = function (email) {
+    identitySetting = require("./identitySetting.js");
+    this.identitySetting = identitySetting;
     identitySetting.ctor(email);
 }
 this.save = function () {
@@ -57,6 +59,29 @@ function saveJSONReplacer(key, value) {
     else if (key == "_parent") return undefined;
     else return value;
 }
+this.checkCaseStudy = function () {
+    if (!barrique.isInstalled()) {
+        $("#addRemoveCaseStudyProfiles").button({
+            text: true,
+            label: "Add Barrique<br />Works LLC<br />Case study<br />Profiles"
+        }
+        ).click(
+            function () {
+                helper.confirm("Add Barrique Works LLC Case study profiles?", barrique.install);
+
+            });
+    }
+    else {
+        $("#addRemoveCaseStudyProfiles").button({
+            text: true,
+            label: "Remove<br />Case study<br />Profiles"
+        }).click(
+            function () {
+                helper.confirm("Remove Barrique Works LLC Case study profiles?", barrique.uninstall);
+
+            });
+    }
+}
 this.toGui = function () {
 
     $("#textSettingsOrganization").val(this.organization);
@@ -65,7 +90,7 @@ this.toGui = function () {
     $("#checkboxSettingsTakeOnlyOne").prop("checked", this.takeOnlyOne);
 
     $("#textSettingsOrganizationSecret").val(this.organizationSecret);
-    $("#textSettingsOrganizationSecret1").val( this.organizationSecret);
+    $("#textSettingsOrganizationSecret1").val(this.organizationSecret);
 
     userSettings.singleAccountToggle();
 
@@ -77,11 +102,9 @@ this.toGui = function () {
             helper.confirm("Delete profile? Are You sure? All data linked wth this profile will be lost.", deleteProfile);
 
         });
- $("#addRemoveCaseStudyProfiles").button().click(
-        function () {
-            helper.confirm("OK?");
 
-        });
+
+    this.checkCaseStudy();
 
     $("#editOrgMemberShowPassword").button(
         {
@@ -233,8 +256,6 @@ this.manageDeleteProfile = function () {
     }
 }
 this.fromGui = function () {
-
-
 
     this.organization = $("#textSettingsOrganization").val();
     this.useSingleAccount = $("#checkboxSettingsSingleAccount").is(':checked');
