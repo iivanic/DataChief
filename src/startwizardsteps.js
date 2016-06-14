@@ -2,16 +2,14 @@ var wform
 $(document).ready(
     function () {
         wform = $("#wizardForm");
-        /*      wform.validate({
-                  errorPlacement: function errorPlacement(error, element) { element.before(error); },
-                  rules: {
-                      confirm: {
-                          equalTo: "#password"
-                      }
-                  }
-              });
-      */
-        //    startWizard();
+        wform.validate({
+            errorPlacement: function errorPlacement(error, element) { element.before(error); },
+            rules: {
+                startDialogCompanPassword1: {
+                    equalTo: "#startDialogCompanPassword"
+                }
+            }
+        });
         $("#startwizard").steps({
             headerTag: "h3",
             bodyTag: "section",
@@ -27,16 +25,21 @@ $(document).ready(
                 startwizardsteps.onFinished(event, currentIndex);
             }
         });
-
+        //step 1
         $("#startDialogCompanyName").val(userSettings.organization);
         $("#startDialogCompanPassword").val(userSettings.organizationSecret);
         $("#startDialogCompanPassword1").val(userSettings.organizationSecret);
-
+        //step 2
+        $("#startDialogappMode1").prop("checked", userSettings.useSingleAccount?"checked":"");
+        $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount?"checked":"");
+       //step 3
+        $("#startDialogName").val(userSettings.identitySetting.name);
+        $("#startDialogemail").val(userSettings.identitySetting.mainEmail);
     }
 )
 this.onStepChanging = function (event, currentIndex, newIndex) {
 
-    // wform = $("#wizardForm");
+    wform = $("#wizardForm");
     // form.validate().settings.ignore = ":disabled,:hidden";
     //  return form.valid();
 
@@ -46,35 +49,25 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
     }
     switch (currentIndex) {
         case 0:
-            //    wform.validate().settings.ignore = ":disabled,:hidden";
-            var valid = wform[0].checkValidity();
-
-            if (valid) {
-                userSettings.organization = $("#startDialogCompanyName").val();
-                userSettings.organizationSecret = $("#startDialogCompanPassword").val();
-                if ($("#startDialogCompanPassword1").val() != $("#startDialogCompanPassword").val())
-                    valid = false;
-            }
-            return valid;
-
+            wform.validate().settings.ignore = ":disabled,:hidden";
+            return wform.valid();
         case 1:
-            alert(2);
-            break;
+            wform.validate().settings.ignore = ":disabled,:hidden";
+            return wform.valid();
         case 2:
-            alert(3);
-            break;
+            wform.validate().settings.ignore = ":disabled,:hidden";
+            return wform.valid();
         case 3:
-            alert(4);
-            break;
+            wform.validate().settings.ignore = ":disabled,:hidden";
+            return wform.valid();
         default:
             break;
     }
     return true;
 }
 this.onFinishing = function (event, currentIndex) {
-    //  form.validate().settings.ignore = ":disabled";
-    //  return form.valid();
-    return true;
+    wform.validate().settings.ignore = ":disabled";
+    return wform.valid();
 }
 this.onFinished = function (event, currentIndex) {
     userSettings.wizadFinished = true;
