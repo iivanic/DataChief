@@ -46,40 +46,45 @@
         var dialog = remote.require('dialog');
     </script>
     <div>
+
         <div id="startDialog" style="display:none;" title="Welome to DataChief!">
-            <div id="startwizard">
-                <h3>Company</h3>
-                <section>
-                    <p>Let's get started in few easy steps!</p>
-                    <label for="startDialogCompanyName">Enter Your Organization or Company Name *</label>
-                    <input id="startDialogCompanyName" name="startDialogCompanyName" type="text" class="required">
-                    <label for="startDialogCompanPassword">Organization secret *</label>
-                    <p>Organization secret ensures that someone else can not claim to be Your organization Admin.</p>
-                    <input id="startDialogCompanPassword" name="startDialogCompanPassword" type="text" class="required">
-                </section>
-                <h3>DataChief Mode</h3>
-                <section>
+            <form id="wizardForm" action="#">
+                <div id="startwizard">
+                    <h3>Company</h3>
+                    <section id="step1">
+                        <p>Let's get started in few easy steps!</p>
+                        <label for="startDialogCompanyName">Enter Your Organization or Company Name *</label>
+                        <input id="startDialogCompanyName" name="startDialogCompanyName" type="text" data-validation-required-message="Organization name is Required" required class="required fullwidth">
+                        <label for="startDialogCompanPassword">Organization secret *</label>
+                        <p>Organization secret ensures that someone else can not claim to be Your organization Admin.</p>
+                        <input id="startDialogCompanPassword" name="startDialogCompanPassword" required type="password" class="required fullwidth">
+                        <p>Repeat organization secret.</p>
+                        <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" required type="password" class="required fullwidth">
+                    </section>
+                    <h3>DataChief Mode</h3>
+                    <section id="step2">
 
-                    <label for="appMode">DataChief can work in two basic modes. First one, single IMAP account is simple and recommended for testing and learning. Drawback is lower security. Individual user account mode requires one IMAP account per user, which makes it more secure but more complicated to setup.</label>
-                    <input type="radio" name="appMode" id="appMode1" value="1" checked=true /><label for="appMode1">For all communucation use only <strong>one IMAP account</strong></label>
-                    <input type="radio" name="appMode" id="appMode2" value="2" checked=false /><label for="appMode2">Use <strong>individual IMAP Accounts</strong> (advanced and more secure)</label>
+                        <label for="appMode">DataChief can work in two basic modes. First one, single IMAP account is simple and recommended for testing and learning. Drawback is lower security. Individual user account mode requires one IMAP account per user, which makes it more secure but more complicated to setup.</label>
+                        <input type="radio" name="appMode" id="appMode1" value="1" checked=true /><label for="appMode1">For all communucation use only <strong>one IMAP account</strong></label>
+                        <input type="radio" name="appMode" id="appMode2" value="2" checked=false /><label for="appMode2">Use <strong>individual IMAP Accounts</strong> (advanced and more secure)</label>
 
-                </section>
-                <h3>Your Name and Email</h3>
-                <section>
-                    <p>Wonderful transition effects.</p>
-                    <label for="email">Email *</label>
-                    <input id="email" name="email" type="text" class="required email">
-                </section>
-                <h3>IMAP Account</h3>
-                <section>
-                    <p>The next and previous buttons help you to navigate through your content.</p>
-                </section>
-                <h3>Finish</h3>
-                <section>
-                    <p>Now You are ready to start!</p>
-                </section>
-            </div>
+                    </section>
+                    <h3>Your Name and Email</h3>
+                    <section id="step3">
+                        <p>Wonderful transition effects.</p>
+                        <label for="email">Email *</label>
+                        <input id="email" name="email" type="text" class="required email">
+                    </section>
+                    <h3>IMAP Account</h3>
+                    <section id="step4">
+                        <p>The next and previous buttons help you to navigate through your content.</p>
+                    </section>
+                    <h3>Finish</h3>
+                    <section id="step5">
+                        <p>Now You are ready to start!</p>
+                    </section>
+                </div>
+            </form>
         </div>
         <div id="newFormDialog" title="New Form">
             <form>

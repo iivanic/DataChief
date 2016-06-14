@@ -136,4 +136,8 @@ z-index:9999 ;}
  
     cursor: help;
 }
+.fullwidth
+{
+    width:100%;
+}
 

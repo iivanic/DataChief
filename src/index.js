@@ -236,22 +236,7 @@ $(document).ready(function () {
     // MenuTree.walk();
     window.setTimeout("imap.go(true)", 4000);
 
-    //    startWizard();
-    $("#startwizard").steps({
-        headerTag: "h3",
-        bodyTag: "section",
-        transitionEffect: "slideLeft",
-        stepsOrientation: "vertical",
-        onStepChanging: function (event, currentIndex, newIndex) {
-            return startwizardsteps.onStepChanging(event, currentIndex, newIndex);
-        },
-        onFinishing: function (event, currentIndex) {
-            return startwizardsteps.onFinishing(event, currentIndex);
-        },
-        onFinished: function (event, currentIndex) {
-            startwizardsteps.onFinished(event, currentIndex);
-        }
-    });
+
 });
 this.closeTab = function (el) {
     //remove tab
