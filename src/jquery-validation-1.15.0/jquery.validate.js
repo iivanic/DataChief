@@ -7,6 +7,7 @@
  * Released under the MIT license
  */
 (function( factory ) {
+	//By Igor Ivanić 14.6.2016 -- commented out becouse of error when using with electron.
 /*	if ( typeof define === "function" && define.amd ) {
 		define( ["jquery"], factory );
 	} else if (typeof module === "object" && module.exports) {

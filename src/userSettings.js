@@ -17,6 +17,7 @@ this.ctor = function () {
 
     this.useSingleAccount = true;
     this.takeOnlyOne = true;
+    this.clientOnly = true;
 
     this.userList = new Array();
 
@@ -31,9 +32,9 @@ this.ctor = function () {
         this.email = helper.getCurrentUsername();
         this.userList.push(this.email);
         this.userList.push("initiator");
-        this.wizadFinished=false;
+        this.wizadFinished = false;
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
-      
+
     }
     else {
         var loadedObj = JSON.parse(file);
@@ -42,10 +43,9 @@ this.ctor = function () {
         }
     }
     this.loadIdentitySetting(this.email)
-    if(!this.wizadFinished)
-    {
-          $(document).ready(function () {
-            window.setTimeout(index.startWizard,500);
+    if (!this.wizadFinished) {
+        $(document).ready(function () {
+            window.setTimeout(index.startWizard, 500);
         });
     }
 }
@@ -77,6 +77,18 @@ this.checkCaseStudy = function () {
                 helper.confirm("Add Barrique Works LLC Case study profiles?", barrique.install);
 
             });
+
+        //-------
+        $("#addRemoveCaseStudyProfilesWizard").button({
+            text: true,
+            label: "Add Barrique Works LLC Case study Profiles"
+        }
+        ).click(
+            function () {
+                helper.confirm("Add Barrique Works LLC Case study profiles?", barrique.install);
+
+            });
+        //-------
     }
     else {
         $("#addRemoveCaseStudyProfiles").button({
@@ -87,7 +99,17 @@ this.checkCaseStudy = function () {
                 helper.confirm("Remove Barrique Works LLC Case study profiles?", barrique.uninstall);
 
             });
+
+        $("#addRemoveCaseStudyProfilesWizard").button({
+            text: true,
+            label: "Remove Case study Profiles"
+        }).click(
+            function () {
+                helper.confirm("Remove Barrique Works LLC Case study profiles?", barrique.uninstall);
+
+            });
     }
+
 }
 this.toGui = function () {
 

@@ -1,4 +1,8 @@
 var wform
+var step2Caption;
+var step4Caption;
+var step2Content;
+var step4Content;
 $(document).ready(
     function () {
         wform = $("#wizardForm");
@@ -25,16 +29,44 @@ $(document).ready(
                 startwizardsteps.onFinished(event, currentIndex);
             }
         });
+
         //step 1
+        $("#Startdesigner1").prop("checked", userSettings.clientOnly ? "checked" : "");
+        $("#Startdesigner1").on("click", function () {
+
+            var _steps = $("#startwizard").steps("getStepsLength");
+            alert(_steps);
+      /*      step2Caption;
+            step4Caption;
+            step2Content;
+            step4Content;*/
+
+            $('#startwizard').steps('remove', 4);
+            $('#startwizard').steps('remove', 1);
+
+        });
+
+        $("#Startdesigner2").prop("checked", !userSettings.clientOnly ? "checked" : "");
+        $("#Startdesigner2").on("click", function () {
+
+            $('#startwizard').steps('insert', 1, { title: step2Caption, content: step2Content });
+            $('#startwizard').steps('insert', 4, { title: step4Caption, content: step4Content });
+
+        });
+
+        //step 2
         $("#startDialogCompanyName").val(userSettings.organization);
         $("#startDialogCompanPassword").val(userSettings.organizationSecret);
         $("#startDialogCompanPassword1").val(userSettings.organizationSecret);
-        //step 2
-        $("#startDialogappMode1").prop("checked", userSettings.useSingleAccount?"checked":"");
-        $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount?"checked":"");
-       //step 3
+        //step 3
+        $("#startDialogappMode1").prop("checked", userSettings.useSingleAccount ? "checked" : "");
+        $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount ? "checked" : "");
+        //step 4
         $("#startDialogName").val(userSettings.identitySetting.name);
-        $("#startDialogemail").val(userSettings.identitySetting.mainEmail);
+        $("#startDialogemail").val(userSettings.identitySetting.email);
+
+
+
     }
 )
 this.onStepChanging = function (event, currentIndex, newIndex) {

@@ -1395,7 +1395,11 @@ $.fn.steps.getStep = function (index)
 {
     return getStep(this, index);
 };
-
+//By Igor Ivanić 14.6.2016 - number of the steps
+$.fn.steps.getStepsLength = function ()
+{
+    return getSteps(this).length;
+};
 /**
  * Inserts a new step to a specific position.
  *
