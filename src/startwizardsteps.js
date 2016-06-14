@@ -9,5 +9,6 @@ this.onFinishing = function (event, currentIndex) {
             return true;
         }
 this.onFinished = function (event, currentIndex) {
+            userSettings.wizadFinished=true;
             $("#startDialog").dialog("close");
         }
