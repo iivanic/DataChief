@@ -30,7 +30,14 @@ $(document).ready(
             rules: {
                 startDialogCompanPassword1: {
                     equalTo: "#startDialogCompanPassword"
-                }
+                },
+                startDialogUserSecretl2: {
+                    equalTo: "#startDialogUserSecretl1"
+                },
+                step5textSettingsIMAPPassword1: {
+                    equalTo: "#step5textSettingsIMAPPassword"
+                },
+
             }
         });
 
@@ -48,14 +55,14 @@ $(document).ready(
                     .remove()	//remove all the children
                     .end()	//again go back to selected element
                     .text();	//get the text of element
-                step4Caption = $("#startwizard-t-3").clone()	//clone the element
+                step4Caption = $("#startwizard-t-4").clone()	//clone the element
                     .children()	//select all the children
                     .remove()	//remove all the children
                     .end()	//again go back to selected element
                     .text();	//get the text of element
 
                 step2Content = $("#startwizard-p-1").html();
-                step4Content = $("#startwizard-p-3").html();
+                step4Content = $("#startwizard-p-4").html();
 
 
                 $('#startwizard').steps('remove', 4);
@@ -80,9 +87,11 @@ $(document).ready(
 
                 $('#startwizard').steps('insert', 4, { title: step4Caption, content: step4Content });
                 //step 4
-                $("#startDialogName").val(userSettings.identitySetting.name);
-                $("#startDialogemail").val(userSettings.identitySetting.email);
-
+                /* $("#startDialogName").val(userSettings.identitySetting.name);
+                 $("#startDialogemail").val(userSettings.identitySetting.email);
+                 $("#startDialogUserSecretl1").val(userSettings.identitySetting.userSecret);
+                 $("#startDialogUserSecretl2").val(userSettings.identitySetting.userSecret);*/
+                userSettings.checkCaseStudy();
                 /*        $("#startwizard").steps("destroy");
                         startwizardsteps.initWizard();*/
             }
@@ -98,8 +107,15 @@ $(document).ready(
         //step 4
         $("#startDialogName").val(userSettings.identitySetting.name);
         $("#startDialogemail").val(userSettings.identitySetting.email);
-
-
+        $("#startDialogUserSecretl1").val(userSettings.identitySetting.userSecret);
+        $("#startDialogUserSecretl2").val(userSettings.identitySetting.userSecret);
+        //step 5
+        $("#step5textSettingsIMAPUsername").val(userSettings.identitySetting.imapUserName);
+        $("#step5textSettingsIMAPPassword").val(userSettings.identitySetting.imapPassword);
+        $("#step5textSettingsIMAPPassword1").val(userSettings.identitySetting.imapPassword);
+        $("#step5textSettingsIMAPServer").val(userSettings.identitySetting.imapServer);
+        $("#step5textSettingsIMAPServerPort").val(userSettings.identitySetting.imapPort);
+        $("#step5textSettingsIMAPRequiresSSL").prop("checked", userSettings.identitySetting.imapRequiresSSL ? "checked" : "");
 
     }
 )
@@ -113,23 +129,11 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
     if (currentIndex > newIndex) {
         return true;
     }
-    switch (currentIndex) {
-        case 0:
-            wform.validate().settings.ignore = ":disabled,:hidden";
-            return wform.valid();
-        case 1:
-            wform.validate().settings.ignore = ":disabled,:hidden";
-            return wform.valid();
-        case 2:
-            wform.validate().settings.ignore = ":disabled,:hidden";
-            return wform.valid();
-        case 3:
-            wform.validate().settings.ignore = ":disabled,:hidden";
-            return wform.valid();
-        default:
-            break;
-    }
-    return true;
+    this.fromGui();
+    userSettings.save();
+    wform.validate().settings.ignore = ":disabled,:hidden";
+    return wform.valid();
+
 }
 this.onFinishing = function (event, currentIndex) {
     wform.validate().settings.ignore = ":disabled";
@@ -137,5 +141,34 @@ this.onFinishing = function (event, currentIndex) {
 }
 this.onFinished = function (event, currentIndex) {
     userSettings.wizadFinished = true;
+    this.fromGui();
+    userSettings.save();
+    userSettings.toGui();
+    if (!imapTimer)
+        imapTimer = window.setTimeout("imap.go(true)", 4000);
     $("#startDialog").dialog("close");
+
+}
+this.fromGui = function () {
+    //step 1
+    userSettings.clientOnly = $("#Startdesigner1").prop("checked");
+    //step 2
+    userSettings.organization = $("#startDialogCompanyName").val();
+    userSettings.organizationSecret = $("#startDialogCompanPassword").val();
+
+    //step 3
+    userSettings.useSingleAccount = ($("#startDialogappMode1").prop("checked") == "checked");
+
+    //step 4
+    userSettings.identitySetting.name = $("#startDialogName").val();
+    userSettings.identitySetting.email = $("#startDialogemail").val();
+    userSettings.identitySetting.userSecret = $("#startDialogUserSecretl1").val();
+    userSettings.identitySetting.userSecret = $("#startDialogUserSecretl2").val();
+    //step 5
+    userSettings.identitySetting.imapUserName = $("#step5textSettingsIMAPUsername").val();
+    userSettings.identitySetting.imapPassword = $("#step5textSettingsIMAPPassword").val();
+    userSettings.identitySetting.imapPassword = $("#step5textSettingsIMAPPassword1").val();
+    userSettings.identitySetting.imapServer = $("#step5textSettingsIMAPServer").val();
+    userSettings.identitySetting.imapPort = $("#step5textSettingsIMAPServerPort").val();
+    userSettings.identitySetting.imapRequiresSSL = ($("#step5textSettingsIMAPRequiresSSL").prop("checked") == "checked");
 }

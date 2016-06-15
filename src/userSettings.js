@@ -46,6 +46,11 @@ this.ctor = function () {
     if (!this.wizadFinished) {
         $(document).ready(function () {
             window.setTimeout(index.startWizard, 500);
+        })
+    }else
+    {
+        $(document).ready(function () {
+             imapTimer = window.setTimeout("imap.go(true)", 4000);
         });
     }
 }

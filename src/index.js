@@ -234,7 +234,7 @@ $(document).ready(function () {
 
     $(window).trigger('resize');
     // MenuTree.walk();
-    window.setTimeout("imap.go(true)", 4000);
+ 
 
 
 });

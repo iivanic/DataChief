@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./jquery.steps-1.1.0//jquery.steps.css">
 
     <script>
+        var imapTimer = null;
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
         var startwizardsteps = require("./startwizardsteps.js");
@@ -55,8 +56,8 @@
                     <h3 id="step0Caption">Form Designer and Publisher</h3>
                     <section id="step0">
                         <h2>Let's get started in few easy steps!</h2>
-                        <p>Are you planing to use DataChief on this computer as Client only (You will be able to recive and fill
-                            out forms) or do you want ability to design and publish Your own forms?</p>
+                        <p>Are you planing to use DataChief on this computer as Client only (You will be able to recive and
+                            fill out forms) or do you want ability to design and publish Your own forms?</p>
                         <input type="radio" name="Startdesigner" id="Startdesigner1" value="1" style="display:inline;;width:30px;" />
                         <label for="Startdesigner1">Client Only (typical choice)</label><br>
                         <input type="radio" name="Startdesigner" id="Startdesigner2" value="2" style="display:inline;;width:30px;" />
@@ -68,7 +69,7 @@
                         <label for="startDialogCompanyName">Enter Your Organization or Company Name *</label>
                         <input id="startDialogCompanyName" name="startDialogCompanyName" type="text" data-validation-required-message="Organization name is Required"
                             required class="required fullwidth">
-                            <br>
+                        <br>
                         <label for="startDialogCompanPassword">Organization secret *</label>
                         <p>Organization secret ensures that someone else can not claim to be Your organization Admin.</p>
                         <input id="startDialogCompanPassword" name="startDialogCompanPassword" required type="password" class="required fullwidth">
@@ -90,13 +91,13 @@
                     <section id="step3">
                         <h2>Enter Your information.</h2>
                         <label for="startDialogName">Name *</label>
-                        <input id="startDialogName" name="startDialogName" type="text" class="required fullwidth"><br>
+                        <input id="startDialogName" name="startDialogName" type="text" required class="required fullwidth"><br>
                         <label for="startDialogemail">Email *</label>
-                        <input id="startDialogemail" name="startDialogemail" type="email" class="required email fullwidth"><br>
-                         <label for="startDialogUserSecretl1">Your Secret *</label>
-                        <input id="startDialogUserSecretl1" name="startDialogUserSecretl1" type="password" class="required fullwidth">
-                        <label for="startDialogUserSecretl2">RepeatYour Secret *</label>
-                        <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" type="password" class="required fullwidth">
+                        <input id="startDialogemail" name="startDialogemail" type="email" required class="required email fullwidth"><br>
+                        <label for="startDialogUserSecretl1">Your Secret *</label>
+                        <input id="startDialogUserSecretl1" name="startDialogUserSecretl1" required type="password" class="required fullwidth">
+                        <label for="startDialogUserSecretl2">Repeat Your Secret *</label>
+                        <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" required type="password" class="required fullwidth">
                     </section>
 
                     <h3 id="step4Caption">Case Study</h3>
@@ -106,11 +107,23 @@
                         <br><br>
                         <buttom id="addRemoveCaseStudyProfilesWizard">Add Barrique Works LLC Case study Profiles</buttom>
                     </section>
-                    <h3  id="step5Caption">Communication</h3>
+                    <h3 id="step5Caption">Communication</h3>
                     <section id="step5">
                         <h2>Set Up IMAP(Email) Account.</h2>
+                        <label for="step5textSettingsIMAPUsername">IMAP Username: </label><br>
+                        <input type="email" id="step5textSettingsIMAPUsername" required class="required fullwidth" /><br>
+                        <label for="step5textSettingsIMAPPassword">IMAP Password: </label><br>
+                        <input type="password" id="step5textSettingsIMAPPassword" required class="required fullwidth"><br>
+                        <label for="step5textSettingsIMAPPassword1">Repeat IMAP Password: </label><br>
+                        <input type="password" id="step5textSettingsIMAPPassword1" required class="required fullwidth"> <br>
+                        <label for="step5textSettingsIMAPServer">IMAP Server: </label><br>
+                        <input type="text" id="step5textSettingsIMAPServer" required class="required fullwidth" /><br>
+                        <label for="step5textSettingsIMAPServerPort">IMAP Server port: </label><br>
+                        <input type="number" min="0" max="65535" id="step5textSettingsIMAPServerPort" required class="required fullwidth"> <br>
+                        <label for="step5textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label><br>
+                        <input type="checkbox" id="step5textSettingsIMAPRequiresSSL" required class="required fullwidth">
                     </section>
-                    <h3  id="step6Caption">Finish</h3>
+                    <h3 id="step6Caption">Finish</h3>
                     <section id="step6">
                         <h2>Now You are ready to start!</h2>
                     </section>

@@ -36,6 +36,7 @@ this.ctor = function (email) {
             this.email = helper.getCurrentUsername();
         if (!this.name)
             this.name = helper.getCurrentUsername().split("@")[0];
+        this.imapUserName = this.email;
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
     }
     else {
