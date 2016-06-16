@@ -17,7 +17,7 @@ var imapbusy = false;
 this.go = Go;
 function Go(automatic) {
     if (imapbusy) {
-        if(!automatic)
+        if (!automatic)
             helper.log("Send/recieve job already running. Please wait for finish.");
         return;
     }
@@ -33,7 +33,6 @@ function Go(automatic) {
     progressbarValue.css({
         "background": '#FF1B0F'
     });
-
 
     imap = new Imap({
         user: userSettings.identitySetting.imapUserName,
@@ -83,17 +82,17 @@ function Go(automatic) {
 
     imap.once('end', function () {
         helper.log('Connection ended.');
-         if (imap.error)
+        if (imap.error)
             return;
         $("#progressbar").progressbar({
             value: 100
         });
-       
+
         publish.refreshOutB();
         if (!error) {
-          //  if (progressMax != 0 && recievedCnt != 0) {
-                helper.log("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
-         //   }
+            //  if (progressMax != 0 && recievedCnt != 0) {
+            helper.log("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
+            //   }
         }
         else {
             helper.log(error);
@@ -101,12 +100,13 @@ function Go(automatic) {
         }
 
         imapbusy = false;
-        window.setTimeout("imap.go(true)", 30000);
+        if (!$("#IMAPTestDialog").is(":visible"))
+            window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
     });
 
 
-    helper.log("Connecting to <strong>" + imap._config.host + ":" + imap._config.port + "</strong> as <strong>" + imap._config.user + "</strong>.");
+    helper.log("Connecting to <strong>" + imap._config.host + ":" + imap._config.port + "</strong>, tls=" + imap._config.tls + " as <strong>" + imap._config.user + "</strong>."); //(" + imap._config.password + ")
     $("#progressbar").progressbar({
         value: 5
     });

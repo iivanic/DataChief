@@ -35,7 +35,7 @@ app.on("ready", function () {
         mainWindow.setTitle(pjson.name + " version " + pjson.version);
     });
    
-    mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html" + (process.argv.indexOf("--dceditor")>0?"?editor":"" ))));
+    mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html" ))); //+ (process.argv.indexOf("--dceditor")>0?"?editor":"" ))));
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {

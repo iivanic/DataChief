@@ -234,7 +234,7 @@ this.alert = function (message, callback) {
         buttons: {
             Ok: function () {
                 $(this).dialog("close");
-                if(callback)
+                if (callback)
                     callback();
             }
         }
@@ -278,9 +278,16 @@ this.decrypt = function (encrypted, additionalpassword) {
 
 this.log = function (txt) {
     var d = new Date();
-    $("#logList").append((userSettings.email != userSettings.mainEmail ? userSettings.mainEmail + " impersonating " : "") + userSettings.email + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt + "<br>");
+    var str = (userSettings.email != userSettings.mainEmail ? userSettings.mainEmail + " impersonating " : "") + userSettings.email + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt;
+    $("#logList").append(str + "<br>");
     //  $("#logList").scrollTop($("#logList").scrollHeight);
     $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 200);
+
+    if ($("#IMAPTestDialogLog")) {
+        if ($("#IMAPTestDialog").is(":visible"))
+            $("#IMAPTestDialogLog").append("<option>" + str + "</option>")
+    }
+
 }
 
 //checks weather roles comply with required roles
@@ -344,4 +351,20 @@ this.extractUser = function (user) {
         if (usr[i].toLowerCase().trim() != "initiator")
             return usr[i].toLowerCase().trim();
     }
+}
+this.enableEditor = function () {
+    $("#maintabs-1").show();
+    $("#maintabs-2").show();
+    $("a[href='#maintabs-1']").parent().show();
+    $("a[href='#maintabs-2']").parent().show();
+    $("#maintabs").tabs("option", "active", 2);
+    $("#settingsOrg").show();
+}
+this.disableEditor = function () {
+    $("#maintabs-1").hide();
+    $("#maintabs-2").hide();
+    $("a[href='#maintabs-1']").parent().hide();
+    $("a[href='#maintabs-2']").parent().hide();
+    $("#maintabs").tabs("option", "active", 2);
+    $("#settingsOrg").hide();
 }

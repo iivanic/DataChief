@@ -1,5 +1,4 @@
 
-
 var identitySetting = null;
 
 this.userList = new Array();
@@ -47,12 +46,12 @@ this.ctor = function () {
         $(document).ready(function () {
             window.setTimeout(index.startWizard, 500);
         })
-    }else
-    {
+    } else {
         $(document).ready(function () {
-             imapTimer = window.setTimeout("imap.go(true)", 4000);
+            imapTimer = window.setTimeout("imap.go(true)", 4000);
         });
     }
+
 }
 this.identitySetting = identitySetting;
 this.loadIdentitySetting = function (email) {
@@ -306,3 +305,22 @@ this.singleAccountToggle = function () {
 
 
 }
+this.imapTest = function () {
+
+    $("#IMAPTestDialogLog").html("");
+    $("#IMAPTestDialog").dialog({
+        autoOpen: true,
+        modal: true,
+        width: "970",
+        height: "410",
+
+        buttons: {
+            "Close": function () {
+                $("#IMAPTestDialog").dialog("close");
+            }
+        }
+    });
+    startwizardsteps.fromGui();
+    window.setTimeout(imap.go, 500);
+}
+

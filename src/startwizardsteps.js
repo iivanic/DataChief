@@ -24,6 +24,9 @@ this.initWizard = function () {
 
 $(document).ready(
     function () {
+
+        $("#IMAPTest").button();
+
         wform = $("#wizardForm");
         wform.validate({
             errorPlacement: function errorPlacement(error, element) { element.before(error); },
@@ -69,6 +72,9 @@ $(document).ready(
                 $('#startwizard').steps('remove', 1);
                 /*      $("#startwizard").steps("destroy");
                       startwizardsteps.initWizard();*/
+                try { helper.disableEditor(); }
+                catch (ex)
+                { }
             }
         });
         // if client only, remove extra steps and remember them...
@@ -81,6 +87,7 @@ $(document).ready(
             if (_steps < 6) {
                 $('#startwizard').steps('insert', 1, { title: step2Caption, content: step2Content });
                 //step 2
+
                 $("#startDialogCompanyName").val(userSettings.organization);
                 $("#startDialogCompanPassword").val(userSettings.organizationSecret);
                 $("#startDialogCompanPassword1").val(userSettings.organizationSecret);
@@ -94,6 +101,10 @@ $(document).ready(
                 userSettings.checkCaseStudy();
                 /*        $("#startwizard").steps("destroy");
                         startwizardsteps.initWizard();*/
+                try { helper.enableEditor(); }
+                catch (ex)
+                { }
+
             }
         });
 
@@ -157,7 +168,7 @@ this.fromGui = function () {
     userSettings.organizationSecret = $("#startDialogCompanPassword").val();
 
     //step 3
-    userSettings.useSingleAccount = ($("#startDialogappMode1").prop("checked") == "checked");
+    userSettings.useSingleAccount = $("#startDialogappMode1").prop("checked");
 
     //step 4
     userSettings.identitySetting.name = $("#startDialogName").val();
@@ -170,5 +181,7 @@ this.fromGui = function () {
     userSettings.identitySetting.imapPassword = $("#step5textSettingsIMAPPassword1").val();
     userSettings.identitySetting.imapServer = $("#step5textSettingsIMAPServer").val();
     userSettings.identitySetting.imapPort = $("#step5textSettingsIMAPServerPort").val();
-    userSettings.identitySetting.imapRequiresSSL = ($("#step5textSettingsIMAPRequiresSSL").prop("checked") == "checked");
+    userSettings.identitySetting.imapRequiresSSL = $("#step5textSettingsIMAPRequiresSSL").prop("checked");
+
+
 }

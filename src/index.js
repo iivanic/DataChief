@@ -115,7 +115,8 @@ $(document).ready(function () {
             }
             event.preventDefault();
         });
-    maintabs = $("#maintabs").tabs();
+    maintabs = $("#maintabs").tabs()
+
     tabs = $("#tabs").tabs();
     abouttabs = $("#abouttabs").tabs();
 
@@ -234,8 +235,13 @@ $(document).ready(function () {
 
     $(window).trigger('resize');
     // MenuTree.walk();
- 
-
+    $(window).load(function () {
+         fixTabsHeight();
+        if (userSettings.clientOnly)
+            helper.disableEditor();
+        else
+            helper.enableEditor();
+    })
 
 });
 this.closeTab = function (el) {
@@ -274,12 +280,12 @@ var textField = require("./objectmodel/textField.js");
 $(document).ready(function () {
     $(document).keydown(keydown);
     var params = document.location.href.split('?');
-    if (params.length > 0) {
-        if (params[1] != 'editor')
-            toggleEditor();
-    }
-    else
-        toggleEditor();
+    /*  if (params.length > 0) {
+          if (params[1] != 'editor')
+              toggleEditor();
+      }
+      else
+          toggleEditor();*/
     $(expandlog).click(expandlog_click);
 
     helper.log("Welcome to Data Chief.");
@@ -302,20 +308,13 @@ function expandlog_click() {
     }
     fixTabsHeight();
 }
+
 function toggleEditor() {
     if ($("a[href='#maintabs-1']").parent().css('display') != 'none') {
-        $("#maintabs-1").hide();
-        $("#maintabs-2").hide();
-        $("a[href='#maintabs-1']").parent().hide();
-        $("a[href='#maintabs-2']").parent().hide();
-        maintabs.tabs("option", "active", 2);
+        helper.disableEditor();
     }
     else {
-        $("#maintabs-1").show();
-        $("#maintabs-2").show();
-        $("a[href='#maintabs-1']").parent().show();
-        $("a[href='#maintabs-2']").parent().show();
-        maintabs.tabs("option", "active", 0);
+        helper.enableEditor();
     }
 
 }
