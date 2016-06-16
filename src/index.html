@@ -457,7 +457,7 @@
                                         <label for="textSettingsNameComment">Comment: </label>
                                     </div>
                                     <div class="col-sm-8">
-                                        <textarea id="textSettingsNameComment" rows="4" class="datachiefFieldText"></textarea>
+                                        <textarea id="textSettingsNameComment" rows="2" class="datachiefFieldText"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -507,17 +507,16 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <label for="textSettingsIMAPServerPort">IMAP Server port: </label>
+                                        <label for="textSettingsIMAPServerPort">Server port: </label>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
                                         <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsIMAPServerPort" />
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label for="textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
+                              
+                                    <div class="col-sm-2">
+                                        <label for="textSettingsIMAPRequiresSSL">Requires SSL: </label>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-2">
                                         <input type="checkbox" class="datachiefFieldText" id="textSettingsIMAPRequiresSSL" />
                                     </div>
                                 </div>
@@ -544,42 +543,37 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="textSettingsSMTPPassword">SMTP Password: </label>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-3">
                                         <input type="password" class="datachiefFieldText" id="textSettingsSMTPPassword" />
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="textSettingsSMTPServer">SMTP Server: </label>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-3">
                                         <input type="text" class="datachiefFieldText" id="textSettingsSMTPServer" />
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <label for="textSettingsSMTPServerPort">SMTP Server port: </label>
+                                    <div class="col-sm-3">
+                                        <label for="textSettingsSMTPServerPort">Server port:</label>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-3">
                                         <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsSMTPServerPort" />
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label for="textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
+                                    <div class="col-sm-3">
+                                        <label for="textSettingsSMTPRequiresSSL">Requires SSL: </label>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-3">
                                         <input type="checkbox" class="datachiefFieldText" id="textSettingsSMTPRequiresSSL" />
                                     </div>
                                 </div>
-
-
                             </fieldset>
                             <div class="col-sm-12">
-
                                 <button id="deleteProfile" onclick="">Delete Profile</button>
                             </div>
                         </fieldset>
