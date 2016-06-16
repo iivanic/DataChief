@@ -72,9 +72,7 @@ $(document).ready(
                 $('#startwizard').steps('remove', 1);
                 /*      $("#startwizard").steps("destroy");
                       startwizardsteps.initWizard();*/
-                try { helper.disableEditor(); }
-                catch (ex)
-                { }
+       
             }
         });
         // if client only, remove extra steps and remember them...
@@ -101,9 +99,7 @@ $(document).ready(
                 userSettings.checkCaseStudy();
                 /*        $("#startwizard").steps("destroy");
                         startwizardsteps.initWizard();*/
-                try { helper.enableEditor(); }
-                catch (ex)
-                { }
+            
 
             }
         });
@@ -158,7 +154,11 @@ this.onFinished = function (event, currentIndex) {
     if (!imapTimer)
         imapTimer = window.setTimeout("imap.go(true)", 4000);
     $("#startDialog").dialog("close");
-
+ 
+    if (userSettings.clientOnly)
+            helper.disableEditor();
+        else
+            helper.enableEditor();
 }
 this.fromGui = function () {
     //step 1

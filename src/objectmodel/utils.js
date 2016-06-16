@@ -357,6 +357,7 @@ this.enableEditor = function () {
     $("#maintabs-2").show();
     $("a[href='#maintabs-1']").parent().show();
     $("a[href='#maintabs-2']").parent().show();
+    $("#maintabs").tabs("option", "active", 1);
     $("#maintabs").tabs("option", "active", 2);
     $("#settingsOrg").show();
 }
@@ -365,6 +366,7 @@ this.disableEditor = function () {
     $("#maintabs-2").hide();
     $("a[href='#maintabs-1']").parent().hide();
     $("a[href='#maintabs-2']").parent().hide();
-    $("#maintabs").tabs("option", "active", 2);
+    $("#maintabs").tabs("option", "active", 1);
+   $("#maintabs").tabs("option", "active", 2);
     $("#settingsOrg").hide();
 }
