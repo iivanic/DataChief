@@ -120,9 +120,10 @@
                         <label for="step5textSettingsIMAPServer">IMAP Server: </label><br>
                         <input type="text" id="step5textSettingsIMAPServer" required class="required fullwidth" /><br>
                         <label for="step5textSettingsIMAPServerPort">IMAP Server port: </label><br>
-                        <input type="number" min="0" max="65535" id="step5textSettingsIMAPServerPort" required class="required fullwidth"> <br>
+                        <input type="number" min="0" max="65535" id="step5textSettingsIMAPServerPort" required class="required fullwidth">                        <br>
                         <label for="step5textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label><br>
-                        <input type="checkbox" id="step5textSettingsIMAPRequiresSSL" required class="required"><button onclick="userSettings.imapTest();return false;" style="float:right;" id="IMAPTest">Test IMAP settings</button>
+                        <input type="checkbox" id="step5textSettingsIMAPRequiresSSL" required class="required"><button onclick="userSettings.imapTest();return false;"
+                            style="float:right;" id="IMAPTest">Test IMAP settings</button>
                     </section>
                     <h3 id="step6Caption">Finish</h3>
                     <section id="step6">
@@ -379,7 +380,7 @@
                 <button>Delete data</button>
             </div>
             <div id="maintabs-5" class="fixmyheight">
-               
+
                 <div class="row">
                     <div class="col-sm-6">
                         <fieldset id="settingsOrg">
@@ -438,9 +439,11 @@
 
                         <fieldset id="profileField">
                             <legend>Profile:</legend>
-                            <select id="selectActiveProfile" style="min-width:300px;float:left;"></select>
-                            <buttom style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</buttom>
-                            <br /><br /><br /><br />
+                            <div id="profileFieldDesignerDiv">
+                                
+                                <select id="selectActiveProfile" style="min-width:250px;float:left;"></select>
+                                <button style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</button>
+                                <button style="float:left;" id="deleteProfile" onclick="">Delete Profile</button> <br /><br /><br /><br /></div>
                             <fieldset id="settingsField">
                                 <legend>User information</legend>
                                 <p>Enter your email and Name</p>
@@ -520,7 +523,7 @@
                                     <div class="col-sm-4">
                                         <input type="number" min="0" max="65535" class="datachiefFieldText" id="textSettingsIMAPServerPort" />
                                     </div>
-                              
+
                                     <div class="col-sm-2">
                                         <label for="textSettingsIMAPRequiresSSL">Requires SSL: </label>
                                     </div>
@@ -581,9 +584,7 @@
                                     </div>
                                 </div>
                             </fieldset>
-                            <div class="col-sm-12">
-                                <button id="deleteProfile" onclick="">Delete Profile</button>
-                            </div>
+
                         </fieldset>
                     </div>
 

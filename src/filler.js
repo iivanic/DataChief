@@ -122,6 +122,27 @@ this.sendRecieve = function () {
 this.refreshFolders = function () {
     // we need to refresh all folders
     var publishers = helper.getDirectories(helper.getPublishersPath());
+    if (publishers.indexOf("DataChief")==-1)
+    {
+        // create folder for DataCheif publisher
+        helper.checkFolder(helper.join(helper.getPublishersPath(),"DataChief"));
+        // create feedback form
+        var form = require("./objectmodel/form.js");
+        form.createFeedbackForm();
+        form.published=true;
+        var version = form._version;
+        var id = form._id;
+        var content = JSON.stringify(form, index._formEditor.saveJSONReplacer, 2);
+       
+        var fileName = helper.join(helper.join(helper.getPublishersPath(),"DataChief"),  "N" + "_" + id + "_" + version + "_" + form._name);
+        helper.saveTextFile(
+            fileName,
+            content);
+        helper.log("----FeedbackForm saved as " + fileName);
+
+        //read folders again
+        publishers = helper.getDirectories(helper.getPublishersPath());
+    }
     var html = "";
     for (var i in publishers) {
         /*   <li><a style="width:100%" href="#">Publisher 1</a>

@@ -299,7 +299,55 @@ this.readValues = function () {
 
 };
 
+this.createFeedbackForm = function () {
+    this.ctor();
+    this._name = "DataChief User Feedback";
+    this._version = "1";
+    this._author = "iivanic";
+    this._lastTimeTemplatechanged = new Date();
 
+    this._description = "This form is used for providing feeedback to DataChief Author(s) and bug reporting. Note that You can view open issues at <a href='https://github.com/iivanic/DataChief/issues'>https://github.com/iivanic/DataChief/issues</a>.";
+    this._footer = "DataChief feedback, issues and bug reporting form.";
+    this.workflow = "";
+    this.publishTo = "everyone";
+    this.finalStep = "igor_ivanic@hotmail.com";
+    this.broadCastRecievers = "";
+    this.broadcastStatusOfForm = true;
+
+    var grp = Object.create(groupField);
+    grp.ctor();
+    grp.displayName = "Details";
+    grp.toolTip = "Describe issue or write your Feedback.";
+    grp.description = "Describe issue or write your Feedback."
+    this.children.push(grp);
+
+    var lst = Object.create(listField);
+    lst.ctor();
+    lst.displayName = "Type";
+    lst.options = "Feedback;Issue;Bug"
+    lst.description = "Type of Feedback"
+    lst.toolTip = "Choose " + lst.description;
+    lst.required = true;
+    grp.children.push(lst);
+
+    var txt = Object.create(textField);
+    txt.ctor();
+    txt.displayName = "Comment";
+    txt.description = "Enter Your Commnent. If Bug or Issue, plese include steps to reproduce behavior.";
+    txt.toolTip = "Enter Your Commnent";
+    txt.multiline = true;
+    txt.required = true;
+    grp.children.push(txt);
+
+    var cu = Object.create(currentDateTimeField);
+    cu.ctor();
+    cu.description = "";
+    grp.children.push(cu);
+    cu = Object.create(currentUserField);
+    cu.ctor();
+    cu.description = "";
+    grp.children.push(cu);
+}
 this.createForm = function (name, templateName) {
     this._name = name;
     this._version = "0";
@@ -863,15 +911,14 @@ function checkListSyntax(listString, isAdvanced) {
                 return ret;
             }
         }
-        else{
+        else {
             var a = new Array();
             a.find
-            if(!userSettings.userList.find(function(m){
-          
-                return m.toLowerCase()== mail;
+            if (!userSettings.userList.find(function (m) {
 
-            }))
-            {
+                return m.toLowerCase() == mail;
+
+            })) {
                 helper.log("Warning: User <strong>" + mail + "</strong> not found in Profiles. Check for typing error.");
             }
         }

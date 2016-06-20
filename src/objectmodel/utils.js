@@ -357,16 +357,31 @@ this.enableEditor = function () {
     $("#maintabs-2").show();
     $("a[href='#maintabs-1']").parent().show();
     $("a[href='#maintabs-2']").parent().show();
-    $("#maintabs").tabs("option", "active", 1);
+   //bugfix?
+    $("#maintabs").tabs("option", "active", 5);
+    $("#maintabs").tabs("option", "active", 4);
+    $("#maintabs").tabs("option", "active", 3);
     $("#maintabs").tabs("option", "active", 2);
+    $("#maintabs").tabs("option", "active", 1);
+    $("#maintabs").tabs("option", "active", 0);
+ 
     $("#settingsOrg").show();
+    $("#profileFieldDesignerDiv").show();
 }
 this.disableEditor = function () {
     $("#maintabs-1").hide();
     $("#maintabs-2").hide();
     $("a[href='#maintabs-1']").parent().hide();
     $("a[href='#maintabs-2']").parent().hide();
+    //bugfix?
+      $("#maintabs").tabs("option", "active", 5);
+    $("#maintabs").tabs("option", "active", 4);
+    $("#maintabs").tabs("option", "active", 3);
+    $("#maintabs").tabs("option", "active", 2);
     $("#maintabs").tabs("option", "active", 1);
+    $("#maintabs").tabs("option", "active", 0);
    $("#maintabs").tabs("option", "active", 2);
+ 
     $("#settingsOrg").hide();
+    $("#profileFieldDesignerDiv").hide();
 }
