@@ -71,11 +71,12 @@
                         <input id="startDialogCompanyName" name="startDialogCompanyName" type="text" data-validation-required-message="Organization name is Required"
                             required class="required fullwidth">
                         <br>
-                        <label for="startDialogCompanPassword">Organization secret *</label>
-                        <p>Organization secret ensures that someone else can not claim to be Your organization Admin.</p>
-                        <input id="startDialogCompanPassword" name="startDialogCompanPassword" required type="password" class="required fullwidth">
+                        <label for="startDialogCompanPassword">Organization secret (recommended)</label>
+                        <p>This ensures that someone else can not claim to be Your organizations Publisher.</p>
+                        <p>If set, this is used for encryprion of form templates when publishing. It ensures identity of publisher. DataCheif sends digest of this secret within every package. First time user recieve Package <strong>she or he can approve or disapprove publisher by accepting/refusing this digest.</strong></p><p><strong>If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher).</strong> Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.</p>
+                        <input id="startDialogCompanPassword" name="startDialogCompanPassword" type="password" class="fullwidth">
                         <p>Repeat organization secret.</p>
-                        <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" required type="password" class="required fullwidth">
+                        <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" type="password" class="fullwidth">
                     </section>
                     <h3 id="step2Caption">DataChief Mode</h3>
                     <section id="step2">
@@ -85,7 +86,7 @@
                         <input type="radio" name="appMode" id="startDialogappMode1" value="1" style="display:inline;width:30px;" />
                         <label for="appMode1"> <strong>Single user account</strong> - For all communucation use only <strong>one IMAP account</strong></label><br>
                         <input type="radio" name="appMode" disabled id="startDialogappMode2" value="2" style="display:inline;;width:30px;" />
-                        <label for="appMode2">Use <strong>Per user account</strong> (advanced and more secure) - PLANNED.</label>
+                        <label for="appMode2"><strong>Per user account</strong> (advanced and more secure) - PLANNED.</label>
 
                     </section>
                     <h3 id="step3Caption">Your Name and Email</h3>
@@ -95,9 +96,9 @@
                         <input id="startDialogName" name="startDialogName" type="text" required class="required fullwidth"><br>
                         <label for="startDialogemail">Email *</label>
                         <input id="startDialogemail" name="startDialogemail" type="email" required class="required email fullwidth"><br>
-                        <label for="startDialogUserSecretl1">Your Secret *</label>
+                        <label for="startDialogUserSecretl1">Your Secret ( *required in <strong>Single user account</strong> mode )</label>
                         <input id="startDialogUserSecretl1" name="startDialogUserSecretl1" required type="password" class="required fullwidth">
-                        <label for="startDialogUserSecretl2">Repeat Your Secret *</label>
+                        <label for="startDialogUserSecretl2">Repeat Your Secret</label>
                         <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" required type="password" class="required fullwidth">
                     </section>
 
