@@ -225,7 +225,7 @@ function publishEverything() {
         }
         for (var ui = 0; ui < users.length; ui++) {
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array() };
+                packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCount++;
             }
             packages[users[ui]].forms.push(loadedObj);

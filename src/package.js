@@ -1,4 +1,5 @@
 var ipath;
+//publishersDigest
 this.loadPackage = function (file) {
     helper.log("--Importing package " + file);
     file = helper.join(ipath, file);
@@ -24,7 +25,7 @@ this.loadPackage = function (file) {
         { }
     }
     else {
-        //this package goues to recieved folder
+        //this package goes to recieved folder
         pp = helper.getRecievedPath();
         helper.checkFolder(pp);
     }
