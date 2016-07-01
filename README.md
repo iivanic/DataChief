@@ -60,9 +60,9 @@ DataChief is simpe solution that allows you to **define your forms, publish and 
 In DataChief users are identified with **Emails**. Even if you are using DataChief in "Single User Account" mode, you will still need to set Email for every user becouse email identifies the user, but in this mode those emails does not have to exists.
 
 ###Communication
-Communication between user is made via IMAP account(s). DataChief can use existing Email accounts and accounts can be used paralledl with standard emails. Imap fodler called "datachief" will be created and datachief will not touch enything outside that folder. There are two modes:
-* **Single user account** - All users communicate only through one account. This is preferable when testing or with simple deployments. Drawback is lowered security. There is possibility to implement Network storage services such as DropBox, Goole drive, One Drive, etc. Implementation of these features depends on user interest.
-* **One Account per User** - This is preferable when dealing with sensitive data. Every DataChief installation has its own IMAP account.
+Communication between user is made via IMAP account(s). DataChief can use existing Email accounts and accounts can be used in parallel with user, non-datachief emails. Imap fodler called "datachief" will be created and datachief will not touch enything outside that folder. There are two operating modes:
+* **Single user account** - All users communicate only through one account. This is preferable when testing or with simple deployments. Drawback is lowered security. In the future, there is possibility to implement Network storage services such as DropBox, Google drive, One Drive, etc. Implementation of these features depends on user interest.
+* **Per user account** - This is preferable when dealing with sensitive data. Every DataChief installation has its own IMAP account.
 
 ###Forms
 DataChief allows you to define your data sets with custom forms designed in provided **Form Editor**. Multiple types of controls are available, including repeater groups to allow you to implement data that is on paper forms usualy defined as table.
