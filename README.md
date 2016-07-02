@@ -103,6 +103,7 @@ DataChief allows you to define your data sets with custom forms designed in prov
 * They recieve form and can see recieved forms as table, and then export and/or delete form data
 * Supported export options are 
     * MS Excel or Open Office formats
+    * XML
     * Relational database as SQL (ANSI SQL compatible Databases such as MS SQL Server, Oracle, My SQL, PostrgreSQL, MS Access, ...)
 
 ##DataChief security
