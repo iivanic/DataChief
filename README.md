@@ -15,10 +15,10 @@ Project is under develpment. First release will provide basic functionality for 
     * Linux
     * Mac OSX
 * Planned features
-    * - Visual and user friendly form designer '90%'
+    * Visual and user friendly form designer '90%'
     * Many type of controls
         * Text box, ListBox, Group fields ...
-        * Repeaters
+        * Repeaters for table implementation
         * External Lists, data from web services
         * Images from camera
     * Flexible communication protocols through:
@@ -33,7 +33,7 @@ Project is under develpment. First release will provide basic functionality for 
     * Collection points and analytics
  
 ##Notes on mobile platforms
-Smartphone versions are planned, and are crucial part of DataChief. This software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
+Smartphone versions are planned, and are crucial part of DataChief. For most part, this software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
  
 ##How do I start with DataChief source code or test new version before release?
 * You will need **Node.js**, **Git** and **Microsoft Visual Studio Code** already installed.
@@ -98,8 +98,12 @@ DataChief allows you to define your data sets with custom forms designed in prov
 ###Status broadcasts
 * Defined with "Broadcast recievers" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.
 
-###Data collection
-* bla
+###Data collection & export
+* Data collectors are users specified in "Final step" property of the form.
+* They recieve form and can see recieved forms as table, and then export and/or delete form data
+* Supported export options are 
+    * MS Excel or Open Office formats
+    * Relational database as SQL (ANSI SQL compatible Databases such as MS SQL Server, Oracle, My SQL, PostrgreSQL, MS Access, ...)
 
 ##DataChief security
 * DataChief has Built in secret (symmetric key) and everything it does is encrypted with it – easily cracked since source code is avalaible
