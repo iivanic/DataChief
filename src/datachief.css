@@ -140,4 +140,8 @@ z-index:9999 ;}
 {
     width:100%;
 }
+#abouttabs-1 img {
+    width:100%;
+    max-width:1634px;
+} 
 
