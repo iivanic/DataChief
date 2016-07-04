@@ -15,10 +15,10 @@ Project is under develpment. First release will provide basic functionality for 
     * Linux
     * Mac OSX
 * Planned features
-    * - Visual and user friendly form designer '90%'
+    * Visual and user friendly form designer '90%'
     * Many type of controls
         * Text box, ListBox, Group fields ...
-        * Repeaters
+        * Repeaters for table implementation
         * External Lists, data from web services
         * Images from camera
     * Flexible communication protocols through:
@@ -33,7 +33,7 @@ Project is under develpment. First release will provide basic functionality for 
     * Collection points and analytics
  
 ##Notes on mobile platforms
-Smartphone versions are planned, and are crucial part of DataChief. This software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
+Smartphone versions are planned, and are crucial part of DataChief. For most part, this software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
  
 ##How do I start with DataChief source code or test new version before release?
 * You will need **Node.js**, **Git** and **Microsoft Visual Studio Code** already installed.
@@ -94,3 +94,29 @@ DataChief allows you to define your data sets with custom forms designed in prov
      This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
      Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
      to final step.
+
+###Status broadcasts
+* Defined with "Broadcast recievers" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.
+
+###Data collection & export
+* Data collectors are users specified in "Final step" property of the form.
+* They recieve form and can see recieved forms as table, and then export and/or delete form data
+* Supported export options are 
+    * MS Excel or Open Office formats
+    * XML
+    * Relational database as SQL (ANSI SQL compatible Databases such as MS SQL Server, Oracle, My SQL, PostrgreSQL, MS Access, ...)
+
+##DataChief security
+* DataChief has Built in secret (symmetric key) and everything it does is encrypted with it – easily cracked since source code is avalaible
+* Organization secret – if set, this is used(together with DataChief built in secret ) for encryprion of form templates when publishing. It ensures identity of publisher. DataCheif sends digest of this secret within every package. First time user recieve Package she or he can approve or disapprove publisher by accepting/refusing this digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
+* User secret in Single account mode – in this mode messages share single IMAP account, so to make sure that one user can not read others messages, they are encrypted with User Secret. This means that all users must be defined in Designer/Publisher with user secrets. Specific user secret must be set on each individual DataChief Filler installation.
+
+##DataChief Communction is made via Packages
+* Package is zero or more forms and commands.
+* Package is  always created per user who recieves them.
+* User(s) who recieve package(s) must accept Organization secret digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
+* When publishing, Package for user will DELETE ALL PREVIOUSLY PUBLISHED FORMS. This means that publisher must always publish all active forms.
+* If you want to revoke user, You can create empty package for that user
+* Commands are:
+    * Delete all local copies from publisher - deletes every filled or half filled form(sent forms folder, outbox folder, work folder, recieved folder) from that publisher. This can be usefull when employee is leaving organization or organization internal security policy changes.
+    * Send text message – sends text message that will be displayed to user.
