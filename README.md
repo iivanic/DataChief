@@ -55,7 +55,7 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     
 ##How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account(one for all users or one per user).
-![DataChief simple workflow](./dc_workflow.png)
+![DataChief simple workflow](/dc_workflow.png)
 
 ###Users
 In DataChief users are identified with **Emails**. Even if you are using DataChief in "Single User Account" mode, you will still need to set Email for every user becouse email identifies the user, but in this mode those emails does not have to exists.
