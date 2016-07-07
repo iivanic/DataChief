@@ -31,6 +31,7 @@ function getCaseStudy() {
     return ret;
 
 }
+
 var tabs = null; // $( "#tabs" ).tabs();
 var maintabs = null;
 var abouttabs = null;
@@ -115,6 +116,9 @@ $(document).ready(function () {
             }
             event.preventDefault();
         });
+    //fix path to graph
+    $('img[src*="/dc_workflow.png"]').attr("src","../dc_workflow.png");
+
     maintabs = $("#maintabs").tabs()
 
     tabs = $("#tabs").tabs();
@@ -236,7 +240,7 @@ $(document).ready(function () {
     $(window).trigger('resize');
     // MenuTree.walk();
     $(window).load(function () {
-         fixTabsHeight();
+        fixTabsHeight();
         if (userSettings.clientOnly)
             helper.disableEditor();
         else
