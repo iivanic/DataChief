@@ -73,7 +73,10 @@
                         <br>
                         <label for="startDialogCompanPassword">Organization secret (recommended)</label>
                         <p>This ensures that someone else can not claim to be Your organizations Publisher.</p>
-                        <p>If set, this is used for encryprion of form templates when publishing. It ensures identity of publisher. DataCheif sends digest of this secret within every package. First time user recieve Package <strong>she or he can approve or disapprove publisher by accepting/refusing this digest.</strong></p><p><strong>If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher).</strong> Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.</p>
+                        <p>If set, this is used for encryprion of form templates when publishing. It ensures identity of publisher.
+                            DataCheif sends digest of this secret within every package. First time user recieve Package <strong>she or he can approve or disapprove publisher by accepting/refusing this digest.</strong></p>
+                        <p><strong>If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher).</strong>                            Before accepting, user should confirm with publisher that change of Organization secret is really
+                            happening and that this is not case of malicious attack.</p>
                         <input id="startDialogCompanPassword" name="startDialogCompanPassword" type="password" class="fullwidth">
                         <p>Repeat organization secret.</p>
                         <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" type="password" class="fullwidth">
@@ -244,10 +247,10 @@
 
                 <div style="height:100%;">
                     <div class="row" style="height:100%;">
-                        <div class="col-sm-4" style="height:100%;">
+                        <div class="col-sm-3" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <label for="prepublishList">Prepublish folder</label>
+                                    <label for="prepublishList">Prepublish folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -264,10 +267,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4" style="text-align:center;height:100%;">
+                        <div class="col-sm-3" style="text-align:center;height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <label for="publishList">Publish folder</label>
+                                    <label for="publishList">Publish folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -283,16 +286,36 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4" style="height:100%;">
+
+                        <div class="col-sm-3" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;text-align:right;">
-                                    <label for="outboxList">Outbox - sending</label>
+                                    <label for="outboxList">Ready Folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;float:right">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <button id="buttonClearOutbox" style="float:right;">Clear Outbox</button>
+                                    <button id="buttonClearOutbox" style="float:right;">Clear Ready</button>
                                     <button id="buttonSendPackages" style="float:right;">Send</button>
+                                </div>
+                            </div>
+                            <div class="row" style="height:89%;">
+                                <div class="col-sm-12" style="height:100%;">
+                                    <div id="readyList" style="height:100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3" style="height:100%;">
+                            <div class="row" style="height:4%;">
+                                <div class="col-sm-12" style="height:100%;text-align:right;"><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;float:right">
+                                    <label for="outboxList">Sending Folder...</label>
+                                </div>
+                            </div>
+                            <div class="row" style="height:7%;">
+                                <div class="col-sm-12" style="height:100%;">
+
                                 </div>
                             </div>
                             <div class="row" style="height:89%;">
@@ -441,10 +464,11 @@
                         <fieldset id="profileField">
                             <legend>Profile:</legend>
                             <div id="profileFieldDesignerDiv">
-                                
+
                                 <select id="selectActiveProfile" style="min-width:250px;float:left;"></select>
                                 <button style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</button>
-                                <button style="float:left;" id="deleteProfile" onclick="">Delete Profile</button> <br /><br /><br /><br /></div>
+                                <button style="float:left;" id="deleteProfile" onclick="">Delete Profile</button> <br /><br
+                                /><br /><br /></div>
                             <fieldset id="settingsField">
                                 <legend>User information</legend>
                                 <p>Enter your email and Name</p>
