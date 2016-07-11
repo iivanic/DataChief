@@ -6,10 +6,19 @@
             "type": "node",
             "request": "launch",
             "program": "${workspaceRoot}/src/main.js",
-            "stopOnEntry": false, 
+            "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "linux": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron"
+            },
+            "osx": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron"
+            },
             "runtimeArgs": [
                 "--nolazy"
             ],
@@ -17,19 +26,18 @@
                 "NODE_ENV": "development",
                 "COINS_ENV": "development"
                 //,
-               // "ATOM_SHELL_INTERNAL_RUN_AS_NODE": "0"
+                // "ATOM_SHELL_INTERNAL_RUN_AS_NODE": "0"
             },
             "externalConsole": false,
             "preLaunchTask": "",
             "sourceMaps": false,
             "outDir": null
-            
         },
         {
             "name": "Attach",
             "type": "node",
             "request": "attach",
-            "port": 40674 
+            "port": 40674
         }
     ]
 }
