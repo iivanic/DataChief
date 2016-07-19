@@ -8,6 +8,7 @@ const windowStateKeeper = require('electron-window-state');
 var app = require("app");
 var BrowserWindow = require("browser-window");
 var path = require("path");
+const electron = require('electron')
 
 //const ipcMain = require('electron').ipcMain;
 process = require("process");
@@ -23,9 +24,11 @@ app.on('window-all-closed', function () {
 
 app.on("ready", function () {
 
+    var size = electron.screen.getPrimaryDisplay().workAreaSize
+
     let mainWindowState = windowStateKeeper({
-        defaultWidth: 1000,
-        defaultHeight: 700,
+        defaultWidth: size.width*0.9,
+        defaultHeight: size.height*0.9,
         fullScreen: true
         });
 
