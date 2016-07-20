@@ -2,16 +2,16 @@
 'use strict';
 
 const windowStateKeeper = require('electron-window-state');
-//let win;
 
 //const debug=true;
 var app = require("app");
 var BrowserWindow = require("browser-window");
 var path = require("path");
 const electron = require('electron')
+var mainWindow = null;
+var process = require("process");
+var size = null;
 
-//const ipcMain = require('electron').ipcMain;
-process = require("process");
 
 app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
@@ -21,18 +21,27 @@ app.on('window-all-closed', function () {
     }
 });
 
+// OSX only callback - takes care of spawning
+// a new app window if needed
+app.on('activate', function () {
+    if (mainWindow == null) {
+       ready();     
+    }
+});
 
 app.on("ready", function () {
+    ready();
+});
 
-    var size = electron.screen.getPrimaryDisplay().workAreaSize
-
+function ready() {
+    size = electron.screen.getPrimaryDisplay().workAreaSize;
     let mainWindowState = windowStateKeeper({
-        defaultWidth: Math.trunc(size.width*0.9),
-        defaultHeight: Math.trunc(size.height*0.9),
+        defaultWidth: Math.trunc(size.width * 0.9),
+        defaultHeight: Math.trunc(size.height * 0.9),
         fullScreen: true
-        });
+    });
 
-    var mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         'x': mainWindowState.x,
         'y': mainWindowState.y,
         'width': mainWindowState.width,
@@ -40,8 +49,8 @@ app.on("ready", function () {
         show: true,
         icon: "./Icons/Filler.png"
     });
-   
-    if(mainWindow.isMaximized()==undefined || mainWindow.isMaximized()==null )
+
+    if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
         mainWindow.maximize();
 
     // In the main process.
@@ -73,8 +82,6 @@ app.on("ready", function () {
     // automatically (the listeners will be removed when the window is closed) 
     // and restore the maximized or full screen state 
     mainWindowState.manage(mainWindow);
-});
 
-// Quit when all windows are closed.
-
+}
 
