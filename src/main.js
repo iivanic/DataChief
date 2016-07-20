@@ -38,7 +38,8 @@ function ready() {
     let mainWindowState = windowStateKeeper({
         defaultWidth: Math.trunc(size.width * 0.9),
         defaultHeight: Math.trunc(size.height * 0.9),
-        fullScreen: true
+        fullScreen: true,
+        maximize : true
     });
 
     mainWindow = new BrowserWindow({
@@ -52,7 +53,7 @@ function ready() {
 
     if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
         mainWindow.maximize();
-
+4
     // In the main process.
 
     global.sharedObject = {
