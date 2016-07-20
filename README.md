@@ -50,6 +50,10 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     * install node-imap: 
     
         `npm install imap`
+    * install electron-window-state: 
+    
+        `npm install electron-window-state`
+        
     * now You can open it with **Microsoft Visual Studio Code**. Depending on the platform You may also need to change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**"
     * press **F5** to run DataChief
     

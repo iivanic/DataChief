@@ -27,8 +27,8 @@ app.on("ready", function () {
     var size = electron.screen.getPrimaryDisplay().workAreaSize
 
     let mainWindowState = windowStateKeeper({
-        defaultWidth: size.width*0.9,
-        defaultHeight: size.height*0.9,
+        defaultWidth: Math.trunc(size.width*0.9),
+        defaultHeight: Math.trunc(size.height*0.9),
         fullScreen: true
         });
 
@@ -41,7 +41,7 @@ app.on("ready", function () {
         icon: "./Icons/Filler.png"
     });
    
-    if(mainWindow.isMaximized==undefined )
+    if(mainWindow.isMaximized()==undefined || mainWindow.isMaximized()==null )
         mainWindow.maximize();
 
     // In the main process.
