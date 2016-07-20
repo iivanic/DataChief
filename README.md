@@ -54,7 +54,7 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     
         `npm install electron-window-state`
         
-    * now You can open it with **Microsoft Visual Studio Code**. Depending on the platform You may also need to change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**"
+    * now You can open it with **Microsoft Visual Studio Code**. iF you are using Visual Studio Code older than 1.3 then you may need to, depending on the platform, change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**"
     * press **F5** to run DataChief
     
 ##How does it work?
