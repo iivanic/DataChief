@@ -41,14 +41,11 @@ function ready() {
     let mainWindowState = windowStateKeeper({
         defaultWidth: Math.trunc(size.width * 0.9),
         defaultHeight: Math.trunc(size.height * 0.9),
-<<<<<<< HEAD
         'x':  x,
         'y':  y,
-        fullScreen: true
-=======
         fullScreen: true,
         maximize : true
->>>>>>> 48a415d153ff8c3bd238baafa51314e7dfed1f6b
+
     });
 
     mainWindow = new BrowserWindow({
@@ -60,7 +57,6 @@ function ready() {
         icon: "./Icons/Filler.png"
     });
 
-<<<<<<< HEAD
     // Let us register listeners on the window, so we can update the state 
     // automatically (the listeners will be removed when the window is closed) 
     // and restore the maximized or full screen state 
@@ -69,11 +65,8 @@ function ready() {
  //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
   //      mainWindow.maximize();
 
-=======
     if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
         mainWindow.maximize();
-4
->>>>>>> 48a415d153ff8c3bd238baafa51314e7dfed1f6b
     // In the main process.
 
     global.sharedObject = {
