@@ -34,10 +34,15 @@ app.on("ready", function () {
 });
 
 function ready() {
+  
     size = electron.screen.getPrimaryDisplay().workAreaSize;
+    var x = Math.trunc(size.width * 0.05);
+    var y = Math.trunc(size.height * 0.05);
     let mainWindowState = windowStateKeeper({
         defaultWidth: Math.trunc(size.width * 0.9),
         defaultHeight: Math.trunc(size.height * 0.9),
+        'x':  x,
+        'y':  y,
         fullScreen: true
     });
 
@@ -50,8 +55,13 @@ function ready() {
         icon: "./Icons/Filler.png"
     });
 
-    if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
-        mainWindow.maximize();
+    // Let us register listeners on the window, so we can update the state 
+    // automatically (the listeners will be removed when the window is closed) 
+    // and restore the maximized or full screen state 
+    mainWindowState.manage(mainWindow);
+    
+ //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
+  //      mainWindow.maximize();
 
     // In the main process.
 
@@ -78,10 +88,7 @@ function ready() {
     //   if (debug)
     //      mainWindow.openDevTools();
 
-    // Let us register listeners on the window, so we can update the state 
-    // automatically (the listeners will be removed when the window is closed) 
-    // and restore the maximized or full screen state 
-    mainWindowState.manage(mainWindow);
+
 
 }
 
