@@ -117,7 +117,7 @@ $(document).ready(function () {
             event.preventDefault();
         });
     //fix path to graph
-    $('img[src*="/dc_workflow.png"]').attr("src","../dc_workflow.png");
+    $('img[src*="/dc_workflow.png"]').attr("src", "../dc_workflow.png");
 
     maintabs = $("#maintabs").tabs()
 
@@ -302,13 +302,16 @@ function expandlog_click() {
         $("#logrow").height($("#logrow").height() + 100);
         $("#expandlog").removeClass("ui-icon-arrow-1-n");
         $("#expandlog").addClass("ui-icon-arrow-1-s");
+        $("#sendingpanel").show();
     }
     else {
         $("#logrow").height($("#logrow").height() - 100);
         $("#expandlog").removeClass("ui-icon-arrow-1-s");
         $("#expandlog").addClass("ui-icon-arrow-1-n");
+        $("#sendingpanel").hide();
         // position scroll
         $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 0);
+
     }
     fixTabsHeight();
 }

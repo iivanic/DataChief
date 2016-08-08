@@ -151,6 +151,20 @@ this.getMyOutboxPath = function () {
     p = this.checkFolder(p);
     return p;
 };
+this.getReadyPath = function () {
+    var p = this.getSettingsFolder();
+    p = this.checkFolderAndImpersonationFolder(p);
+    p = path.join(p, "ready");
+    p = this.checkFolder(p);
+    return p;
+};
+this.getRecievedBroadCastsPath = function () {
+    var p = this.getSettingsFolder();
+    p = this.checkFolderAndImpersonationFolder(p);
+    p = path.join(p, "recievedbroadcasts");
+    p = this.checkFolder(p);
+    return p;
+};
 this.checkFolderAndImpersonationFolder = function (folder, email) {
     if (!email) {
         email = userSettings.email;

@@ -54,7 +54,7 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     * press **F5** to run DataChief
     
 ##How does it work?
-DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account(one for all users or one per user).
+DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) or one per user ( **Per user account** ).
 ![DataChief simple workflow](/dc_workflow.png)
 
 ###Users

@@ -87,7 +87,7 @@ z-index:9999 ;}
 {
     line-height:1.4;
 }
-#prepublishList, #publishList, #outboxList
+#prepublishList, #publishList, #outboxList, #readyList
 {
     border:2px solid #ccc; width:100%; height: 100%; overflow-y: scroll; 
 }

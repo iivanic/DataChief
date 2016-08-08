@@ -246,10 +246,11 @@
 
                 <div style="height:100%;">
                     <div class="row" style="height:100%;">
-                        <div class="col-sm-3" style="height:100%;">
+                        <div class="col-sm-4" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <label for="prepublishList">Prepublish folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
+                                    <label for="prepublishList">Prepublish folder</label><img src="../icons/arrow-right.png"
+                                        style="padding-left:15px;height:24px;">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -266,7 +267,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3" style="text-align:center;height:100%;">
+                        <div class="col-sm-4" style="text-align:center;height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
                                     <label for="publishList">Publish folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
@@ -286,10 +287,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-3" style="height:100%;">
+                        <div class="col-sm-4" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;text-align:right;">
-                                    <label for="outboxList">Ready Folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;float:right">
+                                    <label for="outboxList">Ready packages</label><img src="../icons/arrow-right-internet.png" style="padding-left:15px;height:24px;float:right">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -301,29 +302,13 @@
                             <div class="row" style="height:89%;">
                                 <div class="col-sm-12" style="height:100%;">
                                     <div id="readyList" style="height:100%;">
+                                     
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-3" style="height:100%;">
-                            <div class="row" style="height:4%;">
-                                <div class="col-sm-12" style="height:100%;text-align:right;"><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;float:right">
-                                    <label for="outboxList">Sending Folder...</label>
-                                </div>
-                            </div>
-                            <div class="row" style="height:7%;">
-                                <div class="col-sm-12" style="height:100%;">
 
-                                </div>
-                            </div>
-                            <div class="row" style="height:89%;">
-                                <div class="col-sm-12" style="height:100%;">
-                                    <div id="outboxList" style="height:100%;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
 
@@ -664,7 +649,21 @@
 
                 <div class="col-sm-3">
                     <div style="width:100%;">
-                        <div id="progressbar" style="height:1.5em;"></div>
+                        <div id="progressbar" style="height:25px;"></div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3" id="sendingpanel" style="height:100px;display:none;">
+                    <div class="row" style="height:25px;">
+                        <div class="col-sm-12" style="height:100%;text-align:right;"><img src="../icons/Internet-icon.png" style="padding-left:15px;height:24px;float:right">
+                            <label for="outboxList">Outbox (sending folder)...</label>
+                        </div>
+                    </div>
+                    <div class="row" style="height:75px;">
+                        <div class="col-sm-12" style="height:100%;">
+                            <div id="outboxList" style="height:100%;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

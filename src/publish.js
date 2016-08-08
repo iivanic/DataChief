@@ -1,3 +1,34 @@
+/*
+--------------------------------------------------------
+folders in
+app.getPath("userData") + \datachief\[datachiefuser]
+are:
+--------------------------------------------------------
+inbox           -temp folder for recievenig packages
+publishers      -this is folder where form templates are 
+                 recieved after unpacking packages from
+                 inbox. Every form is put in subfolder
+                 named with publisher name
+recieved        -recieved half-filled forms from other
+                 datachief users in the workflow
+
+prepublish      -prepublish folder - used for designing
+                 forms
+publish         -forms that are ready to publish
+ready           -this is folder with packaes ready to be
+                 moved to outbox. Here user can add
+                 commands to packages
+
+work            -half filled forms storge
+recievedbroadcasts -storage for broadcasts
+
+outbox          --actual outbox (sending folder)
+sent            -sent history
+
+myoutbox        -???
+---------------------------------------------------------
+ */
+
 var fs = require("fs");
 var path = require("path");
 //var helper = require("./objectmodel/utils.js");
@@ -88,6 +119,7 @@ $(document).ready(function () {
     plist = $("#publishList");
     olist = $("#outboxList");
     llist = $("#logList");
+    rlist = $("#readyList");
 
     //    helper.watchFolder(helper.getPrepublishPath(), prepublishWatchEvent, this);
     //   helper.watchFolder(helper.getPublishPath(), publishWatchEvent, this);
@@ -147,7 +179,8 @@ function readFiles() {
     $("#button2Prepublish").button("disable")
 
     pplist.html("");
-    plist.html("");
+    plist.html("");   
+    rlist.html("");
 
     var files = helper.getFilesInDir(helper.getPrepublishPath());
     for (var i in files) {
@@ -164,6 +197,16 @@ function readFiles() {
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
     refreshOutbox();
+
+    // fill readyList
+    files = helper.getFilesInDir(helper.getReadyPath());
+    for (var i in files) {
+        console.log("Found ready package " + files[i]);
+
+        rlist.append("<input type='checkbox' onclick='publish.info();if( $(\"#readyList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='rlistItem" + i + "' value='" + helper.join(helper.getReadyPath(), files[i]) + "' /> <label for='rlistItem" + i + "'>" +
+            files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1)
+            + "</label><br>");
+    }
 }
 
 
@@ -176,7 +219,7 @@ this.info = function () {
 
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
-        helper.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
+        helper.log("<strong>PREPUBLISH: " + loadedObj._name + " v" + loadedObj._version + "</strong> would be published to: <strong>" + loadedObj.publishTo + "</strong>");
 
     }
     items = $("#publishList input:checked");
@@ -184,13 +227,13 @@ this.info = function () {
 
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
-        helper.log("<strong>" + loadedObj._name + " v" + loadedObj._version + "</strong> will be published to: <strong>" + loadedObj.publishTo + "</strong>");
+        helper.log("<strong>PUBLISH: " + loadedObj._name + " v" + loadedObj._version + "</strong> will be publishe in package for: <strong>" + loadedObj.publishTo + "</strong>");
 
     }
 }
 this.packageinfo = function (filename) {
-    file = helper.loadFile(filename);
-    var loadedObj = JSON.parse(file);
+    file = helper.loadFile(filename).split('START')[1];
+    var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));  
     helper.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
 
 }
@@ -208,19 +251,16 @@ function publishEverything() {
         loadedObj.published = true;
         var users = loadedObj.publishTo.split(",");
         // if form is not template then ...
-        if(loadedObj.workflowStep)
-        {
+        if (loadedObj.workflowStep) {
             users = loadedObj.workflow.split(";");
             // find workflow step 
-            if(users.length<loadedObj.workflowStep)
-            {
+            if (users.length < loadedObj.workflowStep) {
                 // or send it to final reciver
                 users = loadedObj.finalStep;
             }
-            else
-            {
+            else {
                 // find workflow step 
-                users = users[loadedObj.workflowStep-1];
+                users = users[loadedObj.workflowStep - 1];
             }
         }
         for (var ui = 0; ui < users.length; ui++) {
@@ -243,18 +283,19 @@ function publishEverything() {
 }
 function savePackage(p) {
     var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
-    helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), p.user), content);
+    helper.saveTextFile(helper.addNumberPrefix2File(helper.getReadyPath(), p.user), content);
 }
 this.refreshOutB = refreshOutbox;
 function refreshOutbox() {
-    olist.html("");
-    var files = helper.getFilesInDir(helper.getOutboxPath());
+    //refersh readyList
+    rlist.html("");
+    var files = helper.getFilesInDir(helper.getReadyPath());
     for (var i in files) {
-        console.log("Found outboxed " + files[i]);
-        olist.append("<input type='hidden' class='hasmenu' id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#olistItem" + i + "').val());\" class='hasmenu' for='olistItem" + i + "'>" +
+        console.log("Found ready packages " + files[i]);
+        rlist.append("<input type='hidden' class='hasmenu' id='rlistItem" + i + "' value='" + helper.join(helper.getReadyPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#rlistItem" + i + "').val());\" class='hasmenu' for='rlistItem" + i + "'>" +
             files[i] + "</label><br>");
     }
-    if (files.length > 0) {
+       if (files.length > 0) {
         $("#buttonClearOutbox").button("enable");
         $("#buttonSendPackages").button("enable");
         bindPackageContextMenu();
@@ -264,6 +305,15 @@ function refreshOutbox() {
         $("#buttonSendPackages").button("disable");
     }
 
+    //refersh outbox
+    olist.html("");
+    files = helper.getFilesInDir(helper.getOutboxPath());
+    for (var i in files) {
+        console.log("Found outboxed " + files[i]);
+        olist.append("<input type='hidden'  id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#olistItem" + i + "').val());\"  for='olistItem" + i + "'>" +
+            files[i] + "</label><br>");
+    }
+ 
 }
 function clearOutbox() {
     var files = helper.getFilesInDir(helper.getOutboxPath());
