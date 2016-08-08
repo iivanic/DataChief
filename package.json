@@ -17,7 +17,6 @@
   "author": "Igor Ivanic",
   "license": "GPL-3.0",
   "dependencies": {
-    
     "imap": "0.8.x"
   },
   "devDependencies": {
