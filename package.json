@@ -17,7 +17,7 @@
   "author": "Igor Ivanic",
   "license": "GPL-3.0",
   "dependencies": {
-    "electron-window-state": "^3.0.3",
+    
     "imap": "0.8.x"
   },
   "devDependencies": {
