@@ -92,7 +92,10 @@ function addTab(opened, exampleName) {
 
 }
 var boolfix = false;
+
 $(document).ready(function () {
+    // enable nice tooltips
+    $(document).tooltip();
     userSettings.toGui();
     var shell = require('electron').shell;
     //open links externally by default

@@ -186,14 +186,14 @@ function readFiles() {
     for (var i in files) {
         console.log("Found prepublished " + files[i]);
 
-        pplist.append("<input type='checkbox' onclick='publish.info();if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'>" +
+        pplist.append("<input title='" + publish.formInfoString(helper.getPrepublishPath(), files[i]) + "' type='checkbox' onclick='publish.info();if( $(\"#prepublishList input:checked\").length>0){$(\"#buttonDeletePrepublished\").button(\"enable\");$(\"#button2Publish\").button(\"enable\");$(\"#buttonEditPrepublished\").button(\"enable\");} else {$(\"#buttonDeletePrepublished\").button(\"disable\");$(\"#button2Publish\").button(\"disable\");$(\"#buttonEditPrepublished\").button(\"disable\")}' id='pplistItem" + i + "' value='" + helper.join(helper.getPrepublishPath(), files[i]) + "' /> <label for='pplistItem" + i + "'  title='" + publish.formInfoString(helper.getPrepublishPath(), files[i]) + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1)
             + "</label><br>");
     }
     files = helper.getFilesInDir(helper.getPublishPath());
     for (var i in files) {
         console.log("Found published " + files[i]);
-        plist.append("<input type='checkbox' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'>" +
+        plist.append("<input type='checkbox'  title='" + publish.formInfoString(helper.getPublishPath(),files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.formInfoString(helper.getPublishPath(),files[i]) + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
     refreshOutbox();
@@ -235,6 +235,14 @@ this.packageinfo = function (filename) {
     file = helper.loadFile(filename).split('START')[1];
     var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));  
     helper.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
+
+}
+this.formInfoString = function(path, filename)
+{
+   
+    var file = helper.loadFile(helper.join(path, filename));
+    var loadedObj = JSON.parse(file);''
+    return  loadedObj._name + " v" + loadedObj._version + " is for: "  + loadedObj.publishTo.replace(/\,/gi,', ').replace('  ',' ');
 
 }
 function publishEverything() {

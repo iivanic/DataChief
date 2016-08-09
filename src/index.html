@@ -270,7 +270,8 @@
                         <div class="col-sm-4" style="text-align:center;height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <label for="publishList">Published forms folder</label><img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
+                                    <label for="publishList">Published forms folder</label><img src="../icons/arrow-right.png"
+                                        style="padding-left:15px;height:24px;">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -279,7 +280,30 @@
                                     <button id="buttonPublish" style="float:right;">Create packages</button>
                                 </div>
                             </div>
-                            <div class="row" style="height:89%;">
+                            <div class="row" style="height:7%;">
+                                <div class="col-sm-4" style="height:100%;">
+                                    <select style="width:100%;" id="commandAddCommandSelectCommand">
+                                      <option><-- Choose command --></option>
+                                      <option>Empty command</option>
+                                      <option>Delete all local copies from publisher</option>
+                                      <option>Send text message</option>
+                                     </select>
+                                </div>
+                                <div class="col-sm-1" style="height:100%;">
+                                    to
+                                </div>
+                                <div class="col-sm-4" style="height:100%;">
+                                    <select style="width:100%;" id="commandAddCommandSelectUser">
+                                      <option>aaa</option>
+                           <option>aaa</option>
+                                   </select>
+                                </div>
+                                <div class="col-sm-3" style="height:100%;">
+                                    <button style="width:100%;" id="buttonAddCommand" style="float:right;">Add</button>
+                                </div>
+                            </div>
+
+                            <div class="row" style="height:82%;">
                                 <div class="col-sm-12" style="text-align:center;height:100%;">
                                     <div id="publishList" style="height:100%;text-align:left;">
                                     </div>
@@ -290,7 +314,8 @@
                         <div class="col-sm-4" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;text-align:right;">
-                                    <label for="outboxList">Ready packages</label><img src="../icons/arrow-right-internet.png" style="padding-left:15px;height:24px;float:right">
+                                    <label for="outboxList">Ready packages</label><img src="../icons/arrow-right-internet.png"
+                                        style="padding-left:15px;height:24px;float:right">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -302,7 +327,7 @@
                             <div class="row" style="height:89%;">
                                 <div class="col-sm-12" style="height:100%;">
                                     <div id="readyList" style="height:100%;">
-                                     
+
                                     </div>
                                 </div>
                             </div>
