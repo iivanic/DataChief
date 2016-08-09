@@ -144,5 +144,23 @@ z-index:9999 ;}
     width:100%;
     max-width:1634px;
 } 
- 
+
+  .custom-combobox {
+    position: relative;
+    display: inline-block;
+   
+
+  }
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+  }
+  .custom-combobox-input {
+    margin: 0;
+    padding: 7px 5px;
+     width: 90%;
+  }
 

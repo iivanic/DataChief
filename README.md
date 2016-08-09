@@ -117,7 +117,7 @@ DataChief allows you to define your data sets with custom forms designed in prov
 * Package is  always created per user who recieves them.
 * User(s) who recieve package(s) must accept Organization secret digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
 * When publishing, Package for user will DELETE ALL PREVIOUSLY PUBLISHED FORMS. This means that publisher must always publish all active forms.
-* If you want to revoke user, You can create empty package for that user
+* If you want to revoke user, You can create empty command (empty package will be created) for that user
 * Commands are:
     * Delete all local copies from publisher - deletes every filled or half filled form(sent forms folder, outbox folder, work folder, recieved folder) from that publisher. This can be usefull when employee is leaving organization or organization internal security policy changes.
     * Send text message – sends text message that will be displayed to user.

@@ -175,13 +175,18 @@ function deleteProfile() {
     }
 }
 this.reloadIndentityChooser = function () {
+    var profileHTML; //for combo for adding commands in publish tab
     var html = "<option " + (this.mainEmail == this.email ? "selected=\"selected\"" : "") + " value=\"" + this.mainEmail + "\">Main profile (" + this.mainEmail + ")</option>";
+
     this.Identities = helper.getDirectories(helper.getSettingsFolder());
 
     for (var i in this.Identities) {
         if (this.Identities[i] != this.mainEmail)
             html += "<option " + (this.Identities[i] == this.email ? "selected=\"selected\"" : "") + " value=\"" + this.Identities[i] + "\">" + this.Identities[i] + "</option>";
+        profileHTML += "<option value=\"" + this.Identities[i] + "\">" + this.Identities[i] + "</option>";
     }
+       profileHTML += "<option value=\"-1\">All users that have packages</option>";
+ 
     html += "<option value=\"-1\">Create new profile</option>";
     try {
         $("#selectActiveProfile").selectmenu("destroy");
@@ -190,6 +195,8 @@ this.reloadIndentityChooser = function () {
     { }
 
     $("#selectActiveProfile").html(html);
+
+    $("#commandAddCommandSelectUser").html(profileHTML);
 
     $("#selectActiveProfile").selectmenu({
         change: function () {

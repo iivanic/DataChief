@@ -114,6 +114,24 @@ $(document).ready(function () {
             imap.go();
         });
 
+    $("#commandAddCommandSelectCommand").selectmenu({
+        change: function () {
+            commandAddCommandSelectCommand_change();
+        }
+    }
+    );
+    
+    combo("#commandAddCommandSelectUser");
+
+    $("#buttonAddCommand").button({
+        text: true,
+        icons: {
+            secondary: "ui-icon-plus"
+        }
+    })
+        .click(function () {
+            addCommandClick()
+        });
 
     pplist = $("#prepublishList");
     plist = $("#publishList");
@@ -126,6 +144,146 @@ $(document).ready(function () {
 
     readFiles();
 });
+function commandAddCommandSelectCommand_change(e) {
+
+}
+function addCommandClick(e) {
+    helper.alert("ADd");
+}
+function combo(selector) {
+    $.widget("custom.combobox", {
+        _create: function () {
+            this.wrapper = $("<span>")
+                .addClass("custom-combobox")
+                .insertAfter(this.element);
+
+            this.element.hide();
+            this._createAutocomplete();
+            this._createShowAllButton();
+        },
+
+        _createAutocomplete: function () {
+            var selected = this.element.children(":selected"),
+                value = selected.val() ? selected.text() : "";
+
+            this.input = $("<input>")
+                .appendTo(this.wrapper)
+                .val(value)
+                .attr("title", "")
+                .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+                .autocomplete({
+                    delay: 0,
+                    minLength: 0,
+                    source: $.proxy(this, "_source")
+                })
+                .tooltip({
+                    classes: {
+                        "ui-tooltip": "ui-state-highlight"
+                    }
+                });
+
+            this._on(this.input, {
+                autocompleteselect: function (event, ui) {
+                    ui.item.option.selected = true;
+                    this._trigger("select", event, {
+                        item: ui.item.option
+                    });
+                },
+
+                autocompletechange: "_removeIfInvalid"
+            });
+        },
+
+        _createShowAllButton: function () {
+            var input = this.input,
+                wasOpen = false;
+
+            $("<a>")
+                .attr("tabIndex", -1)
+                .attr("title", "Show All Items")
+                .tooltip()
+                .appendTo(this.wrapper)
+                .button({
+                    icons: {
+                        primary: "ui-icon-triangle-1-s"
+                    },
+                    text: false
+                })
+                .removeClass("ui-corner-all")
+                .addClass("custom-combobox-toggle ui-corner-right")
+                .on("mousedown", function () {
+                    wasOpen = input.autocomplete("widget").is(":visible");
+                })
+                .on("click", function () {
+                    input.trigger("focus");
+
+                    // Close if already visible
+                    if (wasOpen) {
+                        return;
+                    }
+
+                    // Pass empty string as value to search for, displaying all results
+                    input.autocomplete("search", "");
+                });
+        },
+
+        _source: function (request, response) {
+            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+            response(this.element.children("option").map(function () {
+                var text = $(this).text();
+                if (this.value && (!request.term || matcher.test(text)))
+                    return {
+                        label: text,
+                        value: text,
+                        option: this
+                    };
+            }));
+        },
+
+        _removeIfInvalid: function (event, ui) {
+
+            // Selected an item, nothing to do
+            if (ui.item) {
+                return;
+            }
+
+            // Search for a match (case-insensitive)
+            var value = this.input.val(),
+                valueLowerCase = value.toLowerCase(),
+                valid = false;
+            this.element.children("option").each(function () {
+                if ($(this).text().toLowerCase() === valueLowerCase) {
+                    this.selected = valid = true;
+                    return false;
+                }
+            });
+
+            // Found a match, nothing to do
+            if (valid) {
+                return;
+            }
+
+            // Remove invalid value
+            this.input
+                .val("")
+                .attr("title", value + " didn't match any item")
+                .tooltip("open");
+            this.element.val("");
+            this._delay(function () {
+                this.input.tooltip("close").attr("title", "");
+            }, 2500);
+            this.input.autocomplete("instance").term = "";
+        },
+
+        _destroy: function () {
+            this.wrapper.remove();
+            this.element.show();
+        }
+    });
+
+    $(selector).combobox();
+}
+
 function deletePrepublished() {
     var items = $("#prepublishList input:checked");
     for (var i = 0; i < items.length; i++) {
@@ -179,7 +337,7 @@ function readFiles() {
     $("#button2Prepublish").button("disable")
 
     pplist.html("");
-    plist.html("");   
+    plist.html("");
     rlist.html("");
 
     var files = helper.getFilesInDir(helper.getPrepublishPath());
@@ -193,7 +351,7 @@ function readFiles() {
     files = helper.getFilesInDir(helper.getPublishPath());
     for (var i in files) {
         console.log("Found published " + files[i]);
-        plist.append("<input type='checkbox'  title='" + publish.formInfoString(helper.getPublishPath(),files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.formInfoString(helper.getPublishPath(),files[i]) + "'>" +
+        plist.append("<input type='checkbox'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "'>" +
             files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
     }
     refreshOutbox();
@@ -233,16 +391,15 @@ this.info = function () {
 }
 this.packageinfo = function (filename) {
     file = helper.loadFile(filename).split('START')[1];
-    var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));  
+    var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));
     helper.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
 
 }
-this.formInfoString = function(path, filename)
-{
-   
+this.formInfoString = function (path, filename) {
+
     var file = helper.loadFile(helper.join(path, filename));
-    var loadedObj = JSON.parse(file);''
-    return  loadedObj._name + " v" + loadedObj._version + " is for: "  + loadedObj.publishTo.replace(/\,/gi,', ').replace('  ',' ');
+    var loadedObj = JSON.parse(file); ''
+    return loadedObj._name + " v" + loadedObj._version + " is for: " + loadedObj.publishTo.replace(/\,/gi, ', ').replace('  ', ' ');
 
 }
 function publishEverything() {
@@ -303,7 +460,7 @@ function refreshOutbox() {
         rlist.append("<input type='hidden' class='hasmenu' id='rlistItem" + i + "' value='" + helper.join(helper.getReadyPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#rlistItem" + i + "').val());\" class='hasmenu' for='rlistItem" + i + "'>" +
             files[i] + "</label><br>");
     }
-       if (files.length > 0) {
+    if (files.length > 0) {
         $("#buttonClearOutbox").button("enable");
         $("#buttonSendPackages").button("enable");
         bindPackageContextMenu();
@@ -321,7 +478,7 @@ function refreshOutbox() {
         olist.append("<input type='hidden'  id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#olistItem" + i + "').val());\"  for='olistItem" + i + "'>" +
             files[i] + "</label><br>");
     }
- 
+
 }
 function clearOutbox() {
     var files = helper.getFilesInDir(helper.getOutboxPath());
