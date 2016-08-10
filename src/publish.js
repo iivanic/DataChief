@@ -163,6 +163,11 @@ function addCommandClick(e) {
     if (user) {
         var command = require("./command.js");
         var c = command.findCommand($("#commandAddCommandSelectCommand").val());
+        if(c.id==0)
+        {
+             helper.alert("No command selected.");
+             return;
+        }
         var textmessage = "";
         if (c.name == "text") {
             command.textmessage = "MESSAGE!";
@@ -178,8 +183,10 @@ function addCommandClick(e) {
 
         $("#commandAddCommandSelectUser").val("");
         $("#commandAddCommandSelectCommand").val("");
-        refreshOutbox();
+        readFiles();
     }
+    else
+        helper.alert("No user selected.");
 }
 
 function combo(selector) {
@@ -384,8 +391,8 @@ function readFiles() {
     for (var i in files) {
         console.log("Found published " + files[i]);
         if (files[i].endsWith(".dccommand")) {
-            plist.append("<input type='checkbox'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
-                publish.shortCommandInfoString(helper.getPublishPath(), files[i])  + "</label><br>");
+            plist.append("<img style='cursor:pointer;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
+                publish.shortCommandInfoString(helper.getPublishPath(), files[i]) + "</label><br>");
         }
         else {
             plist.append("<input type='checkbox'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "'>" +
@@ -444,12 +451,12 @@ this.formInfoString = function (path, filename) {
 this.commandInfoString = function (path, filename) {
     var file = helper.loadFile(helper.join(path, filename));
     var loadedObj = JSON.parse(file); ''
-    return "\"" + loadedObj.command.description + "\" command for " + loadedObj.user.replace("-1","Everyone");
+    return "\"" + loadedObj.command.description + "\" command for " + loadedObj.user.replace("-1", "Everyone");
 }
 this.shortCommandInfoString = function (path, filename) {
     var file = helper.loadFile(helper.join(path, filename));
     var loadedObj = JSON.parse(file); ''
-    return "\"" + loadedObj.command.name + "\" command for " + loadedObj.user.replace("-1","Everyone");
+    return "\"" + loadedObj.command.name + "\" command for " + loadedObj.user.replace("-1", "Everyone");
 }
 function publishEverything() {
     items = $("#publishList input");
