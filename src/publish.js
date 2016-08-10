@@ -391,7 +391,7 @@ function readFiles() {
     for (var i in files) {
         console.log("Found published " + files[i]);
         if (files[i].endsWith(".dccommand")) {
-            plist.append("<img style='cursor:pointer;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
+            plist.append("<img style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
                 publish.shortCommandInfoString(helper.getPublishPath(), files[i]) + "</label><br>");
         }
         else {
