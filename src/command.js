@@ -10,10 +10,11 @@ this.findCommand = function(id)
     return exports.cmds[Math.abs(id)];
 }
 
-this.ctor = function (command, textmessage) {
+this.ctor = function (command, textmessage, user) {
     this.command = command;
     this.textmessage = textmessage;
     this.publisher = userSettings.organization;
+    this.user = user;
 
 }
 

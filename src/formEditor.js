@@ -359,7 +359,7 @@ this.saveForm = function (dirtyMarkId) {
         fs.writeFile(fileName, content, function (err) {
             if(err)
                 {
-                console.log("Saving failed. " + err.toString());
+                console.log("Saving of Form failed. " + err.toString());
                 success=false;}
             
         });
