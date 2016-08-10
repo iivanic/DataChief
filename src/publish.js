@@ -120,7 +120,7 @@ $(document).ready(function () {
         }
     }
     );
-    
+
     combo("#commandAddCommandSelectUser");
 
     $("#buttonAddCommand").button({
@@ -132,6 +132,17 @@ $(document).ready(function () {
         .click(function () {
             addCommandClick()
         });
+
+    // --------------------------
+    // bind command dropdown
+    $("#commandAddCommandSelectCommand").html("");
+    var commandAddCommandSelectCommandHtml = "";
+    var cmds = require("./command.js").cmds;
+    for (var i in cmds) {
+        commandAddCommandSelectCommandHtml += "<option value='" + cmds[i].id + "'>" + cmds[i].description + "</option>"
+    }
+    $("#commandAddCommandSelectCommand").html(commandAddCommandSelectCommandHtml);
+    // --------------------------
 
     pplist = $("#prepublishList");
     plist = $("#publishList");
@@ -148,8 +159,17 @@ function commandAddCommandSelectCommand_change(e) {
 
 }
 function addCommandClick(e) {
-    helper.alert("ADd");
+    var command = require("./command.js");
+    var c = command.findCommand($("#commandAddCommandSelectCommand").val());
+    var textmessage= "";
+    if(c.name=="text")
+    {
+        command.textmessage="MESSAGE!";
+    }
+    command.ctor( c, command.textmessage );
+    command.run();
 }
+
 function combo(selector) {
     $.widget("custom.combobox", {
         _create: function () {
