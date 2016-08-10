@@ -72,7 +72,7 @@ $(document).ready(
                 $('#startwizard').steps('remove', 1);
                 /*      $("#startwizard").steps("destroy");
                       startwizardsteps.initWizard();*/
-       
+
             }
         });
         // if client only, remove extra steps and remember them...
@@ -99,7 +99,6 @@ $(document).ready(
                 userSettings.checkCaseStudy();
                 /*        $("#startwizard").steps("destroy");
                         startwizardsteps.initWizard();*/
-            
 
             }
         });
@@ -154,19 +153,22 @@ this.onFinished = function (event, currentIndex) {
     if (!imapTimer)
         imapTimer = window.setTimeout("imap.go(true)", 4000);
     $("#startDialog").dialog("close");
- 
+
     if (userSettings.clientOnly)
-            helper.disableEditor();
-        else
-            helper.enableEditor();
+        helper.disableEditor();
+    else
+        helper.enableEditor();
 }
 this.fromGui = function () {
     //step 1
     userSettings.clientOnly = $("#Startdesigner1").prop("checked");
-    //step 2
-    userSettings.organization = $("#startDialogCompanyName").val();
-    userSettings.organizationSecret = $("#startDialogCompanPassword").val();
-
+    var _steps = $("#startwizard").steps("getStepsLength");
+    // do not store Organization info if in clientMode
+    if (_steps > 5) {
+        //step 2
+        userSettings.organization = $("#startDialogCompanyName").val();
+        userSettings.organizationSecret = $("#startDialogCompanPassword").val();
+    }
     //step 3
     userSettings.useSingleAccount = $("#startDialogappMode1").prop("checked");
 
