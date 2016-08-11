@@ -4,7 +4,7 @@ Flexible **Data Collection eForms Solution** with focus on **usability** and **s
 ##What is it for?
 DataChief enables you to **rapidly implement processes in your company/organization with no cost** - all you need is email account(minimal requirement). Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like **ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL** with ease. 
 
-You don't have to be blocked anymore by expensive Line of business (LOB) applications development that never ends, and when they are finally ready, they are often obsolete.
+You don't have to be blocked anymore by expensive custom solution development that never ends, and when it is finally finished, it's often obsolete.
 
 Take a look at **[Barrique Works LLC Case Study](./Case study Barrique Works LLC.md)**. 
 
@@ -50,7 +50,7 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     * now You can start DataChief with
     
         * `npm start` 
-        * or open it with **Microsoft Visual Studio Code**. if you are using Visual Studio Code older than 1.3 then you may need to, depending on the platform, change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**". Then press **F5** to run DataChief
+        * or open it with **Microsoft Visual Studio Code**. If you are using Visual Studio Code older than 1.3 then you may need to, depending on the platform, change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**". Then press **F5** to run DataChief
     
 ##How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) or one per user ( **Per user account** ).
