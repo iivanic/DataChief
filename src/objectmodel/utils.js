@@ -255,7 +255,7 @@ this.alert = function (message, callback) {
     });
 }
 
-this.confirm = function (message, callback) {
+this.confirm = function (message, callback, param) {
     $("#dialog-confirm-text").text(message);
     $("#dialog-confirm").dialog({
         resizable: false,
@@ -265,7 +265,7 @@ this.confirm = function (message, callback) {
         buttons: {
             Ok: function () {
                 $(this).dialog("close");
-                callback();
+                callback(param);
             },
             Cancel: function () {
                 $(this).dialog("close");

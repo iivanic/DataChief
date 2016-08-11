@@ -163,10 +163,9 @@ function addCommandClick(e) {
     if (user) {
         var command = require("./command.js");
         var c = command.findCommand($("#commandAddCommandSelectCommand").val());
-        if(c.id==0)
-        {
-             helper.alert("No command selected.");
-             return;
+        if (c.id == 0) {
+            helper.alert("No command selected.");
+            return;
         }
         var textmessage = "";
         if (c.name == "text") {
@@ -175,14 +174,21 @@ function addCommandClick(e) {
         command.ctor(c, command.textmessage, user);
         var content = JSON.stringify(command, null, 2)
         var filename = helper.join(helper.getPublishPath(), "Command_" + command.command.name + "_for_" + user.replace("-1", "Everyone") + ".dccommand");
-        fs.writeFile(filename, content, function (err) {
+        fs.writeFileSync(filename, content) ;
+        
+        /*, function (err) {
             if (err) {
                 console.log("Saving of Command failed. " + err.toString());
             }
-        });
+        });*/
 
-        $("#commandAddCommandSelectUser").val("");
-        $("#commandAddCommandSelectCommand").val("");
+        $("#commandAddCommandSelectCommand")[0].selectedIndex = 0;
+        $("#commandAddCommandSelectCommand").selectmenu("refresh");
+     //     $("#commandAddCommandSelectUser")[0].selectedIndex = 0;
+    //   $("#commandAddCommandSelectUser").combobox("refresh");
+       // combo("#commandAddCommandSelectUser");
+
+
         readFiles();
     }
     else
@@ -391,11 +397,12 @@ function readFiles() {
     for (var i in files) {
         console.log("Found published " + files[i]);
         if (files[i].endsWith(".dccommand")) {
-            plist.append("<img style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
+            plist.append("<img style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) + 
+            "' onclick='helper.confirm(\"Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]).replace(/\"/gi,"*") + "?\", publish.removeCommand,\"" +  escape(helper.join(helper.getPublishPath(), files[i])) + "\" );' id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
                 publish.shortCommandInfoString(helper.getPublishPath(), files[i]) + "</label><br>");
         }
         else {
-            plist.append("<input type='checkbox'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}'id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "'>" +
+            plist.append("<input type='checkbox'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "' onclick='publish.info();if( $(\"#publishList input:checked\").length>0){$(\"#button2Prepublish\").button(\"enable\");} else {$(\"#button2Prepublish\").button(\"disable\");}' id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.formInfoString(helper.getPublishPath(), files[i]) + "'>" +
                 files[i].substring(files[i].indexOf("_", files[i].indexOf("_") + 1) + 1) + "</label><br>");
         }
     }
@@ -413,7 +420,13 @@ function readFiles() {
     }*/
 }
 
-
+this.removeCommand = function(filePath)
+{
+    filePath = unescape(filePath);
+ 
+    helper.deleteFile(filePath);
+    readFiles();
+}
 this.refreshFolders = readFiles;
 
 this.info = function () {
