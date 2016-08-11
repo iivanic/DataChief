@@ -4,10 +4,11 @@
 const windowStateKeeper = require('electron-window-state');
 
 //const debug=true;
-var app = require("app");
-var BrowserWindow = require("browser-window");
-var path = require("path");
 const electron = require('electron')
+var app = electron.app;
+var BrowserWindow =electron.BrowserWindow;
+var path = require("path");
+
 var mainWindow = null;
 var process = require("process");
 var size = null;

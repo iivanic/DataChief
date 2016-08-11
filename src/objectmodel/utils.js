@@ -1,8 +1,8 @@
 // helpers
 var fs = require("fs");
 var path = require("path");
-var remote = require('remote');
-var dialog = remote.require('dialog');
+var remote = require('electron').remote;
+var dialog = remote.dialog;
 var pwd = "P@s$w0Rd";
 var crypto = require('crypto');
 
