@@ -36,7 +36,7 @@ Project is under develpment. First release will provide basic functionality for 
 Smartphone versions are planned, and are crucial part of DataChief. For most part, this software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
  
 ##How do I start with DataChief source code or test new version before release?
-* You will need **Node.js**, **Git** and **Microsoft Visual Studio Code** already installed.
+* You will need **Node.js**, **Git** and, optionally, **Microsoft Visual Studio Code** already installed.
 * From command line:
     * pull source code from GitHub:
     
@@ -47,8 +47,10 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     * install electron-prebuild, node-imap, ...  - they are not included: 
     
         `npm install` 
-    * now You can open it with **Microsoft Visual Studio Code**. iF you are using Visual Studio Code older than 1.3 then you may need to, depending on the platform, change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**"
-    * press **F5** to run DataChief
+    * now You can start DataChief with
+    
+        * `npm start` 
+        * or open it with **Microsoft Visual Studio Code**. if you are using Visual Studio Code older than 1.3 then you may need to, depending on the platform, change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**". Then press **F5** to run DataChief
     
 ##How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) or one per user ( **Per user account** ).
