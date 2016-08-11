@@ -69,7 +69,6 @@ DataChief allows you to define your data sets with custom forms designed in prov
 
 ###Workflow
 * Following Form properties helps define workflow
-    * Workflow - this property **defines workflow** for the form
     * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors.
     * Final step - this is one or more user(s) that collects the data. DataChief is not designed as database for millions of forms, so those users should periodacally export collected data as Text files, SpreadSheets or Databases.
     * Publish To - this property defines who cas start empty form. 
@@ -77,8 +76,8 @@ DataChief allows you to define your data sets with custom forms designed in prov
      All properties can have multiple users. Users are defined as emails delimited with delimiters.
      Delimiters between emails are , or ;
 
-     Workflow property is most complex.   
-     in workflow, every email represents one step, but, if in brackets, then user can choose one of the emails within brackets when sending to that step.
+    * Workflow - this property **defines workflow** for the form and it is also most complex.   
+     In workflow, every email represents one step, but, if in brackets, then user can choose one of the emails within brackets when sending to that step.
      For example, let's say Worflow is: 
      * user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com); userA@example.com
 
