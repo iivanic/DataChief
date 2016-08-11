@@ -163,4 +163,7 @@ z-index:9999 ;}
     padding: 7px 5px;
      width: 90%;
   }
-
+input[type=checkbox], input[type=radio]
+{
+        margin: 4px 4px 0;
+}
