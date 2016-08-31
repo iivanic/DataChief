@@ -111,6 +111,7 @@ $(document).ready(function () {
         disabled: true
     })
         .click(function () {
+            move2Outbox();
             imap.go();
         });
 
@@ -370,6 +371,15 @@ function move2Published() {
         readFiles();
 
 
+}
+function move2Outbox() {
+    var ready = helper.getReadyPath();
+    var outbox = helper.getOutboxPath()
+    var files = helper.getFilesInDir(helper.getReadyPath());
+    for (var i in files) {
+        helper.moveFile(helper.join(ready, files[i]), helper.join(outbox, files[i]));
+    }
+    refreshOutbox();
 }
 function openInEditor() {
     var items = $("#prepublishList input:checked");
