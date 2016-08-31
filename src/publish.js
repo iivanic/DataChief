@@ -174,8 +174,8 @@ function addCommandClick(e) {
         command.ctor(c, command.textmessage, user);
         var content = JSON.stringify(command, null, 2)
         var filename = helper.join(helper.getPublishPath(), "Command_" + command.command.name + "_for_" + user.replace("-1", "Everyone") + ".dccommand");
-        fs.writeFileSync(filename, content) ;
-        
+        fs.writeFileSync(filename, content);
+
         /*, function (err) {
             if (err) {
                 console.log("Saving of Command failed. " + err.toString());
@@ -184,9 +184,9 @@ function addCommandClick(e) {
 
         $("#commandAddCommandSelectCommand")[0].selectedIndex = 0;
         $("#commandAddCommandSelectCommand").selectmenu("refresh");
-     //     $("#commandAddCommandSelectUser")[0].selectedIndex = 0;
-    //   $("#commandAddCommandSelectUser").combobox("refresh");
-       // combo("#commandAddCommandSelectUser");
+        //     $("#commandAddCommandSelectUser")[0].selectedIndex = 0;
+        //   $("#commandAddCommandSelectUser").combobox("refresh");
+        // combo("#commandAddCommandSelectUser");
 
 
         readFiles();
@@ -397,8 +397,8 @@ function readFiles() {
     for (var i in files) {
         console.log("Found published " + files[i]);
         if (files[i].endsWith(".dccommand")) {
-            plist.append("<img style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) + 
-            "' onclick='helper.confirm(\"Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]).replace(/\"/gi,"*") + "?\", publish.removeCommand,\"" +  escape(helper.join(helper.getPublishPath(), files[i])) + "\" );' id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
+            plist.append("<img style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) +
+                "' onclick='helper.confirm(\"Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]).replace(/\"/gi, "*") + "?\", publish.removeCommand,\"" + escape(helper.join(helper.getPublishPath(), files[i])) + "\" );' id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
                 publish.shortCommandInfoString(helper.getPublishPath(), files[i]) + "</label><br>");
         }
         else {
@@ -420,10 +420,9 @@ function readFiles() {
     }*/
 }
 
-this.removeCommand = function(filePath)
-{
+this.removeCommand = function (filePath) {
     filePath = unescape(filePath);
- 
+
     helper.deleteFile(filePath);
     readFiles();
 }
@@ -457,19 +456,34 @@ this.packageinfo = function (filename) {
 this.formInfoString = function (path, filename) {
 
     var file = helper.loadFile(helper.join(path, filename));
-    var loadedObj = JSON.parse(file); ''
-    return loadedObj._name + " v" + loadedObj._version + " is for: " + loadedObj.publishTo.replace(/\,/gi, ', ').replace('  ', ' ');
 
+    try {
+        var loadedObj = JSON.parse(file);
+        return loadedObj._name + " v" + loadedObj._version + " is for: " + loadedObj.publishTo.replace(/\,/gi, ', ').replace('  ', ' ');
+    }
+    catch (ex) {
+        return filename + " : " + path + " : " + ex + " : " + file;
+    }
 }
 this.commandInfoString = function (path, filename) {
     var file = helper.loadFile(helper.join(path, filename));
-    var loadedObj = JSON.parse(file); ''
-    return "\"" + loadedObj.command.description + "\" command for " + loadedObj.user.replace("-1", "Everyone");
+    try {
+        var loadedObj = JSON.parse(file);
+        return "\"" + loadedObj.command.description + "\" command for " + loadedObj.user.replace("-1", "Everyone");
+    }
+    catch (ex) {
+        return filename + " : " + path + " : " + ex + " : " + file;
+    }
 }
 this.shortCommandInfoString = function (path, filename) {
     var file = helper.loadFile(helper.join(path, filename));
-    var loadedObj = JSON.parse(file); ''
-    return "\"" + loadedObj.command.name + "\" command for " + loadedObj.user.replace("-1", "Everyone");
+    try {
+        var loadedObj = JSON.parse(file);
+        return "\"" + loadedObj.command.name + "\" command for " + loadedObj.user.replace("-1", "Everyone");
+    }
+    catch (ex) {
+        return filename + " : " + path + " : " + ex + " : " + file;
+    }
 }
 function publishEverything() {
     items = $("#publishList input");
