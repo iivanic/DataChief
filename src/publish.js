@@ -564,7 +564,7 @@ function publishEverything() {
             }
         }
         else {
-            if (loadedObj.user = "-1") {
+            if (loadedObj.user == "-1") {
                 commandsForAll.push(loadedObj);
             }
             else {
