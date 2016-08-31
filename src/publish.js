@@ -317,7 +317,7 @@ function combo(selector) {
             // allow values not on the list
             return;
             // Remove invalid value
-            this.input
+          /*  this.input
                 .val("")
                 .attr("title", value + " didn't match any item")
                 .tooltip("open");
@@ -325,7 +325,7 @@ function combo(selector) {
             this._delay(function () {
                 this.input.tooltip("close").attr("title", "");
             }, 2500);
-            this.input.autocomplete("instance").term = "";
+            this.input.autocomplete("instance").term = "";*/
         },
 
         _destroy: function () {
