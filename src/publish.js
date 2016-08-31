@@ -101,7 +101,7 @@ $(document).ready(function () {
         disabled: true
     })
         .click(function () {
-            clearOutbox();
+            clearReady();
         });
     $("#buttonSendPackages").button({
         text: true,
@@ -158,7 +158,7 @@ $(document).ready(function () {
 function commandAddCommandSelectCommand_change(e) {
 
 }
-function addCommandClick(e) {
+function addCommandClick(e, _textmessage) {
     var user = $("#commandAddCommandSelectUser").val();
     if (user) {
         var command = require("./command.js");
@@ -168,9 +168,13 @@ function addCommandClick(e) {
             return;
         }
         var textmessage = "";
-        if (c.name == "text") {
-            command.textmessage = "MESSAGE!";
+        if (c.name == "text" && !_textmessage) {
+            // command.textmessage = "MESSAGE!";
+            helper.input("Enter Your text message (letters, number, dot, exclamation, queastionmark, comma, colon, semicolon and spaces only)", addCommandClick, /^[a-zA-Z_0-9\s\.\!\?\;\,\:]+$/gi, e);
+            return;
         }
+        if (_textmessage)
+            command.textmessage = _textmessage;
         command.ctor(c, command.textmessage, user);
         var content = JSON.stringify(command, null, 2)
         var filename = helper.join(helper.getPublishPath(), "Command_" + command.command.name + "_for_" + user.replace("-1", "Everyone") + ".dccommand");
@@ -397,7 +401,7 @@ function readFiles() {
     for (var i in files) {
         console.log("Found published " + files[i]);
         if (files[i].endsWith(".dccommand")) {
-            plist.append("<img style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) +
+            plist.append("<input type='image' style='cursor:pointer;margin-left: 4px;' src='../icons/delete_16.png'  title='Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]) +
                 "' onclick='helper.confirm(\"Remove " + publish.commandInfoString(helper.getPublishPath(), files[i]).replace(/\"/gi, "*") + "?\", publish.removeCommand,\"" + escape(helper.join(helper.getPublishPath(), files[i])) + "\" );' id='plistItem" + i + "' value='" + helper.join(helper.getPublishPath(), files[i]) + "' /> <label for='plistItem" + i + "'  title='" + publish.commandInfoString(helper.getPublishPath(), files[i]) + "'>" +
                 publish.shortCommandInfoString(helper.getPublishPath(), files[i]) + "</label><br>");
         }
@@ -450,8 +454,31 @@ this.info = function () {
 this.packageinfo = function (filename) {
     file = helper.loadFile(filename).split('START')[1];
     var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));
-    helper.log("Package for <strong>" + loadedObj.user + "</strong> has <strong>" + loadedObj.forms.length + "</strong> form(s) and <strong>" + loadedObj.commands.length + "</strong> command(s).");
 
+}
+this.packageinfofortooltip = function (filename) {
+    file = helper.loadFile(filename).split('START')[1];
+    var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));
+    var ret = "Package for " + loadedObj.user + " has " + loadedObj.forms.length + " form(s) and " + loadedObj.commands.length + " command(s).";
+    if (loadedObj.forms.length) {
+        ret += " Form(s): ";
+        for (var i in loadedObj.forms) {
+            ret += loadedObj.forms[i]._name + " v" + loadedObj.forms[i]._version + ", ";
+        }
+        if (ret.endsWith(", "))
+            ret = ret.substring(0, ret.length - 2);
+        ret += ".";
+    }
+    if (loadedObj.commands.length) {
+        ret += " Command(s): "
+        for (var i in loadedObj.commands) {
+            ret += loadedObj.commands[i].command.name + (loadedObj.commands[i].textmessage ? " - " + loadedObj.commands[i].textmessage : "") + ", ";
+        }
+        if (ret.endsWith(", "))
+            ret = ret.substring(0, ret.length - 2);
+        ret += ".";
+    }
+    return ret;
 }
 this.formInfoString = function (path, filename) {
 
@@ -469,7 +496,7 @@ this.commandInfoString = function (path, filename) {
     var file = helper.loadFile(helper.join(path, filename));
     try {
         var loadedObj = JSON.parse(file);
-        return "\"" + loadedObj.command.description + "\" command for " + loadedObj.user.replace("-1", "Everyone");
+        return "\"" + loadedObj.command.description + (loadedObj.command.name == 'text' ? " - " + loadedObj.textmessage : "") + "\" command for " + loadedObj.user.replace("-1", "Everyone");
     }
     catch (ex) {
         return filename + " : " + path + " : " + ex + " : " + file;
@@ -491,32 +518,59 @@ function publishEverything() {
     items.add($("#fillerTreeMyOutbox li"));
     var packages = new Array();
     var pCount = 0;
+    var commandsForAll = new Array();
     for (var i = 0; i < items.length; i++) {
 
         file = helper.loadFile($(items[i]).val());
         var loadedObj = JSON.parse(file);
-        //mark form as published - this means it's a template.
-        loadedObj.published = true;
-        var users = loadedObj.publishTo.split(",");
-        // if form is not template then ...
-        if (loadedObj.workflowStep) {
-            users = loadedObj.workflow.split(";");
-            // find workflow step 
-            if (users.length < loadedObj.workflowStep) {
-                // or send it to final reciver
-                users = loadedObj.finalStep;
-            }
-            else {
+        var isForm = loadedObj._version;
+        if (isForm) {
+            //mark form as published - this means it's a template.
+            loadedObj.published = true;
+            var users = loadedObj.publishTo.split(",");
+            // if form is not template then ...
+            if (loadedObj.workflowStep) {
+                users = loadedObj.workflow.split(";");
                 // find workflow step 
-                users = users[loadedObj.workflowStep - 1];
+                if (users.length < loadedObj.workflowStep) {
+                    // or send it to final reciver
+                    users = loadedObj.finalStep;
+                }
+                else {
+                    // find workflow step 
+                    users = users[loadedObj.workflowStep - 1];
+                }
+            }
+            for (var ui = 0; ui < users.length; ui++) {
+                // no package for user, create it
+                if (!packages[users[ui]]) {
+                    packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                    pCount++;
+                }
+                // push form
+                packages[users[ui]].forms.push(loadedObj);
             }
         }
-        for (var ui = 0; ui < users.length; ui++) {
-            if (!packages[users[ui]]) {
-                packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
-                pCount++;
+        else {
+            if (loadedObj.user = "-1") {
+                commandsForAll.push(loadedObj);
             }
-            packages[users[ui]].forms.push(loadedObj);
+            else {
+                //if package for this user doesnt exists, create it
+                if (!packages[loadedObj.user]) {
+                    packages[loadedObj.user] = { publisher: userSettings.organization, published: true, user: loadedObj.user, forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                    pCount++;
+                }
+                //add command
+                packages[loadedObj.user].commands.push(loadedObj);
+            }
+        }
+
+    }
+    // dont forget command for all
+    for (var j in commandsForAll) {
+        for (var k in packages) {
+            packages[k].commands.push(commandsForAll[j]);
         }
     }
     llist.html("");
@@ -540,7 +594,7 @@ function refreshOutbox() {
     var files = helper.getFilesInDir(helper.getReadyPath());
     for (var i in files) {
         console.log("Found ready packages " + files[i]);
-        rlist.append("<input type='hidden' class='hasmenu' id='rlistItem" + i + "' value='" + helper.join(helper.getReadyPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#rlistItem" + i + "').val());\" class='hasmenu' for='rlistItem" + i + "'>" +
+        rlist.append("<input type='hidden' id='rlistItem" + i + "' value='" + helper.join(helper.getReadyPath(), files[i]) + "' /> <label style='cursor:pointer;' title=\"" + publish.packageinfofortooltip(helper.join(helper.getReadyPath(), files[i])) + "\" onclick=\"publish.packageinfo($('#rlistItem" + i + "').val());\" for='rlistItem" + i + "'>" +
             files[i] + "</label><br>");
     }
     if (files.length > 0) {
@@ -570,7 +624,13 @@ function clearOutbox() {
     }
     refreshOutbox();
 }
-
+function clearReady() {
+    var files = helper.getFilesInDir(helper.getReadyPath());
+    for (var i in files) {
+        helper.deleteFile(helper.join(helper.getReadyPath(), files[i]));
+    }
+    refreshOutbox();
+}
 this.reload = function () {
     // we need to refresh folders...
     // alert("publish.reload()");

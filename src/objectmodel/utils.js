@@ -274,6 +274,28 @@ this.confirm = function (message, callback, param) {
     });
 }
 
+this.input = function (message, callback, _regexp, param1, param2) {
+    $("#dialog-input-text").text(message);
+    $("#dialog-input").dialog({
+        resizable: false,
+        height: 355,
+        width: 500,
+        modal: true,
+        buttons: {
+            Ok: function () {
+                $(this).dialog("close");
+                if ( _regexp.test($("#dialog-input-inputedtext").val()))
+                    callback(param1, $("#dialog-input-inputedtext").val());
+                else
+                    helper.alert("Input not valid.");
+            },
+            Cancel: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
 this.encrypt = function (text, additionalpassword) {
     //   return text;
     var cipher = crypto.createCipher('aes192', pwd + (additionalpassword ? additionalpassword : ""));
