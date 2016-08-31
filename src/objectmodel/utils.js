@@ -278,7 +278,7 @@ this.input = function (message, callback, _regexp, param1, param2) {
     $("#dialog-input-text").text(message);
     $("#dialog-input").dialog({
         resizable: false,
-        height: 355,
+        height: 230,
         width: 500,
         modal: true,
         buttons: {

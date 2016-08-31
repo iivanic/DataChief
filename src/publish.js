@@ -160,7 +160,7 @@ function commandAddCommandSelectCommand_change(e) {
 
 }
 function addCommandClick(e, _textmessage) {
-    var user = $("#commandAddCommandSelectUser").val();
+    var user = $("#commandAddCommandSelectUser_text").val().trim();
     if (user) {
         var command = require("./command.js");
         var c = command.findCommand($("#commandAddCommandSelectCommand").val());
@@ -195,6 +195,7 @@ function addCommandClick(e, _textmessage) {
 
 
         readFiles();
+        $("#commandAddCommandSelectUser_text").val("");
     }
     else
         helper.alert("No user selected.");
@@ -219,6 +220,7 @@ function combo(selector) {
             this.input = $("<input>")
                 .appendTo(this.wrapper)
                 .val(value)
+                .attr("id", selector.replace("#","") + "_text")
                 .attr("title", "")
                 .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
                 .autocomplete({
@@ -312,7 +314,8 @@ function combo(selector) {
             if (valid) {
                 return;
             }
-
+            // allow values not on the list
+            return;
             // Remove invalid value
             this.input
                 .val("")
@@ -333,7 +336,6 @@ function combo(selector) {
 
     $(selector).combobox();
 }
-
 function deletePrepublished() {
     var items = $("#prepublishList input:checked");
     for (var i = 0; i < items.length; i++) {
