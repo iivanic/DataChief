@@ -80,7 +80,7 @@ $(document).ready(function () {
         }
     })
         .click(function () {
-            helper.confirm("Generate packages and publish forms?", publishEverything);
+            helper.confirm("Generate packages and publish forms? Existing packages ready for sending will be deleted.", publishEverything);
         });
 
     $("#buttonDeletePrepublished").button({
@@ -525,6 +525,7 @@ this.shortCommandInfoString = function (path, filename) {
     }
 }
 function publishEverything() {
+    clearReady();
     items = $("#publishList input");
     // add users myoutbox to files
     items.add($("#fillerTreeMyOutbox li"));
@@ -539,10 +540,10 @@ function publishEverything() {
         if (isForm) {
             //mark form as published - this means it's a template.
             loadedObj.published = true;
-            var users = loadedObj.publishTo.split(",");
+            var users = loadedObj.publishTo.split(/[,;]/gi);
             // if form is not template then ...
             if (loadedObj.workflowStep) {
-                users = loadedObj.workflow.split(";");
+                users = loadedObj.workflow.split(/;/gi);
                 // find workflow step 
                 if (users.length < loadedObj.workflowStep) {
                     // or send it to final reciver

@@ -144,7 +144,7 @@ $(document).ready(function () {
     var newFormDialog = $("#newFormDialog").dialog({
         autoOpen: false,
         modal: true,
-        width: "470px",
+        width: "480px",
 
         buttons: {
             "Create Emtpy": function () {
