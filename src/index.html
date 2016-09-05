@@ -22,7 +22,7 @@
         var barrique = require("./barriqueworks.js");
         var index = require("./index.js");
         var querysteps =  require("./jquery.steps-1.1.0/jquery.steps.js");
-      
+        var collector = require("./collector.js");
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -192,7 +192,7 @@
         </div>
         <div id="dialog-input" style="display:none;" title="Please input text?">
             <p><span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 20px 0;"></span><span id="dialog-input-text">Text?</span></p>
-            <p><input type="text" style="width:100%;" id = "dialog-input-inputedtext" maxlength=1000 ></p>
+            <p><input type="text" style="width:100%;" id="dialog-input-inputedtext" maxlength=1000></p>
         </div>
         <div id="dialog-validation-ok" style="display:none;" title="Validation OK">
             <p>
@@ -404,15 +404,32 @@
                 </div>
             </div>
             <div id="maintabs-4" class="fixmyheight">
-                <p>Data collection & analysis</p>
-                <p>Please choose form:</p>
-                <select>
-                    <option>dsadasdas</option>
-                    <option>e12e23</option>
-                    <option>r432rr43r34t</option>
-                </select>
-                <button>Export data</button>
-                <button>Delete data</button>
+                <p style="float:left;">Please choose form:&nbsp;&nbsp;&nbsp;</p>
+
+                <select id="selectCollectorChooseForm" style="min-width:250px;width:250px;float:left;"> 
+                        <option value="-1"><- Choose Form -></option>
+                      
+                    </select>
+
+                <div id="collectortabs">
+                    <ul>
+                        <li><a href="#collectortabs-1">Colected data</a></li>
+                        <li><a href="#collectortabs-2">Sent data</a></li>
+                        <li><a href="#collectortabs-3">Recived status broadcasts</a></li>
+                    </ul>
+                    <div id="collectortabs-1" class="fixmyheight">
+                        <button id="buttonCollectorExportFormData">Export data</button>
+                        <button id="buttonCollectorDeleteFormData">Delete data</button>
+                        <p>...</p>
+                    </div>
+                    <div id="collectortabs-2" class="fixmyheight">
+                        <p>...</p>
+                    </div>
+                    <div id="collectortabs-3" class="fixmyheight">
+                        <p>...</p>
+                    </div>
+                </div>
+
             </div>
             <div id="maintabs-5" class="fixmyheight">
 
