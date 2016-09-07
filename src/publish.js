@@ -167,6 +167,8 @@ function commandAddCommandSelectCommand_change(e) {
 }
 function addCommandClick(e, _textmessage) {
     var user = $("#commandAddCommandSelectUser_text").val().trim();
+    if(user = 'All users that have packages')
+        user = '-1';
     if (user) {
         var command = require("./command.js");
         var c = command.findCommand($("#commandAddCommandSelectCommand").val());
@@ -184,7 +186,7 @@ function addCommandClick(e, _textmessage) {
             command.textmessage = _textmessage;
         command.ctor(c, command.textmessage, user);
         var content = JSON.stringify(command, null, 2)
-        var filename = helper.join(helper.getPublishPath(), "Command_" + command.command.name + "_for_" + user.replace("-1", "Everyone") + ".dccommand");
+        var filename = helper.join(helper.getPublishPath(), "Command_" + command.command.name + "_for_" + user.replace("-1", "all users that have packages") + ".dccommand");
         fs.writeFileSync(filename, content);
 
         /*, function (err) {
@@ -524,7 +526,7 @@ this.shortCommandInfoString = function (path, filename) {
     var file = helper.loadFile(helper.join(path, filename));
     try {
         var loadedObj = JSON.parse(file);
-        return "\"" + loadedObj.command.name + "\" command for " + loadedObj.user.replace("-1", "Everyone");
+        return "\"" + loadedObj.command.name + "\" command for " + loadedObj.user.replace("-1", "all users that have packages");
     }
     catch (ex) {
         return filename + " : " + path + " : " + ex + " : " + file;

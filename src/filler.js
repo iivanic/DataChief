@@ -116,7 +116,7 @@ this.removeTab = function (currentFormDirty) {
 }
 
 this.sendRecieve = function () {
-
+    createPackagesFromMyOutbox();
     imap.go();
 }
 this.refreshFolders = function () {
@@ -233,4 +233,51 @@ this.reload = function () {
         }
     }
     this.refreshFolders();
+}
+
+function createPackagesFromMyOutbox() {
+
+    var srcFolder = helper.getMyOutboxPath();
+    var items = helper.getFilesInDir(srcFolder);
+    var packages = new Array();
+    var pCount = 0;
+
+    for (var i = 0; i < items.length; i++) {
+        file = helper.loadFile(helper.combine(srcFolder, items[i]));
+        var loadedObj = JSON.parse(file);
+
+        users = loadedObj.workflow.split(/;/gi);
+        // find workflow step 
+        if (users.length < loadedObj.workflowStep) {
+            // or send it to final reciver
+            users = loadedObj.finalStep;
+        }
+        else {
+            // find workflow step 
+            users = users[loadedObj.workflowStep - 1];
+        }
+
+        for (var ui = 0; ui < users.length; ui++) {
+            // no package for user, create it
+            if (!packages[users[ui]]) {
+                packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                pCount++;
+            }
+            // push form
+            packages[users[ui]].forms.push(loadedObj);
+        }
+    }
+
+    helper.log("<strong>" + pCount + "</strong> Package(s):");
+
+    for (var i in packages) {
+        helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
+        savePackage(packages[i])
+    }
+    refreshOutbox();
+
+}
+function savePackage(p) {
+    var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
+    helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), p.user), content);
 }
