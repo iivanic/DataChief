@@ -22,10 +22,16 @@ ready           -this is folder with packaes ready to be
 work            -half filled forms storge
 recievedbroadcasts -storage for broadcasts
 
-outbox          --actual outbox (sending folder)
+outbox          -actual outbox (sending folder)
 sent            -sent history
 
-myoutbox        -???
+myoutbox        -submitted forms from filler thet will go
+                 to other users - for preparation of
+                 packages
+
+database        -final folder for forms that have
+                 completed workflow
+
 ---------------------------------------------------------
  */
 

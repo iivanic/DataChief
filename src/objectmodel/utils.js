@@ -26,7 +26,12 @@ this.loadFile = function (filename) {
     return data.toString();
 };
 this.fileExists = function (fileName) {
-    return path.existsSync(fileName);
+    try {
+        fs.statSync(fileName);
+    } catch (err) {
+        if (err.code == 'ENOENT') return false;
+    }
+    return true;
 }
 this.getSettingsFolder = function () {
     var p = path.join(remote.getGlobal('sharedObject').userData, "datachief");
@@ -158,6 +163,13 @@ this.getReadyPath = function () {
     p = this.checkFolder(p);
     return p;
 };
+this.getDataBasePath = function () {
+    var p = this.getSettingsFolder();
+    p = this.checkFolderAndImpersonationFolder(p);
+    p = path.join(p, "database");
+    p = this.checkFolder(p);
+    return p;
+};
 this.getRecievedBroadCastsPath = function () {
     var p = this.getSettingsFolder();
     p = this.checkFolderAndImpersonationFolder(p);
@@ -284,7 +296,7 @@ this.input = function (message, callback, _regexp, param1, param2) {
         buttons: {
             Ok: function () {
                 $(this).dialog("close");
-                if ( _regexp.test($("#dialog-input-inputedtext").val()))
+                if (_regexp.test($("#dialog-input-inputedtext").val()))
                     callback(param1, $("#dialog-input-inputedtext").val());
                 else
                     helper.alert("Input not valid.");

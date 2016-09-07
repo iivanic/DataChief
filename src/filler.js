@@ -122,19 +122,18 @@ this.sendRecieve = function () {
 this.refreshFolders = function () {
     // we need to refresh all folders
     var publishers = helper.getDirectories(helper.getPublishersPath());
-    if (publishers.indexOf("DataChief")==-1)
-    {
+    if (publishers.indexOf("DataChief") == -1) {
         // create folder for DataCheif publisher
-        helper.checkFolder(helper.join(helper.getPublishersPath(),"DataChief"));
+        helper.checkFolder(helper.join(helper.getPublishersPath(), "DataChief"));
         // create feedback form
         var form = require("./objectmodel/form.js");
         form.createFeedbackForm();
-        form.published=true;
+        form.published = true;
         var version = form._version;
         var id = form._id;
         var content = JSON.stringify(form, index._formEditor.saveJSONReplacer, 2);
-       
-        var fileName = helper.join(helper.join(helper.getPublishersPath(),"DataChief"),  "N" + "_" + id + "_" + version + "_" + form._name);
+
+        var fileName = helper.join(helper.join(helper.getPublishersPath(), "DataChief"), "N" + "_" + id + "_" + version + "_" + form._name);
         helper.saveTextFile(
             fileName,
             content);
@@ -195,11 +194,14 @@ this.refreshFolders = function () {
     }
     $("#fillerTreeWork").html(html);
     html = "";
-  
+
     var myoutbox = helper.getFilesInDir(helper.getMyOutboxPath());
+    if (myoutbox.length == 0) {
+        html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No items in folder</span></li>";
+    }
 
     for (var i in myoutbox) {
-        html += " <li><span style='cursor:not-allowed;width:100%' value='" + helper.join(helper.getMyOutboxPath(), myoutbox[i]).replace(/\\/g, "\\\\") + "'>" + myoutbox[i].substring(37)+ "</span></li>";
+        html += " <li><span style='cursor:not-allowed;width:100%' value='" + helper.join(helper.getMyOutboxPath(), myoutbox[i]).replace(/\\/g, "\\\\") + "'>" + myoutbox[i].substring(37) + "</span></li>";
     }
 
     $("#fillerTreeMyOutbox").html(html);

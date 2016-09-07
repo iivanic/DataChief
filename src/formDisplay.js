@@ -16,6 +16,8 @@ this.tabTitle = null;
 this.placeHolder = null;
 this.prefix;
 
+this.d = null;
+
 this.openForm = function (jsonstring) {
 
     var loadedObj = JSON.parse(jsonstring);
@@ -310,44 +312,51 @@ this.bindSaveButton = function () {
 };
 this.submit = function (dirtyMarkId) {
 
+    if (this.currentForm.validator.validate()) {
+        this.d = new Date();
+        var myoutbox = helper.getMyOutboxPath();
+        
+        // 
+        this.currentForm.workflowpackage = true;
+        // set workflow step.
+        if (!this.currentForm.workflowStep)
+            this.currentForm.workflowStep = 1;
+        else
+            this.currentForm.workflowStep++;
 
-    var myoutbox = helper.getMyOutboxPath();
-    // 
-    fixForm(myoutbox);
-    // set workflow step.
-    if (!this.currentForm.workflowStep)
-        this.currentForm.workflowStep = 1;
+        //  read values & save to outbox
+        var filename = this.fixForm(myoutbox); //helper.join(helper.getMyOutboxPath(), helper.getOnlyFileName(this.currentForm.filename));
+      
+        this.saveForm(
+            dirtyMarkId,
+            filename
+        );
+        //delete old file
+        // helper.deleteFile(this.currentForm.filename);
+
+        $("#" + dirtyMarkId).hide();
+        filler.removeTab(this.dirtyMark);
+        filler.refreshFolders();
+    }
     else
-        this.currentForm.workflowStep++;
-
-    //  read values & save to outbox
-    var filename = helper.join(helper.getMyOutboxPath(), helper.getOnlyFileName(this.currentForm.filename));
-    this.saveForm(
-        dirtyMarkId,
-        filename
-    );
-    //delete old file
-    helper.deleteFile(this.currentForm.filename);
-
-    $("#" + dirtyMarkId).hide();
-    filler.removeTab(this.dirtyMark);
-    filler.refreshFolders();
+        helper.alert("Form not properly filled out!");
 }
+
 this.saveToWork = function (dirtyMarkId) {
-    var d = new Date();
+    this.d = new Date();
     if (this.currentForm.published) {
         this.currentForm.createdByMe = true;
     }
-    fixForm(helper.getWorkPath());
+    this.fixForm(helper.getWorkPath());
 
     this.saveForm(
         dirtyMarkId,
-        filename
+        this.currentForm.filename
     );
     filler.removeTab(this.dirtyMark);
 
 }
-function fixForm(path) {
+this.fixForm = function (path) {
     if (this.currentForm.published) {
         // when saving form that was created from templatet, we need to give it an intance id
         this.currentForm.formid = helper.generateGUID();
@@ -355,18 +364,22 @@ function fixForm(path) {
 
     var filename = helper.join(
         path, this.currentForm.formid + "_" + this.currentForm.name + " " +
-        helper.padNumber(d.getMonth().toString(), 2) +
-        "-" + helper.padNumber(d.getDay().toString(), 2) +
-        "-" + d.getFullYear().toString() +
-        " " + helper.padNumber(d.getHours(), 2) +
-        "-" + helper.padNumber(d.getMinutes().toString(), 2) +
-        "-" + helper.padNumber(d.getSeconds().toString(), 2)
+        helper.padNumber(this.d.getMonth().toString(), 2) +
+        "-" + helper.padNumber(this.d.getDay().toString(), 2) +
+        "-" + this.d.getFullYear().toString() +
+        " " + helper.padNumber(this.d.getHours(), 2) +
+        "-" + helper.padNumber(this.d.getMinutes().toString(), 2) +
+        "-" + helper.padNumber(this.d.getSeconds().toString(), 2)
     );
+
     var fname = this.currentForm.filename;
+    // time is in the name, delete old file if exists
     if (fname) {
-        helper.deleteFile(fname);
-        this.currentForm.filename = filename;
+        if (helper.fileExists(fname)) {
+            helper.deleteFile(fname);
+        }
     }
+    this.currentForm.filename = filename;
     if (this.currentForm.published) {
         this.currentForm.published = false;
         this.currentForm.createdByMe = true;
