@@ -243,7 +243,7 @@ function createPackagesFromMyOutbox() {
     var pCount = 0;
 
     for (var i = 0; i < items.length; i++) {
-        file = helper.loadFile(helper.combine(srcFolder, items[i]));
+        file = helper.loadFile(helper.join(srcFolder, items[i]));
         var loadedObj = JSON.parse(file);
 
         users = loadedObj.workflow.split(/;/gi);
@@ -266,6 +266,7 @@ function createPackagesFromMyOutbox() {
             // push form
             packages[users[ui]].forms.push(loadedObj);
         }
+        helper.deleteFile(helper.join(srcFolder, items[i]));
     }
 
     helper.log("<strong>" + pCount + "</strong> Package(s):");
@@ -274,7 +275,7 @@ function createPackagesFromMyOutbox() {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
         savePackage(packages[i])
     }
-    refreshOutbox();
+    this.reload();
 
 }
 function savePackage(p) {
