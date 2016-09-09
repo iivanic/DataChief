@@ -494,6 +494,7 @@ this.createForm = function (name, templateName) {
             grp.displayName = "Review";
             grp.toolTip = "Reviewer signature.";
             grp.description = ""
+            grp.editors = "patricia@barriqueworks.com";
             this.children.push(grp);
 
             cu = Object.create(currentDateTimeField);

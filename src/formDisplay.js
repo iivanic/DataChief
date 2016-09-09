@@ -139,11 +139,15 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
     $(this.tabTitle).text(this.currentForm.name);
 
 
-
+    // if form haspublished flag then user is inititator for sure
+    // if user is in forms publishedTo List then he is initiator, TODO: should also check workflow step, if form returns to user on published to list then he is no longer initiator
     this.currentForm.render($("#" + this.prefix + "formPreview"),
         false
         // initiator can be only if no impersonation ... ???  ( userSettings.email == userSettings.identitySetting.email ? ", initiator": "" )
-        , userSettings.identitySetting.email + (loadedObj.published ? ", initiator" : ""), "dcformFiller");
+        , userSettings.identitySetting.email + (this.currentForm.published || 
+        (helper.checkUser( userSettings.identitySetting.email, this.currentForm.publishedTo) && ( this.currentForm.workflowStep == undefined || this.currentForm.workflowStep==0  ) )
+        
+         ? ", initiator" : ""), "dcformFiller");
 
     $("#Fillertabs-" + tabCounter).prop("current", this.currentForm);
     this.bindSaveButton();
