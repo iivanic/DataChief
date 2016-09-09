@@ -365,7 +365,11 @@ this.createForm = function (name, templateName) {
 
             this._description = "The details of the use of a company-owned vehicle should be recorded by the operator so as to produce an accurate and complete log of the use of the vehicle. The log should be filled out while using the vehicle, not the next day.";
             this._footer = "This is an simple example DataChief Form. It shows basic usage of Fileds in DataChief and simple Workflow.";
-
+            this.publishTo="jennifer@barriqueworks.com,michael@barriqueworks.com,elizabeth@barriqueworks.com";
+            this.workflow = "patricia@barriqueworks.com";
+            this.finalStep = "richard@barriqueworks.com";
+            this.broadCastRecievers = "richard@barriqueworks.com";
+            this.broadcastStatusOfForm = true;
             var txt;
 
             var grp = Object.create(groupField);

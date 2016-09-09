@@ -1,13 +1,12 @@
-Case study: „Barrique Works LLC“
-================================
+# Case study: „Barrique Works LLC“
 
-What they do?
--------------
+
+##What they do?
+
 
 Barrique Works LLC (BW) is company that produces barrels for winemakers.
 
-Simplified company organization structure:
-------------------------------------------
+##Simplified company organization structure:
 
 -   **CEO** - Mary S, [*mary@barriqueworks.com*](mailto:mary@barriqueworks.com)
     -   **Accounting** - Richard V, [*richard@barriqueworks.com*](mailto:richard@barriqueworks.com)
@@ -24,8 +23,8 @@ Simplified company organization structure:
         -   Linda J, [*linda@barriqueworks.com*](mailto:linda@barriqueworks.com)
         -   David F, [*david@barriqueworks.com*](mailto:david@barriqueworks.com)
 
-What are the challenges?
-------------------------
+##What are the challenges?
+
 
 Company wants:
 -   To implement their business processes in digital form without or with minimum paper forms. This includes:
@@ -36,10 +35,24 @@ Company wants:
 -   To asses sales potential in region by surveying existing and potential customers
 -   To implement Quality Management (ISO 9001:2015)
 
-What are the options?
----------------------
+##What are the options?
+
 
 -   Implement various free and/or commercial products for each challenge: CRM, BMP, etc.. This option is most complicated and has many unknowns regarding TCO (Total cost of ownership), deadline and overall effectiveness.
 -   Order custom LOB (Line of business) solution. This is probably most expensive option, and deadline and overall success is not guaranteed – It depends on quality of hired company as on BW itself.
 -   Use “DataChief” (DC) as tool to implement requirements in-house. DC is free, flexible and can be implemented in phases. Decision has been made to use DC.
+
+##Implemented forms:
+
+
+###Vehicle usage log
+
+-   Company needs to track usage of cars used by sales representatives.
+-   Sales representatives:  jennifer B, Michael W and Elizabeth F can use cars.
+-   Sales manager,  Patricia M needs to review usage of cars.
+-   Richard V., from accounting needs to collect data for expense tracking.
+
+###Employee absence requets
+
+###Corrective action
 
