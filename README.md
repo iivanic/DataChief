@@ -10,7 +10,7 @@ You don't have to be blocked anymore by expensive custom solution development th
 
 Take a look at **[Barrique Works LLC Case Study](./Case study Barrique Works LLC.md)**. 
 
-##Roadmap
+##Features & Roadmap
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
 * Multiplatform (developed in Electron)
     * Windows
@@ -114,7 +114,7 @@ DataChief allows you to define your data sets with custom forms designed in prov
 
 ##DataChief Communction is made via Packages
 * Package is zero or more forms and commands.
-* Package is  always created per user who recieves them.
+* Package is always created per user who recieves them.
 * User(s) who recieve package(s) must accept Organization secret digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
 * When publishing, Package for user will DELETE ALL PREVIOUSLY PUBLISHED FORMS. This means that publisher must always publish all active forms.
 * If you want to revoke user, You can create empty command (empty package will be created) for that user
