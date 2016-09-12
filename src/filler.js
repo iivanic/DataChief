@@ -267,6 +267,7 @@ function createPackagesFromMyOutbox() {
             // push form
             packages[users[ui]].forms.push(loadedObj);
         }
+        helper.deleteFile(helper.join(srcFolder, items[i]));
     }
 
     helper.log("<strong>" + pCount + "</strong> Package(s):");
@@ -275,7 +276,7 @@ function createPackagesFromMyOutbox() {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
         savePackage(packages[i])
     }
-    refreshOutbox();
+    this.reload();
 
 }
 function savePackage(p) {
