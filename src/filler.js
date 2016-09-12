@@ -243,7 +243,7 @@ function createPackagesFromMyOutbox() {
     var pCount = 0;
 
     for (var i = 0; i < items.length; i++) {
-        file = helper.loadFile(helper.combine(srcFolder, items[i]));
+        file = helper.loadFile(helper.join(srcFolder, items[i]));
         var loadedObj = JSON.parse(file);
 
         users = loadedObj.workflow.split(/;/gi);
@@ -251,6 +251,7 @@ function createPackagesFromMyOutbox() {
         if (users.length < loadedObj.workflowStep) {
             // or send it to final reciver
             users = loadedObj.finalStep;
+            loadedObj.finished=true;
         }
         else {
             // find workflow step 

@@ -5,7 +5,7 @@ var ipath;
 // Package can be
 // - published          - they have 'published' flag set to true and are from publisher
 //                      - they are never mixed with workflow packages 
-// - workflow package   - they go to to 'recieved' folder or to 'database' folder if workflow has finished.
+// - workflow package   - they go to to 'recieved' folder or to 'database' folder if workflow has finished (finished falg is set to true).
 //                      - 'workflowpackage' flag is set to true
 // - broadcast package  - they go to 'recievedbroadcasts' folder.
 //                      - 'broadcastpackage' flag set to true
