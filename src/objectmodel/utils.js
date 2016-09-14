@@ -447,26 +447,20 @@ this.publishersDigest = function () {
 
 // this function parses workflow and return array of steps which may be strings and/or Array of strings
 // user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com); userA@example.com
-// will return Array:
-//  user1@example.com
-//  user2@example.com;
-//      igor@example.com
-//      User3@example.com
-//      User4@example.com)
-//  userA@example.com
+// user1@example.com; user2@example.com; (igor@example.com; User3@example.com, User4@example.com)5; userA@example.com
 //
 // please read README.md for workflow syntax
 this.parseWorkFlow = function (workflow) {
     var ret = new Array();
     var cumulative = "";
     var currentArray = ret;
+
     for (var i = 0; i < workflow.length; i++) {
         var curr = workflow.substr(i, 1).trim();
         if (curr == ";" || curr == "," || curr == "(" || curr == ")") {
-            if (cumulative.length > 0)
-            {
+            if (cumulative.length > 0) {
                 currentArray.push(cumulative);
-                cumulative="";
+                cumulative = "";
             }
             if (curr == "(") {
                 var newArray = new Array();
@@ -474,9 +468,30 @@ this.parseWorkFlow = function (workflow) {
                 ret.push(newArray);
                 currentArray = newArray;
             }
-            
+
             if (curr == ")") {
                 // return to main array
+                var counter_ = 1;
+                var cumulative_ = "";
+                if (workflow.length > i) {
+                    var j=0;
+                    for (j = i + 1; j < workflow.length; j++) {
+                        var curr_ = workflow.substr(j, 1).trim();
+                        if (curr_ == "," || curr_ == ";") {
+                            break;
+                        }
+                        else
+                            if (/^(0|[1-9]\d*)$/.test(curr_))
+                                cumulative_ += curr_
+                            else
+                                break;
+                    }
+                    i=j;
+                    if (cumulative_.length > 0) {
+                        counter_ = parseInt(cumulative_);
+                    }
+                }
+                currentArray.counter = counter_;
                 currentArray = ret;
             }
         }
@@ -484,8 +499,7 @@ this.parseWorkFlow = function (workflow) {
             cumulative += curr.toLowerCase().trim();
     }
     // if there's something left, take it
-    if(cumulative.length)
-    {
+    if (cumulative.length) {
         currentArray.push(cumulative);
     }
 
