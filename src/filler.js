@@ -246,16 +246,21 @@ function createPackagesFromMyOutbox() {
         file = helper.loadFile(helper.join(srcFolder, items[i]));
         var loadedObj = JSON.parse(file);
 
-        users = loadedObj.workflow.split(/;/gi);
+        users = helper.parseWorkFlow(loadedObj.workflow);
         // find workflow step 
         if (users.length < loadedObj.workflowStep) {
             // or send it to final reciver
             users = loadedObj.finalStep;
-            loadedObj.finished=true;
+            loadedObj.finished = true;
         }
         else {
             // find workflow step 
             users = users[loadedObj.workflowStep - 1];
+            if (users instanceof Array) {
+                //multiple options for this step, we need to display step chooser
+                helper.alert("Not yet supported!");
+                return;
+            }
         }
 
         for (var ui = 0; ui < users.length; ui++) {

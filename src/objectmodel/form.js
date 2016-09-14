@@ -310,7 +310,14 @@ this.createFeedbackForm = function () {
     this._footer = "DataChief feedback, issues and bug reporting form.";
     this.workflow = "";
     this.publishTo = "everyone";
-    this.finalStep = "igor_ivanic@hotmail.com";
+
+    //this bellow should not be used or documented:
+    //hash (#) infront of email forces sending 
+    //form to that email, even in 
+    //Single user account Operating mode
+    //problem is that there may not be configured
+    //SMTP account at this time
+    this.finalStep = "#igor_ivanic@hotmail.com";
     this.broadCastRecievers = "";
     this.broadcastStatusOfForm = true;
 
