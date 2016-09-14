@@ -281,7 +281,7 @@ function createPackagesFromMyOutbox() {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
         savePackage(packages[i])
     }
-    this.reload();
+    filler.reload();
 
 }
 function savePackage(p) {

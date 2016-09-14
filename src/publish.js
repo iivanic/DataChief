@@ -632,7 +632,7 @@ function refreshOutbox() {
     olist.html("");
     files = helper.getFilesInDir(helper.getOutboxPath());
     for (var i in files) {
-        console.log("Found outboxed " + files[i]);
+      //  console.log("Found outboxed " + files[i]);
         olist.append("<input type='hidden'  id='olistItem" + i + "' value='" + helper.join(helper.getOutboxPath(), files[i]) + "' /> <label onclick=\"publish.packageinfo($('#olistItem" + i + "').val());\"  for='olistItem" + i + "'>" +
             files[i] + "</label><br>");
     }
