@@ -4,7 +4,7 @@
 ##What they do?
 
 
-Barrique Works LLC (BW) is company that produces barrels for winemakers.
+Barrique Works LLC (BW) is company that produces oak barrels for winemakers.
 
 ##Simplified company organization structure:
 
