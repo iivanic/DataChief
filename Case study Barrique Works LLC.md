@@ -52,7 +52,10 @@ Company wants:
 -   Sales manager,  Patricia M needs to review usage of cars.
 -   Richard V., from accounting needs to collect data for expense tracking.
 
-###Employee absence requets
+###Employee absence requets  (not yet implemented)
+-   Company needs to collect and manage absence requests.
 
-###Corrective action
-
+###Work orders (not yet implemented)
+###Customer complaints  (not yet implemented)
+###Corrective action  (not yet implemented)
+-   Company needs to digitally collect and manage Corrective/Preventive actions, instead of using cumbersome printed forms.
