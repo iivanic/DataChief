@@ -1,0 +1,25 @@
+Hello, this is Igor,
+
+Let's learn how to use DataChief.
+
+Today, We will learn how to craate electronic Form, publish it and collect and analyze data.
+
+First, of course, we need DataChief installed.
+
+After starting DataChief, in first step in configuration wizerd is we must choose "Enable Form Designer and Publisher (for Admins in your organization)" to enable Designer and Publisher
+
+In next step we need to enter Your Organization name and password. In this demo we will use "Barrique Works LLC Case study" distributed with DataChief, so you can leaave this screen as is.
+
+Next we will choose "Single user account" operating mode, becouse it is much simpler to use for testing and demos. This means that we will need only one IMAP email account for the whole organization.
+
+In step 4 under "Your Name" enter "James R" as in Barrique Works LLC James is the IT guy, so he will porbably be DAta Cheif administrator
+
+Under email enter "james@barriqueworks.com"
+
+For "Your secret" enter 123 twice, it will do for this demo.
+
+In "Case Study users" step click on "Add Barrique Works LLC Case study Profiles" to install users from BW Case study.
+
+In "Set Up IMAP(Email) Account." step you need to setup working IMAP email account. In  "Single user account" operating mode this is the account that is used for ALL communcations.
+
+Now you are ready to start.

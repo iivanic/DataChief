@@ -41,8 +41,8 @@ this.isInstalled = function () {
         // all found
         return true;
     }
-    helper.log("Found some Barrique Works LLC Case study users, but not all. You can remove Case study users and then install them again.");
-    return true;
+    helper.log("Found some Barrique Works LLC Case study users, but not all.");
+    return false;
 }
 this.install = function () {
 
