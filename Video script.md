@@ -1,12 +1,11 @@
 Hello, this is Igor,
-
 Let's learn how to use DataChief.
 
-Today, We will learn how to craate electronic Form, publish it and collect and analyze data.
+Today, We will learn how to craate electronic Form, publish, collect and analyze data.
 
 First, of course, we need DataChief installed.
 
-After starting DataChief, in first step in configuration wizerd is we must choose "Enable Form Designer and Publisher (for Admins in your organization)" to enable Designer and Publisher
+After starting DataChief, in first step in configuration wizard is we must choose "Enable Form Designer and Publisher (for Admins in your organization)" to enable Designer and Publisher
 
 In next step we need to enter Your Organization name and password. In this demo we will use "Barrique Works LLC Case study" distributed with DataChief, so you can leaave this screen as is.
 
@@ -23,3 +22,5 @@ In "Case Study users" step click on "Add Barrique Works LLC Case study Profiles"
 In "Set Up IMAP(Email) Account." step you need to setup working IMAP email account. In  "Single user account" operating mode this is the account that is used for ALL communcations.
 
 Now you are ready to start.
+
+Let's look at our BW LLC Case Orgnization structure. We need to coll 
