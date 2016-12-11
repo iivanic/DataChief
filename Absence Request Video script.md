@@ -20,7 +20,7 @@ We need to collect Absence Request Froms (ARF) from Production department. Memeb
 -   David F, [*david@barriqueworks.com*](mailto:david@barriqueworks.com)
 so we need to publish Absence Request to them.
 Request must be approved by Production Manager - Robert P.
-Finally, Form needs to finish in HR database with John L [*john@barriqueworks.com*](mailto:john@barriqueworks.com)
+Finally, Form needs to finish in HR database with John L - [*john@barriqueworks.com*](mailto:john@barriqueworks.com)
 
 So, let's create our Form:
 -   Make sure You are in "Form & Workflow editor" main tab
