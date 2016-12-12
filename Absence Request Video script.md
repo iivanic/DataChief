@@ -30,8 +30,15 @@ So, let's create our Form:
 -   Click "Create Empty" button
 -   Now we have our empty Form. On the right side are Form or fileds properties, main part of the screen contains Form.
 -   On the right, in properties, under "Forms Settings/Description" enter "This Absence Request form should be submitted by employee and then approved by manager."
--   On the right, in properties, under "Forms Settings/Footer" enter "Example Absence Request Request Form.", then click "Apply Changes button". We see our Form has changed.
--   In Workflow part of Properties under Workflow write three emails from Production departmen, comma delimited
+-   On the right, in properties, under "Forms Settings/Footer" enter "Example Absence Request Request Form.", then click "Apply Changes" button. We see our Form has changed.
+-   In Workflow part of Properties under "Publish To" write three emails from Production departmen, comma delimited
     -     william@barriqueworks.com, linda@barriqueworks.com, david@barriqueworks.com
--
+    those employees will be able to instantiate new Forms based on this Form template.
+-   Under "Worflow" type "robert@barriqueworks.com" becouse he needs to approve our Request. In this case Workflow is just one step, it can be much more complicated or even empty.
+-   Under "Final step" type "john@barriqueworks.com", our HR guy. All forms end here.
+-   Now, we can under "Broadcast recievers" type "james@barriqueworks.com", it's our IT guy, let him know what is happening with this Forms.
+-   Make sure "Notify previous owners" is checked. This will allow initiator and previous owner(s) to track what is happening with Form.
+-   Click "Apply Changes" button again. 
+Now, we have set our Form properties. Let's create some text fields.
+
 
