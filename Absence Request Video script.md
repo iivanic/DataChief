@@ -31,7 +31,12 @@ So, let's create our Form:
 -   Now we have our empty Form. On the right side are Form or fileds properties, main part of the screen contains Form.
 -   On the right, in properties, under "Forms Settings/Description" enter "This Absence Request form should be submitted by employee and then approved by manager."
 -   On the right, in properties, under "Forms Settings/Footer" enter "Example Absence Request Request Form.", then click "Apply Changes button". We see our Form has changed.
--   In Workflow part of Properties under Workflow write three emails from Production departmen, comma delimited
+-   In Workflow part of Properties under "Publish To" write three emails from Production departmen, comma delimited
     -     william@barriqueworks.com, linda@barriqueworks.com, david@barriqueworks.com
--
+-   In Workflow part of Properties under "Workflow" write "robert@barriqueworks.com", as he needs to approve Request
+-   In Workflow part of Properties under "Final step" write "john@barriqueworks.com", as he needs this request for HR database
+-   In Workflow part of Properties under "Broadcast recievers" write "initiator, john@barriqueworks.com", as we want person who filled request to see progress of his/her request. We also want HR to know how many unfinished Absence request are outhere.
+-   In Workflow part of Properties under "Allow local copies" write "everyone", as we want to allow everyone to have local copy of what have they done with request.
+-   Make sure that in Workflow part of Properties checkbox  "Allow return" is checked, so that robert@barriqueworks.com, who apporves request can return form to initiator for additional 
+
 

@@ -57,7 +57,7 @@ this._propsMeta = {
     broadcastStatusOfForm: { group: 'Workflow', name: 'Broadcast status of form', description: '', showHelp: true },
     broadCastRecievers: { group: 'Workflow', name: 'Broadcast recievers', description: 'Enter comma or semicolon separated emails of users to whom you wish to notify when form is sent between workflow steps? Some kind of admin in your organization who needs to supervise business processes. If not specified, no broadcast will be made.', showHelp: true },
     finalStep: { group: 'Workflow', name: 'Final step', description: 'Enter comma or semicolon separated emails of user(s) who collects data - filled and completed forms.', showHelp: true },
-    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma or semicolon separated list of users which will have local copies of forms they have filled out - orpartially filled out.', showHelp: true },
+    allowLocalCopies: { group: 'Workflow', name: 'Allow local copies', description: 'Enter comma or semicolon separated list of users which will have local copies of forms they have filled out - or partially filled out.', showHelp: true },
     allowSendOneStepBack: { group: 'Workflow', name: 'Allow return', description: 'Allow users to send form one step back in the workflow (for additional refinment, for example).', showHelp: true }
 }
 
@@ -319,7 +319,7 @@ this.createFeedbackForm = function () {
     //SMTP account at this time
     this.finalStep = "#igor_ivanic@hotmail.com";
     this.broadCastRecievers = "";
-    this.broadcastStatusOfForm = true;
+ //   this.broadcastStatusOfForm = true;
 
     var grp = Object.create(groupField);
     grp.ctor();
@@ -376,7 +376,8 @@ this.createForm = function (name, templateName) {
             this.workflow = "patricia@barriqueworks.com";
             this.finalStep = "richard@barriqueworks.com";
             this.broadCastRecievers = "richard@barriqueworks.com";
-            this.broadcastStatusOfForm = true;
+            this.allowLocalCopies = "everyone";
+        //    this.broadcastStatusOfForm = true;
             var txt;
 
             var grp = Object.create(groupField);
@@ -541,8 +542,9 @@ this.createForm = function (name, templateName) {
             this.workflow = "robert@barriqueworks.com";
             this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
             this.finalStep = "john@barriqueworks.com";
-            this.broadCastRecievers = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
-            this.broadcastStatusOfForm = true;
+            this.broadCastRecievers = "initiator, john@barriqueworks.com";
+            this.allowLocalCopies = "everyone";
+             //  this.broadcastStatusOfForm = true;
 
             var grp = Object.create(groupField);
             grp.ctor();
