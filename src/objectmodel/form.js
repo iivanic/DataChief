@@ -29,7 +29,7 @@ this.workflow;
 this.broadCastRecievers;
 this.finalStep;
 this.allowLocalCopies;
-this.allowSendOneStepBack = true
+this.allowSendOneStepBack = true //
 
 // metadata for editing in jqPropertyGrid
 this._propsMeta = {
