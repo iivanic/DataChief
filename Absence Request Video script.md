@@ -1,9 +1,9 @@
 Hello, this is Igor,
 Let's learn how to use DataChief.
 
-Today, We will learn how to craate electronic Form, publish, collect and analyze data.
+We will learn how to craate electronic Form, publish, collect and analyze data.
 
-PART 1 Setting up Datachief
+PART 1 - Setting up Datachief and creating Form
 
 First, of course, we need DataChief installed.
 
@@ -16,8 +16,7 @@ First, of course, we need DataChief installed.
 -   In "Case Study users" step click on "Add Barrique Works LLC Case study Profiles" to install users from BW Case study.
 -   In "Set Up IMAP(Email) Account." step you need to setup working IMAP email account. In  "Single user account" operating mode this is the account that is used for ALL communcations.
 Now we are ready to start.
-
-PART 2 Creating Form
+ 
 We need to collect Absence Request Froms (ARF) from Production department. Memebers of Production department are:
 -   William D, [*william@barriqueworks.com*](mailto:william@barriqueworks.com)
 -   Linda J, [*linda@barriqueworks.com*](mailto:linda@barriqueworks.com)
@@ -69,6 +68,6 @@ Now, we will add in the secund Group called "Manager approval":
 Now we can save this form to Pre-publish folder.
 
 
-PART 3 - Publishing form and Workflow
+PART 2 - Publishing forms, Workflow and collecting data
 
 
