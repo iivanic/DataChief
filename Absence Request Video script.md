@@ -38,5 +38,7 @@ So, let's create our Form:
 -   In Workflow part of Properties under "Broadcast recievers" write "initiator, john@barriqueworks.com", as we want person who filled request to see progress of his/her request. We also want HR to know how many unfinished Absence request are outhere.
 -   In Workflow part of Properties under "Allow local copies" write "everyone", as we want to allow everyone to have local copy of what have they done with request.
 -   Make sure that in Workflow part of Properties checkbox  "Allow return" is checked, so that robert@barriqueworks.com, who apporves request can return form to initiator for additional 
-
+-   Click "Apply Changes" button again. 
+-   ???Make sure "Notify previous owners" is checked. This will allow initiator and previous owner(s) to track what is happening with Form.
+Now, we have set our Form properties. Let's create some text fields.
 
