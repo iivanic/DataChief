@@ -2,6 +2,9 @@ Hello, this is Igor,
 Let's learn how to use DataChief.
 
 Today, We will learn how to craate electronic Form, publish, collect and analyze data.
+
+PART 1 Setting up Datachief
+
 First, of course, we need DataChief installed.
 
 -   After starting DataChief, in first step in configuration wizard is we must choose "Enable Form Designer and Publisher (for Admins in your organization)" to enable Designer and Publisher
@@ -14,6 +17,7 @@ First, of course, we need DataChief installed.
 -   In "Set Up IMAP(Email) Account." step you need to setup working IMAP email account. In  "Single user account" operating mode this is the account that is used for ALL communcations.
 Now we are ready to start.
 
+PART 2 Creating Form
 We need to collect Absence Request Froms (ARF) from Production department. Memebers of Production department are:
 -   William D, [*william@barriqueworks.com*](mailto:william@barriqueworks.com)
 -   Linda J, [*linda@barriqueworks.com*](mailto:linda@barriqueworks.com)
@@ -37,8 +41,34 @@ So, let's create our Form:
 -   In Workflow part of Properties under "Final step" write "john@barriqueworks.com", as he needs this request for HR database
 -   In Workflow part of Properties under "Broadcast recievers" write "initiator, john@barriqueworks.com", as we want person who filled request to see progress of his/her request. We also want HR to know how many unfinished Absence request are outhere.
 -   In Workflow part of Properties under "Allow local copies" write "everyone", as we want to allow everyone to have local copy of what have they done with request.
--   All properties under Workflow part can have emeils and special string "inititator". Properties "Broadcast recievers" and "Allow local copies" can have additional special addresses: "everyone" and "stepN", where N is workflow index (step1 for first, step0 is the sam as initiator)
+-   for more on special addresses strings such as  "inititator", "everyone" and "stepN", see "Workflow" chapter in Readme file.
 -   Click "Apply Changes" button again. 
 
-Now, we have set our Form properties. Let's create some text fields.
+Now, we have set our Form properties. Let's create some fields.
+
+First we will add Two "Groups or Repeaters":
+-   first one called "Absence Request". For description we will set "Provide detailed information regarding your Absence Request. You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent. " and for Tooltip "Enter Absence Request detailed infromation."
+-   second one called "Manager approval". For description we will set "Manager Must approve or reject this request." and for Tooltip "Manager Must approve or disaprove this request."
+
+Now, we will add in the first Group:
+-   List, Yes/No fileld, name: "Type of Absence Requested", description "Specify kind of Absence you are requesting.", ToolTip "Are you requesting Sick Leave, Vacation or?", options "Sick;Vacation;Bereavement;Time Off Without Pay;Military;Jury Duty;Maternity/Paternity;Other"
+-   Text, Date, Number, name: "Start", description "Absence Start date", Data Type "Date - multiline must be off"
+-   Text, Date, Number, name: "End", description "Absence End date", Data Type "Date - multiline must be off"
+-   Text, Date, Number, name: "Reason", description "Describe reason for Absence", Data Type "Text - for use of Reg Exp", multiline true
+-   Timestamp, name: "Timestamp", description "Date", tooltip "Current time"
+-   User Signature, name: "Signature", description "User Signature", tooltip "Current user"
+-   Click "Apply Changes" button again. 
+
+Now, we will add in the secund Group called "Manager approval":
+-   List, Yes/No fileld, name: "Aproval", description "Aproval of Absence request.", ToolTip "Aproval of Absence request.", options "Approved;Rejected"
+-   Text, Date, Number, name: "Comments", description "Comments for approval (if any)", Data Type "Text - for use of Reg Exp", multiline true
+-   Timestamp, name: "Timestamp", description "Date", tooltip "Current time"
+-   User Signature, name: "Signature", description "Manager Signature", tooltip "Current user"
+-   Click "Apply Changes" button again. 
+
+Now we can save this form to Pre-publish folder.
+
+
+PART 3 - Publishing form and Workflow
+
 

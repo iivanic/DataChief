@@ -71,10 +71,14 @@ DataChief allows you to define your data sets with custom forms designed in prov
 
 ###Workflow
 * Following Form properties helps define workflow
-    * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors.
+    * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors. Users can also, instead of emails be special address strings as
+        * "initiator" - person who actually creates form
+        * "everyone" - everyone in Workflow meanining everyone in "Publish To" +  "Workflow" + "Final Step"
+        * "stepN" where N is Workflow index starting with 1. "step0" means "initiator".
+    * Allow local copies - list of users that will keep sent copy of the form in theirs local folder. Can also be special address string 
+        * "everyone"
     * Final step - this is one or more user(s) that collects the data. DataChief is not designed as database for millions of forms, so those users should periodacally export collected data as Text files, SpreadSheets or Databases.
     * Publish To - this property defines who cas start empty form. 
-     
      All properties can have multiple users. Users are defined as emails delimited with delimiters.
      Delimiters between emails are , or ;
 
@@ -95,6 +99,7 @@ DataChief allows you to define your data sets with custom forms designed in prov
      This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
      Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
      to final step.
+     Worlflow step can also be "initiator", meaning, the one who created the form.
 
 ###Status broadcasts
 * Defined with "Broadcast recievers" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.
