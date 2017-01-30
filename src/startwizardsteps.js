@@ -175,8 +175,12 @@ this.fromGui = function () {
     //step 4
     userSettings.identitySetting.name = $("#startDialogName").val();
     userSettings.identitySetting.email = $("#startDialogemail").val();
+  //  userSettings.identitySetting.oldEmail = $("#startDialogemail").val();
     userSettings.identitySetting.userSecret = $("#startDialogUserSecretl1").val();
     userSettings.identitySetting.userSecret = $("#startDialogUserSecretl2").val();
+    //this mail is our main identity
+    userSettings.email = userSettings.identitySetting.email;
+    userSettings.mainEmail = userSettings.email;
     //step 5
     userSettings.identitySetting.imapUserName = $("#step5textSettingsIMAPUsername").val();
     userSettings.identitySetting.imapPassword = $("#step5textSettingsIMAPPassword").val();

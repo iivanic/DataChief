@@ -59,6 +59,11 @@ this.loadIdentitySetting = function (email) {
     this.identitySetting = identitySetting;
     identitySetting.ctor(email);
 }
+this.getIdentitySetting= function (email) {
+    var is = require("./identitySetting.js");
+    is.ctor(email);
+    return is;
+}
 this.save = function () {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, saveJSONReplacer, 5)));
     identitySetting.save();

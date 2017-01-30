@@ -5,8 +5,11 @@ this.ctor = function (email) {
     this.filePath = helper.getIdentitySettingsFilePath(email);
     console.log("IdentitySettings('" + email + "') =" + this.filePath);
 
-
+    //we need this to know weather we can delete this IdentitySetting 
+    //when removing BarriqueWroks Case Study users
+    this.caseStudyAutomaticallyAdded = false;
     this.email = email;
+    this.oldEmail = email;
     this.name = "";
     this.userSecret = "";
     this.organization = "";
@@ -48,6 +51,15 @@ this.ctor = function (email) {
 
 }
 this.save = function () {
+    if(this.oldEmail!=this.email)
+    {
+        //email has changed, we need to chreate new file;
+        var oldFolder = helper.getIdentityFolder(this.oldEmail) ;
+        this.filePath = helper.getIdentitySettingsFilePath(this.email);
+        this.oldEmail = this.email;
+        // delete old file ??? 
+        helper.deleteFolder(oldFolder);
+    }
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
     helper.log("Profile " + this.email + " saved.");
 }

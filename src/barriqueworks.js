@@ -16,7 +16,7 @@ var barriqueUsers = [
 ]
 
 this.isInstalled = function () {
-    userSettings.Identities =  helper.getDirectories(helper.getSettingsFolder());;
+    userSettings.Identities = helper.getDirectories(helper.getSettingsFolder());;
     var atLeastOneNotfound = false;
     var atLeastOneFound = false;
     for (var i in barriqueUsers) {
@@ -67,34 +67,47 @@ this.install = function () {
                 break;
             }
         if (notfound) {
-            userSettings.identitySetting.ctor(barriqueUsers[i].username);
-            userSettings.identitySetting.email = barriqueUsers[i].username;
-            userSettings.identitySetting.userSecret = barriqueUsers[i].password;
-            userSettings.identitySetting.comment = barriqueUsers[i].decription;
-            userSettings.identitySetting.name = barriqueUsers[i].name;
+            var is = userSettings.getIdentitySetting(barriqueUsers[i].username);
+            is.email = barriqueUsers[i].username;
+            is.oldEmail = barriqueUsers[i].username;
+            is.userSecret = barriqueUsers[i].password;
+            is.comment = barriqueUsers[i].decription;
+            is.name = barriqueUsers[i].name;
             // IMAP and SMTP settings are from selected profile.     
-            userSettings.identitySetting.imapUserName = imapUserName;
-            userSettings.identitySetting.imapPassword = imapPassword;
-            userSettings.identitySetting.imapServer = imapServer;
-            userSettings.identitySetting.imapPort = imapPort;
-            userSettings.identitySetting.imapRequiresSSL = imapRequiresSSL;
-            userSettings.identitySetting.smtpUserName = smtpUserName;
-            userSettings.identitySetting.smtpPassword = smtpPassword;
-            userSettings.identitySetting.smtpServer = smtpServer;
-            userSettings.identitySetting.smtpPort = smtpPort;
-            userSettings.identitySetting.smtpRequiresSSL = smtpRequiresSSL;
-            userSettings.identitySetting.RequiresAuthentication = RequiresAuthentication;
-
-            userSettings.identitySetting.save();
+            is.imapUserName = imapUserName;
+            is.imapPassword = imapPassword;
+            is.imapServer = imapServer;
+            is.imapPort = imapPort;
+            is.imapRequiresSSL = imapRequiresSSL;
+            is.smtpUserName = smtpUserName;
+            is.smtpPassword = smtpPassword;
+            is.smtpServer = smtpServer;
+            is.smtpPort = smtpPort;
+            is.smtpRequiresSSL = smtpRequiresSSL;
+            is.RequiresAuthentication = RequiresAuthentication;
+            is.caseStudyAutomaticallyAdded = true;
+            is.save();
             userSettings.reloadIndentityChooser();
         }
     }
     userSettings.checkCaseStudy();
+    userSettings.identitySetting.ctor(userSettings.email);
     return;
 }
 this.uninstall = function () {
     for (var i in barriqueUsers) {
-        helper.deleteFolder(helper.getIdentityFolder(barriqueUsers[i].username));
+        // lets find appropriate identitySetting instance
+        for (var j in userSettings.Identities)
+            if (userSettings.Identities[j] == barriqueUsers[i].username) {
+                // ok, remove only ones that were automatically added
+                // in case when user typed existing BarriqueWorks identity as his/hers main identity
+                if (userSettings.getIdentitySetting(userSettings.Identities[j]).caseStudyAutomaticallyAdded) {
+                    helper.deleteFolder(helper.getIdentityFolder(barriqueUsers[i].username));
+                    break;
+                }
+            }
+
+
     };
     userSettings.ctor();
     userSettings.toGui();
