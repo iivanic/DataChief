@@ -2,10 +2,13 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="./jquery-ui-1.11.4/jquery-ui.css">
-    <link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./datachief.css">
-    <link rel="stylesheet" href="./jquery.steps-1.1.0//jquery.steps.css">
+    <link type="text/css" rel="stylesheet" href="./jquery-ui-1.11.4/jquery-ui.css">
+    <link type="text/css" rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="./datachief.css">
+    <link type="text/css" rel="stylesheet" href="./jquery.steps-1.1.0//jquery.steps.css">
+    <link type="text/css" rel="stylesheet" href="./jsgrid-1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="./jsgrid-1.5.3/jsgrid-theme.min.css" />
+    
 
     <script>
         var imapTimer = null;
@@ -32,7 +35,8 @@
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
 
     <script src='jquery-validation-1.15.0/jquery.validate.js'></script>
-
+    <script type="text/javascript" src="./jsgrid-1.5.3/jsgrid.min.js"></script>
+    <script type="text/javascript" src="./dataCollection.js"></script>
 
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
@@ -421,12 +425,15 @@
                         <button id="buttonCollectorExportFormData">Export data</button>
                         <button id="buttonCollectorDeleteFormData">Delete data</button>
                         <p>...</p>
+                        <div id="jsGridCollectedData"></div>
                     </div>
                     <div id="collectortabs-2" class="fixmyheight">
-                        <p>...</p>
+                         <p>...</p>
+                         <div id="jsGridSentData"></div>
                     </div>
                     <div id="collectortabs-3" class="fixmyheight">
                         <p>...</p>
+                        <div id="jsGridRecievedBroadcastsData"></div>
                     </div>
                 </div>
 
