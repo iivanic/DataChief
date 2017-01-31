@@ -52,7 +52,7 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     * now You can start DataChief with
     
         * `npm start` 
-        * or open it with **Microsoft Visual Studio Code**. If you are using Visual Studio Code older than 1.3 then you may need to, depending on the platform, change **"runtimeExecutable"** line in lanch.json. For **Windows**: "**${workspaceRoot}/node_modules/.bin/electron.cmd**", for **Linux**: "**${workspaceRoot}/node_modules/.bin/electron**" and for **Mac OSX** use "**${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron**". Then press **F5** to run DataChief
+        * or open it with **Microsoft Visual Studio Code** and press **F5** to run DataChief.
     
 ##How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) or one per user ( **Per user account** ).
@@ -72,11 +72,11 @@ DataChief allows you to define your data sets with custom forms designed in prov
 ###Workflow
 * Following Form properties helps define workflow
     * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors. Users can also, instead of emails be special address strings as
-        * "initiator" - person who actually creates form
-        * "everyone" - everyone in Workflow meanining everyone in "Publish To" +  "Workflow" + "Final Step"
-        * "stepN" where N is Workflow index starting with 1. "step0" means "initiator".
+        * "**initiator**" - person who actually creates form
+        * "**everyone**" - everyone in Workflow meanining everyone in "Publish To" +  "Workflow" + "Final Step"
+        * "**stepN**" where N is Workflow index starting with 1. "step0" means "initiator".
     * Allow local copies - list of users that will keep sent copy of the form in theirs local folder. Can also be special address string 
-        * "everyone"
+        * "**everyone**"
     * Final step - this is one or more user(s) that collects the data. DataChief is not designed as database for millions of forms, so those users should periodacally export collected data as Text files, SpreadSheets or Databases.
     * Publish To - this property defines who cas start empty form. 
      All properties can have multiple users. Users are defined as emails delimited with delimiters.
@@ -99,7 +99,7 @@ DataChief allows you to define your data sets with custom forms designed in prov
      This is usefull when you don't know how exactly form in that step needs to be resolved (for instace ISO 9001:2015 preventive/corrective action)
      Sometimes users need to have freedom to choose recipients, but number of sending is limited, so that form will always find it's way
      to final step.
-     Worlflow step can also be "initiator", meaning, the one who created the form.
+     Worlflow step can also be "**initiator**", meaning, the one who created the form.
 
 ###Status broadcasts
 * Defined with "Broadcast recievers" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.

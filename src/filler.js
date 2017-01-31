@@ -122,7 +122,11 @@ this.sendRecieve = function () {
 this.refreshFolders = function () {
     // we need to refresh all folders
     var publishers = helper.getDirectories(helper.getPublishersPath());
-    if (publishers.indexOf("DataChief") == -1) {
+ // autmatic installation of feedback form does not makes sense
+ // becouse of communication method, must be in "Per user account"
+ // mode, so that emails are actually sent
+ // -- removed for now
+ /*   if (publishers.indexOf("DataChief") == -1) {
         // create folder for DataCheif publisher
         helper.checkFolder(helper.join(helper.getPublishersPath(), "DataChief"));
         // create feedback form
@@ -142,6 +146,7 @@ this.refreshFolders = function () {
         //read folders again
         publishers = helper.getDirectories(helper.getPublishersPath());
     }
+    */
     var html = "";
     for (var i in publishers) {
         /*   <li><a style="width:100%" href="#">Publisher 1</a>
