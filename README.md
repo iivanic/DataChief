@@ -1,5 +1,3 @@
-BUG: if form is open in filler, it can not be opened in editor.
-
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 

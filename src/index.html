@@ -408,33 +408,48 @@
                 </div>
             </div>
             <div id="maintabs-4" class="fixmyheight">
-                <p style="float:left;">Please choose form:&nbsp;&nbsp;&nbsp;</p>
-
-                <select id="selectCollectorChooseForm" style="min-width:250px;width:250px;float:left;"> 
-                        <option value="-1"><- Choose Form -></option>
-                      
-                    </select>
-
                 <div id="collectortabs">
                     <ul>
-                        <li><a href="#collectortabs-1">Colected data</a></li>
+                        <li><a href="#collectortabs-1">Collected data</a></li>
                         <li><a href="#collectortabs-2">Sent data</a></li>
                         <li><a href="#collectortabs-3">Recived status broadcasts</a></li>
                     </ul>
                     <div id="collectortabs-1" class="fixmyheight">
+                        <!-- here we look in database folder -->
+                        <p>This is list of finshed Forms in your database. You can export them to spreadsheet or external database.</p>
                         <button id="buttonCollectorExportFormData">Export data</button>
                         <button id="buttonCollectorDeleteFormData">Delete data</button>
-                        <p>...</p>
+                        
                         <div id="jsGridCollectedData"></div>
                     </div>
                     <div id="collectortabs-2" class="fixmyheight">
-                         <p>...</p>
+                         <!-- here we look in sent folder -->
+                         <p>This is list of forms that you have sent.</p>
+                         <button id="buttonCollectorExportSentFormData">Export data</button>
+                         <button id="buttonCollectorDeleteSentFormData">Delete data</button>
                          <div id="jsGridSentData"></div>
                     </div>
                     <div id="collectortabs-3" class="fixmyheight">
-                        <p>...</p>
-                        <div id="jsGridRecievedBroadcastsData"></div>
+                        <!-- here we look in recievedbroadcasts folder -->
+                        <p>Here you can watch over Workflows and DataChief in general. You have <strong>Graphical view</strong> where you can graphically see Form Workflow and info, and <strong>Forms list</strong> view which is list of forms that have been broadcast to you.</p>
+                        <div id="collectorRecievedBroadcastsTabs">
+                        <ul>
+                            <li><a href="#collectorRecievedBroadcastsTabs-1">Graphical View</a></li>
+                            <li><a href="#collectorRecievedBroadcastsTabs-2">Forms list</a></li>
+                        </ul>
+                        <div id="collectorRecievedBroadcastsTabs-1" class="fixmyheight">
+                            <p style="float:left;">Please choose form:&nbsp;&nbsp;&nbsp;</p>
+                            <select id="selectCollectorChooseForm" style="min-width:250px;width:250px;float:left;"> 
+                                <option value="-1"><- Choose Form -></option>
+                            </select>
+                        </div>              
+                        <div id="collectorRecievedBroadcastsTabs-2" class="fixmyheight">   
+                            <button id="buttonCollectorExportDatabaseFormData">Export data</button>
+                            <button id="buttonCollectorDeleteDatabaseFormData">Delete data</button>
+                            <div id="jsGridRecievedBroadcastsData"></div>
+                        </div>
                     </div>
+                </div>
                 </div>
 
             </div>
