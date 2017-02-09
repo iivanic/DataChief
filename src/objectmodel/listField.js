@@ -99,6 +99,7 @@ this.ctor = function() {
     this._defaultValue = "";
     this._requiredErrorMessage = "This field is required.";
     this._value = "";
+    this._options = "Yes;No";
 }
 this.findField = function(idwithprefix) {
     //  console.log("listField.findField(" + idwithprefix + ")");
