@@ -285,9 +285,22 @@ this.applyFormChanges = function () {
 
     $(this.tabTitle).text(this.currentForm.name);
     this.currentForm.checkSettings();
-    pgrid.jqPropertyGrid(this.currentForm, this.currentForm._propsMeta)
+  //  pgrid.jqPropertyGrid(this.currentForm, this.currentForm._propsMeta)
     this.currentForm.refresh();
-    markSelected(this.currentForm);
+
+   var currentField = markSelected(this.currentForm);
+    if (currentField) {
+        $('#' + this.prefix + 'propGrid').jqPropertyGrid(currentField, currentField._propsMeta);
+        $('#' + this.prefix + 'propGrid').prop("current", currentField);
+    }
+    else {
+        $('#' + this.prefix + 'propGrid').jqPropertyGrid(this.currentForm, this.currentForm._propsMeta);
+        $('#' + this.prefix + 'propGrid').prop("current", this.currentForm);
+        markSelected(this.currentForm);
+    }
+
+
+ //   markSelected(this.currentForm);
     if (isDirty)
         this.setDirty();
 

@@ -16,6 +16,7 @@ function markSelected(form) {
     if (field) {
         $('#field_' + field._lastCumulativeId).addClass("datachiefFieldRowSelected");
     }
+    return field;
 }
 var tmpDeleteForm;
 var tmpDeleteField;
