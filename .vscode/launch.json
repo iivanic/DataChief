@@ -2,6 +2,28 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Renderer Process",
+            "type": "chrome",
+            "request": "launch",
+            "webRoot": "${workspaceRoot}/src",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "linux": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron"
+            },
+            "osx": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron"
+            },
+            "runtimeArgs": [
+                "${workspaceRoot}/src/main.js",
+                "--enable-logging",
+                "--remote-debugging-port=9222"
+            ],
+            "sourceMaps": false
+        },
+        {
             "name": "Launch",
             "type": "node",
             "request": "launch",
@@ -28,16 +50,8 @@
                 //,
                 // "ATOM_SHELL_INTERNAL_RUN_AS_NODE": "0"
             },
-            "externalConsole": false,
             "preLaunchTask": "",
-            "sourceMaps": false,
-            "outDir": null
-        },
-        {
-            "name": "Attach",
-            "type": "node",
-            "request": "attach",
-            "port": 40674
+            "sourceMaps": false
         }
     ]
 }
