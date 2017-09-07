@@ -46,11 +46,11 @@ So, let's create our Form:
 Now, we have set our Form properties. Let's create some fields.
 
 First we will add Two "Groups or Repeaters":
--   first one called "Absence Request". For description we will set "Provide detailed information regarding your Absence Request. You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent. " and for Tooltip "Enter Absence Request detailed infromation."
+-   first one called "Absence Request". For description we will set "Provide detailed information regarding your Absence Request. You must submit requests for absences, other than mediacl leave, two days prior to the first day you will be absent. " and for Tooltip "Enter Absence Request detailed infromation."
 -   second one called "Manager approval". For description we will set "Manager Must approve or reject this request." and for Tooltip "Manager Must approve or disaprove this request."
 
 Now, we will add in the first Group:
--   List, Yes/No fileld, name: "Type of Absence Requested", description "Specify kind of Absence you are requesting.", ToolTip "Are you requesting Sick Leave, Vacation or?", options "Sick;Vacation;Bereavement;Time Off Without Pay;Military;Jury Duty;Maternity/Paternity;Other"
+-   List, Yes/No fileld, name: "Type of Absence Requested", description "Specify kind of Absence you are requesting.", ToolTip "Are you requesting Medical Leave, Vacation or?", options "Medical;Vacation;Bereavement;Time Off Without Pay;Military;Jury Duty;Maternity/Paternity;Other"
 -   Text, Date, Number, name: "Start", description "Absence Start date", Data Type "Date - multiline must be off"
 -   Text, Date, Number, name: "End", description "Absence End date", Data Type "Date - multiline must be off"
 -   Text, Date, Number, name: "Reason", description "Describe reason for Absence", Data Type "Text - for use of Reg Exp", multiline true

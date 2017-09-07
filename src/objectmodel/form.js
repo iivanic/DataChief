@@ -550,7 +550,7 @@ this.createForm = function (name, templateName) {
             grp.ctor();
             grp.displayName = "Absence Request";
             grp.toolTip = "Enter Absence Request detailed infromation.";
-            grp.description = "Provide detailed information regarding your Absence Request. You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent. "
+            grp.description = "Provide detailed information regarding your Absence Request. You must submit requests for absences, other than medical leave, two days prior to the first day you will be absent. "
             grp.editors = "initiator";
             this.children.push(grp);
 
@@ -558,8 +558,8 @@ this.createForm = function (name, templateName) {
             lst.ctor();
             lst.displayName = "Type of Absence Requested";
             lst.description = "Specify kind of Absence you are requesting.";
-            lst.toolTip = "Are you requesting Sick Leave, Vacation or?";
-            lst.options = "Sick;Vacation;Bereavement;Time Off Without Pay;Military;Jury Duty;Maternity/Paternity;Other";
+            lst.toolTip = "Are you requesting Medical Leave, Vacation or?";
+            lst.options = "Medical;Vacation;Bereavement;Time Off Without Pay;Military;Jury Duty;Maternity/Paternity;Other";
             lst.multiselect = false
             lst.required = true;
             grp.children.push(lst);

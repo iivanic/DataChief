@@ -185,7 +185,7 @@ function uploadMessages(err, box) {
                 "Subject: DataChief package\n" +
                 "\n" + body + "\n";
 
-            quedPcks.push($("#olistItem" + c));
+            quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
             var r = imap.append(message, "", appendDone)
 
@@ -197,10 +197,10 @@ function uploadMessages(err, box) {
 }
 function appendDone(err, o) {
     var el = quedPcks.shift();
-    helper.deleteFile($(el).val());
-    el.next().next().remove();
+    helper.deleteFile(el);
+ /*   el.next().next().remove();
     el.next().remove();
-    el.remove();
+    el.remove();*/
     $("#progressbar").progressbar({
         value: Math.abs(10 + 80 * progressCnt / progressMax)
     });
