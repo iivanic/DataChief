@@ -17,13 +17,16 @@ First, of course, we need DataChief installed.
 -   In "Set Up IMAP(Email) Account." step you need to setup working IMAP email account. In  "Single user account" operating mode this is the account that is used for ALL communcations.
 Now we are ready to start.
  
-We need to collect Absence Request Froms (ARF) from Production department. Memebers of Production department are:
+We need to collect Absence Request Formsfrom Production department. Memebers of Production department are:
 -   William D, [*william@barriqueworks.com*](mailto:william@barriqueworks.com)
 -   Linda J, [*linda@barriqueworks.com*](mailto:linda@barriqueworks.com)
 -   David F, [*david@barriqueworks.com*](mailto:david@barriqueworks.com)
 so we need to publish Absence Request to them.
 Request must be approved by Production Manager - Robert P.
 Finally, Form needs to finish in HR database with John L - [*john@barriqueworks.com*](mailto:john@barriqueworks.com)
+
+Worflow shoild look like this:
+![DataChief simple workflow](/AbsenceRequestWorkflow.png)
 
 So, let's create our Form:
 -   Make sure You are in "Form & Workflow editor" main tab
