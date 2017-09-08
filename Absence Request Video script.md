@@ -25,7 +25,7 @@ so we need to publish Absence Request to them.
 Request must be approved by Production Manager - Robert P.
 Finally, Form needs to finish in HR database with John L - [*john@barriqueworks.com*](mailto:john@barriqueworks.com)
 
-Worflow shoild look like this:
+If we try to draw our workflow it could look like this:
 ![DataChief simple workflow](/AbsenceRequestWorkflow.png)
 
 So, let's create our Form:
