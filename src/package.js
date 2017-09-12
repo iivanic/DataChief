@@ -78,10 +78,12 @@ this.loadPackage = function (file) {
         if (loadedObj.forms[i].workflowpackage) {
             //is this form completed the workflow?
             /// TODO : id is OK, but we must have form template type.
-            if (false)
+            if (loadedObj.forms[i].finished)
                 fileName = helper.join(helper.getDataBasePath(), id + "_" + version + "_" + loadedObj.forms[i]._name);
 
         }
+        
+        
         helper.saveTextFile(
             fileName,
             content);

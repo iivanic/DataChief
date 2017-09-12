@@ -182,7 +182,7 @@ this.refreshFolders = function () {
     html = "";
     var recieved = helper.getFilesInDir(helper.getRecievedPath());
     for (var i in recieved) {
-        html += " <li><span style='cursor:pointer;width:100%' href='" + recieved[i] + "'>" + recieved[i].substring(37) + "</span></li>";
+        html += " <li><span style='cursor:pointer;width:100%' onclick=\"filler.checktab('" + recieved[i].split("_")[recieved[i].split("_").length-1] + "', '" + helper.join(helper.getRecievedPath(), recieved[i]).replace(/\\/g, "\\\\") + "')\" href='" + recieved[i] + "'>" + recieved[i].split("_")[recieved[i].split("_").length-1] + "</span></li>";
     }
     if (recieved.length == 0) {
         html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
@@ -266,18 +266,17 @@ function createPackagesFromMyOutbox() {
                 helper.alert("Not yet supported!");
                 return;
             }
-            else
-            {
-                var t = users;
-                users = new Array();
-                users.push(t);
-            }
+        
         }
-
+        if (!(users instanceof Array)) {
+            var t = users;
+            users = new Array();
+            users.push(t);
+        }
         for (var ui = 0; ui < users.length; ui++) {
             // no package for user, create it
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                packages[users[ui]] = { publisher: userSettings.organization, published: false, workflowpackage: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCount++;
             }
             // push form
