@@ -91,9 +91,9 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     else {
         ret += "<input data-validation-required-message='" + this._requiredErrorMessage + "' " + 
             (this._required?"required":"" ) + " " +
-            (this._max.length?"max='" + _max +"' ":"") +
-            (this._max.length?"min='" + _max +"' ":"") +
-            (this._max.length?"step='" + _max +"' ":"") +
+            (this._max.length?"max='" + this._max +"' ":"") +
+            (this._min.length?"min='" + this._min +"' ":"") +
+            (this._step.length?"step='" + this._step +"' ":"") +
             (this._regexp.length>0?"pattern='" + this._regexp +"' data-validation-pattern-message='" + this._regexpErrorMessage +"'" :"" )  + " " 
               + " type='" + this._inputType + "' maxlength='" + this.maxlength + "' id='" + idprefix + "_" + this.id + "' value='" + this.value + "' class='datachiefField datachiefFieldText'>";
         ret += "</input>";
