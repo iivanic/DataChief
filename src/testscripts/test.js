@@ -94,7 +94,7 @@ function testStep4ImapPublishDone(error) {
 
 //5. go through worfflow for every user
 function testStep5() {
-    helper.log(":::Test step 5 - go through fill/worfflow for every user.");
+    helper.log(":::Test step 5 - go through fill worfflow for every user.");
 
     //form is published to:
     //jennifer@barriqueworks.com,michael@barriqueworks.com,elizabeth@barriqueworks.com
