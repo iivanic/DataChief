@@ -100,7 +100,7 @@ function Go(automatic) {
         }
 
         imapbusy = false;
-        if (!$("#IMAPTestDialog").is(":visible"))
+        if (!$("#IMAPTestDialog").is(":visible") && !helper.isTest())
             window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
     });

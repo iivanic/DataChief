@@ -71,7 +71,8 @@ function ready() {
     // In the main process.
 
     global.sharedObject = {
-        userData: app.getPath("userData")
+        userData: app.getPath("userData"),
+        argv: process.argv
     };
 
 

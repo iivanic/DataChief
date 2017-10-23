@@ -48,7 +48,8 @@ this.ctor = function () {
         })
     } else {
         $(document).ready(function () {
-            imapTimer = window.setTimeout("imap.go(true)", 4000);
+           if(!helper.isTest())
+                imapTimer = window.setTimeout("imap.go(true)", 4000);
         });
     }
 

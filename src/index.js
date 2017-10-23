@@ -297,6 +297,9 @@ $(document).ready(function () {
 
     helper.log("Welcome to Data Chief.");
     helper.log("Ready.");
+    
+        //check command line 
+    helper.checkCommandLine();
 });
 
 function expandlog_click() {

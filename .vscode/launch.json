@@ -56,6 +56,63 @@
             "sourceMaps": false,
             "protocol" : "legacy"
             
+        },
+        {
+            "name": "Run Test script renderer debug",
+            "type": "chrome",
+            "request": "launch",
+            "webRoot": "${workspaceRoot}/src",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "linux": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron"
+            },
+            "osx": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron"
+            },
+            "runtimeArgs": [
+                "${workspaceRoot}/src/main.js",
+                "--runtest",
+                "--enable-logging",
+                "--remote-debugging-port=9222"
+            ],
+            "sourceMaps": false
+        },
+        {
+            "name": "Run Test script Debug Main",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/main.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+           "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "linux": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron"
+            },
+            "osx": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron"
+            },
+            
+            "runtimeArgs": [
+                "--nolazy",
+                "--runtest"
+            ],
+            "env": {
+                "NODE_ENV": "development",
+                "COINS_ENV": "development"
+                //,
+                // "ATOM_SHELL_INTERNAL_RUN_AS_NODE": "0"
+            },
+            "preLaunchTask": "",
+            "sourceMaps": false,
+            "protocol" : "legacy"
+            
         }
     ]
 }

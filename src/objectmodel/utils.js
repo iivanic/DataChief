@@ -14,6 +14,21 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
+this.checkCommandLine = function()
+{
+    if(this.isTest())
+    {
+        this.log("Loading test script.")
+        eval(helper.loadFile(helper.join(helper.join(__dirname,".."),helper.join("testscripts","test.js"))));
+        
+    }
+}
+this.isTest = function ()
+{
+    var remote = require('electron').remote;
+    var arguments = remote.getGlobal('sharedObject').argv;
+    return (arguments.indexOf("--runtest") > -1)
+}
 this.join = function (a, b) {
     return path.join(a, b); //path.resolve(
 }
