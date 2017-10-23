@@ -3,8 +3,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/iivanic/datachief.git"
-    //bug in new git? run 
-    //git remote set-url origin https://github.com/iivanic/datachief.git
   },
   "bugs": {
     "url": "https://github.com/iivanic/datachief/issues"
