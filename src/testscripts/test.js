@@ -5,7 +5,7 @@ testStep1();
 //1. check for case study users
 function testStep1()
 {
-    helper.log(":::Welcome to TEST. Please DO NOT TOUCH ANYTHING.");
+    helper.log(":::Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
     helper.log(":::Test step 1 - check for case study users.");
     if(!barrique.isInstalled())
         helper.log(":::BarriqueWorks case study users not installed. Install them and run test again.");
