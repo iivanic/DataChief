@@ -290,10 +290,13 @@ this.confirm = function (message, callback, param) {
         width: 500,
         modal: true,
         buttons: {
-            Ok: function () {
-                $(this).dialog("close");
-                callback(param);
-            },
+            Ok: {
+                text: "Ok",
+                id: "dialog-confirm-ok",
+                click: function () {
+                    $(this).dialog("close");
+                    callback(param);
+            }},
             Cancel: function () {
                 $(this).dialog("close");
             }

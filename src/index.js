@@ -147,20 +147,23 @@ $(document).ready(function () {
         width: "480px",
 
         buttons: {
+            
             "Create Emtpy": function () {
                 addTab(false, "");
                 $(this).dialog("close");
             },
-            "Create from template": function () {
-                addTab(false, $("#exampleforms").val());
-                $(this).dialog("close");
+            "Create from template": {
+                id: "btnCreateFromTemplate",
+                click : function () {
+                    addTab(false, $("#exampleforms").val());
+                    $(this).dialog("close");
+                }
             },
-            Cancel: function () {
+            
+                Cancel: function () {
                 $(this).dialog("close");
             }
-        },
-        close: function () {
-
+        
         }
     });
 
