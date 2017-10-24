@@ -153,6 +153,7 @@ $(document).ready(function () {
                 $(this).dialog("close");
             },
             "Create from template": {
+                text: "Create from template",
                 id: "btnCreateFromTemplate",
                 click : function () {
                     addTab(false, $("#exampleforms").val());
