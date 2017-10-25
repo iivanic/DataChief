@@ -285,8 +285,6 @@ function testStep5_3_WorkflowStep(error)
     helper.log(":::testStep5 Now supervisor - patricia@barriqueworks.com.");
     switchToUser("patricia@barriqueworks.com");
 
-return;
-
     imap.callback = testStep5_3_WorkflowStep_;
     $($("span:contains('Send / Recieve')")).click()
 }

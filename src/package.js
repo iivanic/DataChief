@@ -65,7 +65,7 @@ this.loadPackage = function (file) {
         var id = loadedObj.forms[i]._id;
         if (loadedObj.published)
             loadedObj.forms[i].published = true;
-        
+
 
         if (loadedObj.workflowpackage) {
             loadedObj.forms[i].workflowpackage = true;
@@ -75,10 +75,10 @@ this.loadPackage = function (file) {
             loadedObj.forms[i].broadcastpackage = true;
 
         var content = JSON.stringify(loadedObj.forms[i], index._formEditor.saveJSONReplacer, 2);
-        var fileName = helper.join(pp, id + "_" + version + "_" + loadedObj.forms[i]._name + (mail.length?" (" + mail + ")":""));
+        var fileName = helper.join(pp, id + "_" + version + "_" + loadedObj.forms[i]._name + (mail.length ? " (" + mail + ")" : ""));
         if (loadedObj.forms[i].published) {
             var status = this.findFileStatus(id, version, oldFiles);
-            fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name );
+            fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name);
         }
         if (loadedObj.forms[i].workflowpackage) {
             //is this form completed the workflow?
@@ -87,8 +87,15 @@ this.loadPackage = function (file) {
                 fileName = helper.join(helper.getDataBasePath(), id + "_" + version + "_" + loadedObj.forms[i]._name);
 
         }
-
-
+        // if it is not published folder, ensure unique name, no overwrite...
+        if (!loadedObj.published) {
+            if (helper.fileExists(fileName)) {
+                var cnt = 0;
+                while (helper.fileExists(fileName + "_" + cnt))
+                    cnt++;
+                fileName = fileName + "_" + cnt;
+            }
+        }
         helper.saveTextFile(
             fileName,
             content);
