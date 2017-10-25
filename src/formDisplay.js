@@ -18,7 +18,7 @@ this.prefix;
 
 this.d = null;
 
-this.openForm = function (jsonstring) {
+this.openForm = function (jsonstring, loadedFrom) {
 
     var loadedObj = JSON.parse(jsonstring);
 
@@ -33,6 +33,8 @@ this.openForm = function (jsonstring) {
             this.currentForm[attrname] = loadedObj[attrname];
         cnt++;
     }
+    if(loadedFrom)
+        this.currentForm.filename=loadedFrom;
     // we need to change id to avoid conflicts if the same form is already oened in editor.
     //this.currentForm.regenerateGUID();
     console.log("Done reconstructing objects from loaded JSON.");
@@ -119,7 +121,7 @@ function uniq(a) {
     })
 }
 
-this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
+this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj ) {
 
     this.dirtyMark = dirtyMark;
     this.tabTitle = "#Fillertabs a[href='#Fillertabs-" + tabCounter + "']";
@@ -133,8 +135,11 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
     this.currentForm = Object.create(form);
     this.currentForm.ctor();
 
+    var loadedFrom = loadedObj;
+    
     loadedObj = helper.loadFile(loadedObj);
-    this.openForm(loadedObj);
+ 
+    this.openForm(loadedObj, loadedFrom);
     this.resetDirty();
     $(this.tabTitle).text(this.currentForm.name);
 
@@ -335,8 +340,9 @@ this.submit = function (dirtyMarkId) {
             dirtyMarkId,
             filename
         );
-        //delete old file
-        // helper.deleteFile(this.currentForm.filename);
+        //delete old file if came from other user (not published)
+     //   if( this.currentForm.workflowStep>0) 
+     //       helper.deleteFile(this.currentForm.filename);
 
         $("#" + dirtyMarkId).hide();
         filler.removeTab(this.dirtyMark);
@@ -377,8 +383,8 @@ this.fixForm = function (path) {
     );
 
     var fname = this.currentForm.filename;
-    // time is in the name, delete old file if exists
-    if (fname) {
+    // time is in the name, delete old file if exists - but not if it is in "published to me" folder
+    if (fname && this.currentForm.workflowStep>1) {
         if (helper.fileExists(fname)) {
             helper.deleteFile(fname);
         }

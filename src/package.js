@@ -34,8 +34,7 @@ this.loadPackage = function (file) {
             helper.deleteFolder(pp);
             helper.checkFolder(pp);
         }
-        catch (e)
-        { }
+        catch (e) { }
     }
     else if (loadedObj.workflowpackage) {
         //forms from this package go to recieved or database folder
@@ -61,19 +60,25 @@ this.loadPackage = function (file) {
     }
 
     for (var i in loadedObj.forms) {
+        var mail = "";
         var version = loadedObj.forms[i]._version;
         var id = loadedObj.forms[i]._id;
         if (loadedObj.published)
             loadedObj.forms[i].published = true;
-        if (loadedObj.workflowpackage)
+        
+
+        if (loadedObj.workflowpackage) {
             loadedObj.forms[i].workflowpackage = true;
+            mail = loadedObj.cameFrom;
+        }
         if (loadedObj.broadcastpackage)
             loadedObj.forms[i].broadcastpackage = true;
+
         var content = JSON.stringify(loadedObj.forms[i], index._formEditor.saveJSONReplacer, 2);
-        var fileName = helper.join(pp, id + "_" + version + "_" + loadedObj.forms[i]._name);
+        var fileName = helper.join(pp, id + "_" + version + "_" + loadedObj.forms[i]._name + (mail.length?" (" + mail + ")":""));
         if (loadedObj.forms[i].published) {
             var status = this.findFileStatus(id, version, oldFiles);
-            fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name);
+            fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name );
         }
         if (loadedObj.forms[i].workflowpackage) {
             //is this form completed the workflow?
@@ -82,8 +87,8 @@ this.loadPackage = function (file) {
                 fileName = helper.join(helper.getDataBasePath(), id + "_" + version + "_" + loadedObj.forms[i]._name);
 
         }
-        
-        
+
+
         helper.saveTextFile(
             fileName,
             content);

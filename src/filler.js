@@ -242,7 +242,6 @@ this.reload = function () {
 }
 
 function createPackagesFromMyOutbox() {
-
     var srcFolder = helper.getMyOutboxPath();
     var items = helper.getFilesInDir(srcFolder);
     var packages = new Array();
@@ -277,7 +276,7 @@ function createPackagesFromMyOutbox() {
         for (var ui = 0; ui < users.length; ui++) {
             // no package for user, create it
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { publisher: userSettings.organization, published: false, workflowpackage: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                packages[users[ui]] = { publisher: userSettings.organization, published: false, workflowpackage: true,cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCount++;
             }
             // push form
@@ -286,7 +285,7 @@ function createPackagesFromMyOutbox() {
         helper.deleteFile(helper.join(srcFolder, items[i]));
     }
 
-    helper.log("<strong>" + pCount + "</strong> Package(s):");
+    helper.log("createPackagesFromMyOutbox() - <strong>" + pCount + "</strong> Package(s):");
 
     for (var i in packages) {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");

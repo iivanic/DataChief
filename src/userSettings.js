@@ -216,6 +216,7 @@ this.reloadIndentityChooser = function () {
     publish.reload();
     index.reloadEditor();
 }
+
 function selectActiveProfile_change() {
 
     var val = $("#selectActiveProfile").val();
@@ -278,6 +279,8 @@ function selectActiveProfile_change() {
         userSettings.reloadIndentityChooser();
     }
 }
+this.activeProfile_change = selectActiveProfile_change;
+
 this.cancelNewProfile = function () {
     $("#editOrgMemberEmail").val("");
     $("#editOrgMemberName").val("");

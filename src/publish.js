@@ -565,7 +565,7 @@ function publishEverything() {
             for (var ui = 0; ui < users.length; ui++) {
                 // no package for user, create it
                 if (!packages[users[ui]]) {
-                    packages[users[ui]] = { publisher: userSettings.organization, published: true, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                    packages[users[ui]] = { publisher: userSettings.organization, published: true, cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                     pCount++;
                 }
                 // push form
@@ -579,7 +579,7 @@ function publishEverything() {
             else {
                 //if package for this user doesnt exists, create it
                 if (!packages[loadedObj.user]) {
-                    packages[loadedObj.user] = { publisher: userSettings.organization, published: true, user: loadedObj.user, forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                    packages[loadedObj.user] = { publisher: userSettings.organization, published: true, cameFrom:userSettings.identitySetting.email,user: loadedObj.user, forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                     pCount++;
                 }
                 //add command
@@ -595,7 +595,7 @@ function publishEverything() {
         }
     }
     llist.html("");
-    helper.log("<strong>" + pCount + "</strong> Package(s):");
+    helper.log("publishEverything() - <strong>" + pCount + "</strong> Package(s):");
 
     for (var i in packages) {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s) and <strong>" + packages[i].commands.length + "</strong> commands(s).");
