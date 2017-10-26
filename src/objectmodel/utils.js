@@ -355,6 +355,17 @@ this.log = function (txt) {
     }
 
 }
+this.formatDateForFileName = function(d)
+{
+    if(!(d instanceof Date))
+        d=new Date(d);
+   return  helper.padNumber(d.getMonth().toString(), 2) +
+    "-" + helper.padNumber(d.getDay().toString(), 2) +
+    "-" + d.getFullYear().toString() +
+    "_" + helper.padNumber(d.getHours().toString(), 2) +
+    "-" + helper.padNumber(d.getMinutes().toString(), 2) +
+    "-" + helper.padNumber(d.getSeconds().toString(), 2);
+}
 
 //checks weather roles comply with required roles
 this.checkUser = function (userRoles, requiredRoles) {

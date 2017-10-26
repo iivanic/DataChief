@@ -374,12 +374,7 @@ this.fixForm = function (path) {
 
     var filename = helper.join(
         path, this.currentForm.formid + "_" + this.currentForm.name + " " +
-        helper.padNumber(this.d.getMonth().toString(), 2) +
-        "-" + helper.padNumber(this.d.getDay().toString(), 2) +
-        "-" + this.d.getFullYear().toString() +
-        " " + helper.padNumber(this.d.getHours(), 2) +
-        "-" + helper.padNumber(this.d.getMinutes().toString(), 2) +
-        "-" + helper.padNumber(this.d.getSeconds().toString(), 2)
+        helper.formatDateForFileName(this.d)
     );
 
     var fname = this.currentForm.filename;
@@ -393,6 +388,8 @@ this.fixForm = function (path) {
     if (this.currentForm.published) {
         this.currentForm.published = false;
         this.currentForm.createdByMe = true;
+        this.currentForm.initiator = userSettings.identitySetting.email;
+        this.currentForm.initiationDate = new Date();
         this.currentForm.filename = filename;
     }
     return filename;

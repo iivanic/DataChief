@@ -217,7 +217,7 @@ function appendDone(err, o) {
  //   else
  //       helper.log("Append done (id=" + o + ").")
     progressCnt++;
-    helper.log(progressCnt + ", " + progressMax)
+   // helper.log(progressCnt + ", " + progressMax)
     if (progressCnt == progressMax)
         readMessages1();
 
@@ -246,7 +246,7 @@ function readMessages1() {
         helper.log("Found " + results.length + ".");
         var f = imap_.fetch(results, { bodies: '' });
         f.on('message', function (msg, seqno) {
-            helper.log('Message #' + seqno);
+          //  helper.log('Message #' + seqno);
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
                 console.log(prefix + 'Body');
@@ -271,7 +271,7 @@ function readMessages1() {
                 console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
             });
             msg.once('end', function () {
-                helper.log(prefix + 'Finished recieving message ' + seqno + '.');
+               // helper.log(prefix + 'Finished recieving message ' + seqno + '.');
 
             });
         });
