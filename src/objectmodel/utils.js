@@ -347,7 +347,7 @@ this.log = function (txt) {
     var str = (userSettings.email != userSettings.mainEmail ? userSettings.mainEmail + " impersonating " : "") + userSettings.email + " - " + this.padNumber(d.getHours(), 2) + ":" + this.padNumber(d.getMinutes(), 2) + ":" + this.padNumber(d.getSeconds(), 2) + " > " + txt;
     $("#logList").append(str + "<br>");
     //  $("#logList").scrollTop($("#logList").scrollHeight);
-    $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 200);
+    $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 10);
 
     if ($("#IMAPTestDialogLog")) {
         if ($("#IMAPTestDialog").is(":visible"))

@@ -275,8 +275,7 @@ function testStep5Pause3() {
     imap.callback = testStep5_3_WorkflowStep; //testStep5_3;
     $($("span:contains('Send / Recieve')")).click()
 }
-function testStep5_3_WorkflowStep(error)
-{
+function testStep5_3_WorkflowStep(error) {
     imap.callback = null;
     if (error) {
         helper.log(":::testStep5_3_WorkflowStep - Error.");
@@ -297,24 +296,72 @@ function testStep5_3_WorkflowStep_(error) {
     }
     // OK supervisor has now recieved 3 forms to approve
     // we will reject 1, approve 2
-   //open forst form in "Published to me"
-  
-   $("span[onclick^='filler.checktab(']").click();
-   // fill it out
+    //open forst form in "Published to me"
 
-   //timestamp it
-   $($("button[id^='dcform")[2]).click();
-   //sign it
-   $($("button[id^='dcform")[3]).click();
-   //reject
-   $($("select[id^='dcform")[3]).val("No");
-   //submit
-   $($("li:contains('Submit')")).click();
-   helper.log(":::Pause...");
-   window.setTimeout(testStep5Pause4, 1000)
+    $($("span[onclick^='filler.checktab(']")[0]).click();
+    // fill it out
+
+    //timestamp it
+    $($("button[id^='dcform")[2]).click();
+    //sign it
+    $($("button[id^='dcform")[3]).click();
+    //reject
+    $($("select[id^='dcform")[3]).val("No");
+    //submit
+    $($("li:contains('Submit')")).click();
+    helper.log(":::Pause...");
+    window.setTimeout(testStep5Pause4, 1000)
 }
 function testStep5Pause4() {
     helper.log(":::Continue...");
+    $($("span[onclick^='filler.checktab(']")[0]).click();
+    // fill it out
+
+    //timestamp it
+    $($("button[id^='dcform")[2]).click();
+    //sign it
+    $($("button[id^='dcform")[3]).click();
+    //reject
+    $($("select[id^='dcform")[3]).val("Yes");
+    //submit
+    $($("li:contains('Submit')")).click();
+    helper.log(":::Pause...");
+    window.setTimeout(testStep5Pause5, 1000)
+}
+function testStep5Pause5() {
+    helper.log(":::Continue...");
+    $($("span[onclick^='filler.checktab(']")[0]).click();
+    // fill it out
+
+    //timestamp it
+    $($("button[id^='dcform")[2]).click();
+    //sign it
+    $($("button[id^='dcform")[3]).click();
+    //reject
+    $($("select[id^='dcform")[3]).val("Yes");
+    //submit
+    $($("li:contains('Submit')")).click();
+    helper.log(":::Pause...");
+    window.setTimeout(testStep5Pause6, 1000)
+}
+function testStep5Pause6() {
+    helper.log(":::Continue...");
+    imap.callback = testStep5_FinalStep;
+    $($("span:contains('Send / Recieve')")).click()
+}
+function testStep5_FinalStep(error) {
+    imap.callback = null;
+    if (error) {
+        helper.log(":::testStep5_FinalStep - Error.");
+        return;
+    }
+    helper.log(":::testStep5_FinalStep richard@barriqueworks.com recieves packages.");
+    switchToUser("richard@barriqueworks.com");
+
+  
+    // first set callback
+    imap.callback = testStep6;
+    $($("span:contains('Send / Recieve')")).click()
 }
 
 //6. done

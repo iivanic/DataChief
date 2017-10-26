@@ -120,7 +120,7 @@ function resetProgressBar() {
     });
 }
 function createDCFolder() {
-    helper.log("Checking for <strong>Datachief</strong> folder...")
+  //  helper.log("Checking for <strong>Datachief</strong> folder...")
     imap_.getBoxes("", getBoxesCallBack)
 
 }
@@ -128,7 +128,7 @@ function getBoxesCallBack(err, boxes) {
     var bFound = false
     for (var i in boxes) {
         if (i == "Datachief") {
-            helper.log("Found <strong>" + i + "</strong> folder.")
+           // helper.log("Found <strong>" + i + "</strong> folder.")
             bFound = true;
             break;
         }
@@ -172,7 +172,7 @@ function uploadMessages(err, box) {
         return;
     }
     else {
-        helper.log("Opened <strong>datachief</strong> folder.")
+     //   helper.log("Opened <strong>datachief</strong> folder.")
         var files = helper.getFilesInDir(helper.getOutboxPath());
         progressMax = files.length;
         var c = 0;
@@ -214,8 +214,8 @@ function appendDone(err, o) {
         imap_.end();
         return;
     }
-    else
-        helper.log("Append done (id=" + o + ").")
+ //   else
+ //       helper.log("Append done (id=" + o + ").")
     progressCnt++;
     helper.log(progressCnt + ", " + progressMax)
     if (progressCnt == progressMax)
@@ -226,7 +226,7 @@ function readMessages1() {
 
     // 
     // 4. Check incoming messages in my folder and download them
-    helper.log("Search for my messages...");
+  //  helper.log("Search for my messages...");
     imap_.search([['HEADER', 'TO', userSettings.identitySetting.email]], function (err, results) {
         if (err) {
             if (error)
@@ -295,7 +295,7 @@ function readMessages1() {
 
 }
 function deleteMessages(msgs) {
-    helper.log("Deleting " + msgs.length + " message(s).");
+    //helper.log("Deleting " + msgs.length + " message(s).");
     try {
         imap_.addFlags(msgs, '\\Deleted', function (err) {
             if (err) {
