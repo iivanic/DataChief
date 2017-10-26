@@ -26,6 +26,7 @@
         var index = require("./index.js");
         var querysteps =  require("./jquery.steps-1.1.0/jquery.steps.js");
         var collector = require("./collector.js");
+        var dataCollection = require("./dataCollection.js");
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -36,7 +37,7 @@
 
     <script src='jquery-validation-1.15.0/jquery.validate.js'></script>
     <script type="text/javascript" src="./jsgrid-1.5.3/jsgrid.min.js"></script>
-    <script type="text/javascript" src="./dataCollection.js"></script>
+  
 
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
@@ -212,6 +213,7 @@
                 <span class="ui-icon ui-icon-alert" style="float:left; margin:0 2px 2px 0;"></span> <span id="dialog-alert-text"></span>
             </p>
         </div>
+        <div id="dialog-modal-form" style="display:none;" title="Form"><div id="dialog-modal-form-placeholder"></div></div>
         <div id="dialog-validation-failed" style="display:none;" title="Warning!">
             <p>
                 <span class="ui-icon ui-icon-alert" style="float:left; margin:0 5px 2px 0;"></span> Validation Failed!

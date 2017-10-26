@@ -215,6 +215,7 @@ this.reloadIndentityChooser = function () {
     filler.reload();
     publish.reload();
     index.reloadEditor();
+    dataCollection.refreshDB();
 }
 
 function selectActiveProfile_change() {
@@ -278,6 +279,7 @@ function selectActiveProfile_change() {
         // refresh profiles
         userSettings.reloadIndentityChooser();
     }
+    
 }
 this.activeProfile_change = selectActiveProfile_change;
 

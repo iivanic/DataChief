@@ -25,7 +25,7 @@ this.openForm = function (jsonstring, loadedFrom) {
     console.log("Reconstructing objects from loaded JSON.");
     var cnt = 0;
     for (var attrname in loadedObj) {
-        console.log("attrname = " + attrname);
+       // console.log("attrname = " + attrname);
 
         if (attrname == "_children")
             loadChildren(this.currentForm, loadedObj[attrname], attrname);

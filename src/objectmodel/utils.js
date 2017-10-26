@@ -362,9 +362,17 @@ this.formatDateForFileName = function(d)
    return  helper.padNumber(d.getMonth().toString(), 2) +
     "-" + helper.padNumber(d.getDay().toString(), 2) +
     "-" + d.getFullYear().toString() +
-    "_" + helper.padNumber(d.getHours().toString(), 2) +
+    "-" + helper.padNumber(d.getHours().toString(), 2) +
     "-" + helper.padNumber(d.getMinutes().toString(), 2) +
     "-" + helper.padNumber(d.getSeconds().toString(), 2);
+}
+this.parseDateFromFileName= function(str)
+{
+    var datePart = str.split("-")
+    
+    return new Date(datePart[2],datePart[0], datePart[1],datePart[3], datePart[4], datePart[5]);
+
+
 }
 
 //checks weather roles comply with required roles

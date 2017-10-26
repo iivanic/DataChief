@@ -86,8 +86,8 @@ this.loadPackage = function (file) {
             if (loadedObj.forms[i].finished) {
                 //FORMID__FORMVERSION_FORMNAME_..INITIATOR.._..SENDER.._CREATIONDATE_RECIVEDDATE
                 fileName = helper.join(helper.getDataBasePath(),
-                    id + "_" + version + "_" + loadedObj.forms[i]._name + "_.." + 
-                    loadedObj.forms[i].initiator + ".._.." + loadedObj.cameFrom + ".._" + helper.formatDateForFileName(loadedObj.forms[i].initiationDate) + "_"  + 
+                    id + "_" + version + "_" + loadedObj.forms[i]._name + ".." + 
+                    loadedObj.forms[i].initiator + ".." + loadedObj.cameFrom + ".." + helper.formatDateForFileName(loadedObj.forms[i].initiationDate) + "_"  + 
                     helper.formatDateForFileName(new Date())
                 );
             }
