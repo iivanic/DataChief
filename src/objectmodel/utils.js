@@ -79,6 +79,7 @@ this.saveTextFile = function (filename, content) {
     console.log("The file " + filename + " was saved!");
 
 }
+
 this.openForm = function (callback) {
 
     dialog.showOpenDialog(
@@ -95,6 +96,7 @@ this.openForm = function (callback) {
         });
 
 }
+
 this.loadFormBox = function () {
     var data = this.loadTextFile("../templates/formbox.html");
     return data.toString();
@@ -541,4 +543,15 @@ this.parseWorkFlow = function (workflow) {
     }
 
     return ret;
+}
+
+this.deleteDatabase = function()
+{
+    var forms_ = helper.getFilesInDir(helper.getDataBasePath());
+    
+    for (var i in forms_) {
+        var path = helper.join(helper.getDataBasePath(), forms_[i]);
+        helper.deleteFile(path);
+    }
+    dataCollection.refreshDB();
 }

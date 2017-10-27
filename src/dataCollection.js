@@ -1,4 +1,5 @@
-//var form = require("./objectmodel/form.js");
+var form = require("./objectmodel/form.js");
+const ipc = require('electron').ipcRenderer;
 
 var db = {
 
@@ -95,7 +96,6 @@ $(document).ready(
 
         dataCollection.refreshDB();
 
-
         /*
                 $("#jsGridSentData").jsGrid({
                     width: "100%",
@@ -173,13 +173,9 @@ this.displayFormModal = function (path) {
         width: "100%",
         modal: true,
         buttons: {
-            "Print": function () {
-
-                $(this).dialog("close");
-            },
             "PDF": function () {
-
-                $(this).dialog("close");
+                sendCommandToWorker($("#dialog-modal-form-placeholder").html());
+  
             },
             "Close Form": function () {
 
@@ -189,15 +185,18 @@ this.displayFormModal = function (path) {
     });
 
     //form.render = function ($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix") 
-  /*
+    /*
+      this.currentForm = Object.create(form);
+      this.currentForm.ctor();
+      loadedObj = helper.loadFile(loadedObj);
+    */
     this.currentForm = Object.create(form);
     this.currentForm.ctor();
-    loadedObj = helper.loadFile(loadedObj);
+    var loadedObj = helper.loadFile(path);
+    this.currentForm.openForm (loadedObj, path) 
+
+    this.currentForm.render($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix");
 
 
 
-    this.currentForm.render ($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix") ;
-
-    
-        */
 }

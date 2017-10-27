@@ -27,6 +27,8 @@
         var querysteps =  require("./jquery.steps-1.1.0/jquery.steps.js");
         var collector = require("./collector.js");
         var dataCollection = require("./dataCollection.js");
+        const ipcRenderer = require("electron").ipcRenderer;
+
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -38,7 +40,11 @@
     <script src='jquery-validation-1.15.0/jquery.validate.js'></script>
     <script type="text/javascript" src="./jsgrid-1.5.3/jsgrid.min.js"></script>
   
-
+<script>
+    function sendCommandToWorker(content) {
+            ipcRenderer.send("printPDF", content);
+        }
+</script>
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
     <style>

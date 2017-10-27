@@ -38,7 +38,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
     ret += "<p title='" + this.toolTip + "'>" + this.description + "</p>";
     //   if (this._value == "" && !disabled) {
     ret += "<div class=row><div class='col-sm-6'>";
-    ret += "<button  id='" + idprefix + "_" + this.id + "_button' type='button' style='width:100%;' class='btn btn-secondary'>" + (this._value == "" ? "Sign (" + helper.extractUser(user) + ")" : "Remove signature") + "</button>";
+    ret += "<button  id='" + idprefix + "_" + this.id + "_button' type='button' style='width:100%;' class='btn btn-secondary'>" + (this._value == "" ? "Sign (" + helper.extractUser(user) + ")" : "Remove Signature") + "</button>";
     ret += "</div><div class='col-sm-6'>";
     //  }
     ret += "<input data-validation-required-message='" + this._requiredErrorMessage + "' " +

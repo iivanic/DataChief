@@ -969,3 +969,101 @@ function checkCharacters(listString) {
         return "Character not allowed. Only nubers, letters, semicolon, comma, minus(-), underscore, brackets(for workflow) and at symbol (@) are allowed";
 
 }
+
+/* Form load  */
+this.openForm = function (jsonstring, loadedFrom) {
+    
+        var loadedObj = JSON.parse(jsonstring);
+    
+        console.log("Reconstructing objects from loaded JSON.");
+        var cnt = 0;
+        for (var attrname in loadedObj) {
+           // console.log("attrname = " + attrname);
+    
+            if (attrname == "_children")
+                loadChildren(this, loadedObj[attrname], attrname);
+            else
+                this[attrname] = loadedObj[attrname];
+            cnt++;
+        }
+        if(loadedFrom)
+            this.filename=loadedFrom;
+        // we need to change id to avoid conflicts if the same form is already oened in editor.
+        //this.currentForm.regenerateGUID();
+        console.log("Done reconstructing objects from loaded JSON.");
+        return true;
+    }
+    
+    function loadChildren(parent, obj, aname, sec) {
+        console.log("loadChildren(" + parent + ", " + obj + ", " + aname + ")");
+    
+        var field;
+        if (obj._type) {
+            switch (obj["_type"]) {
+                case "listField":
+                    field = Object.create(listField);
+                    field.ctor();
+                    break;
+                case "textField":
+                    field = Object.create(textField);
+                    field.ctor();
+                    break;
+                case "fieldBase":
+                    field = Object.create(fieldBase);
+                    field.ctor();
+                    break;
+                case "groupField":
+                    field = Object.create(groupField);
+                    field.ctor();
+                    break;
+                case "currentDateTimeField":
+                    field = Object.create(currentDateTimeField);
+                    field.ctor();
+                    break;
+                case "currentUserField":
+                    field = Object.create(currentUserField);
+                    field.ctor();
+                    break;
+    
+            }
+    
+            if (aname == "_children") {
+                parent._children.push(field);
+                console.log("added to _children");
+            }
+            if (aname == "_dataRows") {
+                parent._dataRows[parent._dataRows.length - 1].push(field);
+                console.log("added to _dataRows [" + parent._dataRows.length - 1 + "]");
+            }
+            if (aname == "_newRowTemplate") {
+                parent._newRowTemplate.push(field);
+                console.log("added to _newRowTemplate");
+            }
+            for (var arrayEl in obj) {
+    
+                if (arrayEl == "_children" || arrayEl == "_dataRows" || arrayEl == "_newRowTemplate") {
+                    loadChildren(field, obj[arrayEl], arrayEl, false);
+                }
+                else {
+                    field[arrayEl] = obj[arrayEl];
+                    console.log("copy " + arrayEl)
+                }
+            }
+        }
+        else {
+            // its an array
+            for (var arrayEl in obj) {
+    
+                if (aname == "_dataRows" && !sec) {
+                    parent._dataRows.push(new Array());
+                    // dataRowsCounter ++;
+                    loadChildren(parent, obj[arrayEl], aname, true);
+    
+                }
+                else
+                    loadChildren(parent, obj[arrayEl], aname);
+            }
+        }
+    
+        return;
+    }

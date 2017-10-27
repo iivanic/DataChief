@@ -69,7 +69,12 @@ this.displayForm = function () {
     helper.alert("display form");
 }
 this.deleteForm = function () {
-    helper.alert("delete form");
+    helper.confirm("Delete forms in database? Make sure You have exported data to your database.", collector.deleteFormsConfirmed);
+}
+this.deleteFormsConfirmed = function (result)
+{
+    helper.deleteDatabase();
+    helper.alert("Database deleted.");
 }
 this.selectForm = function () {
 

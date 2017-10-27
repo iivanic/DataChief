@@ -8,11 +8,54 @@ const electron = require('electron')
 var app = electron.app;
 var BrowserWindow =electron.BrowserWindow;
 var path = require("path");
+const fs = require('fs')
+const os = require('os')
+const ipc = electron.ipcMain
+const shell = electron.shell
+const dialog = require('electron').dialog
 
 var mainWindow = null;
+var printPDFWorkerWindow = null;
 var process = require("process");
 var size = null;
 
+ipc.on("printPDF", function (even, content)  {
+    printPDFWorkerWindow.webContents.send("printPDF", content);
+});
+
+ function savePDF (path) {
+    if (!path)return; 
+    // Use default printing options
+    
+    printPDFWorkerWindow.webContents.printToPDF({}, function (error, data) {
+        if (error) throw error
+        fs.writeFile(path, data, function (error) {
+          if (error) {
+            throw error
+          }
+          shell.openExternal('file://' + path)
+       //   ipc.send('wrote-pdf', path)
+        })
+      })
+  }
+
+
+
+ipc.on('readyToPrintPDF', function (event) {
+    
+    dialog.showSaveDialog(
+        {
+            title: 'Save PDF',
+            filters: [
+              { name: 'PDFs', extensions: ['pdf'] }
+            ]
+          }
+          , function (filename) {
+            savePDF(filename);
+     
+    })
+
+  })
 
 app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
@@ -57,6 +100,7 @@ function ready() {
         show: true,
         icon: "./Icons/Filler.png"
     });
+    
 
     // Let us register listeners on the window, so we can update the state 
     // automatically (the listeners will be removed when the window is closed) 
@@ -93,8 +137,15 @@ function ready() {
     });
     //   if (debug)
     //      mainWindow.openDevTools();
-
-
+   
+    // we need for printing PDF
+    printPDFWorkerWindow = new BrowserWindow();
+    printPDFWorkerWindow.loadURL("file://" + __dirname + "/printPDFWorkerWindow.html");
+    printPDFWorkerWindow.hide();
+    printPDFWorkerWindow.webContents.openDevTools();
+    printPDFWorkerWindow.on("closed", () => {
+        printPDFWorkerWindow = undefined;
+    });
 
 }
 
