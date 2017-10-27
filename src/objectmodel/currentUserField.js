@@ -21,6 +21,8 @@ this._propsMeta = {
 }
 
 this.render = function (form, parent, placeholder, editable, user, idprefix) {
+    if(user=="initiator")
+        user = userSettings.Identity.email;
     //  console.log("currentUserField.render()");
     var disabled = parent.disabled;
     this._form = form;
