@@ -114,30 +114,29 @@
                         <label for="startDialogUserSecretl2">Repeat Your Secret</label>
                         <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" required type="password" class="required fullwidth">
                     </section>
-
-                    <h3 id="step4Caption">Case Study</h3>
+                    <h3 id="step4Caption">Communication</h3>
                     <section id="step4">
+                        <h2>Set Up IMAP(Email) Account.</h2>
+                        <label for="step4textSettingsIMAPUsername">IMAP Username: </label><br>
+                        <input type="email" id="step4textSettingsIMAPUsername" required class="required fullwidth" /><br>
+                        <label for="step4textSettingsIMAPPassword">IMAP Password: </label><br>
+                        <input type="password" id="step4textSettingsIMAPPassword" required class="required fullwidth"><br>
+                        <label for="step4textSettingsIMAPPassword1">Repeat IMAP Password: </label><br>
+                        <input type="password" id="step4textSettingsIMAPPassword1" required class="required fullwidth"> <br>
+                        <label for="step4textSettingsIMAPServer">IMAP Server: </label><br>
+                        <input type="text" id="step4textSettingsIMAPServer" required class="required fullwidth" /><br>
+                        <label for="step4textSettingsIMAPServerPort">IMAP Server port: </label><br>
+                        <input type="number" min="0" max="65535" id="step4textSettingsIMAPServerPort" required class="required fullwidth">                        <br>
+                        <label for="step4textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label><br>
+                        <input type="checkbox" id="step4textSettingsIMAPRequiresSSL" required class="required"><button onclick="userSettings.imapTest();return false;"
+                            style="float:right;" id="IMAPTest">Test IMAP settings</button>
+                    </section>
+                    <h3 id="step5Caption">Case Study</h3>
+                    <section id="step5">
                         <h2>Case Study users</h2>
                         <label for="addRemoveCaseStudyProfilesWizard">Add Case Study users to DataChief automatically for simpler use of "<a href='https://github.com/iivanic/DataChief/blob/master/Case%20study%20Barrique%20Works%20LLC.md'>Barrique Works LLC Case study</a>" document.</label>
                         <br><br>
                         <buttom id="addRemoveCaseStudyProfilesWizard">Add Barrique Works LLC Case study Profiles</buttom>
-                    </section>
-                    <h3 id="step5Caption">Communication</h3>
-                    <section id="step5">
-                        <h2>Set Up IMAP(Email) Account.</h2>
-                        <label for="step5textSettingsIMAPUsername">IMAP Username: </label><br>
-                        <input type="email" id="step5textSettingsIMAPUsername" required class="required fullwidth" /><br>
-                        <label for="step5textSettingsIMAPPassword">IMAP Password: </label><br>
-                        <input type="password" id="step5textSettingsIMAPPassword" required class="required fullwidth"><br>
-                        <label for="step5textSettingsIMAPPassword1">Repeat IMAP Password: </label><br>
-                        <input type="password" id="step5textSettingsIMAPPassword1" required class="required fullwidth"> <br>
-                        <label for="step5textSettingsIMAPServer">IMAP Server: </label><br>
-                        <input type="text" id="step5textSettingsIMAPServer" required class="required fullwidth" /><br>
-                        <label for="step5textSettingsIMAPServerPort">IMAP Server port: </label><br>
-                        <input type="number" min="0" max="65535" id="step5textSettingsIMAPServerPort" required class="required fullwidth">                        <br>
-                        <label for="step5textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label><br>
-                        <input type="checkbox" id="step5textSettingsIMAPRequiresSSL" required class="required"><button onclick="userSettings.imapTest();return false;"
-                            style="float:right;" id="IMAPTest">Test IMAP settings</button>
                     </section>
                     <h3 id="step6Caption">Finish</h3>
                     <section id="step6">

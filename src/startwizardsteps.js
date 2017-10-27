@@ -38,7 +38,7 @@ $(document).ready(
                     equalTo: "#startDialogUserSecretl1"
                 },
                 step5textSettingsIMAPPassword1: {
-                    equalTo: "#step5textSettingsIMAPPassword"
+                    equalTo: "#step4textSettingsIMAPPassword"
                 },
 
             }
@@ -111,17 +111,17 @@ $(document).ready(
         $("#startDialogappMode1").prop("checked", userSettings.useSingleAccount ? "checked" : "");
         $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount ? "checked" : "");
         //step 4
+        $("#step4textSettingsIMAPUsername").val(userSettings.identitySetting.imapUserName);
+        $("#step4textSettingsIMAPPassword").val(userSettings.identitySetting.imapPassword);
+        $("#step4textSettingsIMAPPassword1").val(userSettings.identitySetting.imapPassword);
+        $("#step4textSettingsIMAPServer").val(userSettings.identitySetting.imapServer);
+        $("#step4textSettingsIMAPServerPort").val(userSettings.identitySetting.imapPort);
+        $("#step4textSettingsIMAPRequiresSSL").prop("checked", userSettings.identitySetting.imapRequiresSSL ? "checked" : "");
+        //step 5
         $("#startDialogName").val(userSettings.identitySetting.name);
         $("#startDialogemail").val(userSettings.identitySetting.email);
         $("#startDialogUserSecretl1").val(userSettings.identitySetting.userSecret);
         $("#startDialogUserSecretl2").val(userSettings.identitySetting.userSecret);
-        //step 5
-        $("#step5textSettingsIMAPUsername").val(userSettings.identitySetting.imapUserName);
-        $("#step5textSettingsIMAPPassword").val(userSettings.identitySetting.imapPassword);
-        $("#step5textSettingsIMAPPassword1").val(userSettings.identitySetting.imapPassword);
-        $("#step5textSettingsIMAPServer").val(userSettings.identitySetting.imapServer);
-        $("#step5textSettingsIMAPServerPort").val(userSettings.identitySetting.imapPort);
-        $("#step5textSettingsIMAPRequiresSSL").prop("checked", userSettings.identitySetting.imapRequiresSSL ? "checked" : "");
 
     }
 )
@@ -181,13 +181,13 @@ this.fromGui = function () {
     //this mail is our main identity
     userSettings.email = userSettings.identitySetting.email;
     userSettings.mainEmail = userSettings.email;
-    //step 5
-    userSettings.identitySetting.imapUserName = $("#step5textSettingsIMAPUsername").val();
-    userSettings.identitySetting.imapPassword = $("#step5textSettingsIMAPPassword").val();
-    userSettings.identitySetting.imapPassword = $("#step5textSettingsIMAPPassword1").val();
-    userSettings.identitySetting.imapServer = $("#step5textSettingsIMAPServer").val();
-    userSettings.identitySetting.imapPort = $("#step5textSettingsIMAPServerPort").val();
-    userSettings.identitySetting.imapRequiresSSL = $("#step5textSettingsIMAPRequiresSSL").prop("checked");
+    //step 4
+    userSettings.identitySetting.imapUserName = $("#step4textSettingsIMAPUsername").val();
+    userSettings.identitySetting.imapPassword = $("#step4textSettingsIMAPPassword").val();
+    userSettings.identitySetting.imapPassword = $("#step4textSettingsIMAPPassword1").val();
+    userSettings.identitySetting.imapServer = $("#step4textSettingsIMAPServer").val();
+    userSettings.identitySetting.imapPort = $("#step4textSettingsIMAPServerPort").val();
+    userSettings.identitySetting.imapRequiresSSL = $("#step4textSettingsIMAPRequiresSSL").prop("checked");
 
 
 }
