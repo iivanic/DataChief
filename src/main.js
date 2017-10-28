@@ -88,7 +88,8 @@ function ready() {
         'x':  x,
         'y':  y,
         fullScreen: true,
-        maximize : true
+        maximize : true,
+        file: "datachief/window-state.json"
 
     });
 
