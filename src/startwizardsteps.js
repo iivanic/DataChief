@@ -75,9 +75,6 @@ $(document).ready(
 
             }
         });
-        // if client only, remove extra steps and remember them...
-        if (userSettings.clientOnly)
-            $("#Startdesigner1").click();
 
         $("#Startdesigner2").prop("checked", !userSettings.clientOnly ? "checked" : "");
         $("#Startdesigner2").on("click", function () {
@@ -91,6 +88,14 @@ $(document).ready(
                 $("#startDialogCompanPassword1").val(userSettings.organizationSecret);
 
                 $('#startwizard').steps('insert', 4, { title: step4Caption, content: step4Content });
+                //restore values, not saved in old html
+                $("#step4textSettingsIMAPUsername").val(userSettings.identitySetting.imapUserName);
+                $("#step4textSettingsIMAPPassword").val(userSettings.identitySetting.imapPassword);
+                $("#step4textSettingsIMAPPassword1").val(userSettings.identitySetting.imapPassword);
+                $("#step4textSettingsIMAPServer").val(userSettings.identitySetting.imapServer);
+                $("#step4textSettingsIMAPServerPort").val(userSettings.identitySetting.imapPort);
+                $("#step4textSettingsIMAPRequiresSSL").prop("checked", userSettings.identitySetting.imapRequiresSSL ? "checked" : "");
+
                 //step 4
                 /* $("#startDialogName").val(userSettings.identitySetting.name);
                  $("#startDialogemail").val(userSettings.identitySetting.email);
@@ -122,6 +127,11 @@ $(document).ready(
         $("#startDialogemail").val(userSettings.identitySetting.email);
         $("#startDialogUserSecretl1").val(userSettings.identitySetting.userSecret);
         $("#startDialogUserSecretl2").val(userSettings.identitySetting.userSecret);
+
+        // if client only, remove extra steps and remember them...
+        if (userSettings.clientOnly)
+            $("#Startdesigner1").click();
+
 
     }
 )
@@ -175,19 +185,25 @@ this.fromGui = function () {
     //step 4
     userSettings.identitySetting.name = $("#startDialogName").val();
     userSettings.identitySetting.email = $("#startDialogemail").val();
-  //  userSettings.identitySetting.oldEmail = $("#startDialogemail").val();
+    //  userSettings.identitySetting.oldEmail = $("#startDialogemail").val();
     userSettings.identitySetting.userSecret = $("#startDialogUserSecretl1").val();
     userSettings.identitySetting.userSecret = $("#startDialogUserSecretl2").val();
     //this mail is our main identity
     userSettings.email = userSettings.identitySetting.email;
     userSettings.mainEmail = userSettings.email;
     //step 4
-    userSettings.identitySetting.imapUserName = $("#step4textSettingsIMAPUsername").val();
-    userSettings.identitySetting.imapPassword = $("#step4textSettingsIMAPPassword").val();
-    userSettings.identitySetting.imapPassword = $("#step4textSettingsIMAPPassword1").val();
-    userSettings.identitySetting.imapServer = $("#step4textSettingsIMAPServer").val();
-    userSettings.identitySetting.imapPort = $("#step4textSettingsIMAPServerPort").val();
-    userSettings.identitySetting.imapRequiresSSL = $("#step4textSettingsIMAPRequiresSSL").prop("checked");
+    if ($("#step4textSettingsIMAPUsername").val())
+        userSettings.identitySetting.imapUserName = $("#step4textSettingsIMAPUsername").val();
+    if ($("#step4textSettingsIMAPPassword").val())
+        userSettings.identitySetting.imapPassword = $("#step4textSettingsIMAPPassword").val();
+    if ($("#step4textSettingsIMAPPassword1").val())
+        userSettings.identitySetting.imapPassword = $("#step4textSettingsIMAPPassword1").val();
+    if ($("#step4textSettingsIMAPServer").val())
+        userSettings.identitySetting.imapServer = $("#step4textSettingsIMAPServer").val();
+    if ($("#step4textSettingsIMAPServerPort").val())
+        userSettings.identitySetting.imapPort = $("#step4textSettingsIMAPServerPort").val();
+    if ($("#step4textSettingsIMAPRequiresSSL").val())
+        userSettings.identitySetting.imapRequiresSSL = $("#step4textSettingsIMAPRequiresSSL").prop("checked");
 
 
 }
