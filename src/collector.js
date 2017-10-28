@@ -9,7 +9,7 @@ $(document).ready(function () {
         }
     })
         .click(function () {
-            collector.displayForm()
+            collector.exportDB()
         });
     $("#buttonCollectorDeleteFormData").button({
         text: true,
@@ -78,5 +78,9 @@ this.deleteFormsConfirmed = function (result)
 }
 this.selectForm = function () {
 
+}
+this.exportDB = function()
+{
+    dataCollection.exportDB();
 }
 

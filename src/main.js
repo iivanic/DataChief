@@ -22,6 +22,25 @@ var size = null;
 ipc.on("printPDF", function (even, content)  {
     printPDFWorkerWindow.webContents.send("printPDF", content);
 });
+ipc.on("exportCSV", function (even, content)  {
+    dialog.showSaveDialog(
+        {
+            title: 'Export CSV',
+            filters: [
+              { name: 'CSV Files', extensions: ['csv'] }
+            ]
+          }
+          , function (filename) {
+                fs.writeFile(filename, content, function (error) {
+                if (error) {
+                  throw error
+                }
+                shell.openExternal('file://' + filename)
+             
+              })
+     
+    })
+});
 
  function savePDF (path) {
     if (!path)return; 

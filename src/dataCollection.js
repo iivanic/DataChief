@@ -1,5 +1,7 @@
 var form = require("./objectmodel/form.js");
 const ipc = require('electron').ipcRenderer;
+const json2csv = require('json2csv');
+
 
 var db = {
 
@@ -98,69 +100,8 @@ $(document).ready(
 
         /*
                 $("#jsGridSentData").jsGrid({
-                    width: "100%",
-                    //           height: "400px",
-        
-                    filtering: true,
-                    inserting: false,
-                    editing: false,
-                    sorting: true,
-                    paging: true,
-                    pageSize: 10,
-                    pageButtonCount: 5,
-                    //   autoload: true,
-                    controller: db,
-                    rowClick: function(args) {
-                        helper.alert("Show: " + args.item);
-                    },
-                    fields: [
-                        { name: "Name", type: "text", width: 150, validate: "required" },
-                        { name: "Age", type: "number", width: 50 },
-                        { name: "Address", type: "text", width: 200 },
-                        { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
-                        { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-                        {
-                            type: "control",
-                            editButton: false,
-                            deleteButton: false,
-                            modeSwitchButton: false,
-        
-                        }
-                    ]
-                });
-        
                 $("#jsGridRecievedBroadcastsData").jsGrid({
-                    width: "100%",
-                    //        height: "400px",
-        
-                    filtering: true,
-                    inserting: false,
-                    editing: false,
-                    sorting: true,
-                    paging: true,
-                    pageSize: 10,
-                    pageButtonCount: 5,
-                    //   autoload: true,
-                    controller: db,
-                    rowClick: function(args) {
-                        helper.alert("Show: " + args.item);
-                    },
-                    fields: [
-                        { name: "Name", type: "text", width: 150, validate: "required" },
-                        { name: "Age", type: "number", width: 50 },
-                        { name: "Address", type: "text", width: 200 },
-                        { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
-                        { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-                        {
-                            type: "control",
-                            editButton: false,
-                            deleteButton: false,
-                            modeSwitchButton: false,
-        
-                        }
-                    ]
-                });
-                */
+        */
     }
 
 );
@@ -175,7 +116,7 @@ this.displayFormModal = function (path) {
         buttons: {
             "PDF": function () {
                 sendCommandToWorker($("#dialog-modal-form-placeholder").html());
-  
+
             },
             "Close Form": function () {
 
@@ -184,19 +125,73 @@ this.displayFormModal = function (path) {
         }
     });
 
-    //form.render = function ($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix") 
-    /*
-      this.currentForm = Object.create(form);
-      this.currentForm.ctor();
-      loadedObj = helper.loadFile(loadedObj);
-    */
     this.currentForm = Object.create(form);
     this.currentForm.ctor();
     var loadedObj = helper.loadFile(path);
-    this.currentForm.openForm (loadedObj, path) 
+    this.currentForm.openForm(loadedObj, path)
 
     this.currentForm.render($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix");
 
 
 
 }
+this.exportDB = function () {
+    //
+    //Problem is that order of columns in CSV file is not garanteed
+    //
+    var forms_ = helper.getFilesInDir(helper.getDataBasePath());
+    var parsedForms = new Array();
+    dataCollection.fields = ['_id', 'formid', '_name', "_version",  "_displayName", "_value"];
+    dataCollection.fieldNames = ['Form Type', 'Form ID', 'Form Name', "Version", "Title", "Value"];
+
+    for (var i in forms_) {
+        var path = helper.join(helper.getDataBasePath(), forms_[i]);
+        var loadedObj = JSON.parse(helper.loadFile(path));
+        // we use custom flatten function instaed of flatten options in json2csv
+        parsedForms.push(dataCollection.flatten(loadedObj));
+   //     parsedForms.push(loadedObj);
+    }
+
+
+     var opts = {
+        data: parsedForms,
+        del: ";"
+        //,flatten: true,
+        //fields: dataCollection.fields,
+        //fieldNames: dataCollection.fieldNames,
+    };
+    var csv = json2csv(opts);
+    ipc.send("exportCSV", csv);
+
+}
+
+this.flatten = function (o) {
+    var prefix = arguments[1] || "", out = arguments[2] || {}, name;
+    for (name in o) {
+        if (o.hasOwnProperty(name)) {
+
+            if (typeof o[name] === "object") {
+                 dataCollection.flatten(o[name], prefix + (name==="_children"?"X":name) + '.', out)
+            }
+            else {
+                var index = dataCollection.fields.indexOf(name);
+                if (index > -1) {
+                    if (prefix)
+                    {
+                        if(name != "_id" )
+                        {
+                            out[prefix + dataCollection.fieldNames[index]] = o[name];
+                        }
+                    }
+                    else{
+                        out[prefix + dataCollection.fieldNames[index]] = o[name];
+                    }
+                        
+                }
+            }
+
+        }
+    }
+    return out;
+}
+
