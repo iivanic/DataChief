@@ -53,6 +53,7 @@ this.refreshDB = function () {
                 "Initiation time": helper.parseDateFromFileName(p1[0]),
                 "Recieved from": parts[2],
                 "Recieved time": helper.parseDateFromFileName(p1[1]),
+                "Workflow step": p1[2]
             }
         );
     }
@@ -83,8 +84,9 @@ this.refreshDB = function () {
             { name: "Initiator", type: "text", width: 150 },
             { name: "Initiation time", type: "text", width: 100 },
             { name: "Recieved from", type: "text", width: 150 },
-            { name: "Recieved time", type: "text", width: 100 }
-
+            { name: "Recieved time", type: "text", width: 100 },
+            { name: "Workflow step", type: "text", visible: false }
+            
         ]
     });
 }

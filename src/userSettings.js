@@ -210,6 +210,7 @@ this.reloadIndentityChooser = function () {
         }
     }
     );
+    $("#selectActiveProfile").selectmenu("refresh");
     this.manageDeleteProfile();
     helper.log("Running DataChief as " + this.email);
     filler.reload();

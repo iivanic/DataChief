@@ -84,11 +84,11 @@ this.loadPackage = function (file) {
             //is this form completed the workflow?
             /// TODO : id is OK, but we must have form template type.
             if (loadedObj.forms[i].finished) {
-                //FORMID__FORMVERSION_FORMNAME_..INITIATOR.._..SENDER.._CREATIONDATE_RECIVEDDATE
+                //FORMID__FORMVERSION_FORMNAME_..INITIATOR.._..SENDER.._CREATIONDATE_RECIVEDDATE_STEP
                 fileName = helper.join(helper.getDataBasePath(),
                     id + "_" + version + "_" + loadedObj.forms[i]._name + ".." + 
                     loadedObj.forms[i].initiator + ".." + loadedObj.cameFrom + ".." + helper.formatDateForFileName(loadedObj.forms[i].initiationDate) + "_"  + 
-                    helper.formatDateForFileName(new Date())
+                    helper.formatDateForFileName(new Date()) + "_" + loadedObj.forms[i].workflowStep
                 );
             }
         }
