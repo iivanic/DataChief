@@ -18,7 +18,8 @@
   "license": "GPL-3.0",
   "dependencies": {
     "electron-window-state": "^4.1.1",
-    "imap": "0.8.x"
+    "imap": "0.8.x",
+    "json2csv": "3.x.x"
   },
   "devDependencies": {
     "electron-prebuilt": "1.x.x"
