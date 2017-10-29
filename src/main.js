@@ -6,7 +6,7 @@ const windowStateKeeper = require('electron-window-state');
 //const debug=true;
 const electron = require('electron')
 var app = electron.app;
-var BrowserWindow =electron.BrowserWindow;
+var BrowserWindow = electron.BrowserWindow;
 var path = require("path");
 const fs = require('fs')
 const os = require('os')
@@ -19,62 +19,64 @@ var printPDFWorkerWindow = null;
 var process = require("process");
 var size = null;
 
-ipc.on("printPDF", function (even, content)  {
+ipc.on("printPDF", function (even, content) {
     printPDFWorkerWindow.webContents.send("printPDF", content);
 });
-ipc.on("exportCSV", function (even, content)  {
+ipc.on("exportCSV", function (even, content) {
     dialog.showSaveDialog(
         {
             title: 'Export CSV',
             filters: [
-              { name: 'CSV Files', extensions: ['csv'] }
+                { name: 'CSV Files', extensions: ['csv'] }
             ]
-          }
-          , function (filename) {
+        }
+        , function (filename) {
+            if (filename) {
                 fs.writeFile(filename, content, function (error) {
-                if (error) {
-                  throw error
-                }
-                shell.openExternal('file://' + filename)
-             
-              })
-     
-    })
+                    if (error) {
+                        throw error
+                    }
+                    shell.openExternal('file://' + filename)
+
+                })
+            }
+
+        })
 });
 
- function savePDF (path) {
-    if (!path)return; 
+function savePDF(path) {
+    if (!path) return;
     // Use default printing options
-    
+
     printPDFWorkerWindow.webContents.printToPDF({}, function (error, data) {
         if (error) throw error
         fs.writeFile(path, data, function (error) {
-          if (error) {
-            throw error
-          }
-          shell.openExternal('file://' + path)
-       //   ipc.send('wrote-pdf', path)
+            if (error) {
+                throw error
+            }
+            shell.openExternal('file://' + path)
+            //   ipc.send('wrote-pdf', path)
         })
-      })
-  }
+    })
+}
 
 
 
 ipc.on('readyToPrintPDF', function (event) {
-    
+
     dialog.showSaveDialog(
         {
             title: 'Save PDF',
             filters: [
-              { name: 'PDFs', extensions: ['pdf'] }
+                { name: 'PDFs', extensions: ['pdf'] }
             ]
-          }
-          , function (filename) {
+        }
+        , function (filename) {
             savePDF(filename);
-     
-    })
 
-  })
+        })
+
+})
 
 app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
@@ -88,7 +90,7 @@ app.on('window-all-closed', function () {
 // a new app window if needed
 app.on('activate', function () {
     if (mainWindow == null) {
-       ready();     
+        ready();
     }
 });
 
@@ -97,17 +99,17 @@ app.on("ready", function () {
 });
 
 function ready() {
-  
+
     size = electron.screen.getPrimaryDisplay().workAreaSize;
     var x = Math.trunc(size.width * 0.05);
     var y = Math.trunc(size.height * 0.05);
     let mainWindowState = windowStateKeeper({
         defaultWidth: Math.trunc(size.width * 0.9),
         defaultHeight: Math.trunc(size.height * 0.9),
-        'x':  x,
-        'y':  y,
+        'x': x,
+        'y': y,
         fullScreen: true,
-        maximize : true,
+        maximize: true,
         file: "datachief/window-state.json"
 
     });
@@ -120,15 +122,15 @@ function ready() {
         show: true,
         icon: "./Icons/Filler.png"
     });
-    
+
 
     // Let us register listeners on the window, so we can update the state 
     // automatically (the listeners will be removed when the window is closed) 
     // and restore the maximized or full screen state 
     mainWindowState.manage(mainWindow);
-    
- //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
-  //      mainWindow.maximize();
+
+    //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
+    //      mainWindow.maximize();
 
     if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
         mainWindow.maximize();
@@ -157,7 +159,7 @@ function ready() {
     });
     //   if (debug)
     //      mainWindow.openDevTools();
-   
+
     // we need for printing PDF
     printPDFWorkerWindow = new BrowserWindow();
     printPDFWorkerWindow.loadURL("file://" + __dirname + "/printPDFWorkerWindow.html");
