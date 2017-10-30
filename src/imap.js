@@ -177,8 +177,8 @@ function uploadMessages(err, box) {
         progressMax = files.length;
         var c = 0;
         for (var i in files) {
-            var to = files[i].substring(6);
-            helper.log("Sending package to " + to);
+            var to = files[i].substring(6).replace('[BROADCAST]','');
+            helper.log("Sending package to " + (files[i].substring(6).indexOf("[BROADCAST]")>-1?to +" (BROADCAST)":to));
             var filename = helper.join(helper.getOutboxPath(), files[i]);
             var body = helper.loadFile(filename);
             var message =

@@ -547,6 +547,13 @@ this.parseWorkFlow = function (workflow) {
 
     return ret;
 }
+this.parseBroadCastRecievers = function(recievers)
+{
+    var ret = recievers.replace(',',';').split(';');
+    for(var i = 0; i< ret.length; i++)
+        ret[i] = "[BROADCAST]" + ret[i];
+    return ret;
+}
 
 this.deleteDatabase = function()
 {
@@ -567,4 +574,14 @@ this.deleteSentFolder = function()
         helper.deleteFile(path);
     }
     dataCollection.refreshSentDB();
+}
+this.deleteBroadcastFolder = function()
+{
+    var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
+    
+    for (var i in forms_) {
+        var path = helper.join(helper.getRecievedBroadCastsPath(), forms_[i]);
+        helper.deleteFile(path);
+    }
+    dataCollection.refreshBroadcastDB();
 }

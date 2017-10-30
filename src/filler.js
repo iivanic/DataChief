@@ -246,11 +246,12 @@ function createPackagesFromMyOutbox() {
     var items = helper.getFilesInDir(srcFolder);
     var packages = new Array();
     var pCount = 0;
-
+    var pCountBR = 0;
+    
     for (var i = 0; i < items.length; i++) {
         file = helper.loadFile(helper.join(srcFolder, items[i]));
         var loadedObj = JSON.parse(file);
-
+        var broadcastRecevers = helper.parseBroadCastRecievers(loadedObj.broadCastRecievers );
         var users = helper.parseWorkFlow(loadedObj.workflow);
         // find workflow step 
         if (users.length < loadedObj.workflowStep) {
@@ -282,19 +283,32 @@ function createPackagesFromMyOutbox() {
             // push form
             packages[users[ui]].forms.push(loadedObj);
         }
+        //broadcast!
+        
+        for (var ui = 0; ui < broadcastRecevers.length; ui++) {
+            // no package for user, create it
+            if (!packages[broadcastRecevers[ui]]) {
+                packages[broadcastRecevers[ui]] = { publisher: userSettings.organization, published: false, broadcastpackage:true, workflowpackage: true,cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                pCountBR++;
+            }
+            // push form
+            var clone = jQuery.extend(true, {}, loadedObj);
+            clone.broadcast=true;
+            packages[broadcastRecevers[ui]].forms.push(clone);
+        }
         helper.deleteFile(helper.join(srcFolder, items[i]));
     }
 
-    helper.log("createPackagesFromMyOutbox() - <strong>" + pCount + "</strong> Package(s):");
+    helper.log("createPackagesFromMyOutbox() - packages <strong>" + pCount + "</strong>, broadcast packages: <strong>" + pCountBR + "</strong>.");
 
     for (var i in packages) {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
-        savePackage(packages[i])
+        savePackage(packages[i], (i.substring(0,5)=="[BROA"?i:packages[i].user));
     }
     filler.reload();
 
 }
-function savePackage(p) {
+function savePackage(p, user) {
     var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
-    helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), p.user), content);
+    helper.saveTextFile(helper.addNumberPrefix2File(helper.getOutboxPath(), user), content);
 }

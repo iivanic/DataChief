@@ -218,6 +218,7 @@ this.reloadIndentityChooser = function () {
     index.reloadEditor();
     dataCollection.refreshDB();
     dataCollection.refreshSentDB();
+    dataCollection.refreshBroadcastDB();
 }
 
 function selectActiveProfile_change() {

@@ -50,15 +50,15 @@ this.loadPackage = function (file) {
         pp = helper.getRecievedBroadCastsPath();
         helper.checkFolder(pp);
     }
-
-    //Handle commands if exists.
-    for (var i in loadedObj.commands) {
-        //execute commands..
-        var cmd = require("./command.js");
-        cmd.ctor(loadedObj.commands[i].command, loadedObj.commands[i].textmessage, loadedObj.commands[i].user)
-        cmd.run();
+    if (!loadedObj.broadcastpackage) {
+        //Handle commands if exists.
+        for (var i in loadedObj.commands) {
+            //execute commands..
+            var cmd = require("./command.js");
+            cmd.ctor(loadedObj.commands[i].command, loadedObj.commands[i].textmessage, loadedObj.commands[i].user)
+            cmd.run();
+        }
     }
-
     for (var i in loadedObj.forms) {
         var mail = "";
         var version = loadedObj.forms[i]._version;
@@ -76,30 +76,40 @@ this.loadPackage = function (file) {
 
         var content = JSON.stringify(loadedObj.forms[i], index._formEditor.saveJSONReplacer, 2);
         var fileName = helper.join(pp, id + "_" + version + "_" + loadedObj.forms[i]._name + (mail.length ? " (" + mail + ")" : ""));
-        if (loadedObj.forms[i].published) {
-            var status = this.findFileStatus(id, version, oldFiles);
-            fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name);
-        }
-        if (loadedObj.forms[i].workflowpackage) {
-            //is this form completed the workflow?
-            /// TODO : id is OK, but we must have form template type.
-            if (loadedObj.forms[i].finished) {
-                //FORMID__FORMVERSION_FORMNAME_..INITIATOR.._..SENDER.._CREATIONDATE_RECIVEDDATE_STEP
-                fileName = helper.join(helper.getDataBasePath(),
-                    id + "_" + version + "_" + loadedObj.forms[i]._name + ".." + 
-                    loadedObj.forms[i].initiator + ".." + loadedObj.cameFrom + ".." + helper.formatDateForFileName(loadedObj.forms[i].initiationDate) + "_"  + 
-                    helper.formatDateForFileName(new Date()) + "_" + loadedObj.forms[i].workflowStep
-                );
+        if (!loadedObj.broadcastpackage) {
+            if (loadedObj.forms[i].published) {
+                var status = this.findFileStatus(id, version, oldFiles);
+                fileName = helper.join(pp, status + "_" + id + "_" + version + "_" + loadedObj.forms[i]._name);
+            }
+            if (loadedObj.forms[i].workflowpackage) {
+                //is this form completed the workflow?
+                /// TODO : id is OK, but we must have form template type.
+                if (loadedObj.forms[i].finished) {
+                    //FORMID__FORMVERSION_FORMNAME_..INITIATOR.._..SENDER.._CREATIONDATE_RECIVEDDATE_STEP
+                    fileName = helper.join(helper.getDataBasePath(),
+                        id + "_" + version + "_" + loadedObj.forms[i]._name + ".." +
+                        loadedObj.forms[i].initiator + ".." + loadedObj.cameFrom + ".." + helper.formatDateForFileName(loadedObj.forms[i].initiationDate) + "_" +
+                        helper.formatDateForFileName(new Date()) + "_" + loadedObj.forms[i].workflowStep
+                    );
+                }
+            }
+            // if it is not published folder, ensure unique name, no overwrite...
+            if (!loadedObj.published) {
+                if (helper.fileExists(fileName)) {
+                    var cnt = 0;
+                    while (helper.fileExists(fileName + "_" + cnt))
+                        cnt++;
+                    fileName = fileName + "_" + cnt;
+                }
             }
         }
-        // if it is not published folder, ensure unique name, no overwrite...
-        if (!loadedObj.published) {
-            if (helper.fileExists(fileName)) {
-                var cnt = 0;
-                while (helper.fileExists(fileName + "_" + cnt))
-                    cnt++;
-                fileName = fileName + "_" + cnt;
-            }
+        else {
+            //broadcast filename:
+            fileName = helper.join(helper.getRecievedBroadCastsPath(),
+                id + "_" + version + "_" + loadedObj.forms[i]._name + ".." +
+                loadedObj.forms[i].initiator + ".." + loadedObj.cameFrom + ".." + helper.formatDateForFileName(loadedObj.forms[i].initiationDate) + "_" +
+                helper.formatDateForFileName(new Date()) + "_" + loadedObj.forms[i].workflowStep
+            );
         }
         helper.saveTextFile(
             fileName,
@@ -107,6 +117,8 @@ this.loadPackage = function (file) {
         helper.log("----Form saved as " + fileName);
 
     }
+    if(loadedObj.broadcastpackage)
+        dataCollection.refreshBroadcastDB();
     //we're done, delete package in inbox
     helper.deleteFile(file);
     helper.log("--Done importing package " + file);
