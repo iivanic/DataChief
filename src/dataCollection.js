@@ -258,15 +258,19 @@ this.refreshBroadcastDB = function () {
 
         ]
     });
-    var selectHTML="";
+    var selectHTML="<option value=''><-- Choose --></option>";
     for(var i in broadCastedFormTypes)
     {
         selectHTML+="<option value='" + i + "'>" + broadCastedFormTypes[i] + "</option>";
     }
     $("#selectCollectorChooseForm").html(selectHTML);
-    $("#selectCollectorChooseForm").selectmenu().click(function () {
-        dataCollection.selectForm($("#selectCollectorChooseForm").val());
-    });
+    $("#selectCollectorChooseForm").selectmenu({
+        change: function( event, ui ) {
+           if($("#selectCollectorChooseForm").val()!='')
+                dataCollection.selectForm($("#selectCollectorChooseForm").val());
+
+        }
+      });
    // $("#selectCollectorChooseForm").selectmenu("refresh");
 }
 
