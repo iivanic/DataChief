@@ -48,6 +48,7 @@ function testStep3() {
         "recieved",
         "sent",
         "database",
+        "recievedbroadcasts",
         "work"
     ];
     var cnt = 0;

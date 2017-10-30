@@ -63,9 +63,7 @@ $(document).ready(function () {
 }
 );
 
-this.displayForm = function () {
-    helper.alert("display form");
-}
+
 this.deleteDBForms = function () {
     helper.confirm("Delete forms in database? Make sure You have exported data to your database.", collector.deleteDBFormsConfirmed);
 }

@@ -265,7 +265,7 @@ this.refreshBroadcastDB = function () {
     }
     $("#selectCollectorChooseForm").html(selectHTML);
     $("#selectCollectorChooseForm").selectmenu().click(function () {
-        collector.selectForm()
+        dataCollection.selectForm($("#selectCollectorChooseForm").val());
     });
    // $("#selectCollectorChooseForm").selectmenu("refresh");
 }
@@ -383,3 +383,8 @@ this.flatten = function (o) {
     return out;
 }
 
+this.selectForm = function(formType)
+{
+
+    helper.log(formType + " form chosen for analysis.")
+}
