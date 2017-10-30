@@ -19,7 +19,7 @@ this.checkCommandLine = function()
     if(this.isTest())
     {
         this.log("Loading test script.")
-        eval(helper.loadFile(helper.join(helper.join(__dirname,".."),helper.join("testscripts","test.js"))));
+        var test = require(helper.join(helper.join(__dirname,".."),helper.join("testscripts","test.js")));
         
     }
 }

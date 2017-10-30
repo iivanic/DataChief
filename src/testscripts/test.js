@@ -1,4 +1,4 @@
-// this is javascript test file for automated testing, executed with "eval"
+// this is javascript test file for automated testing
 
 window.setTimeout(testStep1, 500);
 
@@ -47,6 +47,7 @@ function testStep3() {
         "ready",
         "recieved",
         "sent",
+        "database",
         "work"
     ];
     var cnt = 0;
@@ -55,6 +56,7 @@ function testStep3() {
         for (var f in folders)
             helper.deleteFolder(helper.join(helper.join(helper.getSettingsFolder(), userSettings.Identities[u]), folders[f]));
     }
+ 
     helper.log(":::" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
     window.setTimeout(testStep4, 100);
 }
@@ -367,6 +369,8 @@ function testStep5_FinalStep(error) {
 //6. done
 function testStep6() {
     imap.callback = null;
+    $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+    userSettings.activeProfile_change();
     helper.log(":::Test step 6 - finish.");
 }
 
