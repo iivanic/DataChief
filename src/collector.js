@@ -18,7 +18,7 @@ $(document).ready(function () {
         }
     })
         .click(function () {
-            collector.deleteForm()
+            collector.deleteDBForms()
         });
    // ------------------
    $("#buttonCollectorExportSentFormData").button({
@@ -28,7 +28,7 @@ $(document).ready(function () {
         }
     })
         .click(function () {
-            collector.displayForm()
+            collector.exportSentDB()
         });
     $("#buttonCollectorDeleteSentFormData").button({
         text: true,
@@ -37,7 +37,7 @@ $(document).ready(function () {
         }
     })
         .click(function () {
-            collector.deleteForm()
+            collector.deleteSentForms()
         });
   // ------------------
    $("#buttonCollectorExportDatabaseFormData").button({
@@ -68,19 +68,29 @@ $(document).ready(function () {
 this.displayForm = function () {
     helper.alert("display form");
 }
-this.deleteForm = function () {
-    helper.confirm("Delete forms in database? Make sure You have exported data to your database.", collector.deleteFormsConfirmed);
+this.deleteDBForms = function () {
+    helper.confirm("Delete forms in database? Make sure You have exported data to your database.", collector.deleteDBFormsConfirmed);
 }
-this.deleteFormsConfirmed = function (result)
+this.deleteSentForms = function () {
+    helper.confirm("Delete forms in Sent folder? Make sure You have exported sent folder to your database.", collector.deleteSentFormsConfirmed);
+}
+this.deleteDBFormsConfirmed = function (result)
 {
     helper.deleteDatabase();
     helper.alert("Database deleted.");
 }
-this.selectForm = function () {
-
+this.deleteSentFormsConfirmed = function (result)
+{
+    helper.deleteSentFolder();
+    helper.alert("Sent folder deleted.");
 }
 this.exportDB = function()
 {
     dataCollection.exportDB();
 }
+this.exportSentDB = function()
+{
+    dataCollection.exportSentDB();
+}
+
 

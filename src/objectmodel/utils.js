@@ -247,6 +247,9 @@ this.addNumberPrefix2File = function (p, filename) {
 this.moveFile = function (srcP, dstP) {
     fs.renameSync(srcP, dstP);
 }
+this.copyFile = function (srcP, dstP) {
+    fs.copyFileSync(srcP, dstP);
+}
 this.getOnlyFileName = function (fileName) {
     return path.basename(fileName)
 }
@@ -554,4 +557,14 @@ this.deleteDatabase = function()
         helper.deleteFile(path);
     }
     dataCollection.refreshDB();
+}
+this.deleteSentFolder = function()
+{
+    var forms_ = helper.getFilesInDir(helper.getSentPath());
+    
+    for (var i in forms_) {
+        var path = helper.join(helper.getSentPath(), forms_[i]);
+        helper.deleteFile(path);
+    }
+    dataCollection.refreshSentDB();
 }

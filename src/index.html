@@ -8,7 +8,7 @@
     <link type="text/css" rel="stylesheet" href="./jquery.steps-1.1.0//jquery.steps.css">
     <link type="text/css" rel="stylesheet" href="./jsgrid-1.5.3/jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="./jsgrid-1.5.3/jsgrid-theme.min.css" />
-    
+
 
     <script>
         var imapTimer = null;
@@ -19,14 +19,16 @@
         var publish = require("./publish.js");
         var userSettings = require("./userSettings.js")
         userSettings.ctor();
-        var imap = require("./imap.js");    
+        var sent = require("./sent.js");
+        var imap = require("./imap.js");
         var filler = require("./filler.js");
         var package = require("./package.js");
         var barrique = require("./barriqueworks.js");
         var index = require("./index.js");
-        var querysteps =  require("./jquery.steps-1.1.0/jquery.steps.js");
+        var querysteps = require("./jquery.steps-1.1.0/jquery.steps.js");
         var collector = require("./collector.js");
         var dataCollection = require("./dataCollection.js");
+
         const ipcRenderer = require("electron").ipcRenderer;
 
     </script>
@@ -39,12 +41,12 @@
 
     <script src='jquery-validation-1.15.0/jquery.validate.js'></script>
     <script type="text/javascript" src="./jsgrid-1.5.3/jsgrid.min.js"></script>
-  
-<script>
-    function sendCommandToWorker(content) {
+
+    <script>
+        function sendCommandToWorker(content) {
             ipcRenderer.send("printPDF", content);
         }
-</script>
+    </script>
 
     <link rel='stylesheet' href='jqPropertyGrid/jqPropertyGrid.css' />
     <style>
@@ -56,7 +58,7 @@
 
 <body>
     <script>
-        var remote = require('electron').remote; 
+        var remote = require('electron').remote;
         var dialog = remote.dialog;
     </script>
     <div>
@@ -70,7 +72,8 @@
                         <p>Are you planing to use DataChief on this computer as Client only (You will be able to recive and
                             fill out forms) or do you want ability to design and publish Your own forms?</p>
                         <input type="radio" name="Startdesigner" id="Startdesigner1" value="1" style="display:inline;" />
-                        <label for="Startdesigner1">Client Only (typical choice)</label><br>
+                        <label for="Startdesigner1">Client Only (typical choice)</label>
+                        <br>
                         <input type="radio" name="Startdesigner" id="Startdesigner2" value="2" style="display:inline;" />
                         <label for="Startdesigner2">Enable Form Designer and Publisher (for Admins in your organization)</label>
                     </section>
@@ -84,9 +87,14 @@
                         <label for="startDialogCompanPassword">Organization secret (recommended)</label>
                         <p>This ensures that someone else can not claim to be Your organizations Publisher.</p>
                         <p>If set, this is used for encryprion of form templates when publishing. It ensures identity of publisher.
-                            DataCheif sends digest of this secret within every package. First time user recieve Package <strong>she or he can approve or disapprove publisher by accepting/refusing this digest.</strong></p>
-                        <p><strong>If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher).</strong>                            Before accepting, user should confirm with publisher that change of Organization secret is really
-                            happening and that this is not case of malicious attack.</p>
+                            DataCheif sends digest of this secret within every package. First time user recieve Package
+                            <strong>she or he can approve or disapprove publisher by accepting/refusing this digest.</strong>
+                        </p>
+                        <p>
+                            <strong>If publisher later changes Organization secret, user will be again prompted wheather she or he
+                                accepts digest(publisher).</strong> Before accepting, user should confirm with publisher
+                            that change of Organization secret is really happening and that this is not case of malicious
+                            attack.</p>
                         <input id="startDialogCompanPassword" name="startDialogCompanPassword" type="password" class="fullwidth">
                         <p>Repeat organization secret.</p>
                         <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" type="password" class="fullwidth">
@@ -94,22 +102,33 @@
                     <h3 id="step2Caption">DataChief Mode</h3>
                     <section id="step2">
                         <h2>Operating Mode</h2>
-                        <label for="appMode">DataChief can work in two basic modes. First one, Single IMAP account is simple and recommended for testing and learning. Drawback is lower security. Per user accoun mode requires one IMAP account per user, which makes it more secure but more complicated to setup.</label>
-                        <br><br>
+                        <label for="appMode">DataChief can work in two basic modes. First one, Single IMAP account is simple and recommended for
+                            testing and learning. Drawback is lower security. Per user accoun mode requires one IMAP account
+                            per user, which makes it more secure but more complicated to setup.</label>
+                        <br>
+                        <br>
                         <input type="radio" name="appMode" id="startDialogappMode1" value="1" style="display:inline;" />
-                        <label for="appMode1"> <strong>Single user account</strong> - For all communucation use only <strong>one IMAP account</strong></label><br>
+                        <label for="appMode1">
+                            <strong>Single user account</strong> - For all communucation use only
+                            <strong>one IMAP account</strong>
+                        </label>
+                        <br>
                         <input type="radio" name="appMode" disabled id="startDialogappMode2" value="2" style="display:inline;" />
-                        <label for="appMode2"><strong>Per user account</strong> (advanced and more secure) - PLANNED.</label>
+                        <label for="appMode2">
+                            <strong>Per user account</strong> (advanced and more secure) - PLANNED.</label>
 
                     </section>
                     <h3 id="step3Caption">Your Name and Email</h3>
                     <section id="step3">
                         <h2>Enter Your information.</h2>
                         <label for="startDialogName">Name *</label>
-                        <input id="startDialogName" name="startDialogName" type="text" required class="required fullwidth"><br>
+                        <input id="startDialogName" name="startDialogName" type="text" required class="required fullwidth">
+                        <br>
                         <label for="startDialogemail">Email *</label>
-                        <input id="startDialogemail" name="startDialogemail" type="email" required class="required email fullwidth"><br>
-                        <label for="startDialogUserSecretl1">Your Secret ( *required in <strong>Single user account</strong> mode )</label>
+                        <input id="startDialogemail" name="startDialogemail" type="email" required class="required email fullwidth">
+                        <br>
+                        <label for="startDialogUserSecretl1">Your Secret ( *required in
+                            <strong>Single user account</strong> mode )</label>
                         <input id="startDialogUserSecretl1" name="startDialogUserSecretl1" required type="password" class="required fullwidth">
                         <label for="startDialogUserSecretl2">Repeat Your Secret</label>
                         <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" required type="password" class="required fullwidth">
@@ -117,25 +136,38 @@
                     <h3 id="step4Caption">Communication</h3>
                     <section id="step4">
                         <h2>Set Up IMAP(Email) Account.</h2>
-                        <label for="step4textSettingsIMAPUsername">IMAP Username: </label><br>
-                        <input type="email" id="step4textSettingsIMAPUsername" required class="required fullwidth" /><br>
-                        <label for="step4textSettingsIMAPPassword">IMAP Password: </label><br>
-                        <input type="password" id="step4textSettingsIMAPPassword" required class="required fullwidth"><br>
-                        <label for="step4textSettingsIMAPPassword1">Repeat IMAP Password: </label><br>
-                        <input type="password" id="step4textSettingsIMAPPassword1" required class="required fullwidth"> <br>
-                        <label for="step4textSettingsIMAPServer">IMAP Server: </label><br>
-                        <input type="text" id="step4textSettingsIMAPServer" required class="required fullwidth" /><br>
-                        <label for="step4textSettingsIMAPServerPort">IMAP Server port: </label><br>
-                        <input type="number" min="0" max="65535" id="step4textSettingsIMAPServerPort" required class="required fullwidth">                        <br>
-                        <label for="step4textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label><br>
-                        <input type="checkbox" id="step4textSettingsIMAPRequiresSSL" required class="required"><button onclick="userSettings.imapTest();return false;"
-                            style="float:right;" id="IMAPTest">Test IMAP settings</button>
+                        <label for="step4textSettingsIMAPUsername">IMAP Username: </label>
+                        <br>
+                        <input type="email" id="step4textSettingsIMAPUsername" required class="required fullwidth" />
+                        <br>
+                        <label for="step4textSettingsIMAPPassword">IMAP Password: </label>
+                        <br>
+                        <input type="password" id="step4textSettingsIMAPPassword" required class="required fullwidth">
+                        <br>
+                        <label for="step4textSettingsIMAPPassword1">Repeat IMAP Password: </label>
+                        <br>
+                        <input type="password" id="step4textSettingsIMAPPassword1" required class="required fullwidth">
+                        <br>
+                        <label for="step4textSettingsIMAPServer">IMAP Server: </label>
+                        <br>
+                        <input type="text" id="step4textSettingsIMAPServer" required class="required fullwidth" />
+                        <br>
+                        <label for="step4textSettingsIMAPServerPort">IMAP Server port: </label>
+                        <br>
+                        <input type="number" min="0" max="65535" id="step4textSettingsIMAPServerPort" required class="required fullwidth">
+                        <br>
+                        <label for="step4textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
+                        <br>
+                        <input type="checkbox" id="step4textSettingsIMAPRequiresSSL" required class="required">
+                        <button onclick="userSettings.imapTest();return false;" style="float:right;" id="IMAPTest">Test IMAP settings</button>
                     </section>
                     <h3 id="step5Caption">Case Study</h3>
                     <section id="step5">
                         <h2>Case Study users</h2>
-                        <label for="addRemoveCaseStudyProfilesWizard">Add Case Study users to DataChief automatically for simpler use of "<a href='https://github.com/iivanic/DataChief/blob/master/Case%20study%20Barrique%20Works%20LLC.md'>Barrique Works LLC Case study</a>" document.</label>
-                        <br><br>
+                        <label for="addRemoveCaseStudyProfilesWizard">Add Case Study users to DataChief automatically for simpler use of "
+                            <a href='https://github.com/iivanic/DataChief/blob/master/Case%20study%20Barrique%20Works%20LLC.md'>Barrique Works LLC Case study</a>" document.</label>
+                        <br>
+                        <br>
                         <buttom id="addRemoveCaseStudyProfilesWizard">Add Barrique Works LLC Case study Profiles</buttom>
                     </section>
                     <h3 id="step6Caption">Finish</h3>
@@ -175,7 +207,8 @@
                 <label for="editOrgMemberEmail">User Email / Identifier</label>
                 <br> Please enter user Email
                 <input placeholder="Enter valid email" type="email" id="editOrgMemberEmail" required style="width:100%;" value="" class="ui-widget-content ui-corner-all">
-                <br> <br>
+                <br>
+                <br>
                 <label for="editOrgMemberSecret">User Secret</label>
                 <br> Please enter user Secret
                 <button id="editOrgMemberShowPassword" style="float:right">Show/hide secret</button>
@@ -187,56 +220,81 @@
 
         </div>
         <div id="dialog-confirm-remove-tab" style="display:none;" title="Delete not saved Form?">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Form has not been saved.
-                Are you sure you want to delete it?</p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Form has not been saved. Are you sure you want to delete it?</p>
         </div>
         <div id="dialog-confirm-remove-fillertab" style="display:none;" title="Close not saved Form?">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Data has not been saved.
-                Are you sure you want to close it without submitting or saving to Work folder?</p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Data has not been saved. Are you sure you want to close it without submitting or saving to Work folder?</p>
         </div>
         <div id="dialog-confirm-remove-field" style="display:none;" title="Delete field?">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are You sure?</p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are You sure?</p>
         </div>
         <div id="dialog-confirm" style="display:none;" title="Are You sure?">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><span id="dialog-confirm-text">Are You sure?</span></p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+                <span id="dialog-confirm-text">Are You sure?</span>
+            </p>
         </div>
         <div id="dialog-input" style="display:none;" title="Please input text?">
-            <p><span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 20px 0;"></span><span id="dialog-input-text">Text?</span></p>
-            <p><input type="text" style="width:100%;" id="dialog-input-inputedtext" maxlength=1000></p>
+            <p>
+                <span class="ui-icon ui-icon-info" style="float:left; margin:0 7px 20px 0;"></span>
+                <span id="dialog-input-text">Text?</span>
+            </p>
+            <p>
+                <input type="text" style="width:100%;" id="dialog-input-inputedtext" maxlength=1000>
+            </p>
         </div>
         <div id="dialog-validation-ok" style="display:none;" title="Validation OK">
             <p>
-                <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> Validation is
-                Success!
+                <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span> Validation is Success!
             </p>
             <p>
-                Form is <b>filled out correctly</b>.
+                Form is
+                <b>filled out correctly</b>.
             </p>
         </div>
         <div id="dialog-alert" style="display:none;" title="Alert">
             <p>
-                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 2px 2px 0;"></span> <span id="dialog-alert-text"></span>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 2px 2px 0;"></span>
+                <span id="dialog-alert-text"></span>
             </p>
         </div>
-        <div id="dialog-modal-form" style="display:none;" title="Form"><div id="dialog-modal-form-placeholder"></div></div>
+        <div id="dialog-modal-form" style="display:none;" title="Form">
+            <div id="dialog-modal-form-placeholder"></div>
+        </div>
         <div id="dialog-validation-failed" style="display:none;" title="Warning!">
             <p>
                 <span class="ui-icon ui-icon-alert" style="float:left; margin:0 5px 2px 0;"></span> Validation Failed!
             </p>
             <p>
-                Form is <b>not correctly filled out</b>.
+                Form is
+                <b>not correctly filled out</b>.
             </p>
         </div>
 
         <div id="maintabs">
 
             <ul>
-                <li><a href="#maintabs-1">Form & workflow editor</a></li>
-                <li><a href="#maintabs-2">Publisher</a></li>
-                <li><a href="#maintabs-3">Filler</a></li>
-                <li><a href="#maintabs-4">Data collection</a></li>
-                <li><a href="#maintabs-5">Settings</a></li>
-                <li><a href="#maintabs-6">About</a></li>
+                <li>
+                    <a href="#maintabs-1">Form & workflow editor</a>
+                </li>
+                <li>
+                    <a href="#maintabs-2">Publisher</a>
+                </li>
+                <li>
+                    <a href="#maintabs-3">Filler</a>
+                </li>
+                <li>
+                    <a href="#maintabs-4">Data collection</a>
+                </li>
+                <li>
+                    <a href="#maintabs-5">Settings</a>
+                </li>
+                <li>
+                    <a href="#maintabs-6">About</a>
+                </li>
             </ul>
             <div id="maintabs-1" class="fixmyheight">
                 <div class="row" style="height:100%;">
@@ -264,8 +322,8 @@
                         <div class="col-sm-4" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <label for="prepublishList">Prepublished forms folder</label><img src="../icons/arrow-right.png"
-                                        style="padding-left:15px;height:24px;">
+                                    <label for="prepublishList">Prepublished forms folder</label>
+                                    <img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -285,8 +343,8 @@
                         <div class="col-sm-4" style="text-align:center;height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;">
-                                    <label for="publishList">Published forms and commands folder</label><img src="../icons/arrow-right.png"
-                                        style="padding-left:15px;height:24px;">
+                                    <label for="publishList">Published forms and commands folder</label>
+                                    <img src="../icons/arrow-right.png" style="padding-left:15px;height:24px;">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -298,11 +356,13 @@
                             <div class="row" style="height:7%;">
                                 <div class="col-sm-4" style="height:100%;">
                                     <select style="width:100%;" id="commandAddCommandSelectCommand">
-                                      <option>< Cmd to add ></option>
-                                      <option value="empty">Empty command</option>
-                                      <option value="delete">Delete all local copies from publisher</option>
-                                      <option value="text">Send text message</option>
-                                     </select>
+                                        <option>
+                                            < Cmd to add>
+                                        </option>
+                                        <option value="empty">Empty command</option>
+                                        <option value="delete">Delete all local copies from publisher</option>
+                                        <option value="text">Send text message</option>
+                                    </select>
                                 </div>
                                 <div class="col-sm-1" style="height:100%;">
                                     to
@@ -327,8 +387,8 @@
                         <div class="col-sm-4" style="height:100%;">
                             <div class="row" style="height:4%;">
                                 <div class="col-sm-12" style="height:100%;text-align:right;">
-                                    <label for="outboxList">Ready packages</label><img src="../icons/arrow-right-internet.png"
-                                        style="padding-left:15px;height:24px;float:right">
+                                    <label for="outboxList">Ready packages</label>
+                                    <img src="../icons/arrow-right-internet.png" style="padding-left:15px;height:24px;float:right">
                                 </div>
                             </div>
                             <div class="row" style="height:7%;">
@@ -359,15 +419,20 @@
                         <hr />
                         <ul id="fillerTree" style="width:100%;padding-left:0px;">
 
-                            <li style="width:100%"><a style="width:100%" href="#"><strong>Published to me</strong></a>
+                            <li style="width:100%">
+                                <a style="width:100%" href="#">
+                                    <strong>Published to me</strong>
+                                </a>
                                 <ul id="fillerTreePublishedToMe">
-                                    <li><a style="width:100%" href="#">Publisher 1</a>
+                                    <li>
+                                        <a style="width:100%" href="#">Publisher 1</a>
                                         <ul>
                                             <li>Test1</li>
                                             <li>tewt</li>
                                         </ul>
                                     </li>
-                                    <li><a style="width:100%" href="#">Publisher 2</a>
+                                    <li>
+                                        <a style="width:100%" href="#">Publisher 2</a>
                                         <ul>
                                             <li>Test1</li>
                                             <li>tewt</li>
@@ -375,25 +440,37 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li style="width:100%"><a style="width:100%" href="#FillerVtabs-2"><strong>Recieved from other employees</strong></a>
+                            <li style="width:100%">
+                                <a style="width:100%" href="#FillerVtabs-2">
+                                    <strong>Recieved from other employees</strong>
+                                </a>
                                 <ul id="fillerTreeRecieved">
                                     <li>Test1</li>
                                     <li>tewt</li>
                                 </ul>
                             </li>
-                            <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3"><strong>Work / half-filled</strong></a>
+                            <li style="width:100%">
+                                <a style="width:100%" href="#FillerVtabs-3">
+                                    <strong>Work / half-filled</strong>
+                                </a>
                                 <ul id="fillerTreeWork">
                                     <li>Test1</li>
                                     <li>tewt</li>
                                 </ul>
                             </li>
-                            <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3"><strong>Outbox</strong></a>
+                            <li style="width:100%">
+                                <a style="width:100%" href="#FillerVtabs-3">
+                                    <strong>Outbox</strong>
+                                </a>
                                 <ul id="fillerTreeMyOutbox">
                                     <li>Test1</li>
                                     <li>tewt</li>
                                 </ul>
                             </li>
-                            <li style="width:100%"><a style="width:100%" href="#FillerVtabs-3"><strong>Sent forms</strong></a>
+                            <li style="width:100%">
+                                <a style="width:100%" href="#FillerVtabs-3">
+                                    <strong>Sent forms</strong>
+                                </a>
                                 <ul id="fillerTreeSent">
                                     <li>Test1</li>
                                     <li>tewt</li>
@@ -404,7 +481,10 @@
                     <div class="col-sm-10" style="height:100%;">
                         <div id="Fillertabs">
                             <ul>
-                                <li><a href="#Fillertabstabs-1">Welcome!</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>
+                                <li>
+                                    <a href="#Fillertabstabs-1">Welcome!</a>
+                                    <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span>
+                                </li>
                             </ul>
                             <div id="Fillertabstabs-1" class="fixmyheight" style="background-image:url('../icons/FillerGray.png');background-repeat: no-repeat;background-position: center center;height:90%;">
 
@@ -417,46 +497,62 @@
             <div id="maintabs-4" class="fixmyheight">
                 <div id="collectortabs">
                     <ul>
-                        <li><a href="#collectortabs-1">Collected data</a></li>
-                        <li><a href="#collectortabs-2">Sent data</a></li>
-                        <li><a href="#collectortabs-3">Recived status broadcasts</a></li>
+                        <li>
+                            <a href="#collectortabs-1">Collected data</a>
+                        </li>
+                        <li>
+                            <a href="#collectortabs-2">Sent data</a>
+                        </li>
+                        <li>
+                            <a href="#collectortabs-3">Recived status broadcasts</a>
+                        </li>
                     </ul>
                     <div id="collectortabs-1" class="fixmyheight">
                         <!-- here we look in database folder -->
-                        <p>This is list of <strong>finshed Forms</strong> in your database. You can export them to spreadsheet or external database.</p>
+                        <p>This is list of
+                            <strong>finshed Forms</strong> in your database. You can export them to spreadsheet or external database.</p>
                         <button id="buttonCollectorExportFormData">Export data</button>
                         <button id="buttonCollectorDeleteFormData">Delete data</button>
-                        
+
                         <div id="jsGridCollectedData"></div>
                     </div>
                     <div id="collectortabs-2" class="fixmyheight">
-                         <!-- here we look in sent folder -->
-                         <p>This is list of forms <strong>that you have sent</strong> which have "Allowed local copies" property set.</p>
-                         <button id="buttonCollectorExportSentFormData">Export data</button>
-                         <button id="buttonCollectorDeleteSentFormData">Delete data</button>
-                         <div id="jsGridSentData"></div>
+                        <!-- here we look in sent folder -->
+                        <p>This is list of forms
+                            <strong>that you have sent</strong> which have "Allowed local copies" property set.</p>
+                        <button id="buttonCollectorExportSentFormData">Export data</button>
+                        <button id="buttonCollectorDeleteSentFormData">Delete data</button>
+                        <div id="jsGridSentData"></div>
                     </div>
                     <div id="collectortabs-3" class="fixmyheight">
                         <!-- here we look in recievedbroadcasts folder -->
-                        <p>Here you can watch over Workflows and DataChief in general. You have <strong>Graphical view</strong> where you can graphically see Form Workflow and info, and <strong>Forms list</strong> view which is list of forms that have been broadcast to you.</p>
+                        <p>Here you can watch over Workflows and DataChief in general. You have
+                            <strong>Graphical view</strong> where you can graphically see Form Workflow and info, and
+                            <strong>Forms list</strong> view which is list of forms that have been broadcast to you.</p>
                         <div id="collectorRecievedBroadcastsTabs">
-                        <ul>
-                            <li><a href="#collectorRecievedBroadcastsTabs-1">Graphical View</a></li>
-                            <li><a href="#collectorRecievedBroadcastsTabs-2">Forms list</a></li>
-                        </ul>
-                        <div id="collectorRecievedBroadcastsTabs-1" class="fixmyheight">
-                            <p style="float:left;">Please choose form:&nbsp;&nbsp;&nbsp;</p>
-                            <select id="selectCollectorChooseForm" style="min-width:250px;width:250px;float:left;"> 
-                                <option value="-1"><- Choose Form -></option>
-                            </select>
-                        </div>              
-                        <div id="collectorRecievedBroadcastsTabs-2" class="fixmyheight">   
-                            <button id="buttonCollectorExportDatabaseFormData">Export data</button>
-                            <button id="buttonCollectorDeleteDatabaseFormData">Delete data</button>
-                            <div id="jsGridRecievedBroadcastsData"></div>
+                            <ul>
+                                <li>
+                                    <a href="#collectorRecievedBroadcastsTabs-1">Graphical View</a>
+                                </li>
+                                <li>
+                                    <a href="#collectorRecievedBroadcastsTabs-2">Forms list</a>
+                                </li>
+                            </ul>
+                            <div id="collectorRecievedBroadcastsTabs-1" class="fixmyheight">
+                                <p style="float:left;">Please choose form:&nbsp;&nbsp;&nbsp;</p>
+                                <select id="selectCollectorChooseForm" style="min-width:250px;width:250px;float:left;">
+                                    <option value="-1">
+                                        <- Choose Form ->
+                                    </option>
+                                </select>
+                            </div>
+                            <div id="collectorRecievedBroadcastsTabs-2" class="fixmyheight">
+                                <button id="buttonCollectorExportDatabaseFormData">Export data</button>
+                                <button id="buttonCollectorDeleteDatabaseFormData">Delete data</button>
+                                <div id="jsGridRecievedBroadcastsData"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
 
             </div>
@@ -523,9 +619,16 @@
                             <div id="profileFieldDesignerDiv">
 
                                 <select id="selectActiveProfile" style="min-width:250px;float:left;"></select>
-                                <button style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique<br />Works LLC <br />Case study<br />Profiles</button>
-                                <button style="float:left;" id="deleteProfile" onclick="">Delete Profile</button> <br /><br
-                                /><br /><br /></div>
+                                <button style="float:right;" id="addRemoveCaseStudyProfiles">Add Barrique
+                                    <br />Works LLC
+                                    <br />Case study
+                                    <br />Profiles</button>
+                                <button style="float:left;" id="deleteProfile" onclick="">Delete Profile</button>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                            </div>
                             <fieldset id="settingsField">
                                 <legend>User information</legend>
                                 <p>Enter your email and Name</p>
@@ -685,18 +788,31 @@
                     <div class="col-sm-3" style="text-align:center">
                         <img src="../icons/Filler.png" style="height:256px;padding-bottom:24px;padding-top:24px;" />
                         <br>
-                        <p>Version: <strong id="about_ver">.</strong></p>
-                        <p>Author: <strong id="about_author">.</strong></p>
-                        <p>Released under:
-                            <a href="https://github.com/iivanic/DataChief/blob/master/LICENSE" target="_blank"><strong id="about_lic">.</a></strong>
+                        <p>Version:
+                            <strong id="about_ver">.</strong>
                         </p>
-                        <p>Get the source code <a href="http://www.github.com/iivanic/datachief" target="_blank"><strong>from GitHub</strong></a>.</p>
+                        <p>Author:
+                            <strong id="about_author">.</strong>
+                        </p>
+                        <p>Released under:
+                            <a href="https://github.com/iivanic/DataChief/blob/master/LICENSE" target="_blank">
+                                <strong id="about_lic">.</a>
+                            </strong>
+                        </p>
+                        <p>Get the source code
+                            <a href="http://www.github.com/iivanic/datachief" target="_blank">
+                                <strong>from GitHub</strong>
+                            </a>.</p>
                     </div>
                     <div class="col-sm-9">
                         <div id="abouttabs">
                             <ul>
-                                <li><a href="#abouttabs-1">About</a></li>
-                                <li><a href="#abouttabs-2">Case Study</a></li>
+                                <li>
+                                    <a href="#abouttabs-1">About</a>
+                                </li>
+                                <li>
+                                    <a href="#abouttabs-2">Case Study</a>
+                                </li>
                             </ul>
                             <div id="abouttabs-1" class="fixmyheight">
                                 <p id="description">...</p>
@@ -728,7 +844,8 @@
 
                 <div class="col-sm-3" id="sendingpanel" style="height:100px;display:none;">
                     <div class="row" style="height:25px;">
-                        <div class="col-sm-12" style="height:100%;text-align:right;"><img src="../icons/Internet-icon.png" style="padding-left:15px;height:24px;float:right">
+                        <div class="col-sm-12" style="height:100%;text-align:right;">
+                            <img src="../icons/Internet-icon.png" style="padding-left:15px;height:24px;float:right">
                             <label for="outboxList">Outbox (sending folder)...</label>
                         </div>
                     </div>

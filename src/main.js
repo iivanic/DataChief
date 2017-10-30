@@ -158,7 +158,7 @@ function ready() {
         mainWindow = null;
     });
     //   if (debug)
-    //      mainWindow.openDevTools();
+         mainWindow.openDevTools();
 
     // we need for printing PDF
     printPDFWorkerWindow = new BrowserWindow();

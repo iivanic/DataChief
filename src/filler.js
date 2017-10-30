@@ -215,7 +215,7 @@ this.refreshFolders = function () {
 
     var sent = helper.getFilesInDir(helper.getSentPath());
 
-    html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });'>Sent " + sent.length + " forms</span></li>";
+    html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });$(\"#collectortabs\").tabs({ active: 1 })'>Sent " + sent.length + " forms</span></li>";
     /*  if (sent.length == 0) {
           html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
       }

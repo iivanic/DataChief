@@ -198,14 +198,6 @@ function uploadMessages(err, box) {
     }
 }
 function appendDone(err, o) {
-    var el = quedPcks.shift();
-    helper.deleteFile(el);
- /*   el.next().next().remove();
-    el.next().remove();
-    el.remove();*/
-    $("#progressbar").progressbar({
-        value: Math.abs(10 + 80 * progressCnt / progressMax)
-    });
     if (err) {
         if (error)
             error += err;
@@ -216,6 +208,16 @@ function appendDone(err, o) {
     }
  //   else
  //       helper.log("Append done (id=" + o + ").")
+    var el = quedPcks.shift();
+    sent.movePackageToSent(el);
+    helper.deleteFile(el);
+ /*   el.next().next().remove();
+    el.next().remove();
+    el.remove();*/
+    $("#progressbar").progressbar({
+        value: Math.abs(10 + 80 * progressCnt / progressMax)
+    });
+ 
     progressCnt++;
    // helper.log(progressCnt + ", " + progressMax)
     if (progressCnt == progressMax)
