@@ -2,6 +2,8 @@ var form = require("./objectmodel/form.js");
 const ipc = require('electron').ipcRenderer;
 const json2csv = require('json2csv');
 
+var broadCastedFormTypes;
+
 var broadcastDB = {
 
     loadData: function (filter) {
@@ -201,6 +203,7 @@ this.refreshSentDB = function () {
     });
 }
 this.refreshBroadcastDB = function () {
+    broadCastedFormTypes=new Object();
     var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
     var parsedForms = new Array();
     for (var i in forms_) {
@@ -222,6 +225,7 @@ this.refreshBroadcastDB = function () {
                 "Workflow step": p1[2]
             }
         );
+        broadCastedFormTypes[ p[0] ] = p[2];
     }
     broadcastDB.forms = parsedForms;
 
@@ -254,6 +258,16 @@ this.refreshBroadcastDB = function () {
 
         ]
     });
+    var selectHTML="";
+    for(var i in broadCastedFormTypes)
+    {
+        selectHTML+="<option value='" + i + "'>" + broadCastedFormTypes[i] + "</option>";
+    }
+    $("#selectCollectorChooseForm").html(selectHTML);
+    $("#selectCollectorChooseForm").selectmenu().click(function () {
+        collector.selectForm()
+    });
+   // $("#selectCollectorChooseForm").selectmenu("refresh");
 }
 
 this.db = db;

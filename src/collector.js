@@ -58,9 +58,7 @@ $(document).ready(function () {
         .click(function () {
             collector.deletBroadcastForms()
         });
-    $("#selectCollectorChooseForm").selectmenu().click(function () {
-        collector.selectForm()
-    });
+ 
 
 }
 );
