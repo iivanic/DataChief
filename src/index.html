@@ -31,6 +31,8 @@
 
         const ipcRenderer = require("electron").ipcRenderer;
 
+        var mermaid = require("mermaid");
+
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -545,6 +547,16 @@
                                         <- Choose Form ->
                                     </option>
                                 </select>
+                                <style>
+                                #svgGraph g foreignObject 
+                                {
+                                    color:black;
+                                }
+                                </style>
+                                <div id="graphDiv">
+                                
+                                 </div>
+                                
                             </div>
                             <div id="collectorRecievedBroadcastsTabs-2" class="fixmyheight">
                                 <button id="buttonCollectorExportBroadcastFormData">Export data</button>

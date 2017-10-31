@@ -203,7 +203,7 @@ this.refreshSentDB = function () {
     });
 }
 this.refreshBroadcastDB = function () {
-    broadCastedFormTypes=new Object();
+    broadCastedFormTypes = new Object();
     var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
     var parsedForms = new Array();
     for (var i in forms_) {
@@ -225,7 +225,7 @@ this.refreshBroadcastDB = function () {
                 "Workflow step": p1[2]
             }
         );
-        broadCastedFormTypes[ p[0] ] = p[2];
+        broadCastedFormTypes[p[0]] = p[2];
     }
     broadcastDB.forms = parsedForms;
 
@@ -258,20 +258,19 @@ this.refreshBroadcastDB = function () {
 
         ]
     });
-    var selectHTML="<option value=''><-- Choose --></option>";
-    for(var i in broadCastedFormTypes)
-    {
-        selectHTML+="<option value='" + i + "'>" + broadCastedFormTypes[i] + "</option>";
+    var selectHTML = "<option value=''><-- Choose --></option>";
+    for (var i in broadCastedFormTypes) {
+        selectHTML += "<option value='" + i + "'>" + broadCastedFormTypes[i] + "</option>";
     }
     $("#selectCollectorChooseForm").html(selectHTML);
     $("#selectCollectorChooseForm").selectmenu({
-        change: function( event, ui ) {
-           if($("#selectCollectorChooseForm").val()!='')
+        change: function (event, ui) {
+            if ($("#selectCollectorChooseForm").val() != '')
                 dataCollection.selectForm($("#selectCollectorChooseForm").val());
 
         }
-      });
-   // $("#selectCollectorChooseForm").selectmenu("refresh");
+    });
+    // $("#selectCollectorChooseForm").selectmenu("refresh");
 }
 
 this.db = db;
@@ -282,6 +281,8 @@ $(document).ready(
     function () {
         dataCollection.refreshDB();
         dataCollection.refreshBroadcastDB();
+        mermaid.mermaidAPI.initialize(mermaidconfig);
+
     }
 );
 
@@ -324,9 +325,9 @@ this.exportSentDB = function () {
     this.export(helper.getFilesInDir(helper.getSentPath()), helper.getSentPath());
 }
 this.exportBroadcastDB = function () {
-    
-        this.export(helper.getFilesInDir(helper.getRecievedBroadCastsPath()), helper.getRecievedBroadCastsPath());
-    
+
+    this.export(helper.getFilesInDir(helper.getRecievedBroadCastsPath()), helper.getRecievedBroadCastsPath());
+
 }
 
 this.export = function (forms_, folder) {
@@ -386,9 +387,56 @@ this.flatten = function (o) {
     }
     return out;
 }
+var mermaidconfig = {
+    startOnLoad: true,
+    theme: 'forest',
 
-this.selectForm = function(formType)
-{
+    flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true
+    }
+};
+this.selectForm = function (formType) {
 
     helper.log(formType + " form chosen for analysis.")
+
+    var fileList = helper.getFilesInDir(helper.getDataBasePath())
+    var form = "";
+    for (var i in fileList) {
+        if (fileList[i].substring(0,formType.length) == formType) {
+            var form = helper.loadFile(helper.join(helper.getDataBasePath(), fileList[i]));
+            form = JSON.parse(form);
+        }
+    }
+    if (!form)
+        return;
+    dataCollection.setGraph4Mermaide(
+        "graph TD\n" +
+        "A[\"Form " + form._name + " ( " + formType + " ), ver " + form._version + " created by " + form._author + " \n" +
+        "on behalf of Barriqueworks LLC\"] -->|Published| B(igor.ivanic at barriqueworks.com)\n" +
+        "A --> |Published|D(Let me think)\n" +
+        "A --> |Published|E(Let me think)\n" +
+        "A --> |Published|F(Let me think)\n" +
+        "D --> |32|G(JA Ukupno: In 98, out 97, state: 1)\n" +
+        "E --> |12|G\n" +
+        "F --> |22|G\n" +
+        "B --> |8|G\n" +
+        "G --> |97|H(richard at b)\n" +
+        "\n" +
+        "style A color:#000000,fill:#ffef9f,stroke:#333333\n" +
+        "class E graphColor;\n" +
+        "style H fill:#FFEF9F,stroke:#333\n"
+    );
+
 }
+
+
+this.setGraph4Mermaide = function (graphDefinition) {
+
+
+    $("#svgGraph").remove();
+    var graph = mermaid.mermaidAPI.render('svgGraph', graphDefinition);
+    $("#graphDiv").html(graph);
+
+}
+
