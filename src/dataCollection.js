@@ -439,7 +439,9 @@ this.selectForm = function (formType) {
                 {
                     //conect initiators...
                     for (var i in publishedTo) {
-                        markup += "I" + i.toString() + "-->WF" + j.toString() + "\n";
+                        markup += "I" + i.toString() + "-->|" + 
+                        countSendersAtStep(publishedTo[i],parseInt(j)+1,formType,form._version) + 
+                        "|WF" + j.toString() + "\n";
                     }
                 }
             }
@@ -455,12 +457,43 @@ this.selectForm = function (formType) {
         }
         else
         {
-            markup += "WF" + lastWFIndex.toString() + "-->DB" + j.toString() + "\n";
+            markup += "WF" + lastWFIndex.toString() + "-->|" +
+            countSendersAtStep(lastWF,wf.length+1,formType,form._version)  + "|DB" + j.toString() + "\n";
         }
     }
 
     dataCollection.setGraph4Mermaide(markup);
 
+}
+function countSendersAtStep(sender, step, formtype, version)
+{
+    var ret = 0;
+    //analyze broadcast DB
+    var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
+    var parsedForms = new Array();
+    for (var i in forms_) {
+        var path = helper.join(helper.getRecievedBroadCastsPath(), forms_[i]);
+        // parse
+        var parts = forms_[i].split("..");
+        var p = parts[0].split("_");
+        var p1 = parts[3].split("_");
+        // ---
+        var _Path =  path;
+        var _FormType = p[0];
+        var _Version = p[1];
+        var _Name = p[2];
+        var _Initiator =  parts[1];
+        var _Initiationtime = helper.parseDateFromFileName(p1[0]);
+        var _Recievedfrom = parts[2];
+        var _Recievedtime = helper.parseDateFromFileName(p1[1]);
+        var _Workflowstep = p1[2];
+            
+        if(formtype == _FormType && version == _Version && step == _Workflowstep && sender ==_Recievedfrom)
+        {
+            ret++;
+        }
+    }
+    return ret;
 }
 
 

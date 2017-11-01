@@ -251,7 +251,7 @@ function createPackagesFromMyOutbox() {
     for (var i = 0; i < items.length; i++) {
         file = helper.loadFile(helper.join(srcFolder, items[i]));
         var loadedObj = JSON.parse(file);
-        var broadcastRecevers = helper.parseBroadCastRecievers(loadedObj.broadCastRecievers );
+        var broadcastRecevers = helper.parseBroadCastRecievers(loadedObj.broadCastRecievers, loadedObj.initiator );
         var users = helper.parseWorkFlow(loadedObj.workflow);
         // find workflow step 
         if (users.length < loadedObj.workflowStep) {
