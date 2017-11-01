@@ -549,7 +549,7 @@ this.parseWorkFlow = function (workflow) {
 }
 this.parseBroadCastRecievers = function(recievers)
 {
-    var ret = recievers.replace(',',';').split(';');
+    var ret = recievers.replace(/,/gi,';').split(/;/gi);
     for(var i = 0; i< ret.length; i++)
         ret[i] = "[BROADCAST]" + ret[i];
     return ret;

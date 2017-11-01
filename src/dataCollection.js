@@ -403,30 +403,63 @@ this.selectForm = function (formType) {
     var fileList = helper.getFilesInDir(helper.getDataBasePath())
     var form = "";
     for (var i in fileList) {
-        if (fileList[i].substring(0,formType.length) == formType) {
+        if (fileList[i].substring(0, formType.length) == formType) {
             var form = helper.loadFile(helper.join(helper.getDataBasePath(), fileList[i]));
             form = JSON.parse(form);
         }
     }
     if (!form)
         return;
-    dataCollection.setGraph4Mermaide(
+    var publishedTo = form.publishTo.replace(/,/gi, ";").split(/;/gi);
+    var markup =
         "graph TD\n" +
-        "A[\"Form " + form._name + " ( " + formType + " ), ver " + form._version + " created by " + form._author + " \n" +
-        "on behalf of Barriqueworks LLC\"] -->|Published| B(igor.ivanic at barriqueworks.com)\n" +
-        "A --> |Published|D(Let me think)\n" +
-        "A --> |Published|E(Let me think)\n" +
-        "A --> |Published|F(Let me think)\n" +
-        "D --> |32|G(JA Ukupno: In 98, out 97, state: 1)\n" +
-        "E --> |12|G\n" +
-        "F --> |22|G\n" +
-        "B --> |8|G\n" +
-        "G --> |97|H(richard at b)\n" +
-        "\n" +
-        "style A color:#000000,fill:#ffef9f,stroke:#333333\n" +
-        "class E graphColor;\n" +
-        "style H fill:#FFEF9F,stroke:#333\n"
-    );
+        "A[\" Form " + form._name + " ( " + formType + " ), ver " + form._version + " created by " + form._author + " \n" +
+        "on behalf of " + form.publisher + "\"] ";
+
+    for (var i in publishedTo) {
+        markup += "-->|Published| I" + i.toString() + "(\"" + publishedTo[i] + "\")\n";
+        if (i < publishedTo.length - 1)
+            markup += "A ";
+
+    }
+    var wf = helper.parseWorkFlow(form.workflow);
+
+    var lastWF=null;
+    var lastWFIndex = 0;
+    for (var j in wf) {
+        lastWF=wf[j];
+        lastWFIndex=j;
+        if (wf[j] instanceof Array) {
+            //ako je array, onda moramo dodati više...
+        }
+        else
+            {
+                markup += "WF" + j.toString() + "(\"" + wf[j] + "\")\n";
+                if(j==0)
+                {
+                    //conect initiators...
+                    for (var i in publishedTo) {
+                        markup += "I" + i.toString() + "-->WF" + j.toString() + "\n";
+                    }
+                }
+            }
+    }
+
+    //final step
+    var finalStep = form.finalStep.replace(/,/gi, ";").split(/;/gi);
+    for (var j in finalStep) {
+        markup += "DB" + j.toString() + "(\"" + finalStep[j] + "\")\n";
+        //conect it with last WF
+        if (lastWF instanceof Array) {
+            //ako je array, onda moramo dodati više...
+        }
+        else
+        {
+            markup += "WF" + lastWFIndex.toString() + "-->DB" + j.toString() + "\n";
+        }
+    }
+
+    dataCollection.setGraph4Mermaide(markup);
 
 }
 

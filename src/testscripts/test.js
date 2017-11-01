@@ -8,6 +8,8 @@ function testStep1() {
     $("#expandlog").click();
     // set user to first on the list, this is the user not in barrique Case study
     $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+
+
     userSettings.activeProfile_change();
     helper.log(":::User switched to " + userSettings.identitySetting.email);
     helper.log(":::Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
@@ -28,6 +30,9 @@ function testStep2() {
         helper.log(":::No design mode detected. Please install DataChief in Design mode.");
     }
     else {
+        //activate editor
+        $(maintabs).tabs("option", "active", 0);
+        $(maintabs).tabs("refresh");
         helper.log(":::OK - Design mode detected.");
         window.setTimeout(testStep3, 100);
     }
@@ -57,7 +62,7 @@ function testStep3() {
         for (var f in folders)
             helper.deleteFolder(helper.join(helper.join(helper.getSettingsFolder(), userSettings.Identities[u]), folders[f]));
     }
- 
+
     helper.log(":::" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
     window.setTimeout(testStep4, 100);
 }
@@ -82,7 +87,10 @@ function testStep4Part3() {
 
     //publish
     //click "Save to publish"
-    $("#tabs-2Form_selectSave_publish").click()
+    $("#tabs-2Form_selectSave_publish").click();
+    //activate publisher
+    $(maintabs).tabs("option", "active", 1);
+    $(maintabs).tabs("refresh");
     //click "Create Packages"
     $("#buttonPublish").click();
     //click OK in configrm dialog
@@ -103,6 +111,10 @@ function testStep4ImapPublishDone(error) {
 //5. go through worfflow for every user
 function testStep5() {
     helper.log(":::Test step 5 - go through fill worfflow for every user.");
+
+    //activate filler
+    $(maintabs).tabs("option", "active", 2);
+    $(maintabs).tabs("refresh");
 
     //form is published to:
     //jennifer@barriqueworks.com, michael@barriqueworks.com, elizabeth@barriqueworks.com
@@ -361,7 +373,7 @@ function testStep5_FinalStep(error) {
     helper.log(":::testStep5_FinalStep richard@barriqueworks.com recieves packages.");
     switchToUser("richard@barriqueworks.com");
 
-  
+
     // first set callback
     imap.callback = testStep6;
     $($("span:contains('Send / Recieve')")).click()

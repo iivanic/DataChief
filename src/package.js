@@ -63,6 +63,8 @@ this.loadPackage = function (file) {
         var mail = "";
         var version = loadedObj.forms[i]._version;
         var id = loadedObj.forms[i]._id;
+        //remember publisher for form
+        loadedObj.forms[i].publisher = loadedObj.publisher;
         if (loadedObj.published)
             loadedObj.forms[i].published = true;
 
