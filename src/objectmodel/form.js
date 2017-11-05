@@ -648,7 +648,7 @@ this.createForm = function (name, templateName) {
             this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
             this.finalStep = "daniel@barriqueworks.com";
             this.broadCastRecievers = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
-            this.broadcastStatusOfForm = true;
+           // this.broadcastStatusOfForm = true;
 
             var grp = Object.create(groupField);
             grp.ctor();
