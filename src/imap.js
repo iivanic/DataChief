@@ -12,6 +12,7 @@ function openInbox(cb) {
 }
 
 this.callback=null;
+this.test = null;
 
 var imapbusy = false;
 this.go = Go;
@@ -104,7 +105,7 @@ function Go(automatic) {
             window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
         if(imap.callback)
-            imap.callback(error);
+            imap.callback(error, imap.test);
     });
 
 

@@ -2,12 +2,11 @@
 this.scriptName = "Car Log Test Script: ";
 this.doneCallback = null;
 
-this.runTest = function()
-{
+this.runTest = function () {
     this.testStep1();
 }
 //1. check for case study users
-this.testStep1 = function() {
+this.testStep1 = function () {
     //open log panel at bottom
     $("#expandlog").click();
     // set user to first on the list, this is the user not in barrique Case study
@@ -28,7 +27,7 @@ this.testStep1 = function() {
 }
 
 //2. check for design mode
-this.testStep2 = function(self) {
+this.testStep2 = function (self) {
     helper.log(self.scriptName + "Test step 2 - check for design mode.");
     if (userSettings.clientOnly) {
         helper.log(self.scriptName + "No design mode detected. Please install DataChief in Design mode.");
@@ -43,7 +42,7 @@ this.testStep2 = function(self) {
 }
 
 //3. clear local cache for every user
-this.testStep3 = function(self) {
+this.testStep3 = function (self) {
     helper.log(self.scriptName + "Test step 3 - clear local cache for every user.");
 
     var folders = [
@@ -72,22 +71,22 @@ this.testStep3 = function(self) {
 }
 
 //4. create and publish form(s)
-this.testStep4 = function(self) {
+this.testStep4 = function (self) {
     helper.log(self.scriptName + "Test step 4 - create and publish form(s).");
     //new form dialog
     $("#add_form").click();
     //set form name
     $("#tab_title").val("Car Log");
     //leave default form selected in dropdown
-    window.setTimeout(self.testStep4Part2, 300,self);
+    window.setTimeout(self.testStep4Part2, 300, self);
 
 }
-this.testStep4Part2=function(self) {
+this.testStep4Part2 = function (self) {
     //Create form and close dialog
     $("#btnCreateFromTemplate").click();
-    window.setTimeout(self.testStep4Part3, 300,self);
+    window.setTimeout(self.testStep4Part3, 300, self);
 }
-this.testStep4Part3 = function(self) {
+this.testStep4Part3 = function (self) {
 
     //publish
     //click "Save to publish"
@@ -100,21 +99,23 @@ this.testStep4Part3 = function(self) {
     //click OK in configrm dialog
     $("#dialog-confirm-ok").click();
     //send and recieve
-    imap.callback = this.testStep4ImapPublishDone;
+    imap.callback = self.testStep4ImapPublishDone;
+    imap.test = self;
     $("#buttonSendPackages").click();
 }
 
-this.testStep4ImapPublishDone = function(error) {
+this.testStep4ImapPublishDone = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (!error) {
-        helper.log(this.scriptName + "testStep4ImapPublishDone - packeges are on the server.");
-        window.setTimeout(this.testStep5, 1000);
+        helper.log(self.scriptName + "testStep4ImapPublishDone - packeges are on the server.");
+        window.setTimeout(self.testStep5, 1000, self);
     }
 }
 
 //5. go through worfflow for every user
-this.testStep5 = function() {
-    helper.log(this.scriptName + "Test step 5 - go through fill worfflow for every user.");
+this.testStep5 = function (self) {
+    helper.log(self.scriptName + "Test step 5 - go through fill worfflow for every user.");
 
     //activate filler
     $(maintabs).tabs("option", "active", 2);
@@ -127,19 +128,22 @@ this.testStep5 = function() {
 
 
     // switch to Jennifer
-    helper.log(this.scriptName + "testStep5 jennifer@barriqueworks.com fillig out form.");
+    helper.log(self.scriptName + "testStep5 jennifer@barriqueworks.com fillig out form.");
     switchToUser("jennifer@barriqueworks.com");
     //send and Recieve - user neeed to recieve published packages
     // first set callback
-    imap.callback = this.testStep5_;
+    imap.callback = self.testStep5_;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 
 }
-this.testStep5_ = function(error) {
-    helper.log(this.scriptName + "testStep5_ - imap callback.");
+this.testStep5_ = function (error, self) {
+    helper.log(self.scriptName + "testStep5_ - imap callback.");
     imap.callback = null;
+    imap.test = null;
+
     if (error) {
-        helper.log(this.scriptName + "testStep5_ - Error.");
+        helper.log(self.scriptName + "testStep5_ - Error.");
         return;
     }
     //open forst form in "Published to me"
@@ -167,38 +171,42 @@ this.testStep5_ = function(error) {
     $($("li:contains('Submit')")).click();
 
     //somehow saveForm is async
-    helper.log(this.scriptName + "Pause...");
-    window.setTimeout(this.testStep5Pause1, 1000)
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep5Pause1, 1000, self)
 }
-this.testStep5Pause1 = function() {
-    helper.log(this.scriptName + "Continue...");
+this.testStep5Pause1 = function (self) {
+    helper.log(self.scriptName + "Continue...");
 
     //send and Recieve
     // first set callback
-    imap.callback = this.testStep5_1;
+    imap.callback = self.testStep5_1;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
-this.testStep5_1 = function(error) {
+this.testStep5_1 = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_1 - Error.");
+        helper.log(self.scriptName + "testStep5_1 - Error.");
         return;
     }
     // switch to Jennifer
-    helper.log(this.scriptName + "testStep5 michael@barriqueworks.com fillig out form.");
+    helper.log(self.scriptName + "testStep5 michael@barriqueworks.com fillig out form.");
     switchToUser("michael@barriqueworks.com");
     //send and Recieve - user neeed to recieve published packages
     // first set callback
-    imap.callback = this.testStep5_1_;
+    imap.callback = self.testStep5_1_;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 
 
 
 }
-this.testStep5_1_ =function(error) {
+this.testStep5_1_ = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_1_ - Error.");
+        helper.log(self.scriptName + "testStep5_1_ - Error.");
         return;
     }
     //open forst form in "Published to me"
@@ -225,39 +233,43 @@ this.testStep5_1_ =function(error) {
     //submit
     $($("li:contains('Submit')")).click();
     //somehow saveForm is async
-    helper.log(this.scriptName + "Pause...");
-    window.setTimeout(this.testStep5Pause2, 1000)
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep5Pause2, 1000, self)
 
 }
-this.testStep5Pause2 = function() {
-    helper.log(this.scriptName + "Continue...");
+this.testStep5Pause2 = function (self) {
+    helper.log(self.scriptName + "Continue...");
     //send and Recieve
     // first set callback
-    imap.callback = this.testStep5_2;
+    imap.callback = self.testStep5_2;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
-this.testStep5_2 = function(error) {
+this.testStep5_2 = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_2 - Error.");
+        helper.log(self.scriptName + "testStep5_2 - Error.");
         return;
     }
     // switch to Jennifer
-    helper.log(this.scriptName + "testStep5 elizabeth@barriqueworks.com fillig out form.");
+    helper.log(self.scriptName + "testStep5 elizabeth@barriqueworks.com fillig out form.");
     switchToUser("elizabeth@barriqueworks.com");
 
     //send and Recieve - user neeed to recieve published packages
     // first set callback
-    imap.callback = this.testStep5_2_;
+    imap.callback = self.testStep5_2_;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 
 
 
 }
-this.testStep5_2_ = function(error) {
+this.testStep5_2_ = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_2_ - Error.");
+        helper.log(self.scriptName + "testStep5_2_ - Error.");
         return;
     }
     //open forst form in "Published to me"
@@ -284,33 +296,37 @@ this.testStep5_2_ = function(error) {
     //submit
     $($("li:contains('Submit')")).click();
 
-    helper.log(this.scriptName + "Pause...");
-    window.setTimeout(this.testStep5Pause3, 1000)
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep5Pause3, 1000, self)
 }
-this.testStep5Pause3 = function() {
-    helper.log(this.scriptName + "Continue...");
+this.testStep5Pause3 = function (self) {
+    helper.log(self.scriptName + "Continue...");
     //send and Recieve
     // first set callback
-    imap.callback = this.testStep5_3_WorkflowStep; //testStep5_3;
+    imap.callback = self.testStep5_3_WorkflowStep; //testStep5_3;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
-this.testStep5_3_WorkflowStep = function(error) {
+this.testStep5_3_WorkflowStep = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_3_WorkflowStep - Error.");
+        helper.log(self.scriptName + "testStep5_3_WorkflowStep - Error.");
         return;
     }
-    helper.log(this.scriptName + "testStep5 Now supervisor - patricia@barriqueworks.com.");
+    helper.log(self.scriptName + "testStep5 Now supervisor - patricia@barriqueworks.com.");
     switchToUser("patricia@barriqueworks.com");
 
-    imap.callback = this.testStep5_3_WorkflowStep_;
+    imap.callback = self.testStep5_3_WorkflowStep_;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
 
-this.testStep5_3_WorkflowStep_ = function(error) {
+this.testStep5_3_WorkflowStep_ = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_2_ - Error.");
+        helper.log(self.scriptName + "testStep5_2_ - Error.");
         return;
     }
     // OK supervisor has now recieved 3 forms to approve
@@ -328,11 +344,11 @@ this.testStep5_3_WorkflowStep_ = function(error) {
     $($("select[id^='dcform")[3]).val("No");
     //submit
     $($("li:contains('Submit')")).click();
-    helper.log(this.scriptName + "Pause...");
-    window.setTimeout(this.testStep5Pause4, 1000)
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep5Pause4, 1000, self)
 }
-this.testStep5Pause4 = function() {
-    helper.log(this.scriptName + "Continue...");
+this.testStep5Pause4 = function (self) {
+    helper.log(self.scriptName + "Continue...");
     $($("span[onclick^='filler.checktab(']")[0]).click();
     // fill it out
 
@@ -344,11 +360,11 @@ this.testStep5Pause4 = function() {
     $($("select[id^='dcform")[3]).val("Yes");
     //submit
     $($("li:contains('Submit')")).click();
-    helper.log(this.scriptName + "Pause...");
-    window.setTimeout(this.testStep5Pause5, 1000)
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep5Pause5, 1000, self)
 }
-this.testStep5Pause5 = function() {
-    helper.log(this.scriptName + "Continue...");
+this.testStep5Pause5 = function (self) {
+    helper.log(self.scriptName + "Continue...");
     $($("span[onclick^='filler.checktab(']")[0]).click();
     // fill it out
 
@@ -360,37 +376,41 @@ this.testStep5Pause5 = function() {
     $($("select[id^='dcform")[3]).val("Yes");
     //submit
     $($("li:contains('Submit')")).click();
-    helper.log(this.scriptName + "Pause...");
-    window.setTimeout(this.testStep5Pause6, 1000)
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep5Pause6, 1000, self)
 }
-this.testStep5Pause6 = function() {
-    helper.log(this.scriptName + "Continue...");
-    imap.callback = this.testStep5_FinalStep;
+this.testStep5Pause6 = function (self) {
+    helper.log(self.scriptName + "Continue...");
+    imap.callback = self.testStep5_FinalStep;
+    imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
-this.testStep5_FinalStep = function(error) {
+this.testStep5_FinalStep = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     if (error) {
-        helper.log(this.scriptName + "testStep5_FinalStep - Error.");
+        helper.log(self.scriptName + "testStep5_FinalStep - Error.");
         return;
     }
-    helper.log(this.scriptName + "testStep5_FinalStep richard@barriqueworks.com recieves packages.");
+    helper.log(self.scriptName + "testStep5_FinalStep richard@barriqueworks.com recieves packages.");
     switchToUser("richard@barriqueworks.com");
 
 
     // first set callback
-    imap.callback = this.testStep6;
+    imap.callback = self.testStep6;
+    imap.test = self
     $($("span:contains('Send / Recieve')")).click()
 }
 
 //6. done
-this.testStep6 = function() {
+this.testStep6 = function (error, self) {
     imap.callback = null;
+    imap.test = null;
     $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
     userSettings.activeProfile_change();
-    helper.log(this.scriptName + "Test step 6 - finish.");
-    if(this.doneCallback)
-        this.doneCallback();
+    helper.log(self.scriptName + "Test step 6 - finish.");
+    if (self.doneCallback)
+        self.doneCallback();
 }
 
 //utils
