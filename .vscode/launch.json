@@ -74,7 +74,7 @@
             },
             "runtimeArgs": [
                 "${workspaceRoot}/src/main.js",
-                "--runtest",
+                "--runalltests",
                 "--enable-logging",
                 "--remote-debugging-port=9222"
             ],
@@ -101,7 +101,7 @@
             
             "runtimeArgs": [
                 "--nolazy",
-                "--runtest"
+                "--runalltests"
             ],
             "env": {
                 "NODE_ENV": "development",

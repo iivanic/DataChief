@@ -5,6 +5,7 @@ var remote = require('electron').remote;
 var dialog = remote.dialog;
 var pwd = "P@s$w0Rd";
 var crypto = require('crypto');
+var tests = new Array();
 
 this.generateGUID = function () {
     // not a real GUID, just a big random number
@@ -14,20 +15,52 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
-this.checkCommandLine = function()
-{
-    if(this.isTest())
-    {
-        this.log("Loading test script.")
-        var test = require(helper.join(helper.join(__dirname,".."),helper.join("testscripts","test.js")));
-        
+this.checkCommandLine = function () {
+
+    if (this.isAnyTest()) {
+        this.log("Found " + (tests.length + 1) + "test(s).");
+        var oldtest = null;
+        var firsttest = null;
+        for (var i = 0 in tests) {
+            this.log("Loading test script: " + tests[i]);
+            var test = require(helper.join(helper.join(__dirname, ".."), helper.join("testscripts", tests[i])));
+            if (!firsttest)
+                firsttest = test;
+            if (oldtest)
+                oldtest.doneCallback = test.runTest;
+            oldtest = test;
+        }
+        firsttest.runTest();
+
     }
 }
-this.isTest = function ()
-{
-    var remote = require('electron').remote;
-    var arguments = remote.getGlobal('sharedObject').argv;
-    return (arguments.indexOf("--runtest") > -1)
+var testsParsed = false;
+this.isAnyTest = function () {
+    if (!testsParsed) {
+        var remote = require('electron').remote;
+        var arguments = remote.getGlobal('sharedObject').argv;
+
+        for (var i in arguments) {
+            switch (arguments[i].toLowerCase()) {
+                case "--runtestcarlog":
+                    tests.push("testcarlog.js");
+                    break;
+                case "--runtestabsence":
+                    tests.push("testabsence.js");
+                    break;
+                case "--runtestqm":
+                    tests.push("testqm.js");
+                    break;
+                case "--runalltests":
+                    tests.push("testcarlog.js");
+                    tests.push("testabsence.js");
+                    tests.push("testqm.js");
+                    break;
+            }
+        }
+        testsParsed=true;
+    }
+    return tests.length > 0;
 }
 this.join = function (a, b) {
     return path.join(a, b); //path.resolve(
@@ -301,7 +334,8 @@ this.confirm = function (message, callback, param) {
                 click: function () {
                     $(this).dialog("close");
                     callback(param);
-            }},
+                }
+            },
             Cancel: function () {
                 $(this).dialog("close");
             }
@@ -360,22 +394,20 @@ this.log = function (txt) {
     }
 
 }
-this.formatDateForFileName = function(d)
-{
-    if(!(d instanceof Date))
-        d=new Date(d);
-   return  helper.padNumber(d.getMonth().toString(), 2) +
-    "-" + helper.padNumber(d.getDay().toString(), 2) +
-    "-" + d.getFullYear().toString() +
-    "-" + helper.padNumber(d.getHours().toString(), 2) +
-    "-" + helper.padNumber(d.getMinutes().toString(), 2) +
-    "-" + helper.padNumber(d.getSeconds().toString(), 2);
+this.formatDateForFileName = function (d) {
+    if (!(d instanceof Date))
+        d = new Date(d);
+    return helper.padNumber(d.getMonth().toString(), 2) +
+        "-" + helper.padNumber(d.getDay().toString(), 2) +
+        "-" + d.getFullYear().toString() +
+        "-" + helper.padNumber(d.getHours().toString(), 2) +
+        "-" + helper.padNumber(d.getMinutes().toString(), 2) +
+        "-" + helper.padNumber(d.getSeconds().toString(), 2);
 }
-this.parseDateFromFileName= function(str)
-{
+this.parseDateFromFileName = function (str) {
     var datePart = str.split("-")
-    
-    return new Date(datePart[2],datePart[0], datePart[1],datePart[3], datePart[4], datePart[5]);
+
+    return new Date(datePart[2], datePart[0], datePart[1], datePart[3], datePart[4], datePart[5]);
 
 
 }
@@ -516,7 +548,7 @@ this.parseWorkFlow = function (workflow) {
                 var counter_ = 1;
                 var cumulative_ = "";
                 if (workflow.length > i) {
-                    var j=0;
+                    var j = 0;
                     for (j = i + 1; j < workflow.length; j++) {
                         var curr_ = workflow.substr(j, 1).trim();
                         if (curr_ == "," || curr_ == ";") {
@@ -528,7 +560,7 @@ this.parseWorkFlow = function (workflow) {
                             else
                                 break;
                     }
-                    i=j;
+                    i = j;
                     if (cumulative_.length > 0) {
                         counter_ = parseInt(cumulative_);
                     }
@@ -547,38 +579,34 @@ this.parseWorkFlow = function (workflow) {
 
     return ret;
 }
-this.parseBroadCastRecievers = function(recievers, initiator)
-{
-    var ret = recievers.replace(/,/gi,';').split(/;/gi);
-    for(var i = 0; i< ret.length; i++)
-        ret[i] = "[BROADCAST]" + (ret[i].toLowerCase()=="initiator"?initiator:ret[i]);
+this.parseBroadCastRecievers = function (recievers, initiator) {
+    var ret = recievers.replace(/,/gi, ';').split(/;/gi);
+    for (var i = 0; i < ret.length; i++)
+        ret[i] = "[BROADCAST]" + (ret[i].toLowerCase() == "initiator" ? initiator : ret[i]);
     return ret;
 }
 
-this.deleteDatabase = function()
-{
+this.deleteDatabase = function () {
     var forms_ = helper.getFilesInDir(helper.getDataBasePath());
-    
+
     for (var i in forms_) {
         var path = helper.join(helper.getDataBasePath(), forms_[i]);
         helper.deleteFile(path);
     }
     dataCollection.refreshDB();
 }
-this.deleteSentFolder = function()
-{
+this.deleteSentFolder = function () {
     var forms_ = helper.getFilesInDir(helper.getSentPath());
-    
+
     for (var i in forms_) {
         var path = helper.join(helper.getSentPath(), forms_[i]);
         helper.deleteFile(path);
     }
     dataCollection.refreshSentDB();
 }
-this.deleteBroadcastFolder = function()
-{
+this.deleteBroadcastFolder = function () {
     var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
-    
+
     for (var i in forms_) {
         var path = helper.join(helper.getRecievedBroadCastsPath(), forms_[i]);
         helper.deleteFile(path);
