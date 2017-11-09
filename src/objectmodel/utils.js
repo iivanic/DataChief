@@ -26,13 +26,50 @@ this.checkCommandLine = function () {
             var test = require(helper.join(helper.join(__dirname, ".."), helper.join("testscripts", tests[i])));
             if (!firsttest)
                 firsttest = test;
-            if (oldtest)
+            if (oldtest) {
                 oldtest.doneCallback = test.runTest;
+                oldtest.next = test;
+            }
             oldtest = test;
         }
+
+        //open log panel at bottom
+        $("#expandlog").click();
+        // set user to first on the list, this is the user not in barrique Case study
+        $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+        userSettings.activeProfile_change();
+
+        helper.log("User switched to " + userSettings.identitySetting.email);
+        helper.log("Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
+        if (!barrique.isInstalled()) {
+            helper.log("BarriqueWorks case study users not installed. Install them and run test again.");
+            return;
+        }
+        else {
+            helper.log("OK - BarriqueWorks case study users found.");
+        }
+        helper.log("Checking for design mode.");
+        if (userSettings.clientOnly) {
+            helper.log("No design mode detected. Please install DataChief in Design mode.");
+            return;
+        }
+        else {
+            //activate editor
+            $(maintabs).tabs("option", "active", 0);
+            $(maintabs).tabs("refresh");
+            helper.log("OK - Design mode detected.");
+
+        }
+        oldtest.doneCallback = this.testsDone;
         firsttest.runTest();
 
     }
+}
+this.testsDone = function () {
+    helper.log("TEST(S) finished.");
+    helper.log("Sending QUIT signal.");
+    var ipc = require('electron').ipcRenderer;
+    ipc.send("quit");
 }
 var testsParsed = false;
 this.isAnyTest = function () {
@@ -48,17 +85,21 @@ this.isAnyTest = function () {
                 case "--runtestabsence":
                     tests.push("testabsence.js");
                     break;
+                case "--runresetdb":
+                    tests.push("testresetdb.js");
+                    break;
                 case "--runtestqm":
                     tests.push("testqm.js");
                     break;
                 case "--runalltests":
+                    tests.push("testresetdb.js");
                     tests.push("testcarlog.js");
                     tests.push("testabsence.js");
                     tests.push("testqm.js");
                     break;
             }
         }
-        testsParsed=true;
+        testsParsed = true;
     }
     return tests.length > 0;
 }

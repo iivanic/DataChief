@@ -22,6 +22,9 @@ var size = null;
 ipc.on("printPDF", function (even, content) {
     printPDFWorkerWindow.webContents.send("printPDF", content);
 });
+ipc.on("quit", function (even, content) {
+    app.quit();
+});
 ipc.on("exportCSV", function (even, content) {
     dialog.showSaveDialog(
         {
