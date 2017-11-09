@@ -1,73 +1,10 @@
 // this is javascript test file for automated testing
 this.scriptName = "Car Log Test Script: ";
 this.doneCallback = null;
+this.next = null;
 
 this.runTest = function () {
-    this.testStep1();
-}
-//1. check for case study users
-this.testStep1 = function () {
-    //open log panel at bottom
-    $("#expandlog").click();
-    // set user to first on the list, this is the user not in barrique Case study
-    $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
-
-
-    userSettings.activeProfile_change();
-    helper.log(this.scriptName + "User switched to " + userSettings.identitySetting.email);
-    helper.log(this.scriptName + "Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
-    helper.log(this.scriptName + "Test step 1 - check for case study users.");
-    if (!barrique.isInstalled())
-        helper.log(this.scriptName + "BarriqueWorks case study users not installed. Install them and run test again.");
-    else {
-        helper.log(this.scriptName + "OK - BarriqueWorks case study users found.");
-        window.setTimeout(this.testStep2, 100, this);
-    }
-
-}
-
-//2. check for design mode
-this.testStep2 = function (self) {
-    helper.log(self.scriptName + "Test step 2 - check for design mode.");
-    if (userSettings.clientOnly) {
-        helper.log(self.scriptName + "No design mode detected. Please install DataChief in Design mode.");
-    }
-    else {
-        //activate editor
-        $(maintabs).tabs("option", "active", 0);
-        $(maintabs).tabs("refresh");
-        helper.log(self.scriptName + "OK - Design mode detected.");
-        window.setTimeout(self.testStep3, 100, self);
-    }
-}
-
-//3. clear local cache for every user
-this.testStep3 = function (self) {
-    helper.log(self.scriptName + "Test step 3 - clear local cache for every user.");
-
-    var folders = [
-        "inbox",
-        "myoutbox",
-        "outbox",
-        "prepublish",
-        "publish",
-        "publishers",
-        "ready",
-        "recieved",
-        "sent",
-        "database",
-        "recievedbroadcasts",
-        "work"
-    ];
-    var cnt = 0;
-    for (var u in userSettings.Identities) {
-        cnt++;
-        for (var f in folders)
-            helper.deleteFolder(helper.join(helper.join(helper.getSettingsFolder(), userSettings.Identities[u]), folders[f]));
-    }
-
-    helper.log(self.scriptName + "" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
-    window.setTimeout(self.testStep4, 100, self);
+    this.testStep4(this);
 }
 
 //4. create and publish form(s)
@@ -409,8 +346,12 @@ this.testStep6 = function (error, self) {
     $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
     userSettings.activeProfile_change();
     helper.log(self.scriptName + "Test step 6 - finish.");
-    if (self.doneCallback)
-        self.doneCallback();
+    if(this.doneCallback)
+    {
+        //bind correct 'this'
+        var c =this.doneCallback.bind(this.next);
+        c();
+    }
 }
 
 //utils
