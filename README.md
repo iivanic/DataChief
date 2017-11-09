@@ -51,6 +51,18 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     
         * `npm start` 
         * or open it with **Microsoft Visual Studio Code** and press **F5** to run DataChief.
+        
+* You can  use followingCommand line params:
+    * `npm run start -- --runalltests`
+        * deletes DB an runs all tests
+    * `npm run start -- --runresetdb`
+        * deletes DB
+    * `npm run start -- --runtestcarlog`
+        * runs test script for Car Log form
+    * `npm run start -- --testabsence`
+        * runs test script for Absence request form
+    * `npm run start -- --runtestqm`
+        * runs test script for Quality Management form
     
 ##How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) or one per user ( **Per user account** ).
