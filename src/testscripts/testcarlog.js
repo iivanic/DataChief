@@ -346,10 +346,10 @@ this.testStep6 = function (error, self) {
     $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
     userSettings.activeProfile_change();
     helper.log(self.scriptName + "Test step 6 - finish.");
-    if(this.doneCallback)
+    if(self.doneCallback)
     {
         //bind correct 'this'
-        var c =this.doneCallback.bind(this.next);
+        var c =self.doneCallback.bind(self.next);
         c();
     }
 }
