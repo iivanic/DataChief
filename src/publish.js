@@ -568,6 +568,10 @@ function publishEverything() {
                     packages[users[ui]] = { publisher: userSettings.organization, published: true, cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                     pCount++;
                 }
+                //we need history for later...
+                if (!loadedObj.history)
+                loadedObj.history = new Array();
+                loadedObj.history.push({ action: 'Publish', time: new Date(), from: userSettings.identitySetting.email, to: users[ui] });
                 // push form
                 packages[users[ui]].forms.push(loadedObj);
             }

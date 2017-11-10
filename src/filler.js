@@ -280,8 +280,12 @@ function createPackagesFromMyOutbox() {
                 packages[users[ui]] = { publisher: userSettings.organization, published: false, workflowpackage: true,cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCount++;
             }
-            // push form
-            packages[users[ui]].forms.push(loadedObj);
+            //we need history for later
+            if (!loadedObj.history)
+            loadedObj.history = new Array();
+            loadedObj.history.push({ action: 'Submit', time: new Date(), from: userSettings.identitySetting.email, to: users[ui] });
+           // push form
+           packages[users[ui]].forms.push(loadedObj);
         }
         //broadcast!
         
@@ -291,10 +295,17 @@ function createPackagesFromMyOutbox() {
                 packages[broadcastRecevers[ui]] = { publisher: userSettings.organization, published: false, broadcastpackage:true, workflowpackage: true,cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCountBR++;
             }
-            // push form
+             //we need history for later
+             if (!loadedObj.history)
+             loadedObj.history = new Array();
+             loadedObj.history.push({ action: 'Broadcast', time: new Date(), from: userSettings.identitySetting.email, to: broadcastRecevers[ui].replace("[BROADCAST]",'') });
+ 
+ 
             var clone = jQuery.extend(true, {}, loadedObj);
             clone.broadcast=true;
+            // push form
             packages[broadcastRecevers[ui]].forms.push(clone);
+ 
         }
         helper.deleteFile(helper.join(srcFolder, items[i]));
     }
