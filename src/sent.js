@@ -56,7 +56,8 @@ this.movePackageToSent = function (file) {
             destination = destination + "_" + cnt;
         }
         //save anly forms that have permission to be kept.
-        if(loadedObj.forms[i].allowLocalCopies)
+        var allowedUsersToHaveLocalCopies = loadedObj.forms[i].allowLocalCopies.toLowerCase().replace(/;/gi,',').split(/,/gi ) ;
+        if(allowedUsersToHaveLocalCopies.indexOf("everyone") > -1 || allowedUsersToHaveLocalCopies.indexOf(userSettings.identitySetting.email)> -1)
             helper.saveTextFile(destination, JSON.stringify(loadedObj.forms[i]));
 
     }
