@@ -351,7 +351,11 @@ this.submit = function (dirtyMarkId) {
 
         //  read values & save to outbox
         var filename = this.fixForm(myoutbox); //helper.join(helper.getMyOutboxPath(), helper.getOnlyFileName(this.currentForm.filename));
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 707c3f35f95a71dd09c52cfd2f49ac9a3c3024fc
         this.saveForm(
             dirtyMarkId,
             filename
