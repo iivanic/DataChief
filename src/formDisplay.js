@@ -25,7 +25,7 @@ this.openForm = function (jsonstring, loadedFrom) {
     console.log("Reconstructing objects from loaded JSON.");
     var cnt = 0;
     for (var attrname in loadedObj) {
-       // console.log("attrname = " + attrname);
+        // console.log("attrname = " + attrname);
 
         if (attrname == "_children")
             loadChildren(this.currentForm, loadedObj[attrname], attrname);
@@ -33,8 +33,8 @@ this.openForm = function (jsonstring, loadedFrom) {
             this.currentForm[attrname] = loadedObj[attrname];
         cnt++;
     }
-    if(loadedFrom)
-        this.currentForm.filename=loadedFrom;
+    if (loadedFrom)
+        this.currentForm.filename = loadedFrom;
     // we need to change id to avoid conflicts if the same form is already oened in editor.
     //this.currentForm.regenerateGUID();
     console.log("Done reconstructing objects from loaded JSON.");
@@ -121,7 +121,7 @@ function uniq(a) {
     })
 }
 
-this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj ) {
+this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj) {
 
     this.dirtyMark = dirtyMark;
     this.tabTitle = "#Fillertabs a[href='#Fillertabs-" + tabCounter + "']";
@@ -136,9 +136,9 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj ) {
     this.currentForm.ctor();
 
     var loadedFrom = loadedObj;
-    
+
     loadedObj = helper.loadFile(loadedObj);
- 
+
     this.openForm(loadedObj, loadedFrom);
     this.resetDirty();
     $(this.tabTitle).text(this.currentForm.name);
@@ -149,10 +149,10 @@ this.newForm = function (name, placeHolder, tabCounter, dirtyMark, loadedObj ) {
     this.currentForm.render($("#" + this.prefix + "formPreview"),
         false
         // initiator can be only if no impersonation ... ???  ( userSettings.email == userSettings.identitySetting.email ? ", initiator": "" )
-        , userSettings.identitySetting.email + (this.currentForm.published || 
-        (helper.checkUser( userSettings.identitySetting.email, this.currentForm.publishedTo) && ( this.currentForm.workflowStep == undefined || this.currentForm.workflowStep==0  ) )
-        
-         ? ", initiator" : ""), "dcformFiller");
+        , userSettings.identitySetting.email + (this.currentForm.published ||
+            (helper.checkUser(userSettings.identitySetting.email, this.currentForm.publishedTo) && (this.currentForm.workflowStep == undefined || this.currentForm.workflowStep == 0))
+
+            ? ", initiator" : ""), "dcformFiller");
 
     $("#Fillertabs-" + tabCounter).prop("current", this.currentForm);
     this.bindSaveButton();
@@ -318,13 +318,29 @@ this.bindSaveButton = function () {
         .click(function () {
             this.me.fillerDeleteForm(this.me.dirtyMark.attr('id'));
         });
+    //enable send back form if enabled for form
+    if (this.currentForm.allowSendOneStepBack && this.currentForm.workflowStep) {
+        $("#" + this.prefix + "selectFiller_sendFormOneStepBack").prop("me", this);
+        $("#" + this.prefix + "selectFiller_sendFormOneStepBack")
+            //  .button()
+            .click(function () {
+                this.me.sendFormOneStepBack(this.me.dirtyMark.attr('id'));
+            });
+    }
+    else
+        $("#" + this.prefix + "selectFiller_sendFormOneStepBack").css("display", "none");
+
 };
+this.sendFormOneStepBack = function (dirtyMarkId) {
+    this.currentForm.workflowStep = this.currentForm.workflowStep - 2;
+    this.submit(dirtyMarkId);
+}
 this.submit = function (dirtyMarkId) {
 
     if (this.currentForm.validator.validate()) {
         this.d = new Date();
         var myoutbox = helper.getMyOutboxPath();
-        
+
         // 
         this.currentForm.workflowpackage = true;
         // set workflow step.
@@ -335,14 +351,14 @@ this.submit = function (dirtyMarkId) {
 
         //  read values & save to outbox
         var filename = this.fixForm(myoutbox); //helper.join(helper.getMyOutboxPath(), helper.getOnlyFileName(this.currentForm.filename));
-      
+
         this.saveForm(
             dirtyMarkId,
             filename
         );
         //delete old file if came from other user (not published)
-     //   if( this.currentForm.workflowStep>0) 
-     //       helper.deleteFile(this.currentForm.filename);
+        //   if( this.currentForm.workflowStep>0) 
+        //       helper.deleteFile(this.currentForm.filename);
 
         $("#" + dirtyMarkId).hide();
         filler.removeTab(this.dirtyMark);
@@ -379,7 +395,7 @@ this.fixForm = function (path) {
 
     var fname = this.currentForm.filename;
     // time is in the name, delete old file if exists - but not if it is in "published to me" folder
-    if (fname && this.currentForm.workflowStep>1) {
+    if (fname && this.currentForm.workflowStep > 1) {
         if (helper.fileExists(fname)) {
             helper.deleteFile(fname);
         }
