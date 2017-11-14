@@ -398,7 +398,8 @@ var mermaidconfig = {
     }
 };
 this.selectForm = function (formType) {
-
+    var connectorStr = "-->";
+    
     helper.log(formType + " form chosen for analysis.")
 
     var fileList = helper.getFilesInDir(helper.getDataBasePath())
@@ -411,6 +412,8 @@ this.selectForm = function (formType) {
     }
     if (!form)
         return;
+        if(form.allowSendOneStepBack)
+            connectorStr="-->";
     var publishedTo = form.publishTo.replace(/,/gi, ";").split(/;/gi);
     var markup =
         "graph TD\n" +
@@ -440,9 +443,16 @@ this.selectForm = function (formType) {
                 {
                     //conect initiators...
                     for (var i in publishedTo) {
-                        markup += "I" + i.toString() + "-->|" + 
+                        markup += "I" + i.toString() + connectorStr + "|" + 
                         countSendersAtStep(publishedTo[i],parseInt(j)+1,formType,form._version) + 
                         "|WF" + j.toString() + "\n";
+                        if(form.allowSendOneStepBack)
+                        {
+                            markup += "WF" + j.toString() + connectorStr + "|" + 
+                            countSendersAtStep(lastWF, parseInt(j), formType,form._version) + 
+                            "|I" + i.toString() + "\n";
+    
+                        }
                     }
                 }
             }
