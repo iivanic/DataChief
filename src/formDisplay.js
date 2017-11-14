@@ -324,18 +324,21 @@ this.bindSaveButton = function () {
         $("#" + this.prefix + "selectFiller_sendFormOneStepBack")
             //  .button()
             .click(function () {
-                this.me.sendFormOneStepBack(this.me.dirtyMark.attr('id'));
-            });
+                helper.confirm("Send form step back?", function(self){
+                    self.me.sendFormOneStepBack(self.me.dirtyMark.attr('id'), self.me);
+                    }, this);
+            }
+        );
     }
     else
         $("#" + this.prefix + "selectFiller_sendFormOneStepBack").css("display", "none");
 
 };
-this.sendFormOneStepBack = function (dirtyMarkId) {
-
-    this.currentForm.workflowStep = this.currentForm.workflowStep - 2;
-    this.submit(dirtyMarkId);
+this.sendFormOneStepBack = function (dirtyMarkId, me) {
+    me.currentForm.workflowStep = me.currentForm.workflowStep - 2;
+    me.submit(dirtyMarkId);
 }
+
 this.submit = function (dirtyMarkId) {
 
     if (this.currentForm.validator.validate()) {
@@ -396,7 +399,7 @@ this.fixForm = function (path) {
 
     var fname = this.currentForm.filename;
     // time is in the name, delete old file if exists - but not if it is in "published to me" folder
-    if (fname && this.currentForm.workflowStep > 1) {
+    if (fname && !this.currentForm.published) {
         if (helper.fileExists(fname)) {
             helper.deleteFile(fname);
         }

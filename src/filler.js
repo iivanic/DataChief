@@ -118,7 +118,17 @@ this.removeTab = function (currentFormDirty) {
 
 this.sendRecieve = function () {
     createPackagesFromMyOutbox();
+    imap.test = this;
+    imap.callback = this.sendRecieveDone;
     imap.go();
+}
+this.sendRecieveDone = function(error, self)
+{
+    dataCollection.refreshDB();
+    dataCollection.refreshBroadcastDB();
+    dataCollection.refreshSentDB();
+    self.refreshFolders();
+
 }
 this.refreshFolders = function () {
     // we need to refresh all folders
@@ -260,8 +270,16 @@ function createPackagesFromMyOutbox() {
             loadedObj.finished = true;
         }
         else {
+            // if returning to initiator
+            if(loadedObj.workflowStep - 1<0)
+            {
+                users = loadedObj.initiator;
+            }
+            else
+            {
             // find workflow step 
-            users = users[loadedObj.workflowStep - 1];
+                users = users[loadedObj.workflowStep - 1];
+            }
             if (users instanceof Array) {
                 //multiple options for this step, we need to display step chooser
                 helper.alert("Not yet supported!");

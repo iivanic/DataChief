@@ -281,6 +281,7 @@ $(document).ready(
     function () {
         dataCollection.refreshDB();
         dataCollection.refreshBroadcastDB();
+        dataCollection.refreshSentDB();
         mermaid.mermaidAPI.initialize(mermaidconfig);
 
     }
