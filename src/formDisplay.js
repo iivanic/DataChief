@@ -390,7 +390,7 @@ this.saveToWork = function (dirtyMarkId) {
 }
 this.fixForm = function (path) {
     if (this.currentForm.published) {
-        // when saving form that was created from templatet, we need to give it an intance id
+        // when saving form that was created from template, we need to give it an intance id
         this.currentForm.formid = helper.generateGUID();
     }
 

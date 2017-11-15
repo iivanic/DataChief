@@ -769,7 +769,8 @@ this.ctor = function () {
     this.finalStep = "initiator";
     this.allowLocalCopies = "initiator";
     this.publishTo = "user1@example.com, user2@example.com";
-    this._id = helper.generateGUID();
+    if(!this._id)
+        this._id = helper.generateGUID();
     this.allowSendOneStepBack = true;
 }
 this.regenerateGUID = function () {
