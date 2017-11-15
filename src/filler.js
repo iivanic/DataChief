@@ -118,12 +118,14 @@ this.removeTab = function (currentFormDirty) {
 
 this.sendRecieve = function () {
     createPackagesFromMyOutbox();
-    imap.test = this;
-    imap.callback = this.sendRecieveDone;
+    imap.test1 = this;
+    imap.callback1 = this.sendRecieveDone;
     imap.go();
 }
 this.sendRecieveDone = function(error, self)
 {
+    imap.test1 = null;
+    imap.callback1 = null;
     dataCollection.refreshDB();
     dataCollection.refreshBroadcastDB();
     dataCollection.refreshSentDB();
@@ -301,7 +303,7 @@ function createPackagesFromMyOutbox() {
             //we need history for later
             if (!loadedObj.history)
             loadedObj.history = new Array();
-            loadedObj.history.push({ action: 'Submit', time: new Date(), from: userSettings.identitySetting.email, to: users[ui] });
+            loadedObj.history.push({ action: 'Submit', time: new Date(), from: userSettings.identitySetting.email, to: users[ui], step: (loadedObj.workflowStep?loadedObj.workflowStep:0), fromStep: loadedObj.fromWorkflowStep?loadedObj.fromWorkflowStep:0 });
            // push form
            packages[users[ui]].forms.push(loadedObj);
         }
@@ -316,7 +318,7 @@ function createPackagesFromMyOutbox() {
              //we need history for later
              if (!loadedObj.history)
              loadedObj.history = new Array();
-             loadedObj.history.push({ action: 'Broadcast', time: new Date(), from: userSettings.identitySetting.email, to: broadcastRecevers[ui].replace("[BROADCAST]",'') });
+             loadedObj.history.push({ action: 'Broadcast', time: new Date(), from: userSettings.identitySetting.email, to: broadcastRecevers[ui].replace("[BROADCAST]",''), step: (loadedObj.workflowStep?loadedObj.workflowStep:0), fromStep: loadedObj.fromWorkflowStep?loadedObj.fromWorkflowStep:0  });
  
  
             var clone = jQuery.extend(true, {}, loadedObj);

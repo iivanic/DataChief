@@ -571,7 +571,7 @@ function publishEverything() {
                 //we need history for later...
                 if (!loadedObj.history)
                 loadedObj.history = new Array();
-                loadedObj.history.push({ action: 'Publish', time: new Date(), from: userSettings.identitySetting.email, to: users[ui] });
+                loadedObj.history.push({ action: 'Publish', time: new Date(), from: userSettings.identitySetting.email, to: users[ui], step: 0, fromStep: -1  });
                 // push form
                 packages[users[ui]].forms.push(loadedObj);
             }

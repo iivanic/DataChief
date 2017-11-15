@@ -270,7 +270,7 @@ this.refreshBroadcastDB = function () {
 
         }
     });
-    // $("#selectCollectorChooseForm").selectmenu("refresh");
+    $("#selectCollectorChooseForm").selectmenu("refresh");
 }
 
 this.db = db;
@@ -399,85 +399,115 @@ var mermaidconfig = {
 };
 this.selectForm = function (formType) {
     var connectorStr = "-->";
-    
+
     helper.log(formType + " form chosen for analysis.")
 
-    var fileList = helper.getFilesInDir(helper.getDataBasePath())
+    var fileList = helper.getFilesInDir(helper.getRecievedBroadCastsPath())
     var form = "";
+    var forms = new Array();
+    var maxforms
     for (var i in fileList) {
         if (fileList[i].substring(0, formType.length) == formType) {
-            var form = helper.loadFile(helper.join(helper.getDataBasePath(), fileList[i]));
+            var form = helper.loadFile(helper.join(helper.getRecievedBroadCastsPath(), fileList[i]));
             form = JSON.parse(form);
+            if (!forms[form.formid])
+                forms[form.formid] = form
+            if (forms[form.formid].history.length < form.history.length)
+                forms[form.formid] = form
         }
     }
-    if (!form)
-        return;
-        if(form.allowSendOneStepBack)
-            connectorStr="-->";
+    //now in forms we have latest steps
+    var flow = new Array();
+    for (var i in forms) {
+
+        for (var j in forms[i].history) {
+            var skip = false;
+            s = forms[i].history[j];
+            if (s.action == "Publish" || s.action == "Broadcast") {
+                //  if (s.to != forms[i].initiator)
+                skip = true;;
+            }
+            if (!skip) {
+                if (!flow[mailToMM(s.from, s.fromStep)]) {
+                    flow[mailToMM(s.from, s.fromStep)] = new Array();
+                }
+                flow[mailToMM(s.from, s.fromStep)].push(s);
+            }
+        }
+    }
+    // now we have nice structure for drawing
+
     var publishedTo = form.publishTo.replace(/,/gi, ";").split(/;/gi);
     var markup =
         "graph TD\n" +
-        "A[\" Form " + form._name + " ( " + formType + " ), ver " + form._version + " created by " + form._author + " \n" +
+        mailToMM(form._author, 99999) + "[\" Form " + form._name + " ( " + formType + " ), ver " + form._version + " created by " + form._author + " \n" +
         "on behalf of " + form.publisher + "\"] ";
 
     for (var i in publishedTo) {
-        markup += "-->|Published| I" + i.toString() + "(\"" + publishedTo[i] + "\")\n";
+        markup += "-->|Published| " + mailToMM(publishedTo[i], 0) + "(\"" + publishedTo[i] + "\")\n";
         if (i < publishedTo.length - 1)
-            markup += "A ";
+            markup += mailToMM(form._author, 99999);
 
     }
+    markup += "style " + mailToMM(form._author, 99999) + " fill:#d9f9d9,stroke:#333,stroke-width:2px\n";
+
     var wf = helper.parseWorkFlow(form.workflow);
 
-    var lastWF=null;
+    var lastWF = null;
     var lastWFIndex = 0;
     for (var j in wf) {
-        lastWF=wf[j];
-        lastWFIndex=j;
+        lastWF = wf[j];
+        lastWFIndex = j;
         if (wf[j] instanceof Array) {
             //ako je array, onda moramo dodati više...
         }
-        else
-            {
-                markup += "WF" + j.toString() + "(\"" + wf[j] + "\")\n";
-                if(j==0)
-                {
-                    //conect initiators...
-                    for (var i in publishedTo) {
-                        markup += "I" + i.toString() + connectorStr + "|" + 
-                        countSendersAtStep(publishedTo[i],parseInt(j)+1,formType,form._version) + 
-                        "|WF" + j.toString() + "\n";
-                        if(form.allowSendOneStepBack)
-                        {
-                            markup += "WF" + j.toString() + connectorStr + "|" + 
-                            countSendersAtStep(lastWF, parseInt(j), formType,form._version) + 
-                            "|I" + i.toString() + "\n";
-    
-                        }
-                    }
-                }
-            }
+        else {
+            lastWF = mailToMM(lastWF, parseInt(j)+1 );
+
+            markup += lastWF + "(\"" + wf[j] + "\")\n";
+   
+            markup += "style " + lastWF + " fill:#d9d9d9,stroke:#333,stroke-width:1px\n"
+        }
     }
 
     //final step
     var finalStep = form.finalStep.replace(/,/gi, ";").split(/;/gi);
     for (var j in finalStep) {
-        markup += "DB" + j.toString() + "(\"" + finalStep[j] + "\")\n";
+        markup += mailToMM(finalStep[j], wf.length + 1) + "(\"" + finalStep[j] + "\")\n";
+        markup += "style " + mailToMM(finalStep[j], wf.length + 1) + " fill:#f9d9d9,stroke:#333,stroke-width:2px\n"
         //conect it with last WF
         if (lastWF instanceof Array) {
             //ako je array, onda moramo dodati više...
         }
-        else
-        {
-            markup += "WF" + lastWFIndex.toString() + "-->|" +
-            countSendersAtStep(lastWF,wf.length+1,formType,form._version)  + "|DB" + j.toString() + "\n";
+        else {
+
         }
     }
+    var counter = new Array();
+    //connectors
+    for (var i in flow) {
+        for (var j in flow[i]) {
+            if (!counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)])
+                counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] = 0;
 
+            counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] = counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] + 1;
+        }
+    }
+    for(var i in counter)
+    {
+        markup += i.replace("-->", "-->|" + counter[i].toString() + "| ") + "\n";
+    }
+
+
+    console.log(markup);
     dataCollection.setGraph4Mermaide(markup);
 
 }
-function countSendersAtStep(sender, step, formtype, version)
-{
+function mailToMM(email, step) {
+    return email.replace('@', '_AT_') + "_" + step;
+
+}
+function countSendersAtStep(sender, step, formtype, version) {
     var ret = 0;
     //analyze broadcast DB
     var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
@@ -489,18 +519,17 @@ function countSendersAtStep(sender, step, formtype, version)
         var p = parts[0].split("_");
         var p1 = parts[3].split("_");
         // ---
-        var _Path =  path;
+        var _Path = path;
         var _FormType = p[0];
         var _Version = p[1];
         var _Name = p[2];
-        var _Initiator =  parts[1];
+        var _Initiator = parts[1];
         var _Initiationtime = helper.parseDateFromFileName(p1[0]);
         var _Recievedfrom = parts[2];
         var _Recievedtime = helper.parseDateFromFileName(p1[1]);
         var _Workflowstep = p1[2];
-            
-        if(formtype == _FormType && version == _Version && step == _Workflowstep && sender ==_Recievedfrom)
-        {
+
+        if (formtype == _FormType && version == _Version && step == _Workflowstep && sender == _Recievedfrom) {
             ret++;
         }
     }

@@ -72,15 +72,15 @@ function loadChildren(parent, obj, aname, sec) {
 
         if (aname == "_children") {
             parent._children.push(field);
-            console.log("added to _children");
+         //   console.log("added to _children");
         }
         if (aname == "_dataRows") {
             parent._dataRows[parent._dataRows.length - 1].push(field);
-            console.log("added to _dataRows [" + parent._dataRows.length - 1 + "]");
+        //    console.log("added to _dataRows [" + parent._dataRows.length - 1 + "]");
         }
         if (aname == "_newRowTemplate") {
             parent._newRowTemplate.push(field);
-            console.log("added to _newRowTemplate");
+        //    console.log("added to _newRowTemplate");
         }
         for (var arrayEl in obj) {
 
@@ -89,7 +89,7 @@ function loadChildren(parent, obj, aname, sec) {
             }
             else {
                 field[arrayEl] = obj[arrayEl];
-                console.log("copy " + arrayEl)
+             //   console.log("copy " + arrayEl)
             }
         }
     }

@@ -267,7 +267,7 @@ this.testStep5_3_WorkflowStep_ = function (error, self) {
         return;
     }
     // OK supervisor has now recieved 3 forms to approve
-    // we will reject 1, approve 2
+    // we will  approve 3
     //open forst form in "Published to me"
 
     $($("span[onclick^='filler.checktab(']")[0]).click();
@@ -277,8 +277,8 @@ this.testStep5_3_WorkflowStep_ = function (error, self) {
     $($("button[id^='dcform")[2]).click();
     //sign it
     $($("button[id^='dcform")[3]).click();
-    //reject
-    $($("select[id^='dcform")[3]).val("No");
+    //approve
+    $($("select[id^='dcform")[3]).val("Yes");
     //submit
     $($("li:contains('Submit')")).click();
     helper.log(self.scriptName + "Pause...");
@@ -339,20 +339,7 @@ this.testStep5_FinalStep = function (error, self) {
     $($("span:contains('Send / Recieve')")).click()
 }
 
-//6. done
-this.testStep6 = function (error, self) {
-    imap.callback = null;
-    imap.test = null;
-    $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
-    userSettings.activeProfile_change();
-    helper.log(self.scriptName + "Test step 6 - finish.");
-    if(self.doneCallback)
-    {
-        //bind correct 'this'
-        var c =self.doneCallback.bind(self.next);
-        c();
-    }
-}
+
 
 //utils
 function switchToUser(user) {
@@ -360,4 +347,156 @@ function switchToUser(user) {
     $("#selectActiveProfile").val(user).selectmenu("refresh");
     userSettings.activeProfile_change();
     helper.log("User switched to " + userSettings.identitySetting.email);
+}
+
+this.testStep6= function (error, self) {
+// 3 forms have copleted workflow, now we will simulate badly filled form from elizabeth,
+//  and patricia will return it elizabeth for fixing
+
+    // switch to Jennifer
+    helper.log(self.scriptName + "testStep6 elizabeth@barriqueworks.com fillig out form.");
+    switchToUser("elizabeth@barriqueworks.com");
+
+    //send and Recieve - user neeed to recieve published packages
+    // first set callback
+    imap.callback = self.testStep6_1_;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+
+
+
+}
+this.testStep6_1_ = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    if (error) {
+        helper.log(self.scriptName + "testStep6_1_ - Error.");
+        return;
+    }
+    //open forst form in "Published to me"
+    $("span[onclick^='filler.addtab(']").click();
+    // fill it out
+    //select car
+    $($("select[id^='dcformFiller")[0]).val("Nissan Leaf (Plate N#XX-XXXX)");
+    //reason?
+    $($("textarea[id^='dcformFiller")[0]).text("Unknown");
+    //start
+    $($("input[id^='dcformFiller")[0]).val("2017-10-21T10:35");
+    //start mileage
+    $($("input[id^='dcformFiller")[1]).val("48433");
+    //end
+    $($("input[id^='dcformFiller")[2]).val("2017-10-21T12:09");
+    //end mileage
+    $($("input[id^='dcformFiller")[3]).val("48455");
+    //ok
+    $($("select[id^='dcformFiller")[2]).val("Yes");
+    //timestamp it
+    $($("button[id^='dcform")[0]).click();
+    //sign it
+    $($("button[id^='dcform")[1]).click();
+    //submit
+    $($("li:contains('Submit')")).click();
+
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep6Pause1, 1000, self)
+}
+this.testStep6Pause1 = function (self) {
+    helper.log(self.scriptName + "Continue...");
+    //send and Recieve
+    // first set callback
+    imap.callback = self.testStep6_2_; //testStep5_3;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+}
+this.testStep6_2_ = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    if (error) {
+        helper.log(self.scriptName + "testStep6_2__WorkflowStep - Error.");
+        return;
+    }
+    helper.log(self.scriptName + "testStep6_2_ Now supervisor - patricia@barriqueworks.com.");
+    switchToUser("patricia@barriqueworks.com");
+
+    imap.callback = self.testStep6_3_WorkflowStep_;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+}
+
+this.testStep6_3_WorkflowStep_ = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    if (error) {
+        helper.log(self.scriptName + "testStep6_3_WorkflowStep_ - Error.");
+        return;
+    }
+    // OK supervisor has now recieved 3 forms to approve
+    // we will reject 1, approve 2
+    //open forst form in "Published to me"
+
+    $($("span[onclick^='filler.checktab(']")[0]).click();
+    // fill it out
+
+    //timestamp it
+    $($("button[id^='dcform")[2]).click();
+    //sign it
+    $($("button[id^='dcform")[3]).click();
+    //reject
+    $($("select[id^='dcform")[3]).val("No");
+
+    $($("textarea[id^='dcform")[2]).text("Please enter reason or Correct Work Order number.");
+    //submit
+  
+    $($("li:contains('Return to sender')")).click();
+    $("#dialog-confirm-ok").click();
+    helper.log(self.scriptName + "Pause...");
+   
+     window.setTimeout(self.testStep6Pause2, 1000, self)
+
+}
+this.testStep6Pause2 = function (self) {
+    helper.log(self.scriptName + "Continue...");
+  
+    //send and Recieve
+    // first set callback
+    imap.callback = self.testStep6_3_; //testStep5_3;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+}
+this.testStep6_3_ = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    if (error) {
+        helper.log(self.scriptName + "testStep6_3__WorkflowStep - Error.");
+        return;
+    }
+    helper.log(self.scriptName + "testStep6_3_ elizabeth@barriqueworks.com recieving rejected form.");
+    switchToUser("elizabeth@barriqueworks.com");
+
+    helper.log(self.scriptName + "Pause...");
+    
+      window.setTimeout(self.testStep6Pause3, 1000, self)
+   
+}
+this.testStep6Pause3 = function (self) {
+    helper.log(self.scriptName + "Continue...");
+     //send and Recieve - user neeed to recieve published packages
+    // first set callback
+    imap.callback = self.end;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+}
+//6. done
+this.end = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+    userSettings.activeProfile_change();
+    helper.log(self.scriptName + "Test step finish.");
+    if(self.doneCallback)
+    {
+        //bind correct 'this'
+        var c =self.doneCallback.bind(self.next);
+        c();
+    }
 }

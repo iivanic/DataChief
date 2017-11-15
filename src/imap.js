@@ -13,6 +13,8 @@ function openInbox(cb) {
 
 this.callback=null;
 this.test = null;
+this.callback1=null;
+this.test1 = null;
 
 var imapbusy = false;
 this.go = Go;
@@ -104,6 +106,9 @@ function Go(automatic) {
         if (!$("#IMAPTestDialog").is(":visible") && !helper.isAnyTest())
             window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
+        if(imap.callback1)
+        imap.callback1(error, imap.test1);
+
         if(imap.callback)
             imap.callback(error, imap.test);
     });
@@ -252,7 +257,7 @@ function readMessages1() {
           //  helper.log('Message #' + seqno);
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
-                console.log(prefix + 'Body');
+               // console.log(prefix + 'Body');
                 var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt');
                 try {
                     stream.pipe(fs.createWriteStream(path));
@@ -271,7 +276,7 @@ function readMessages1() {
 
             });
             msg.once('attributes', function (attrs) {
-                console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                //console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
             });
             msg.once('end', function () {
                // helper.log(prefix + 'Finished recieving message ' + seqno + '.');
