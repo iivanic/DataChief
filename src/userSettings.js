@@ -24,8 +24,7 @@ this.ctor = function () {
     var file = "";
     try {
         file = helper.decrypt(helper.loadFile(this.filePath));
-    } catch (ex)
-    { }
+    } catch (ex) { }
     if (!file) {
         // first time creation
         this.email = helper.getCurrentUsername();
@@ -48,7 +47,7 @@ this.ctor = function () {
         })
     } else {
         $(document).ready(function () {
-           if(!helper.isAnyTest())
+            if (!helper.isAnyTest())
                 imapTimer = window.setTimeout("imap.go(true)", 4000);
         });
     }
@@ -60,7 +59,7 @@ this.loadIdentitySetting = function (email) {
     this.identitySetting = identitySetting;
     identitySetting.ctor(email);
 }
-this.getIdentitySetting= function (email) {
+this.getIdentitySetting = function (email) {
     var is = require("./identitySetting.js");
     is.ctor(email);
     return is;
@@ -191,14 +190,13 @@ this.reloadIndentityChooser = function () {
             html += "<option " + (this.Identities[i] == this.email ? "selected=\"selected\"" : "") + " value=\"" + this.Identities[i] + "\">" + this.Identities[i] + "</option>";
         profileHTML += "<option value=\"" + this.Identities[i] + "\">" + this.Identities[i] + "</option>";
     }
-       profileHTML += "<option value=\"-1\">All users that have packages</option>";
- 
+    profileHTML += "<option value=\"-1\">All users that have packages</option>";
+
     html += "<option value=\"-1\">Create new profile</option>";
     try {
         $("#selectActiveProfile").selectmenu("destroy");
     }
-    catch (e)
-    { }
+    catch (e) { }
 
     $("#selectActiveProfile").html(html);
 
@@ -249,6 +247,7 @@ function selectActiveProfile_change() {
                         helper.alert("User secret need to have at least on character.");
                         return;
                     }
+                    userSettings.closeAllTabs();
                     userSettings.loadIdentitySetting($("#editOrgMemberEmail").val());
                     identitySetting.userSecret = $("#editOrgMemberSecret").val();
                     // save it
@@ -274,6 +273,7 @@ function selectActiveProfile_change() {
         });
     }
     else {
+        userSettings.closeAllTabs();
         userSettings.loadIdentitySetting(val);
         // set value this.email to identitySetting
         userSettings.email = identitySetting.email;
@@ -282,7 +282,30 @@ function selectActiveProfile_change() {
         // refresh profiles
         userSettings.reloadIndentityChooser();
     }
+
+}
+this.closeAllTabs = function () {
+    // close graph
+    dataCollection.setGraph4Mermaide("graph TD\nA[\"...\"]");
+    // close open designers
+
+    $("div[id^='tabs-").each(function () {
+       
+        var el = $("li[aria-controls^='" + $(this).prop("id") );
+        el.remove();
+        $(this).remove();
+    });
+    $("div[id^='Fillertabs-").each(function () {
+        
+         var el = $("li[aria-controls^='" + $(this).prop("id") );
+         el.remove();
+         $(this).remove();
+     });
+   
+    $('#tabs').tabs('refresh');
+    $('#Fillertabs').tabs('refresh');
     
+
 }
 this.activeProfile_change = selectActiveProfile_change;
 
