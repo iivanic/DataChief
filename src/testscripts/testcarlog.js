@@ -5,6 +5,8 @@ this.next = null;
 
 this.runTest = function () {
     this.testStep4(this);
+    helper.log(this.scriptName + "Switch to main user.");
+    switchToUser(userSettings.email);
 }
 
 //4. create and publish form(s)
