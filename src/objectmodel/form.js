@@ -537,14 +537,13 @@ this.createForm = function (name, templateName) {
 
             break;
         case "Employee Absence Request":
-            this._description = "This Absence Request form should be submitted by employee and then approved by manager.";
+            this._description = "This Absence Request form should be submitted by employee and then approved by HR and Manager.";
             this._footer = "Example Absence Request Request Form.";
-            this.workflow = "robert@barriqueworks.com";
+            this.workflow = "john@barriqueworks.com,robert@barriqueworks.com";
             this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
             this.finalStep = "john@barriqueworks.com";
             this.broadCastRecievers = "initiator, john@barriqueworks.com";
             this.allowLocalCopies = "everyone";
-             //  this.broadcastStatusOfForm = true;
 
             var grp = Object.create(groupField);
             grp.ctor();
@@ -603,12 +602,39 @@ this.createForm = function (name, templateName) {
             cu.ctor();
             cu.description = "User Signature";
             grp.children.push(cu);
+// HR approval
+            grp = Object.create(groupField);
+            grp.ctor();
+            grp.displayName = "HR approval";
+            grp.toolTip = "HR must approve or disaprove this request.";
+            grp.description = "HR must approve or reject this request."
+            grp.editors = "john@barriqueworks.com";
+            this.children.push(grp);
 
+            lst = Object.create(listField);
+            lst.ctor();
+            lst.displayName = "Aproval";
+            lst.options = "Approved;Rejected"
+            lst.description = "Approval of Absence request."
+            lst.toolTip = lst.description;
+            lst.required = true;
+            grp.children.push(lst);
+
+            txt = Object.create(textField);
+            txt.ctor();
+            txt.displayName = "Comments";
+            txt.description = "Comments for approval (if any)";
+            txt.toolTip = "";
+            txt.multiline = true;
+            txt.required = false;
+            grp.children.push(txt);
+
+// manager approval            
             grp = Object.create(groupField);
             grp.ctor();
             grp.displayName = "Manager approval";
-            grp.toolTip = "Manager Must approve or disaprove this request.";
-            grp.description = "Manager Must approve or reject this request."
+            grp.toolTip = "Manager must approve or disaprove this request.";
+            grp.description = "Manager must approve or reject this request."
             grp.editors = "robert@barriqueworks.com";
             this.children.push(grp);
 

@@ -22,7 +22,7 @@ We need to collect Absence Request Formsfrom Production department. Memebers of 
 -   Linda J, [*linda@barriqueworks.com*](mailto:linda@barriqueworks.com)
 -   David F, [*david@barriqueworks.com*](mailto:david@barriqueworks.com)
 so we need to publish Absence Request to them.
-Request must be approved by Production Manager - Robert P.
+Request must be approved by our HR chief John L - [*john@barriqueworks.com*](mailto:john@barriqueworks.com) and then Production Manager - Robert P.  [*robert@barriqueworks.com*](mailto:robert@barriqueworks.com)
 Finally, Form needs to finish in HR database with John L - [*john@barriqueworks.com*](mailto:john@barriqueworks.com)
 
 If we try to draw our workflow it could look like this:
@@ -39,7 +39,7 @@ So, let's create our Form:
 -   On the right, in properties, under "Forms Settings/Footer" enter "Example Absence Request Request Form.", then click "Apply Changes button". We see our Form has changed.
 -   In Workflow part of Properties under "Publish To" write three emails from Production departmen, comma delimited
     -     william@barriqueworks.com, linda@barriqueworks.com, david@barriqueworks.com
--   In Workflow part of Properties under "Workflow" write "robert@barriqueworks.com", as he needs to approve Request
+-   In Workflow part of Properties under "Workflow" write "john@barriqueworks.com,robert@barriqueworks.com", as they needs to approve Request in that order
 -   In Workflow part of Properties under "Final step" write "john@barriqueworks.com", as he needs this request for HR database
 -   In Workflow part of Properties under "Broadcast recievers" write "initiator, john@barriqueworks.com", as we want person who filled request to see progress of his/her request. We also want HR to know how many unfinished Absence request are outhere.
 -   In Workflow part of Properties under "Allow local copies" write "everyone", as we want to allow everyone to have local copy of what have they done with request.
