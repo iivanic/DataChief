@@ -486,6 +486,32 @@ this.testStep6Pause3 = function (self) {
     imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
+
+this.testStep6_4_ = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    if (error) {
+        helper.log(self.scriptName + "testStep6_4__WorkflowStep - Error.");
+        return;
+    }
+    helper.log(self.scriptName + "testStep6_4_ richard@barriqueworks.com recieving broadcasts.");
+    switchToUser("richard@barriqueworks.com");
+
+    helper.log(self.scriptName + "Pause...");
+    
+      window.setTimeout(self.testStep6Pause4, 1000, self)
+   
+}
+this.testStep6Pause4 = function (self) {
+    helper.log(self.scriptName + "Continue...");
+     //send and Recieve - user neeed to recieve published packages
+    // first set callback
+    imap.callback = self.end;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+}
+
+
 //6. done
 this.end = function (error, self) {
     imap.callback = null;
