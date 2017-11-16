@@ -101,7 +101,9 @@
             
             "runtimeArgs": [
                 "--nolazy",
-                "--runalltests"
+                "--runresetdb",
+                "--runtestabsence"
+                
             ],
             "env": {
                 "NODE_ENV": "development",
