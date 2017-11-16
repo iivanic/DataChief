@@ -16,7 +16,7 @@ this.testStep1 = function (self) {
     $("#add_form").click();
 
     $("#exampleforms").val("Employee Absence Request");
-    
+
     //set form name
     $("#tab_title").val("Employee Absence Request Form for Production department");
     //leave default form selected in dropdown
@@ -62,7 +62,87 @@ this.testStep1Part3 = function (self) {
     $(maintabs).tabs("option", "active", 2);
     $(maintabs).tabs("refresh");
 
-    self.end(self);
+    switchToUser("william@barriqueworks.com");
+    //send and Recieve - user neeed to recieve published packages
+    // first set callback
+    imap.callback = self.testStep1Part4;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+
+}
+this.testStep1Part4 = function (error, self) {
+    helper.log(self.scriptName + "testStep1Part4 - imap callback.");
+    imap.callback = null;
+    imap.test = null;
+
+    if (error) {
+        helper.log(self.scriptName + "testStep1Part4 - Error.");
+        return;
+    }
+    //open first form in "Published to me"
+    $("span[onclick^='filler.addtab(']").click();
+    // fill it out
+    //select car
+    $($("select[id^='dcform")[0]).val("Jury Duty");
+    //reason?
+    $($("textarea[id^='dcform")[0]).text("Was called for Jury Duty by court.");
+    //start
+
+    var result = new Date();
+    result.setDate(result.getDate() + 14);
+
+    var dd = result.getDate();
+    var mm = result.getMonth() + 1;
+    var y = result.getFullYear();
+
+    $($("input[id^='dcform")[0]).val(y.toString() + "-" + helper.padNumber(mm.toString(),2) + "-" + helper.padNumber(dd.toString()));
+    //end
+    result.setDate(result.getDate() + 3);
+
+    dd = result.getDate();
+    mm = result.getMonth() + 1;
+    y = result.getFullYear();
+
+    $($("input[id^='dcform")[1]).val(y.toString() + "-" + helper.padNumber(mm.toString(),2) + "-" + helper.padNumber(dd.toString()));
+    //end mileage
+
+    //timestamp it
+    $($("button[id^='dcform")[0]).click();
+    //sign it
+    $($("button[id^='dcform")[1]).click();
+    //submit
+    $($("li:contains('Submit')")).click();
+
+    //somehow saveForm is async
+    helper.log(self.scriptName + "Pause...");
+    window.setTimeout(self.testStep1Part5, 1000, self)
+}
+this.testStep1Part5 = function (self) {
+    helper.log(self.scriptName + "Continue...");
+
+    //send and Recieve
+    // first set callback
+    imap.callback = self.testStep1Part6;
+    imap.test = self;
+    $($("span:contains('Send / Recieve')")).click()
+}
+this.testStep1Part6 = function (error, self) {
+    imap.callback = null;
+    imap.test = null;
+    if (error) {
+        helper.log(self.scriptName + "testStep1Part6 - Error.");
+        return;
+    }
+
+    switchToUser("linda@barriqueworks.com");
+    //send and Recieve - user neeed to recieve published packages
+    // first set callback
+  //  imap.callback = self.testStep5_1_;
+  //  imap.test = self;
+  //  $($("span:contains('Send / Recieve')")).click()
+
+
+
 }
 
 this.end = function (self) {
