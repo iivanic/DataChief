@@ -238,7 +238,7 @@ this.refreshBroadcastDB = function () {
         editing: false,
         sorting: true,
         paging: true,
-        pageSize: 6,
+        pageSize: 5,
         pageButtonCount: 5,
         autoload: true,
         controller: broadcastDB,

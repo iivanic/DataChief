@@ -147,7 +147,7 @@ $(document).ready(function () {
         width: "480px",
 
         buttons: {
-            
+
             "Create Emtpy": function () {
                 addTab(false, "");
                 $(this).dialog("close");
@@ -155,16 +155,16 @@ $(document).ready(function () {
             "Create from template": {
                 text: "Create from template",
                 id: "btnCreateFromTemplate",
-                click : function () {
+                click: function () {
                     addTab(false, $("#exampleforms").val());
                     $(this).dialog("close");
                 }
             },
-            
-                Cancel: function () {
+
+            Cancel: function () {
                 $(this).dialog("close");
             }
-        
+
         }
     });
 
@@ -273,17 +273,27 @@ this.FixTabsHeight = fixTabsHeight;
 function fixTabsHeight() {
 
     var winH = $(window).outerHeight();
-    /*   $('#tabs-1').each(function() {
-           if ($(this).attr("id").lastIndexOf("tabs-", 0) == 0) {
-               $(this).height(winH - $(this).offset().top - 55);
-               $(this).css("overflow", "auto");
-           }
-       });*/
-    $('.fixmyheight').each(function () {
-        $(this).height(winH - $(this).offset().top - 66 - ($("#expandlog").hasClass("ui-icon-arrow-1-n") ? 0 : 100)); //- $("#maintabs-1").position().top- 20);
+ 
+
+    $("div[id^='maintabs-").each(function () {
+        $(this).height(winH - $(this).offset().top - 35 - $("#logrow").outerHeight()); //- $("#maintabs-1").position().top- 20);
+        $(this).css("overflow", "auto");
+    });
+    $("div[id^='Fillertabstabs-").each(function () {
+        $(this).height(winH - $(this).offset().top - 39 - $("#logrow").outerHeight()); //- $("#maintabs-1").position().top- 20);
+        $(this).css("overflow", "auto");
+    });
+    $("div[id^='collectortabs-").each(function () {
+        $(this).height(winH - $(this).offset().top - 54 - $("#logrow").outerHeight()); //- $("#maintabs-1").position().top- 20);
         $(this).css("overflow", "auto");
     });
 
+
+    /*   $('.fixmyheight').each(function () {
+           $(this).height(winH - $(this).offset().top - 66 - ($("#expandlog").hasClass("ui-icon-arrow-1-n") ? 0 : 100)); //- $("#maintabs-1").position().top- 20);
+           $(this).css("overflow", "auto");
+       });
+   */
 }
 var fieldBase = require("./objectmodel/fieldBase.js");
 var textField = require("./objectmodel/textField.js");
@@ -301,8 +311,8 @@ $(document).ready(function () {
 
     helper.log("Welcome to Data Chief.");
     helper.log("Ready.");
-    
-        //check command line 
+
+    //check command line 
     helper.checkCommandLine();
 });
 
