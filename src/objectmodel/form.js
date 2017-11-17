@@ -629,6 +629,15 @@ this.createForm = function (name, templateName) {
             txt.required = false;
             grp.children.push(txt);
 
+            cu = Object.create(currentDateTimeField);
+            cu.ctor();
+            cu.description = "Date";
+            grp.children.push(cu);
+            cu = Object.create(currentUserField);
+            cu.ctor();
+            cu.description = "Signature";
+            grp.children.push(cu);
+
 // manager approval            
             grp = Object.create(groupField);
             grp.ctor();
@@ -797,6 +806,17 @@ this.ctor = function () {
     this.publishTo = "user1@example.com, user2@example.com";
     if(!this._id)
         this._id = helper.generateGUID();
+    this.allowSendOneStepBack = true;
+}
+this.ctor1 = function () {
+    this._children = new Array();
+    this._allUsersForImpersonation = new Array();
+    this.workflow = "";
+    this.broadCastRecievers = "initiator";
+    this.finalStep = "initiator";
+    this.allowLocalCopies = "initiator";
+    this.publishTo = "user1@example.com, user2@example.com";
+  
     this.allowSendOneStepBack = true;
 }
 this.regenerateGUID = function () {

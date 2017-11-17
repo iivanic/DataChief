@@ -99,9 +99,9 @@ this.loadPackage = function (file) {
             if (!loadedObj.published) {
                 if (helper.fileExists(fileName)) {
                     var cnt = 0;
-                    while (helper.fileExists(fileName + "_" + cnt))
+                    while (helper.fileExists(fileName + "-" + cnt))
                         cnt++;
-                    fileName = fileName + "_" + cnt;
+                    fileName = fileName + "-" + cnt;
                 }
             }
         }
