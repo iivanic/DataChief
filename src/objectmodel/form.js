@@ -9,7 +9,7 @@ var currentUserField = require("./currentUserField.js");
 
 //var helper =z require("./utils.js");
 
-module.exports.exampleForms = ["Vehicle Usage Log", "Employee Absence Request", "Corrective action - quality management"];
+module.exports.exampleForms = ["Vehicle Usage Log", "Employee Absence Request", "Corrective action - Quality Management"];
 
 
 // fields
@@ -154,7 +154,7 @@ this.render = function (placeholder, editable, user, _idprefix) {
         //       str += "</span></li>";
     }
     str += "<p class='help-block'></p>";
-    str += "<hr />" + this._footer + "<div /><br /><button style='float:right;' type='button' class='btn btn-primary testbutton'>Submit</button>";
+    str += "<hr />" + this._footer + "<div /><br /><button style='float:right;' type='button' class='btn btn-primary testbutton'>Validate</button>";
     //  if (editable)
     //      str += "</ul>"
     placeholder.html(str);
@@ -675,15 +675,16 @@ this.createForm = function (name, templateName) {
             grp.children.push(cu);
 
             break;
-        case "Corrective action - quality management":
+        case "Corrective action - Quality Management":
             this._description = "Corrective / preventive actions are implemented in response to customer complaints, unacceptable levels of product non-conformance, issues identified during internal, external or thirs party audit(s), adverse or unstable trends in product and process monitoring or any other non-conformity with policies and procedures.";
             this._footer = "Example Corrective action Form.";
 
-            this.workflow = "robert@barriqueworks.com";
-            this.publishTo = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
+            this.workflow = "daniel@barriqueworks.com";
+            //everyone in the company
+            this.publishTo = "mary@barriqueworks.com,richard@barriqueworks.com,john@barriqueworks.com,daniel@barriqueworks.com,james@barriqueworks.com,patricia@barriqueworks.com,jennifer@barriqueworks.com,michael@barriqueworks.com,elizabeth@barriqueworks.com,margaret@barriqueworks.com,robert@barriqueworks.com,william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
             this.finalStep = "daniel@barriqueworks.com";
-            this.broadCastRecievers = "william@barriqueworks.com,linda@barriqueworks.com,david@barriqueworks.com";
-           // this.broadcastStatusOfForm = true;
+            this.broadCastRecievers = "";
+           
 
             var grp = Object.create(groupField);
             grp.ctor();
@@ -701,6 +702,15 @@ this.createForm = function (name, templateName) {
             txt.required = true;
             txt._multiline = true;
             grp.children.push(txt);
+
+            var cu = Object.create(currentDateTimeField);
+            cu.ctor();
+            cu.description = "Date";
+            grp.children.push(cu);
+            cu = Object.create(currentUserField);
+            cu.ctor();
+            cu.description = "Signature";
+            grp.children.push(cu);
 
             grp = Object.create(groupField);
             grp.ctor();
@@ -724,7 +734,7 @@ this.createForm = function (name, templateName) {
             lst.displayName = "Type of Action";
             lst.description = "Specify what kind of action is required.";
             lst.toolTip = "Is it Corrective or Preventive?";
-            lst.options = "Corrective action;Preventive action";
+            lst.options = "Corrective action;Preventive action;None";
             lst.multiselect = false
             lst.required = true;
             grp.children.push(lst);
@@ -757,7 +767,7 @@ this.createForm = function (name, templateName) {
             txt._multiline = false;
             grp.children.push(txt);
 
-            var cu = Object.create(currentDateTimeField);
+            cu = Object.create(currentDateTimeField);
             cu.ctor();
             cu.description = "Date";
             grp.children.push(cu);

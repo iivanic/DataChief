@@ -18,7 +18,7 @@ this.testStep1 = function (self) {
     $("#exampleforms").val("Employee Absence Request");
 
     //set form name
-    $("#tab_title").val("Employee Absence Request Form for Production department");
+    $("#tab_title").val("Absence Request Form for Production department");
     //leave default form selected in dropdown
     window.setTimeout(self.testStep1Part1, 300, self);
 
