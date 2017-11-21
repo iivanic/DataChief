@@ -42,7 +42,7 @@ this.openForm = function (jsonstring, loadedFrom) {
 }
 
 function loadChildren(parent, obj, aname, sec) {
-    console.log("loadChildren(" + parent + ", " + obj + ", " + aname + ")");
+   // console.log("loadChildren(" + parent + ", " + obj + ", " + aname + ")");
 
     var field;
     if (obj._type) {

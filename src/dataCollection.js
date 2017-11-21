@@ -191,7 +191,7 @@ this.refreshSentDB = function () {
         },
         fields: [
             { name: "Path", type: "text", visible: false },
-            { name: "Type", type: "text", width: 50 },
+            { name: "Type",type: "text", width: 50 },
             { name: "Form Type", type: "text", width: 150, visible: false },
             { name: "Version", type: "number", width: 30 },
             { name: "Name", type: "text", width: 200 },
@@ -201,6 +201,9 @@ this.refreshSentDB = function () {
 
         ]
     });
+    $($("#jsGridSentData .jsgrid-filter-row input")[0]).val("WORKFLOW");
+    $("#jsGridSentData").jsGrid("search", { Type: "WORKFLOW" }).done(function() {});
+    
 }
 this.refreshBroadcastDB = function () {
     broadCastedFormTypes = new Object();
