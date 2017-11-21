@@ -1,3 +1,4 @@
+
 var form = require("./objectmodel/form.js");
 const ipc = require('electron').ipcRenderer;
 const json2csv = require('json2csv');
@@ -150,6 +151,7 @@ this.refreshDB = function () {
 this.refreshSentDB = function () {
     var forms_ = helper.getFilesInDir(helper.getSentPath());
     var parsedForms = new Array();
+
     for (var i in forms_) {
         var path = helper.join(helper.getSentPath(), forms_[i]);
         // parse
@@ -191,7 +193,7 @@ this.refreshSentDB = function () {
         },
         fields: [
             { name: "Path", type: "text", visible: false },
-            { name: "Type",type: "text", width: 50 },
+            { name: "Type", type: "text", width: 50 },
             { name: "Form Type", type: "text", width: 150, visible: false },
             { name: "Version", type: "number", width: 30 },
             { name: "Name", type: "text", width: 200 },
@@ -202,15 +204,43 @@ this.refreshSentDB = function () {
         ]
     });
     $($("#jsGridSentData .jsgrid-filter-row input")[0]).val("WORKFLOW");
-    $("#jsGridSentData").jsGrid("search", { Type: "WORKFLOW" }).done(function() {});
-    
+    $("#jsGridSentData").jsGrid("search", { Type: "WORKFLOW" }).done(function () { });
+
 }
 this.refreshBroadcastDB = function () {
     broadCastedFormTypes = new Object();
-    var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
+    var forms__ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
     var parsedForms = new Array();
+    var forms_ = new Array();
+    // in broadcast sghow only last version od form (with max hitory length)
+    var maxHistory = new Array();
+    var maxHistoryFile = new Array();
+
+    for (var i in forms__) {
+        var form = helper.loadFile(helper.join(helper.getRecievedBroadCastsPath(), forms__[i]));
+        form = JSON.parse(form);
+        if (form.history) {
+            if (form.formid) {
+                if (!maxHistory[form.formid + "_" + form._version]) {
+                    maxHistory[form.formid + "_" + form._version] = form.history.length;
+                }
+                if (form.history.length > maxHistory[form.formid + "_" + form._version]) {
+
+                    maxHistory[form.formid + "_" + form._version] = form.history.length;
+                    maxHistoryFile[form.formid + "_" + form._version] = forms__[i];
+                }
+            }
+            else
+                forms_.push(forms__[i]);
+        }
+    }
+    for (var i in maxHistoryFile) {
+        forms_.push(maxHistoryFile[i]);
+    }
+
     for (var i in forms_) {
         var path = helper.join(helper.getRecievedBroadCastsPath(), forms_[i]);
+
         // parse
         var parts = forms_[i].split("..");
         var p = parts[0].split("_");
@@ -289,8 +319,33 @@ $(document).ready(
 
     }
 );
+this.currentModelDiaplyedForm = null;
+this.showHistory = function () {
+    var html = "<table class='table'>\n<tr>\n<th>Action</th>\n<th>Time</th>\n<th>From</th>\n<th>To</th>\n<th>From step</th>\n<th>To Step</th>\n</tr>\n";
+    for (var i in dataCollection.currentModelDiaplyedForm.history) {
+        if (!(dataCollection.currentModelDiaplyedForm.history[i].action == "Publish" && 
+        (dataCollection.currentModelDiaplyedForm.history[i].to != userSettings.identitySetting.email &&
+            dataCollection.currentModelDiaplyedForm.history[i].from != userSettings.identitySetting.email ))) {
+            html += "<tr>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].action + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].time + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].from + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].to + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].fromStep + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].step + "</td>\n";
+            html += "</tr>\n";
+        }
+    }
+    html += "</table>\n";
+    helper.alert(html, null, true, 900, 650);
+}
 
 this.displayFormModal = function (path) {
+    this.currentForm = Object.create(form);
+    this.currentForm.ctor();
+    var loadedObj = helper.loadFile(path);
+    this.currentForm.openForm(loadedObj, path)
+    this.currentModelDiaplyedForm = this.currentForm;
     //  
     $("#dialog-modal-form").dialog({
         resizable: false,
@@ -302,6 +357,10 @@ this.displayFormModal = function (path) {
                 sendCommandToWorker($("#dialog-modal-form-placeholder").html());
 
             },
+            "Show history": function () {
+                dataCollection.showHistory();
+
+            },
             "Close Form": function () {
 
                 $(this).dialog("close");
@@ -309,10 +368,8 @@ this.displayFormModal = function (path) {
         }
     });
 
-    this.currentForm = Object.create(form);
-    this.currentForm.ctor();
-    var loadedObj = helper.loadFile(path);
-    this.currentForm.openForm(loadedObj, path)
+
+
 
     this.currentForm.render($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix");
 
@@ -465,10 +522,10 @@ this.selectForm = function (formType) {
             //ako je array, onda moramo dodati više...
         }
         else {
-            lastWF = mailToMM(lastWF, parseInt(j)+1 );
+            lastWF = mailToMM(lastWF, parseInt(j) + 1);
 
             markup += lastWF + "(\"" + wf[j] + "\")\n";
-   
+
             markup += "style " + lastWF + " fill:#d9d9d9,stroke:#333,stroke-width:1px\n"
         }
     }
@@ -491,13 +548,12 @@ this.selectForm = function (formType) {
     for (var i in flow) {
         for (var j in flow[i]) {
             if (!counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)])
-                counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] = 0;
+                counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)] = 0;
 
-            counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] = counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] + 1;
+            counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)] = counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)] + 1;
         }
     }
-    for(var i in counter)
-    {
+    for (var i in counter) {
         markup += i.replace("-->", "-->|" + counter[i].toString() + "| ") + "\n";
     }
 

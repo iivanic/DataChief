@@ -344,12 +344,19 @@ this.deleteFolder = function (path) {
     }
 };
 
-this.alert = function (message, callback) {
-    $("#dialog-alert-text").text(message);
+this.alert = function (message, callback, html, width_, height_) {
+    if (html)
+        $("#dialog-alert-text").html(message);
+    else
+        $("#dialog-alert-text").text(message);
+    if (!width_)
+        width_ = 500;
+    if (!height_)
+        height_ = 355;
     $("#dialog-alert").dialog({
         resizable: false,
-        height: 355,
-        width: 500,
+        height: height_,
+        width: width_,
         modal: true,
         buttons: {
             Ok: function () {
