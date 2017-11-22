@@ -6,7 +6,7 @@ DataChief enables you to **rapidly implement processes in your company/organizat
 
 You don't have to be blocked anymore by expensive custom solution development that never ends, and when it is finally finished, it's often obsolete.
 
-Take a look at [Barrique Works LLC Case Study](./Case%20study%20Barrique%20Works%20LLC.md). 
+Take a look at [Barrique Works LLC Case Study](/Case%20study%20Barrique%20Works%20LLC.md). 
 
 ## Features & Roadmap
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
