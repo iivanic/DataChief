@@ -122,8 +122,7 @@ this.sendRecieve = function () {
     imap.callback1 = this.sendRecieveDone;
     imap.go();
 }
-this.sendRecieveDone = function(error, self)
-{
+this.sendRecieveDone = function (error, self) {
     imap.test1 = null;
     imap.callback1 = null;
     dataCollection.refreshDB();
@@ -135,31 +134,31 @@ this.sendRecieveDone = function(error, self)
 this.refreshFolders = function () {
     // we need to refresh all folders
     var publishers = helper.getDirectories(helper.getPublishersPath());
- // autmatic installation of feedback form does not makes sense
- // becouse of communication method, must be in "Per user account"
- // mode, so that emails are actually sent
- // -- removed for now
- /*   if (publishers.indexOf("DataChief") == -1) {
-        // create folder for DataCheif publisher
-        helper.checkFolder(helper.join(helper.getPublishersPath(), "DataChief"));
-        // create feedback form
-        var form = require("./objectmodel/form.js");
-        form.createFeedbackForm();
-        form.published = true;
-        var version = form._version;
-        var id = form._id;
-        var content = JSON.stringify(form, index._formEditor.saveJSONReplacer, 2);
-
-        var fileName = helper.join(helper.join(helper.getPublishersPath(), "DataChief"), "N" + "_" + id + "_" + version + "_" + form._name);
-        helper.saveTextFile(
-            fileName,
-            content);
-        helper.log("----FeedbackForm saved as " + fileName);
-
-        //read folders again
-        publishers = helper.getDirectories(helper.getPublishersPath());
-    }
-    */
+    // autmatic installation of feedback form does not makes sense
+    // becouse of communication method, must be in "Per user account"
+    // mode, so that emails are actually sent
+    // -- removed for now
+    /*   if (publishers.indexOf("DataChief") == -1) {
+           // create folder for DataCheif publisher
+           helper.checkFolder(helper.join(helper.getPublishersPath(), "DataChief"));
+           // create feedback form
+           var form = require("./objectmodel/form.js");
+           form.createFeedbackForm();
+           form.published = true;
+           var version = form._version;
+           var id = form._id;
+           var content = JSON.stringify(form, index._formEditor.saveJSONReplacer, 2);
+   
+           var fileName = helper.join(helper.join(helper.getPublishersPath(), "DataChief"), "N" + "_" + id + "_" + version + "_" + form._name);
+           helper.saveTextFile(
+               fileName,
+               content);
+           helper.log("----FeedbackForm saved as " + fileName);
+   
+           //read folders again
+           publishers = helper.getDirectories(helper.getPublishersPath());
+       }
+       */
     var html = "";
     for (var i in publishers) {
         /*   <li><a style="width:100%" href="#">Publisher 1</a>
@@ -195,7 +194,7 @@ this.refreshFolders = function () {
     html = "";
     var recieved = helper.getFilesInDir(helper.getRecievedPath());
     for (var i in recieved) {
-        html += " <li><span style='cursor:pointer;width:100%' onclick=\"filler.checktab('" + recieved[i].split("_")[recieved[i].split("_").length-1] + "', '" + helper.join(helper.getRecievedPath(), recieved[i]).replace(/\\/g, "\\\\") + "')\" href='" + recieved[i] + "'>" + recieved[i].split("_")[recieved[i].split("_").length-1] + "</span></li>";
+        html += " <li><span style='cursor:pointer;width:100%' onclick=\"filler.checktab('" + recieved[i].split("_")[recieved[i].split("_").length - 1] + "', '" + helper.join(helper.getRecievedPath(), recieved[i]).replace(/\\/g, "\\\\") + "')\" href='" + recieved[i] + "'>" + recieved[i].split("_")[recieved[i].split("_").length - 1] + "</span></li>";
     }
     if (recieved.length == 0) {
         html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
@@ -226,8 +225,29 @@ this.refreshFolders = function () {
     html = "";
 
     var sent = helper.getFilesInDir(helper.getSentPath());
+    var sentC = 0;
+    var sentB = 0;
+    var sentP = 0;
+    for (var i in sent) {
+        if (sent[i].substring(0, 5) == "WORKF")
+            sentC++;
+        if (sent[i].substring(0, 5) == "BROAD")
+            sentB++;
+        if (sent[i].substring(0, 5) == "PUBLI")
+            sentP++;
+    }
+    var sLabel = "No sent forms.";
+    if (sentB || sentC || sentP)
+        sLabel = "";
+    if (sentC)
+        sLabel += "Submitted <strong>" + sentC + "</strong> form(s). "
+    if (sentP)
+        sLabel += "<strong>" + sentP + "</strong> published. "
+    if (sentB)
+        sLabel += "<strong>" + sentB + "</strong> boradcast(s). "
+    sLabel += "<strong>" + sent.length + "</strong> in total.";
 
-    html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });$(\"#collectortabs\").tabs({ active: 1 })'>Sent " + sent.length + " forms</span></li>";
+    html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });$(\"#collectortabs\").tabs({ active: 1 })'>" + sLabel + "</span></li>";
     /*  if (sent.length == 0) {
           html += " <li><span style='cursor:not-allowed;width:100%' href='#'>No forms in folder</span></li>";
       }
@@ -259,11 +279,11 @@ function createPackagesFromMyOutbox() {
     var packages = new Array();
     var pCount = 0;
     var pCountBR = 0;
-    
+
     for (var i = 0; i < items.length; i++) {
         file = helper.loadFile(helper.join(srcFolder, items[i]));
         var loadedObj = JSON.parse(file);
-        var broadcastRecevers = helper.parseBroadCastRecievers(loadedObj.broadCastRecievers, loadedObj.initiator );
+        var broadcastRecevers = helper.parseBroadCastRecievers(loadedObj.broadCastRecievers, loadedObj.initiator);
         var users = helper.parseWorkFlow(loadedObj.workflow);
         // find workflow step 
         if (users.length < loadedObj.workflowStep) {
@@ -273,13 +293,11 @@ function createPackagesFromMyOutbox() {
         }
         else {
             // if returning to initiator
-            if(loadedObj.workflowStep - 1<0)
-            {
+            if (loadedObj.workflowStep - 1 < 0) {
                 users = loadedObj.initiator;
             }
-            else
-            {
-            // find workflow step 
+            else {
+                // find workflow step 
                 users = users[loadedObj.workflowStep - 1];
             }
             if (users instanceof Array) {
@@ -287,7 +305,7 @@ function createPackagesFromMyOutbox() {
                 helper.alert("Not yet supported!");
                 return;
             }
-        
+
         }
         if (!(users instanceof Array)) {
             var t = users;
@@ -297,35 +315,35 @@ function createPackagesFromMyOutbox() {
         for (var ui = 0; ui < users.length; ui++) {
             // no package for user, create it
             if (!packages[users[ui]]) {
-                packages[users[ui]] = { publisher: userSettings.organization, published: false, workflowpackage: true,cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                packages[users[ui]] = { publisher: userSettings.organization, published: false, workflowpackage: true, cameFrom: userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCount++;
             }
             //we need history for later
             if (!loadedObj.history)
-            loadedObj.history = new Array();
-            loadedObj.history.push({ action: 'Submit', time: new Date(), from: userSettings.identitySetting.email, to: users[ui], step: (loadedObj.workflowStep?loadedObj.workflowStep:0), fromStep: loadedObj.fromWorkflowStep?loadedObj.fromWorkflowStep:0 });
-           // push form
-           packages[users[ui]].forms.push(loadedObj);
+                loadedObj.history = new Array();
+            loadedObj.history.push({ action: 'Submit', time: new Date(), from: userSettings.identitySetting.email, to: users[ui], step: (loadedObj.workflowStep ? loadedObj.workflowStep : 0), fromStep: loadedObj.fromWorkflowStep ? loadedObj.fromWorkflowStep : 0 });
+            // push form
+            packages[users[ui]].forms.push(loadedObj);
         }
         //broadcast!
-        
+
         for (var ui = 0; ui < broadcastRecevers.length; ui++) {
             // no package for user, create it
             if (!packages[broadcastRecevers[ui]]) {
-                packages[broadcastRecevers[ui]] = { publisher: userSettings.organization, published: false, broadcastpackage:true, workflowpackage: true,cameFrom:userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                packages[broadcastRecevers[ui]] = { publisher: userSettings.organization, published: false, broadcastpackage: true, workflowpackage: true, cameFrom: userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCountBR++;
             }
-             //we need history for later
-             if (!loadedObj.history)
-             loadedObj.history = new Array();
-             loadedObj.history.push({ action: 'Broadcast', time: new Date(), from: userSettings.identitySetting.email, to: broadcastRecevers[ui].replace("[BROADCAST]",''), step: (loadedObj.workflowStep?loadedObj.workflowStep:0), fromStep: loadedObj.fromWorkflowStep?loadedObj.fromWorkflowStep:0  });
- 
- 
+            //we need history for later
+            if (!loadedObj.history)
+                loadedObj.history = new Array();
+            loadedObj.history.push({ action: 'Broadcast', time: new Date(), from: userSettings.identitySetting.email, to: broadcastRecevers[ui].replace("[BROADCAST]", ''), step: (loadedObj.workflowStep ? loadedObj.workflowStep : 0), fromStep: loadedObj.fromWorkflowStep ? loadedObj.fromWorkflowStep : 0 });
+
+
             var clone = jQuery.extend(true, {}, loadedObj);
-            clone.broadcast=true;
+            clone.broadcast = true;
             // push form
             packages[broadcastRecevers[ui]].forms.push(clone);
- 
+
         }
         helper.deleteFile(helper.join(srcFolder, items[i]));
     }
@@ -334,7 +352,7 @@ function createPackagesFromMyOutbox() {
 
     for (var i in packages) {
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
-        savePackage(packages[i], (i.substring(0,5)=="[BROA"?i:packages[i].user));
+        savePackage(packages[i], (i.substring(0, 5) == "[BROA" ? i : packages[i].user));
     }
     filler.reload();
 
