@@ -1,14 +1,14 @@
 # DataChief
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 
-##What is it for?
+## What is it for?
 DataChief enables you to **rapidly implement processes in your company/organization with no cost** - all you need is email account(minimal requirement). Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like **ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL** with ease. 
 
 You don't have to be blocked anymore by expensive custom solution development that never ends, and when it is finally finished, it's often obsolete.
 
 Take a look at **[Barrique Works LLC Case Study](./Case study Barrique Works LLC.md)**. 
 
-##Features & Roadmap
+## Features & Roadmap
 Project is under develpment. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
 * Multiplatform (developed in Electron)
     * Windows
@@ -32,10 +32,10 @@ Project is under develpment. First release will provide basic functionality for 
     * Encryption support
     * Collection points and analytics
  
-##Notes on mobile platforms
+## Notes on mobile platforms
 Smartphone versions are planned, and are crucial part of DataChief. For most part, this software is being developed on 200US$ 2-in-1 10" tablet, so until release of smartphone versions for your mobile needs you can use device(s) such as Asus Transformer Book T100, Acer Aspire Switch 10 or similar.
  
-##How do I start with DataChief source code or test new version before release?
+## How do I start with DataChief source code or test new version before release?
 * You will need **Node.js**, **Git** and, optionally, **Microsoft Visual Studio Code** already installed.
 * From command line:
     * pull source code from GitHub:
@@ -64,22 +64,22 @@ Smartphone versions are planned, and are crucial part of DataChief. For most par
     * `npm run start -- --runtestqm`
         * runs test script for Quality Management form
     
-##How does it work?
+## How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs as simple to install desktop app (Mobile version is planned) on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) or one per user ( **Per user account** ).
 ![DataChief simple workflow](/dc_workflow.png)
 
-###Users
+### Users
 In DataChief users are identified with **Emails**. Even if you are using DataChief in "Single User Account" mode, you will still need to set Email for every user becouse email identifies the user, but in this mode those emails does not have to exists.
 
-###Communication
+### Communication
 Communication between user is made via IMAP account(s). DataChief can use existing Email accounts and accounts can be used in parallel with user, non-datachief emails. Imap fodler called "datachief" will be created and datachief will not touch enything outside that folder. There are two operating modes:
 * **Single user account** - All users communicate only through one account. This is preferable when testing or with simple deployments. Drawback is lowered security. In the future, there is possibility to implement Network storage services such as DropBox, Google drive, One Drive, etc. Implementation of these features depends on user interest.
 * **Per user account** - This is preferable when dealing with sensitive data. Every DataChief installation has its own IMAP account.
 
-###Forms
+### Forms
 DataChief allows you to define your data sets with custom forms designed in provided **Form Editor**. Multiple types of controls are available, including repeater groups to allow you to implement data that is on paper forms usualy defined as table.
 
-###Workflow
+### Workflow
 * Following Form properties helps define workflow
     * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors. Users can also, instead of emails be special address strings as
         * "**initiator**" - person who actually creates form
@@ -111,10 +111,10 @@ DataChief allows you to define your data sets with custom forms designed in prov
      to final step.
      Worlflow step can also be "**initiator**", meaning, the one who created the form.
 
-###Status broadcasts
+### Status broadcasts
 * Defined with "Broadcast recievers" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.
 
-###Data collection & export
+### Data collection & export
 * Data collectors are users specified in "Final step" property of the form.
 * They recieve form and can see recieved forms as table, and then export and/or delete form data
 * Supported export options are 
@@ -122,12 +122,12 @@ DataChief allows you to define your data sets with custom forms designed in prov
     * XML
     * Relational database as SQL (ANSI SQL compatible Databases such as MS SQL Server, Oracle, My SQL, PostrgreSQL, MS Access, ...)
 
-##DataChief security
+## DataChief security
 * DataChief has Built in secret (symmetric key) and everything it does is encrypted with it – easily cracked since source code is avalaible
 * Organization secret – if set, this is used(together with DataChief built in secret ) for encryprion of form templates when publishing. It ensures identity of publisher. DataCheif sends digest of this secret within every package. First time user recieve Package she or he can approve or disapprove publisher by accepting/refusing this digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
 * User secret in Single account mode – in this mode messages share single IMAP account, so to make sure that one user can not read others messages, they are encrypted with User Secret. This means that all users must be defined in Designer/Publisher with user secrets. Specific user secret must be set on each individual DataChief Filler installation.
 
-##DataChief Communction is made via Packages
+## DataChief Communction is made via Packages
 * Package is zero or more forms and commands.
 * Package is always created per user who recieves them.
 * User(s) who recieve package(s) must accept Organization secret digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
