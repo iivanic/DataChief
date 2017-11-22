@@ -66,7 +66,11 @@ $(document).ready(function () {
 });
 // this function check wather form is already opn (needed for work folder, recieved folder)
 this.checktab = function (title, filename) {
-    var formid = helper.getOnlyFileName(filename).substring(0, 36);
+    // var formid = helper.getOnlyFileName(filename).substring(0, 36);
+    var formid = "";
+    var loadedObj = JSON.parse(helper.loadFile(filename));
+    formid = loadedObj.formid;
+
     var openFormsSel = $("[id^=\"Fillertabs-\"]");
     var cnt = 0;
     for (var i = 0; i < openFormsSel.length; i++) {
@@ -90,6 +94,7 @@ this.checktab = function (title, filename) {
 }
 // actual addTab function: adds new tab using the input from the form above
 this.addtab = function (title, filename) {
+
     tabCounter++;
     var label = title || "Tab " + tabCounter,
         id = "Fillertabs-" + tabCounter,
@@ -245,7 +250,8 @@ this.refreshFolders = function () {
         sLabel += "<strong>" + sentP + "</strong> published. "
     if (sentB)
         sLabel += "<strong>" + sentB + "</strong> boradcast(s). "
-    sLabel += "<strong>" + sent.length + "</strong> in total.";
+    if (sentB || sentC || sentP)
+        sLabel += "<strong>" + sent.length + "</strong> in total.";
 
     html += " <li><span style='cursor:pointer;width:100%' onclick='$(\"#maintabs\").tabs({ active: 3 });$(\"#collectortabs\").tabs({ active: 1 })'>" + sLabel + "</span></li>";
     /*  if (sent.length == 0) {

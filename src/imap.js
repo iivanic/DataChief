@@ -184,6 +184,8 @@ function uploadMessages(err, box) {
         var c = 0;
         for (var i in files) {
             var to = files[i].substring(6).replace('[BROADCAST]','');
+            if(to.length==0)
+                helper.log("ERROR!");
             helper.log("Sending package to " + (files[i].substring(6).indexOf("[BROADCAST]")>-1?to +" (BROADCAST)":to));
             var filename = helper.join(helper.getOutboxPath(), files[i]);
             var body = helper.loadFile(filename);

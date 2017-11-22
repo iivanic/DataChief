@@ -322,9 +322,9 @@ this.testStep1Part28 = function (error, self) {
 
 this.end = function (self) {
     helper.log(self.scriptName + "Test Abence End.");
-    if (this.doneCallback) {
+    if (self.doneCallback) {
         //bind correct 'this'
-        var c = this.doneCallback.bind(this.next);
+        var c = self.doneCallback.bind(self.next);
         c();
     }
 }

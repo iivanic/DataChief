@@ -269,17 +269,21 @@ this.addRow = function() {
             case "listField":
                 field = Object.create(listField);
                 field.ctor();
+
                 break;
             case "textField":
                 field = Object.create(textField);
+
                 field.ctor();
                 break;
             case "fieldBase":
                 field = Object.create(fieldBase);
+
                 field.ctor();
                 break;
             case "groupField":
                 field = Object.create(groupField);
+
                 field.ctor();
                 break;
             case "currentDateTimeField":
@@ -304,7 +308,8 @@ this.addRow = function() {
                 field[attrname] = this._newRowTemplate[i][attrname];
     //            console.log("r copy " + attrname); //+ "=" + this._newRowTemplate[i][attrname]);
             }
-
+            // we need to make controls unique
+            field._id =helper.generateGUID();
         }
     }
     this._dataRows.push(row);
