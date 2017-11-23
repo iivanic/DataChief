@@ -278,15 +278,12 @@
         <div id="exportDialog" title="Choose Export Type">
             <form>
                 <fieldset class="ui-helper-reset">
-                    <label for="tab_title">Form name</label>
-                    <br> Please enter name for your form
-                    <input type="text" name="tab_title" id="tab_title" style="width:100%;" value="" class="ui-widget-content ui-corner-all">
-                    <br />
-                    <br />
-                    <label for="exampleforms">You can choose one of provided example forms:</label>
-                    <select style="width:435px;" id="exampleforms">
-                    </select>
-                    <br />
+                    <div>
+                        <input id="exportRowStyle" type="radio" name="exportStyle" value="0" checked />
+                        <label for="exportRowStyle"><img src="../icons/export-rows.png" style="float:right;">Form data in multiple rows. Easier to manage with SQL language.</label><br/>
+                        <input id="exportColumnStyle" type="radio" name="exportStyle" value="1" />
+                        <label for="exportColumnStyle"><img src="../icons/export-columns.png" style="float:right;">One row for Form, fieled names are in column headers. Easier to read by human, but columns are specific for Form.</label>
+                    </div>
                     <br />
                 </fieldset>
             </form>
