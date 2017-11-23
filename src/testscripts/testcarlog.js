@@ -2,13 +2,31 @@
 this.scriptName = "Car Log Test Script: ";
 this.doneCallback = null;
 this.next = null;
+this.prepareDoneCallback = null;
+this.publishDoneCallback = null;
+//creates form and saves it to publish
+this.prepare = function (callback)
+{
+    helper.log(this.scriptName + "Prepare.");
+    this.prepareDoneCallback = callback;
 
-this.runTest = function () {
-    this.testStep4(this);
     helper.log(this.scriptName + "Switch to main user.");
     switchToUser(userSettings.email);
+    this.testStep4(this);
+    
+}
+//publish
+this.publish = function (callback)
+{
+    helper.log(this.scriptName + "Publish.");
+    this.publishDoneCallback = callback;
+    this.testStep4Part3_(this);
+}
+this.runTest = function () {
+    this.testStep5(this);
 }
 
+//Prepare --------------------------------------------------------------------
 //4. create and publish form(s)
 this.testStep4 = function (self) {
     helper.log(self.scriptName + "Test step 4 - create and publish form(s).");
@@ -29,7 +47,8 @@ this.testStep4Part3 = function (self) {
 
     //publish
     //click "Save to publish"
-    $("#tabs-2Form_selectSave_publish").click();
+    //$("#tabs-2Form_selectSave_publish").click();
+    $("li:contains('Publish').ui-menu-item").click();
     //activate publisher
     $(maintabs).tabs("option", "active", 1);
     $(maintabs).tabs("refresh");
@@ -37,10 +56,17 @@ this.testStep4Part3 = function (self) {
     $("#buttonPublish").click();
     //click OK in configrm dialog
     $("#dialog-confirm-ok").click();
-    //send and recieve
-    imap.callback = self.testStep4ImapPublishDone;
-    imap.test = self;
-    $("#buttonSendPackages").click();
+    if (self.prepareDoneCallback) {
+        self.prepareDoneCallback();
+    }
+}
+//Publish --------------------------------------------------------------------
+this.testStep4Part3_ = function(self)
+{
+       //send and recieve
+       imap.callback = self.testStep4ImapPublishDone;
+       imap.test = self;
+       $("#buttonSendPackages").click();
 }
 
 this.testStep4ImapPublishDone = function (error, self) {
@@ -48,17 +74,18 @@ this.testStep4ImapPublishDone = function (error, self) {
     imap.test = null;
     if (!error) {
         helper.log(self.scriptName + "testStep4ImapPublishDone - packeges are on the server.");
-        window.setTimeout(self.testStep5, 1000, self);
+           //activate filler
+    $(maintabs).tabs("option", "active", 2);
+    $(maintabs).tabs("refresh");
+        window.setTimeout(self.publishDoneCallback, 1000, self);
     }
 }
-
+//Test   --------------------------------------------------------------------
 //5. go through worfflow for every user
 this.testStep5 = function (self) {
     helper.log(self.scriptName + "Test step 5 - go through fill worfflow for every user.");
 
-    //activate filler
-    $(maintabs).tabs("option", "active", 2);
-    $(maintabs).tabs("refresh");
+ 
 
     //form is published to:
     //jennifer@barriqueworks.com, michael@barriqueworks.com, elizabeth@barriqueworks.com
@@ -86,7 +113,7 @@ this.testStep5_ = function (error, self) {
         return;
     }
     //open forst form in "Published to me"
-    $("span[onclick^='filler.addtab(']").click();
+    $("span[onclick^='filler.addtab(']span:contains('Car Log')").click();
     // fill it out
     //select car
     $($("select[id^='dcformFiller")[0]).val("BMW 328i (Plate N#XX-XXXX)");
@@ -149,7 +176,7 @@ this.testStep5_1_ = function (error, self) {
         return;
     }
     //open forst form in "Published to me"
-    $("span[onclick^='filler.addtab(']").click();
+    $("span[onclick^='filler.addtab(']span:contains('Car Log')").click();
     // fill it out
     //select car
     $($("select[id^='dcformFiller")[0]).val("Ford F-150 (Plate N#XX-XXXX)");
@@ -212,7 +239,7 @@ this.testStep5_2_ = function (error, self) {
         return;
     }
     //open forst form in "Published to me"
-    $("span[onclick^='filler.addtab(']").click();
+    $("span[onclick^='filler.addtab(']span:contains('Car Log')").click();
     // fill it out
     //select car
     $($("select[id^='dcformFiller")[0]).val("Nissan Leaf (Plate N#XX-XXXX)");
@@ -376,7 +403,7 @@ this.testStep6_1_ = function (error, self) {
         return;
     }
     //open forst form in "Published to me"
-    $("span[onclick^='filler.addtab(']").click();
+    $("span[onclick^='filler.addtab(']span:contains('Car Log')").click();
     // fill it out
     //select car
     $($("select[id^='dcformFiller")[0]).val("Nissan Leaf (Plate N#XX-XXXX)");

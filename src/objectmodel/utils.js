@@ -15,15 +15,20 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
+var testObjects = new Array();
+var prepareCallsCount = 0;
+var firsttest = null;
+var oldtest = null;
 this.checkCommandLine = function () {
 
     if (this.isAnyTest()) {
         this.log("Found " + (tests.length + 1) + "test(s).");
-        var oldtest = null;
-        var firsttest = null;
+       
+       
         for (var i = 0 in tests) {
             this.log("Loading test script: " + tests[i]);
             var test = require(helper.join(helper.join(__dirname, ".."), helper.join("testscripts", tests[i])));
+            testObjects.push(test);
             if (!firsttest)
                 firsttest = test;
             if (oldtest) {
@@ -60,10 +65,31 @@ this.checkCommandLine = function () {
             helper.log("OK - Design mode detected.");
 
         }
-        oldtest.doneCallback = this.testsDone;
-        firsttest.runTest();
 
+        oldtest.doneCallback = this.testsDone;
+        prepareCallsCount=0;
+        testObjects[prepareCallsCount].prepare(this.prepareForTestDone);
+        
     }
+}
+this.prepareForTestDone = function()
+{
+    helper.log("Prepare for " + tests[prepareCallsCount] +  " done.");
+    prepareCallsCount++;
+    if(prepareCallsCount==testObjects.length)
+    {
+        oldtest.publish(helper.publishDone);
+    }
+    else{
+        testObjects[prepareCallsCount].prepare(helper.prepareForTestDone);
+    }
+
+}
+this.publishDone = function()
+{
+    helper.log("Publish for " + tests[prepareCallsCount-1] +  " done.");
+    firsttest.runTest();
+    
 }
 this.testsDone = function () {
     helper.log("TEST(S) finished.");
