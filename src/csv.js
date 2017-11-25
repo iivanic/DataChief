@@ -3,11 +3,17 @@ this.convertFromArray = function(arr)
     var ret = "sep=,\n";
     for(var i in arr)
     {
-        for(var j in arr)
+        for(var j in arr[i])
         {
-            ret+= "\"" + arr[i][j].replace(/\"/gi,"\"\"") + "\",";
+            try{
+            ret+= (j>0?",":"") + "\"" + arr[i][j].toString().replace(/\"/gi,"\"\"") + "\"";
         }
-        ret = ret.substring(0,ret.length-1);
+        catch(e)
+        {
+            console.log(e);
+        }
+        }
+        
         ret+='\n';
     }
     return ret;
