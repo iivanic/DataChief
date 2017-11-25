@@ -395,7 +395,26 @@ this.export = function (forms_, folder) {
     //
     //Problem is that order of columns in CSV file is not garanteed
     //
+    $("#exportDialog").dialog({
+        resizable: false,
+        height: 380,
+        width: 950,
+        modal: true,
+        buttons: {
+            Ok: function () {
+                $(this).dialog("close");
+                var val = $('input[name=exportStyle]:checked').val();
+                helper.alert(val);
+            },
+            Cancel: function () {
+                $(this).dialog("close");
+               
+            }
+        }
+    });
+    return;
 
+    
     var parsedForms = new Array();
     dataCollection.fields = ['_id', 'formid', '_name', "_version", "_displayName", "_value"];
     dataCollection.fieldNames = ['Form Type', 'Form ID', 'Form Name', "Version", "Title", "Value"];
