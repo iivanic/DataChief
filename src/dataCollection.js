@@ -472,22 +472,22 @@ this.read = function (o, prefix, form) {
                 dataCollection.read(o[name], prefix + last, form);
             }
             else {
-                if (name == "_value") {
-
-                    var row = new Array();
-                    row.push(form["_id"]);
-                    row.push(form["_name"]);
-                    if (form["formid"])
-                        row.push(form["formid"]);
-                    else
-                        row.push("None");
-                    row.push(form["_version"]);
-                    row.push(prefix);
-                    row.push(o["_displayName"]);
-                    row.push(o["_type"]);
-                    row.push(o[name]);
-                    dataCollection.list.push(row);
-
+                if (name == "_displayName") {
+                    if (o["_type"] != "groupField") {
+                        var row = new Array();
+                        row.push(form["_id"]);
+                        row.push(form["_name"]);
+                        if (form["formid"])
+                            row.push(form["formid"]);
+                        else
+                            row.push("None");
+                        row.push(form["_version"]);
+                        row.push(prefix);
+                        row.push(o["_displayName"]);
+                        row.push(o["_type"]);
+                        row.push(o["_value"]);
+                        dataCollection.list.push(row);
+                    }
                 }
             }
         }
