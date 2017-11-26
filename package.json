@@ -19,7 +19,6 @@
   "dependencies": {
     "electron-window-state": "^4.1.1",
     "imap": "0.8.x",
-    "json2csv": "3.x.x",
     "mermaid": "7.1.x"
   },
   "devDependencies": {

@@ -413,7 +413,7 @@ this.export = function (forms_, folder) {
             Ok: function () {
                 $(this).dialog("close");
                 var val = $('input[name=exportStyle]:checked').val();
-                if (val == 0) {
+               
                     var parsedForms = new Array();
                     dataCollection.list = new Array();
                     dataCollection.fieldNames = ['Form Type', 'Form Name', 'Form ID', "Form Version", "Path", "Title", "Data Type", "Value"];
@@ -421,34 +421,39 @@ this.export = function (forms_, folder) {
                     for (var i in forms_) {
                         var path = helper.join(folder, forms_[i]);
                         var loadedObj = JSON.parse(helper.loadFile(path));
-                        // we use custom flatten function instaed of flatten options in json2csv
                         parsedForms.push(loadedObj);
-                        //     parsedForms.push(loadedObj);
+
                     }
                     //header
                     dataCollection.list.push(dataCollection.fieldNames)
 
                     for (var i in parsedForms) {
 
-
-
-                        //['_id', 'formid', '_name', "_version", "_displayName", "_value"];
-
-                        //     for (var j in parsedForms[i]) {
-
-
                         dataCollection.read(parsedForms[i], '>Form', parsedForms[i]);
 
-
-
                     }
-                    //  var csv = json2csv(opts);
-                    var csv = require("./csv.js").convertFromArray(dataCollection.list)
+
+                    var csv;
+                    var converter = require("./csv.js");
+                    if (val == 1) {
+                        // we need to pivot list
+                        dataCollection.pivotList = new Array();
+                        //fixed part of header
+                        dataCollection.pivotList.push(['Form Type', 'Form Name', 'Form ID', "Form Version"])
+
+                        for (var i in dataCollection.list)
+                        {
+                            // -- tranform multiple rows to one.
+
+                        }
+                        // to CSV
+                        csv = converter.convertFromArray(dataCollection.pivotList)
+                    }
+                    else
+                        csv = converter.convertFromArray(dataCollection.list)
 
                     ipc.send("exportCSV", csv);
-                }
-                else
-                    helper.alert("Not yet done.");
+              
             }
         }
     });
@@ -484,7 +489,13 @@ this.read = function (o, prefix, form) {
                         row.push(form["_version"]);
                         row.push(prefix);
                         row.push(o["_displayName"]);
-                        row.push(o["_type"]);
+                        if (o["_type"] == "textField")
+                            if (!o["_multiline"])
+                                row.push(o["_type"] + "-" + o["_inputType"]);
+                            else
+                                row.push(o["_type"]);
+                        else
+                            row.push(o["_type"]);
                         row.push(o["_value"]);
                         dataCollection.list.push(row);
                     }
