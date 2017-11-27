@@ -23,5 +23,11 @@
   },
   "devDependencies": {
     "electron": "1.x.x"
+  },
+  "build": {
+    "appId": "data.chief",
+    "mac": {
+      "category": "datachief.app.category.type"
+    }
   }
 }
