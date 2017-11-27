@@ -57,7 +57,11 @@ this.movePackageToSent = function (file) {
         }
         //save anly forms that have permission to be kept.
         var allowedUsersToHaveLocalCopies = loadedObj.forms[i].allowLocalCopies.toLowerCase().replace(/;/gi,',').split(/,/gi ) ;
-        if(allowedUsersToHaveLocalCopies.indexOf("everyone") > -1 || allowedUsersToHaveLocalCopies.indexOf(userSettings.identitySetting.email)> -1 || type == "PUBLISHED" )
+        if(
+            (allowedUsersToHaveLocalCopies.indexOf("everyone") > -1 || allowedUsersToHaveLocalCopies.indexOf(userSettings.identitySetting.email)> -1 || type == "PUBLISHED")
+            ||
+            (allowedUsersToHaveLocalCopies.indexOf("initiator") > -1 && loadedObj.forms[i].initiator== userSettings.identitySetting.email )
+        )
             helper.saveTextFile(destination, JSON.stringify(loadedObj.forms[i]));
 
     }
