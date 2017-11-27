@@ -321,7 +321,24 @@ $(document).ready(
 );
 this.currentModelDiaplyedForm = null;
 this.showHistory = function () {
-    var html = "<table class='table'>\n<tr>\n<th>Action</th>\n<th>Time</th>\n<th>From</th>\n<th>To</th>\n<th>From step</th>\n<th>To Step</th>\n</tr>\n";
+    var html ="<h3>" + dataCollection.currentModelDiaplyedForm._name  + "</h3>";
+    html += "<p>" +  dataCollection.currentModelDiaplyedForm._description + "</p>\n";
+    html += "<br><br>";
+    html +="<table class='table'>\n<tr>\n<th>Property</th>\n<th>Value</th>\n</tr>\n";
+    
+    html += "<tr><td>Author:</td><td>" +  dataCollection.currentModelDiaplyedForm._author + "</td></tr>\n";
+    html += "<tr><td>Structure change:</td><td>" +  dataCollection.currentModelDiaplyedForm._lastTimeTemplatechanged + "</td></tr>\n";
+    html += "<tr><td>Publish To:</td><td>" +  dataCollection.currentModelDiaplyedForm.publishTo + "</td></tr>\n";
+    html += "<tr><td>Workflow:</td><td>" +  dataCollection.currentModelDiaplyedForm.workflow + "</td></tr>\n";
+    html += "<tr><td>Broadcast recievers:</td><td>" +  dataCollection.currentModelDiaplyedForm.broadCastRecievers + "</td></tr>\n";
+    html += "<tr><td>Final step:</td><td>" +  dataCollection.currentModelDiaplyedForm.finalStep + "</td></tr>\n";
+    html += "<tr><td>Allowd local copies:</td><td>" +  dataCollection.currentModelDiaplyedForm.allowLocalCopies + "</td></tr>\n";
+    html += "<tr><td>Allow send step back:</td><td>" +  dataCollection.currentModelDiaplyedForm.allowSendOneStepBack.toString() + "</td></tr>\n";
+    html += "</table>";
+
+    html += "<h4>Detailed history:</h4>";
+
+    html += "<table class='table'>\n<tr>\n<th>Action</th>\n<th>Time</th>\n<th>From</th>\n<th>To</th>\n<th>From step</th>\n<th>To Step</th>\n</tr>\n";
     for (var i in dataCollection.currentModelDiaplyedForm.history) {
         if (!(dataCollection.currentModelDiaplyedForm.history[i].action == "Publish" &&
             (dataCollection.currentModelDiaplyedForm.history[i].to != userSettings.identitySetting.email &&
@@ -357,7 +374,7 @@ this.displayFormModal = function (path) {
                 sendCommandToWorker($("#dialog-modal-form-placeholder").html());
 
             },
-            "Show history": function () {
+            "Details & history": function () {
                 dataCollection.showHistory();
 
             },
