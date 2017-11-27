@@ -148,7 +148,7 @@ function ready() {
     mainWindow.webContents.on('did-finish-load', () => {
         var pjson = require('../package.json');
         console.log(pjson.version);
-        mainWindow.setTitle(pjson.name + " version " + pjson.version);
+        mainWindow.setTitle(pjson.name + " v" + pjson.version + ".");
     });
 
     mainWindow.loadURL("file://" + path.resolve(path.join(__dirname, "index.html"))); //+ (process.argv.indexOf("--dceditor")>0?"?editor":"" ))));
@@ -159,6 +159,7 @@ function ready() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null;
+        printPDFWorkerWindow = null;
     });
     if (process.argv.indexOf("--openDevTools"))
          mainWindow.openDevTools();
@@ -167,9 +168,9 @@ function ready() {
     printPDFWorkerWindow = new BrowserWindow();
     printPDFWorkerWindow.loadURL("file://" + __dirname + "/printPDFWorkerWindow.html");
     printPDFWorkerWindow.hide();
-    printPDFWorkerWindow.webContents.openDevTools();
-    printPDFWorkerWindow.on("closed", () => {
-        printPDFWorkerWindow = undefined;
+   // printPDFWorkerWindow.webContents.openDevTools();
+    printPDFWorkerWindow.on("closed", function () {
+        printPDFWorkerWindow = null;
     });
 
 }

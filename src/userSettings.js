@@ -211,6 +211,14 @@ this.reloadIndentityChooser = function () {
     $("#selectActiveProfile").selectmenu("refresh");
     this.manageDeleteProfile();
     helper.log("Running DataChief as " + this.email);
+    var pjson = require('../package.json');
+
+    if (this.mainEmail != this.identitySetting.email) {
+        document.title = pjson.name + " v" + pjson.version + " running as " + this.email + ".";
+    }
+    else
+        document.title = pjson.name + " v" + pjson.version + ".";
+        
     filler.reload();
     publish.reload();
     index.reloadEditor();
@@ -230,7 +238,7 @@ function selectActiveProfile_change() {
             autoOpen: true,
             modal: true,
             width: "470",
-            height: "310",
+            height: "320",
 
             buttons: {
                 "Save user": function () {
@@ -290,21 +298,21 @@ this.closeAllTabs = function () {
     // close open designers
 
     $("div[id^='tabs-").each(function () {
-       
-        var el = $("li[aria-controls^='" + $(this).prop("id") );
+
+        var el = $("li[aria-controls^='" + $(this).prop("id"));
         el.remove();
         $(this).remove();
     });
     $("div[id^='Fillertabs-").each(function () {
-        
-         var el = $("li[aria-controls^='" + $(this).prop("id") );
-         el.remove();
-         $(this).remove();
-     });
-   
+
+        var el = $("li[aria-controls^='" + $(this).prop("id"));
+        el.remove();
+        $(this).remove();
+    });
+
     $('#tabs').tabs('refresh');
     $('#Fillertabs').tabs('refresh');
-    
+
 
 }
 this.activeProfile_change = selectActiveProfile_change;
