@@ -56,7 +56,7 @@
             },
             "preLaunchTask": "",
             "sourceMaps": false,
-            "protocol" : "legacy"
+            "protocol" : "inspector"
             
         },
         {
@@ -116,7 +116,7 @@
             },
             "preLaunchTask": "",
             "sourceMaps": false,
-            "protocol" : "legacy"
+            "protocol" : "inspector"
             
         }
     ]
