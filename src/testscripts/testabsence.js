@@ -1,15 +1,32 @@
 this.scriptName = "Absence Test Script: ";
 this.doneCallback = null;
 this.next = null;
-this.runTest = function () {
-    helper.log(this.scriptName + "Test Abence Start.");
+this.prepareDoneCallback = null;
+this.publishDoneCallback = null;
+//creates form and saves it to publish
+this.prepare = function (callback)
+{
+    this.prepareDoneCallback = callback;
+
+    helper.log(this.scriptName + "Prepare.");
     // swith to main user - he will publish everything
     switchToUser(userSettings.email);
     this.testStep1(this);
+}
+//publish
+this.publish = function (callback)
+{
+    this.publishDoneCallback = callback;
+    helper.log(this.scriptName + "Publish.");
+    this.testStep1Part2_(this);
+}
+this.runTest = function () {
+    helper.log(this.scriptName + "Test Abence Run.");
+    this.testStep1Part3(this);
 
 }
 
-//4. create and publish form(s)
+//Prepare --------------------------------------------------------------------
 this.testStep1 = function (self) {
     helper.log(self.scriptName + "Test step 1 - create and publish form(s).");
     //new form dialog
@@ -18,7 +35,7 @@ this.testStep1 = function (self) {
     $("#exampleforms").val("Employee Absence Request");
 
     //set form name
-    $("#tab_title").val("Employee Absence Request Form for Production department");
+    $("#tab_title").val("Absence Request Form for Production department");
     //leave default form selected in dropdown
     window.setTimeout(self.testStep1Part1, 300, self);
 
@@ -32,7 +49,8 @@ this.testStep1Part2 = function (self) {
 
     //publish
     //click "Save to publish"
-    $("#tabs-2Form_selectSave_publish").click();
+    //$("#tabs-2Form_selectSave_publish").click();
+    $("li:contains('Publish').ui-menu-item").click();
     //activate publisher
     $(maintabs).tabs("option", "active", 1);
     $(maintabs).tabs("refresh");
@@ -40,10 +58,17 @@ this.testStep1Part2 = function (self) {
     $("#buttonPublish").click();
     //click OK in configrm dialog
     $("#dialog-confirm-ok").click();
-    //send and recieve
-    imap.callback = self.testStep1ImapPublishDone;
-    imap.test = self;
-    $("#buttonSendPackages").click();
+    if (self.prepareDoneCallback) {
+        self.prepareDoneCallback();
+    }
+}
+//Publish --------------------------------------------------------------------
+this.testStep1Part2_ = function(self)
+{
+      //send and recieve
+      imap.callback = self.testStep1ImapPublishDone;
+      imap.test = self;
+      $("#buttonSendPackages").click();
 }
 
 this.testStep1ImapPublishDone = function (error, self) {
@@ -51,16 +76,22 @@ this.testStep1ImapPublishDone = function (error, self) {
     imap.test = null;
     if (!error) {
         helper.log(self.scriptName + "testStep1ImapPublishDone - packeges are on the server.");
-        window.setTimeout(self.testStep1Part3, 1000, self);
+                //activate filler
+                $(maintabs).tabs("option", "active", 2);
+                $(maintabs).tabs("refresh");
+        window.setTimeout(self.publishDoneCallback, 1000, self);
     }
+
+}
+//Test   --------------------------------------------------------------------
+this.testStep1Part3_ = function(self)
+{
+
+        self.testStep1Part3(self);
 }
 //5. go through worfflow for every user
 this.testStep1Part3 = function (self) {
     helper.log(self.scriptName + "testStep1Part3 - go through fill workflow for every user.");
-
-    //activate filler
-    $(maintabs).tabs("option", "active", 2);
-    $(maintabs).tabs("refresh");
 
     switchToUser("william@barriqueworks.com");
     //send and Recieve - user neeed to recieve published packages
@@ -322,9 +353,9 @@ this.testStep1Part28 = function (error, self) {
 
 this.end = function (self) {
     helper.log(self.scriptName + "Test Abence End.");
-    if (this.doneCallback) {
+    if (self.doneCallback) {
         //bind correct 'this'
-        var c = this.doneCallback.bind(this.next);
+        var c = self.doneCallback.bind(self.next);
         c();
     }
 }
@@ -344,7 +375,7 @@ this.fillForm = function (self, callback) {
     var dayoffset = [14, 10, 7, 21];
     var duration = [3, 1, 5, 3];
     //open first form in "Published to me"
-    $("span[onclick^='filler.addtab(']").click();
+    $("span[onclick^='filler.addtab(']span:contains('Absence Request Form for Production department')").click();
     // fill it out
     //select car
     $($("select[id^='dcform")[0]).val(type[fillFormCallCount]);

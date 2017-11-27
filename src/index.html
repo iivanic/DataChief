@@ -275,6 +275,20 @@
                 <b>not correctly filled out</b>.
             </p>
         </div>
+        <div id="exportDialog" style="display:none;" title="Choose Export Type">
+
+            <form>
+                <fieldset class="ui-helper-reset">
+                    <div>
+                        <input id="exportRowStyle" type="radio" name="exportStyle" style="cursor:pointer;" value="0" checked />
+                        <label style="cursor:pointer;" for="exportRowStyle"><img src="../icons/export-rows.png" style="padding-right:20px;cursor:pointer;">Form data in multiple rows. Easier to manage with SQL language.</label><br/>
+                        <input id="exportColumnStyle" type="radio" name="exportStyle" style="cursor:pointer;" value="1" />
+                        <label style="cursor:pointer;" for="exportColumnStyle"><img src="../icons/export-columns.png" style="padding-right:20px;cursor:pointer;">One row for Form, fieled names are in column headers. Easier to read by human.</label>
+                    </div>
+                    <br />
+                </fieldset>
+            </form>
+        </div>
 
         <div id="maintabs">
 

@@ -160,7 +160,7 @@ function ready() {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
-    //   if (debug)
+    if (process.argv.indexOf("--openDevTools"))
          mainWindow.openDevTools();
 
     // we need for printing PDF

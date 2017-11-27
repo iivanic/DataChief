@@ -15,15 +15,20 @@ this.generateGUID = function () {
         return v.toString(16);
     });
 }
+var testObjects = new Array();
+var prepareCallsCount = 0;
+var firsttest = null;
+var oldtest = null;
 this.checkCommandLine = function () {
 
     if (this.isAnyTest()) {
         this.log("Found " + (tests.length + 1) + "test(s).");
-        var oldtest = null;
-        var firsttest = null;
+       
+       
         for (var i = 0 in tests) {
             this.log("Loading test script: " + tests[i]);
             var test = require(helper.join(helper.join(__dirname, ".."), helper.join("testscripts", tests[i])));
+            testObjects.push(test);
             if (!firsttest)
                 firsttest = test;
             if (oldtest) {
@@ -60,10 +65,31 @@ this.checkCommandLine = function () {
             helper.log("OK - Design mode detected.");
 
         }
-        oldtest.doneCallback = this.testsDone;
-        firsttest.runTest();
 
+        oldtest.doneCallback = this.testsDone;
+        prepareCallsCount=0;
+        testObjects[prepareCallsCount].prepare(this.prepareForTestDone);
+        
     }
+}
+this.prepareForTestDone = function()
+{
+    helper.log("Prepare for " + tests[prepareCallsCount] +  " done.");
+    prepareCallsCount++;
+    if(prepareCallsCount==testObjects.length)
+    {
+        oldtest.publish(helper.publishDone);
+    }
+    else{
+        testObjects[prepareCallsCount].prepare(helper.prepareForTestDone);
+    }
+
+}
+this.publishDone = function()
+{
+    helper.log("Publish for " + tests[prepareCallsCount-1] +  " done.");
+    firsttest.runTest();
+    
 }
 this.testsDone = function () {
     helper.log("TEST(S) finished.");
@@ -344,12 +370,19 @@ this.deleteFolder = function (path) {
     }
 };
 
-this.alert = function (message, callback) {
-    $("#dialog-alert-text").text(message);
+this.alert = function (message, callback, html, width_, height_) {
+    if (html)
+        $("#dialog-alert-text").html(message);
+    else
+        $("#dialog-alert-text").text(message);
+    if (!width_)
+        width_ = 500;
+    if (!height_)
+        height_ = 355;
     $("#dialog-alert").dialog({
         resizable: false,
-        height: 355,
-        width: 500,
+        height: height_,
+        width: width_,
         modal: true,
         buttons: {
             Ok: function () {
@@ -621,9 +654,11 @@ this.parseWorkFlow = function (workflow) {
     return ret;
 }
 this.parseBroadCastRecievers = function (recievers, initiator) {
-    var ret = recievers.replace(/,/gi, ';').split(/;/gi);
+    var ret = recievers.replace(/,/gi, ';').split(/;/gi).filter(String);
+
     for (var i = 0; i < ret.length; i++)
         ret[i] = "[BROADCAST]" + (ret[i].toLowerCase() == "initiator" ? initiator : ret[i]);
+    
     return ret;
 }
 

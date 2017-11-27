@@ -1,3 +1,4 @@
+
 var form = require("./objectmodel/form.js");
 const ipc = require('electron').ipcRenderer;
 const json2csv = require('json2csv');
@@ -150,6 +151,7 @@ this.refreshDB = function () {
 this.refreshSentDB = function () {
     var forms_ = helper.getFilesInDir(helper.getSentPath());
     var parsedForms = new Array();
+
     for (var i in forms_) {
         var path = helper.join(helper.getSentPath(), forms_[i]);
         // parse
@@ -191,7 +193,7 @@ this.refreshSentDB = function () {
         },
         fields: [
             { name: "Path", type: "text", visible: false },
-            { name: "Type",type: "text", width: 50 },
+            { name: "Type", type: "text", width: 50 },
             { name: "Form Type", type: "text", width: 150, visible: false },
             { name: "Version", type: "number", width: 30 },
             { name: "Name", type: "text", width: 200 },
@@ -202,15 +204,43 @@ this.refreshSentDB = function () {
         ]
     });
     $($("#jsGridSentData .jsgrid-filter-row input")[0]).val("WORKFLOW");
-    $("#jsGridSentData").jsGrid("search", { Type: "WORKFLOW" }).done(function() {});
-    
+    $("#jsGridSentData").jsGrid("search", { Type: "WORKFLOW" }).done(function () { });
+
 }
 this.refreshBroadcastDB = function () {
     broadCastedFormTypes = new Object();
-    var forms_ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
+    var forms__ = helper.getFilesInDir(helper.getRecievedBroadCastsPath());
     var parsedForms = new Array();
+    var forms_ = new Array();
+    // in broadcast sghow only last version od form (with max hitory length)
+    var maxHistory = new Array();
+    var maxHistoryFile = new Array();
+
+    for (var i in forms__) {
+        var form = helper.loadFile(helper.join(helper.getRecievedBroadCastsPath(), forms__[i]));
+        form = JSON.parse(form);
+        if (form.history) {
+            if (form.formid) {
+                if (!maxHistory[form.formid + "_" + form._version]) {
+                    maxHistory[form.formid + "_" + form._version] = form.history.length;
+                }
+                if (form.history.length > maxHistory[form.formid + "_" + form._version]) {
+
+                    maxHistory[form.formid + "_" + form._version] = form.history.length;
+                    maxHistoryFile[form.formid + "_" + form._version] = forms__[i];
+                }
+            }
+            else
+                forms_.push(forms__[i]);
+        }
+    }
+    for (var i in maxHistoryFile) {
+        forms_.push(maxHistoryFile[i]);
+    }
+
     for (var i in forms_) {
         var path = helper.join(helper.getRecievedBroadCastsPath(), forms_[i]);
+
         // parse
         var parts = forms_[i].split("..");
         var p = parts[0].split("_");
@@ -289,8 +319,33 @@ $(document).ready(
 
     }
 );
+this.currentModelDiaplyedForm = null;
+this.showHistory = function () {
+    var html = "<table class='table'>\n<tr>\n<th>Action</th>\n<th>Time</th>\n<th>From</th>\n<th>To</th>\n<th>From step</th>\n<th>To Step</th>\n</tr>\n";
+    for (var i in dataCollection.currentModelDiaplyedForm.history) {
+        if (!(dataCollection.currentModelDiaplyedForm.history[i].action == "Publish" &&
+            (dataCollection.currentModelDiaplyedForm.history[i].to != userSettings.identitySetting.email &&
+                dataCollection.currentModelDiaplyedForm.history[i].from != userSettings.identitySetting.email))) {
+            html += "<tr>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].action + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].time + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].from + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].to + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].fromStep + "</td>\n";
+            html += "<td>\n" + dataCollection.currentModelDiaplyedForm.history[i].step + "</td>\n";
+            html += "</tr>\n";
+        }
+    }
+    html += "</table>\n";
+    helper.alert(html, null, true, 900, 650);
+}
 
 this.displayFormModal = function (path) {
+    this.currentForm = Object.create(form);
+    this.currentForm.ctor();
+    var loadedObj = helper.loadFile(path);
+    this.currentForm.openForm(loadedObj, path)
+    this.currentModelDiaplyedForm = this.currentForm;
     //  
     $("#dialog-modal-form").dialog({
         resizable: false,
@@ -302,6 +357,10 @@ this.displayFormModal = function (path) {
                 sendCommandToWorker($("#dialog-modal-form-placeholder").html());
 
             },
+            "Show history": function () {
+                dataCollection.showHistory();
+
+            },
             "Close Form": function () {
 
                 $(this).dialog("close");
@@ -309,10 +368,8 @@ this.displayFormModal = function (path) {
         }
     });
 
-    this.currentForm = Object.create(form);
-    this.currentForm.ctor();
-    var loadedObj = helper.loadFile(path);
-    this.currentForm.openForm(loadedObj, path)
+
+
 
     this.currentForm.render($("#dialog-modal-form-placeholder"), false, "", "dialog-modal-form-placeholder_prefix");
 
@@ -338,58 +395,148 @@ this.export = function (forms_, folder) {
     //
     //Problem is that order of columns in CSV file is not garanteed
     //
-
-    var parsedForms = new Array();
-    dataCollection.fields = ['_id', 'formid', '_name', "_version", "_displayName", "_value"];
-    dataCollection.fieldNames = ['Form Type', 'Form ID', 'Form Name', "Version", "Title", "Value"];
-
-    for (var i in forms_) {
-        var path = helper.join(folder, forms_[i]);
-        var loadedObj = JSON.parse(helper.loadFile(path));
-        // we use custom flatten function instaed of flatten options in json2csv
-        parsedForms.push(dataCollection.flatten(loadedObj));
-        //     parsedForms.push(loadedObj);
+    if (forms_.length < 1) {
+        helper.alert("No Forms to export.")
+        return;
     }
+    $("#exportDialog").dialog({
+        resizable: false,
+        height: 380,
+        width: 950,
+        modal: true,
+        buttons: {
+
+            Cancel: function () {
+                $(this).dialog("close");
+
+            },
+            Ok: function () {
+                $(this).dialog("close");
+                var val = $('input[name=exportStyle]:checked').val();
+
+                var parsedForms = new Array();
+                dataCollection.list = new Array();
+                dataCollection.fieldNames = ['Form Type', 'Form Name', 'Form ID', "Form Version", "Path", "Title", "Data Type", "Value"];
+
+                for (var i in forms_) {
+                    var path = helper.join(folder, forms_[i]);
+                    var loadedObj = JSON.parse(helper.loadFile(path));
+                    parsedForms.push(loadedObj);
+
+                }
+                //header
+                dataCollection.list.push(dataCollection.fieldNames)
+
+                for (var i in parsedForms) {
+
+                    dataCollection.read(parsedForms[i], '>Form', parsedForms[i]);
+
+                }
+
+                var csv;
+                var converter = require("./csv.js");
+                if (val == 1) {
+                    // we need to pivot list
+                    dataCollection.pivotList = new Array();
+                    //fixed part of header
+                    dataCollection.pivotList.push(['Form Type', 'Form Name', 'Form ID', "Form Version"])
+                    var lastFormId = null;
+                    var row;
+                    // -- tranform multiple rows to one.
+                    for (var i in dataCollection.list) {
+                        if (i > 0) {
+                            // new form start
+                            if (lastFormId == null || lastFormId != dataCollection.list[i][2]) {
+                                row = new Array();
+                                dataCollection.pivotList.push(row);
+                                row[0] = dataCollection.list[i][0];
+                                row[1] = dataCollection.list[i][1];
+                                row[2] = dataCollection.list[i][2];
+                                row[3] = dataCollection.list[i][3];
+                            }
+                            lastFormId = dataCollection.list[i][2];
+                            //found column in row, insert new column if not found
+
+                      //      for (var j in dataCollection.list[i]) {
+
+                                var columnName = dataCollection.list[i][4].substring(6) + ">" + dataCollection.list[i][5];
+                                if (columnName.substring(0, 1) == ">")
+                                    columnName = columnName.substring(1);
+
+                                //find coulmnName in header row
+                                var index = dataCollection.pivotList[0].indexOf(columnName);
+                                if (index < 0) {
+                                    //header
+                                    dataCollection.pivotList[0].push(columnName);
+                                    //value
+                                    row.push(dataCollection.list[i][7]);
+                                }
+                                else {
+                                    row[index] = dataCollection.list[i][7];
+                                }
+                     //       }
+                        }
 
 
-    var opts = {
-        data: parsedForms,
-        del: ";"
-        //,flatten: true,
-        //fields: dataCollection.fields,
-        //fieldNames: dataCollection.fieldNames,
-    };
-    var csv = json2csv(opts);
-    ipc.send("exportCSV", csv);
+                    }
+                    // to CSV
+                    csv = converter.convertFromArray(dataCollection.pivotList)
+                }
+                else
+                    csv = converter.convertFromArray(dataCollection.list)
+
+                ipc.send("exportCSV", csv);
+
+            }
+        }
+    });
+    return;
+
+
+
 
 }
 
-this.flatten = function (o) {
-    var prefix = arguments[1] || "", out = arguments[2] || {}, name;
+this.read = function (o, prefix, form) {
+    var name;
+    var last = "";
     for (name in o) {
         if (o.hasOwnProperty(name)) {
 
+            if (o["_type"] == "groupField")
+                last = ">" + o["_displayName"];
             if (typeof o[name] === "object") {
-                dataCollection.flatten(o[name], prefix + (name === "_children" ? "X" : name) + '.', out)
+
+                dataCollection.read(o[name], prefix + last, form);
             }
             else {
-                var index = dataCollection.fields.indexOf(name);
-                if (index > -1) {
-                    if (prefix) {
-                        if (name != "_id") {
-                            out[prefix + dataCollection.fieldNames[index]] = o[name];
-                        }
+                if (name == "_displayName") {
+                    if (o["_type"] != "groupField") {
+                        var row = new Array();
+                        row.push(form["_id"]);
+                        row.push(form["_name"]);
+                        if (form["formid"])
+                            row.push(form["formid"]);
+                        else
+                            row.push("None");
+                        row.push(form["_version"]);
+                        row.push(prefix);
+                        row.push(o["_displayName"]);
+                        if (o["_type"] == "textField")
+                            if (!o["_multiline"])
+                                row.push(o["_type"] + "-" + o["_inputType"]);
+                            else
+                                row.push(o["_type"]);
+                        else
+                            row.push(o["_type"]);
+                        row.push(o["_value"]);
+                        dataCollection.list.push(row);
                     }
-                    else {
-                        out[prefix + dataCollection.fieldNames[index]] = o[name];
-                    }
-
                 }
             }
-
         }
+
     }
-    return out;
 }
 var mermaidconfig = {
     startOnLoad: true,
@@ -465,10 +612,10 @@ this.selectForm = function (formType) {
             //ako je array, onda moramo dodati više...
         }
         else {
-            lastWF = mailToMM(lastWF, parseInt(j)+1 );
+            lastWF = mailToMM(lastWF, parseInt(j) + 1);
 
             markup += lastWF + "(\"" + wf[j] + "\")\n";
-   
+
             markup += "style " + lastWF + " fill:#d9d9d9,stroke:#333,stroke-width:1px\n"
         }
     }
@@ -491,13 +638,12 @@ this.selectForm = function (formType) {
     for (var i in flow) {
         for (var j in flow[i]) {
             if (!counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)])
-                counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] = 0;
+                counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)] = 0;
 
-            counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] = counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step )] + 1;
+            counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)] = counter[i + "-->" + mailToMM(flow[i][j].to, flow[i][j].step)] + 1;
         }
     }
-    for(var i in counter)
-    {
+    for (var i in counter) {
         markup += i.replace("-->", "-->|" + counter[i].toString() + "| ") + "\n";
     }
 

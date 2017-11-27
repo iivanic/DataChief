@@ -20,7 +20,8 @@
             "runtimeArgs": [
                 "${workspaceRoot}/src/main.js",
                 "--enable-logging",
-                "--remote-debugging-port=9222"
+                "--remote-debugging-port=9222",
+                "--openDevTools"
             ],
             "sourceMaps": false
         },
@@ -44,7 +45,8 @@
             },
             
             "runtimeArgs": [
-                "--nolazy"
+                "--nolazy",
+                "--openDevTools"
             ],
             "env": {
                 "NODE_ENV": "development",
@@ -74,9 +76,10 @@
             },
             "runtimeArgs": [
                 "${workspaceRoot}/src/main.js",
-                "--runalltests",
                 "--enable-logging",
-                "--remote-debugging-port=9222"
+                "--remote-debugging-port=9222",
+                "--runalltests",
+                "--openDevTools"
             ],
             "sourceMaps": false
         },
@@ -101,8 +104,8 @@
             
             "runtimeArgs": [
                 "--nolazy",
-                "--runresetdb",
-                "--runtestabsence"
+                "--runalltests",
+                "--openDevTools"
                 
             ],
             "env": {

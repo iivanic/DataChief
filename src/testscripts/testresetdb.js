@@ -2,8 +2,12 @@
 this.scriptName = "Reset DB Test Script: ";
 this.doneCallback = null;
 this.next = null;
-this.runTest = function()
-{
+this.prepareDoneCallback = null;
+this.publishDoneCallback = null;
+
+// dumy, just to implement interface like methods
+this.prepare = function (callback) {
+    helper.log(this.scriptName + "Prepare.");
     helper.log(this.scriptName + "Reset DB start.");
     helper.log(this.scriptName + "Clearing local cache for every user.");
     
@@ -31,6 +35,16 @@ this.runTest = function()
         helper.log(self.scriptName + "" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
 
     helper.log(this.scriptName + "Reset DB end.");
+    callback();
+}
+// dumy, just to implement interface like methods
+this.publish = function (callback) {
+    helper.log(this.scriptName + "Publish.");
+    callback();
+}
+
+this.runTest = function()
+{
     if(this.doneCallback)
     {
         //bind correct 'this'

@@ -109,7 +109,7 @@ $(document).ready(function () {
     $('#header').text(getWelcomeMessage(pjson));
     $('#description').html(getDescription(pjson));
     $('#casestudy').html(getCaseStudy());
-    $(document).on("click", 'a[href*="Case study Barrique Works LLC.md"]',
+    $(document).on("click", 'a[href*="/Case%20study%20Barrique%20Works%20LLC.md"]',
         function (event) {
             try {
                 abouttabs.tabs("option", "active", 1);
