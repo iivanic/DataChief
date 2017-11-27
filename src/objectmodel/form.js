@@ -813,7 +813,7 @@ this.ctor = function () {
     this.broadCastRecievers = "initiator";
     this.finalStep = "initiator";
     this.allowLocalCopies = "initiator";
-    this.publishTo = "user1@example.com, user2@example.com";
+    this.publishTo = userSettings.identitySetting.email;
     if(!this._id)
         this._id = helper.generateGUID();
     this.allowSendOneStepBack = true;
@@ -825,7 +825,7 @@ this.ctor1 = function () {
     this.broadCastRecievers = "initiator";
     this.finalStep = "initiator";
     this.allowLocalCopies = "initiator";
-    this.publishTo = "user1@example.com, user2@example.com";
+    this.publishTo = userSettings.identitySetting.email;;
   
     this.allowSendOneStepBack = true;
 }
