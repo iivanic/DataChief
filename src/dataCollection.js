@@ -1,7 +1,7 @@
 
 var form = require("./objectmodel/form.js");
 const ipc = require('electron').ipcRenderer;
-const json2csv = require('json2csv');
+
 
 var broadCastedFormTypes;
 
@@ -315,27 +315,42 @@ $(document).ready(
         dataCollection.refreshDB();
         dataCollection.refreshBroadcastDB();
         dataCollection.refreshSentDB();
+        var mermaidconfig = {
+            startOnLoad: true,
+            theme: 'forest',
+
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        };
         mermaid.mermaidAPI.initialize(mermaidconfig);
 
     }
 );
 this.currentModelDiaplyedForm = null;
 this.showHistory = function () {
-    var html ="<h3>" + dataCollection.currentModelDiaplyedForm._name  + "</h3>";
-    html += "<p>" +  dataCollection.currentModelDiaplyedForm._description + "</p>\n";
+    var html = "<h3>" + dataCollection.currentModelDiaplyedForm._name + "</h3>";
+    html += "<p>" + dataCollection.currentModelDiaplyedForm._description + "</p>\n";
     html += "<br><br>";
-    html +="<table class='table'>\n<tr>\n<th>Property</th>\n<th>Value</th>\n</tr>\n";
-    
-    html += "<tr><td>Author:</td><td>" +  dataCollection.currentModelDiaplyedForm._author + "</td></tr>\n";
-    html += "<tr><td>Structure change:</td><td>" +  dataCollection.currentModelDiaplyedForm._lastTimeTemplatechanged + "</td></tr>\n";
-    html += "<tr><td>Publish To:</td><td>" +  dataCollection.currentModelDiaplyedForm.publishTo + "</td></tr>\n";
-    html += "<tr><td>Workflow:</td><td>" +  dataCollection.currentModelDiaplyedForm.workflow + "</td></tr>\n";
-    html += "<tr><td>Broadcast recievers:</td><td>" +  dataCollection.currentModelDiaplyedForm.broadCastRecievers + "</td></tr>\n";
-    html += "<tr><td>Final step:</td><td>" +  dataCollection.currentModelDiaplyedForm.finalStep + "</td></tr>\n";
-    html += "<tr><td>Allowd local copies:</td><td>" +  dataCollection.currentModelDiaplyedForm.allowLocalCopies + "</td></tr>\n";
-    html += "<tr><td>Allow send step back:</td><td>" +  dataCollection.currentModelDiaplyedForm.allowSendOneStepBack.toString() + "</td></tr>\n";
+    html += "<table class='table'>\n<tr>\n<th>Property</th>\n<th>Value</th>\n</tr>\n";
+
+    html += "<tr><td>Type Id:</td><td>" + dataCollection.currentModelDiaplyedForm._id + "</td></tr>\n";
+    html += "<tr><td>Version:</td><td>" + dataCollection.currentModelDiaplyedForm._version + "</td></tr>\n";
+    html += "<tr><td>Instance Id:</td><td>" + dataCollection.currentModelDiaplyedForm.formid + "</td></tr>\n";
+    html += "<tr><td>Author:</td><td>" + dataCollection.currentModelDiaplyedForm._author + "</td></tr>\n";
+    html += "<tr><td>Structure change:</td><td>" + dataCollection.currentModelDiaplyedForm._lastTimeTemplatechanged + "</td></tr>\n";
+    html += "<tr><td>Publish To:</td><td>" + dataCollection.currentModelDiaplyedForm.publishTo.replace(/[,;]/gi, ", ") + "</td></tr>\n";
+    html += "<tr><td>Workflow:</td><td>" + dataCollection.currentModelDiaplyedForm.workflow.replace(/[,;]/gi, ", ") + "</td></tr>\n";
+    html += "<tr><td>Broadcast recievers:</td><td>" + dataCollection.currentModelDiaplyedForm.broadCastRecievers.replace(/[,;]/gi, ", ") + "</td></tr>\n";
+    html += "<tr><td>Final step:</td><td>" + dataCollection.currentModelDiaplyedForm.finalStep.replace(/[,;]/gi, ", ") + "</td></tr>\n";
+    html += "<tr><td>Allow local copies:</td><td>" + dataCollection.currentModelDiaplyedForm.allowLocalCopies.replace(/[,;]/gi, ", ") + "</td></tr>\n";
+    html += "<tr><td>Allow send step back:</td><td>" + dataCollection.currentModelDiaplyedForm.allowSendOneStepBack.toString() + "</td></tr>\n";
     html += "</table>";
 
+    html += "<h4 >Graph:</h4>";
+    html += "<div id='formDetailsGraph'></div>";
+    html += "<br><br>";
     html += "<h4>Detailed history:</h4>";
 
     html += "<table class='table'>\n<tr>\n<th>Action</th>\n<th>Time</th>\n<th>From</th>\n<th>To</th>\n<th>From step</th>\n<th>To Step</th>\n</tr>\n";
@@ -355,6 +370,11 @@ this.showHistory = function () {
     }
     html += "</table>\n";
     helper.alert(html, null, true, 900, 650);
+
+    this.setGraph4MermaideFormDetails(
+        this.selectForm1([dataCollection.currentModelDiaplyedForm], dataCollection.currentModelDiaplyedForm)
+    );
+
 }
 
 this.displayFormModal = function (path) {
@@ -474,24 +494,24 @@ this.export = function (forms_, folder) {
                             lastFormId = dataCollection.list[i][2];
                             //found column in row, insert new column if not found
 
-                      //      for (var j in dataCollection.list[i]) {
+                            //      for (var j in dataCollection.list[i]) {
 
-                                var columnName = dataCollection.list[i][4].substring(6) + ">" + dataCollection.list[i][5];
-                                if (columnName.substring(0, 1) == ">")
-                                    columnName = columnName.substring(1);
+                            var columnName = dataCollection.list[i][4].substring(6) + ">" + dataCollection.list[i][5];
+                            if (columnName.substring(0, 1) == ">")
+                                columnName = columnName.substring(1);
 
-                                //find coulmnName in header row
-                                var index = dataCollection.pivotList[0].indexOf(columnName);
-                                if (index < 0) {
-                                    //header
-                                    dataCollection.pivotList[0].push(columnName);
-                                    //value
-                                    row.push(dataCollection.list[i][7]);
-                                }
-                                else {
-                                    row[index] = dataCollection.list[i][7];
-                                }
-                     //       }
+                            //find coulmnName in header row
+                            var index = dataCollection.pivotList[0].indexOf(columnName);
+                            if (index < 0) {
+                                //header
+                                dataCollection.pivotList[0].push(columnName);
+                                //value
+                                row.push(dataCollection.list[i][7]);
+                            }
+                            else {
+                                row[index] = dataCollection.list[i][7];
+                            }
+                            //       }
                         }
 
 
@@ -555,15 +575,7 @@ this.read = function (o, prefix, form) {
 
     }
 }
-var mermaidconfig = {
-    startOnLoad: true,
-    theme: 'forest',
 
-    flowchart: {
-        useMaxWidth: true,
-        htmlLabels: true
-    }
-};
 this.selectForm = function (formType) {
     var connectorStr = "-->";
 
@@ -584,6 +596,11 @@ this.selectForm = function (formType) {
         }
     }
     //now in forms we have latest steps
+    var markup = this.selectForm1(forms, form);
+    dataCollection.setGraph4Mermaide(markup);
+
+}
+this.selectForm1 = function (forms, form) {
     var flow = new Array();
     for (var i in forms) {
 
@@ -607,7 +624,7 @@ this.selectForm = function (formType) {
     var publishedTo = form.publishTo.replace(/,/gi, ";").split(/;/gi);
     var markup =
         "graph TD\n" +
-        mailToMM(form._author, 99999) + "[\" Form " + form._name + " ( " + formType + " ), ver " + form._version + " created by " + form._author + " \n" +
+        mailToMM(form._author, 99999) + "[\" Form " + form._name + " ( " + form._id + " ), ver " + form._version + " created by " + form._author + " \n" +
         "on behalf of " + form.publisher + "\"] ";
 
     for (var i in publishedTo) {
@@ -666,8 +683,7 @@ this.selectForm = function (formType) {
 
 
     console.log(markup);
-    dataCollection.setGraph4Mermaide(markup);
-
+    return markup;
 }
 function mailToMM(email, step) {
     return email.replace('@', '_AT_') + "_" + step;
@@ -707,8 +723,16 @@ this.setGraph4Mermaide = function (graphDefinition) {
 
 
     $("#svgGraph").remove();
-    var graph = mermaid.mermaidAPI.render('svgGraph', graphDefinition);
-    $("#graphDiv").html(graph);
+    var svg = mermaid.mermaidAPI.render('svgGraph', graphDefinition);
+    $("#graphDiv").html(svg);
 
 }
+this.setGraph4MermaideFormDetails = function (graphDefinition) {
+
+    $("#svgGraph1").remove();
+    var graph = mermaid.mermaidAPI.render('svgGraph1', graphDefinition);
+    $("#formDetailsGraph").html(graph);
+
+}
+
 
