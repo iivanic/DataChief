@@ -22,6 +22,9 @@ var size = null;
 ipc.on("printPDF", function (even, content) {
     printPDFWorkerWindow.webContents.send("printPDF", content);
 });
+ipc.on("close-PDF-win", function (even, content) {
+    printPDFWorkerWindow.close();
+});
 ipc.on("quit", function (even, content) {
     app.quit();
 });
@@ -147,7 +150,6 @@ function ready() {
 
     mainWindow.webContents.on('did-finish-load', () => {
         var pjson = require('../package.json');
-        console.log(pjson.version);
         mainWindow.setTitle(pjson.name + " v" + pjson.version + ".");
     });
 
