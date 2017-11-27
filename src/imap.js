@@ -76,6 +76,7 @@ function Go(automatic) {
                 error = err;
         }
         imap_.end();
+        helper.alert("IMAP: " + err);
         imapbusy = false;
         $("#progressbar").progressbar({
             value: 100
