@@ -23,8 +23,8 @@ this.checkCommandLine = function () {
 
     if (this.isAnyTest()) {
         this.log("Found " + (tests.length + 1) + "test(s).");
-       
-       
+
+
         for (var i = 0 in tests) {
             this.log("Loading test script: " + tests[i]);
             var test = require(helper.join(helper.join(__dirname, ".."), helper.join("testscripts", tests[i])));
@@ -67,29 +67,26 @@ this.checkCommandLine = function () {
         }
 
         oldtest.doneCallback = this.testsDone;
-        prepareCallsCount=0;
+        prepareCallsCount = 0;
         testObjects[prepareCallsCount].prepare(this.prepareForTestDone);
-        
+
     }
 }
-this.prepareForTestDone = function()
-{
-    helper.log("Prepare for " + tests[prepareCallsCount] +  " done.");
+this.prepareForTestDone = function () {
+    helper.log("Prepare for " + tests[prepareCallsCount] + " done.");
     prepareCallsCount++;
-    if(prepareCallsCount==testObjects.length)
-    {
+    if (prepareCallsCount == testObjects.length) {
         oldtest.publish(helper.publishDone);
     }
-    else{
+    else {
         testObjects[prepareCallsCount].prepare(helper.prepareForTestDone);
     }
 
 }
-this.publishDone = function()
-{
-    helper.log("Publish for " + tests[prepareCallsCount-1] +  " done.");
+this.publishDone = function () {
+    helper.log("Publish for " + tests[prepareCallsCount - 1] + " done.");
     firsttest.runTest();
-    
+
 }
 this.testsDone = function () {
     helper.log("TEST(S) finished.");
@@ -449,9 +446,13 @@ this.encrypt = function (text, additionalpassword) {
 this.decrypt = function (encrypted, additionalpassword) {
     //  return encrypted;
     var decipher = crypto.createDecipher('aes192', pwd + (additionalpassword ? additionalpassword : ""));
-
-    var decrypted = decipher.update(encrypted, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
+    try {
+        var decrypted = decipher.update(encrypted, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+    }
+    catch (e) {
+        helper.alert("Decryption Error. Are You sure your secret is set correctly?")
+    }
     return decrypted;
 }
 
@@ -658,7 +659,7 @@ this.parseBroadCastRecievers = function (recievers, initiator) {
 
     for (var i = 0; i < ret.length; i++)
         ret[i] = "[BROADCAST]" + (ret[i].toLowerCase() == "initiator" ? initiator.trim() : ret[i].trim());
-    
+
     return ret;
 }
 
