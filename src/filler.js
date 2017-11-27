@@ -366,7 +366,7 @@ function createPackagesFromMyOutbox() {
 function savePackage(p, user) {
     var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
     if (p.to == userSettings.identitySetting.email) {
-        // we are sending packae to ourself!
+        // we are sending package to ourself!
         helper.saveTextFile(helper.join(helper.getInboxPath(), helper.generateGUID()), content);
     }
     else
