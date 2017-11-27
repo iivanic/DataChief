@@ -413,47 +413,80 @@ this.export = function (forms_, folder) {
             Ok: function () {
                 $(this).dialog("close");
                 var val = $('input[name=exportStyle]:checked').val();
-               
-                    var parsedForms = new Array();
-                    dataCollection.list = new Array();
-                    dataCollection.fieldNames = ['Form Type', 'Form Name', 'Form ID', "Form Version", "Path", "Title", "Data Type", "Value"];
 
-                    for (var i in forms_) {
-                        var path = helper.join(folder, forms_[i]);
-                        var loadedObj = JSON.parse(helper.loadFile(path));
-                        parsedForms.push(loadedObj);
+                var parsedForms = new Array();
+                dataCollection.list = new Array();
+                dataCollection.fieldNames = ['Form Type', 'Form Name', 'Form ID', "Form Version", "Path", "Title", "Data Type", "Value"];
 
-                    }
-                    //header
-                    dataCollection.list.push(dataCollection.fieldNames)
+                for (var i in forms_) {
+                    var path = helper.join(folder, forms_[i]);
+                    var loadedObj = JSON.parse(helper.loadFile(path));
+                    parsedForms.push(loadedObj);
 
-                    for (var i in parsedForms) {
+                }
+                //header
+                dataCollection.list.push(dataCollection.fieldNames)
 
-                        dataCollection.read(parsedForms[i], '>Form', parsedForms[i]);
+                for (var i in parsedForms) {
 
-                    }
+                    dataCollection.read(parsedForms[i], '>Form', parsedForms[i]);
 
-                    var csv;
-                    var converter = require("./csv.js");
-                    if (val == 1) {
-                        // we need to pivot list
-                        dataCollection.pivotList = new Array();
-                        //fixed part of header
-                        dataCollection.pivotList.push(['Form Type', 'Form Name', 'Form ID', "Form Version"])
+                }
 
-                        for (var i in dataCollection.list)
-                        {
-                            // -- tranform multiple rows to one.
+                var csv;
+                var converter = require("./csv.js");
+                if (val == 1) {
+                    // we need to pivot list
+                    dataCollection.pivotList = new Array();
+                    //fixed part of header
+                    dataCollection.pivotList.push(['Form Type', 'Form Name', 'Form ID', "Form Version"])
+                    var lastFormId = null;
+                    var row;
+                    // -- tranform multiple rows to one.
+                    for (var i in dataCollection.list) {
+                        if (i > 0) {
+                            // new form start
+                            if (lastFormId == null || lastFormId != dataCollection.list[i][2]) {
+                                row = new Array();
+                                dataCollection.pivotList.push(row);
+                                row[0] = dataCollection.list[i][0];
+                                row[1] = dataCollection.list[i][1];
+                                row[2] = dataCollection.list[i][2];
+                                row[3] = dataCollection.list[i][3];
+                            }
+                            lastFormId = dataCollection.list[i][2];
+                            //found column in row, insert new column if not found
 
+                      //      for (var j in dataCollection.list[i]) {
+
+                                var columnName = dataCollection.list[i][4].substring(6) + ">" + dataCollection.list[i][5];
+                                if (columnName.substring(0, 1) == ">")
+                                    columnName = columnName.substring(1);
+
+                                //find coulmnName in header row
+                                var index = dataCollection.pivotList[0].indexOf(columnName);
+                                if (index < 0) {
+                                    //header
+                                    dataCollection.pivotList[0].push(columnName);
+                                    //value
+                                    row.push(dataCollection.list[i][7]);
+                                }
+                                else {
+                                    row[index] = dataCollection.list[i][7];
+                                }
+                     //       }
                         }
-                        // to CSV
-                        csv = converter.convertFromArray(dataCollection.pivotList)
-                    }
-                    else
-                        csv = converter.convertFromArray(dataCollection.list)
 
-                    ipc.send("exportCSV", csv);
-              
+
+                    }
+                    // to CSV
+                    csv = converter.convertFromArray(dataCollection.pivotList)
+                }
+                else
+                    csv = converter.convertFromArray(dataCollection.list)
+
+                ipc.send("exportCSV", csv);
+
             }
         }
     });
