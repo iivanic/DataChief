@@ -56,7 +56,7 @@
             },
             "preLaunchTask": "",
             "sourceMaps": false,
-            "protocol" : "legacy"
+            "protocol" : "inspector"
             
         },
         {

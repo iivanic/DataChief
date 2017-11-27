@@ -22,6 +22,6 @@
     "mermaid": "7.1.x"
   },
   "devDependencies": {
-    "electron-prebuilt": "1.x.x"
+    "electron": "1.x.x"
   }
 }

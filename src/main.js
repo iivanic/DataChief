@@ -23,6 +23,7 @@ ipc.on("printPDF", function (even, content) {
     printPDFWorkerWindow.webContents.send("printPDF", content);
 });
 ipc.on("quit", function (even, content) {
+    console.log('quit');
     app.quit();
 });
 ipc.on("exportCSV", function (even, content) {
@@ -81,7 +82,11 @@ ipc.on('readyToPrintPDF', function (event) {
 
 })
 
+app.on('will-quit', function () {
+    console.log('will-quit');
+});
 app.on('window-all-closed', function () {
+    console.log('window-all-closed');
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform != 'darwin') {
@@ -89,15 +94,27 @@ app.on('window-all-closed', function () {
     }
 });
 
+app.on('before-quit', () => {
+    console.log('before-quit');
+    mainWindow.removeAllListeners('close');
+    mainWindow.close();
+    if (printPDFWorkerWindow) {
+        printPDFWorkerWindow.removeAllListeners('close');
+        printPDFWorkerWindow.close();
+    }
+});
+
 // OSX only callback - takes care of spawning
 // a new app window if needed
 app.on('activate', function () {
+    console.log('activate');
     if (mainWindow == null) {
         ready();
     }
 });
 
 app.on("ready", function () {
+    console.log('ready');
     ready();
 });
 
@@ -131,6 +148,7 @@ function ready() {
     // automatically (the listeners will be removed when the window is closed) 
     // and restore the maximized or full screen state 
     mainWindowState.manage(mainWindow);
+   
 
     //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
     //      mainWindow.maximize();
@@ -147,7 +165,7 @@ function ready() {
 
     mainWindow.webContents.on('did-finish-load', () => {
         var pjson = require('../package.json');
-        console.log(pjson.version);
+        console.log('did-finish-load');
         mainWindow.setTitle(pjson.name + " v" + pjson.version + ".");
     });
 
@@ -162,13 +180,13 @@ function ready() {
         printPDFWorkerWindow = null;
     });
     if (process.argv.indexOf("--openDevTools"))
-         mainWindow.openDevTools();
+        mainWindow.openDevTools();
 
     // we need for printing PDF
     printPDFWorkerWindow = new BrowserWindow();
     printPDFWorkerWindow.loadURL("file://" + __dirname + "/printPDFWorkerWindow.html");
     printPDFWorkerWindow.hide();
-   // printPDFWorkerWindow.webContents.openDevTools();
+    // printPDFWorkerWindow.webContents.openDevTools();
     printPDFWorkerWindow.on("closed", function () {
         printPDFWorkerWindow = null;
     });
