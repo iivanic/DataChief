@@ -336,7 +336,7 @@ function createPackagesFromMyOutbox() {
         for (var ui = 0; ui < broadcastRecevers.length; ui++) {
             // no package for user, create it
             if (!packages[broadcastRecevers[ui]]) {
-                packages[broadcastRecevers[ui]] = { publisher: userSettings.organization, published: false, broadcastpackage: true, workflowpackage: true, cameFrom: userSettings.identitySetting.email, user: users[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
+                packages[broadcastRecevers[ui]] = { publisher: userSettings.organization, published: false, broadcastpackage: true, workflowpackage: true, cameFrom: userSettings.identitySetting.email, user: broadcastRecevers[ui], forms: new Array(), commands: new Array(), publishersDigest: helper.publishersDigest() };
                 pCountBR++;
             }
             //we need history for later
@@ -357,6 +357,10 @@ function createPackagesFromMyOutbox() {
     helper.log("createPackagesFromMyOutbox() - packages <strong>" + pCount + "</strong>, broadcast packages: <strong>" + pCountBR + "</strong>.");
 
     for (var i in packages) {
+        if(!packages[i].user)
+        {
+            console.log("createPackagesFromMyOutbox() Error: no user!")
+        }
         helper.log("Package for user <strong>" + packages[i].user + "</strong> has <strong>" + packages[i].forms.length + "</strong> form(s).");
         savePackage(packages[i], (i.substring(0, 5) == "[BROA" ? i : packages[i].user));
     }

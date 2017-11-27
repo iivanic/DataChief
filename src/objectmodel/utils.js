@@ -657,7 +657,7 @@ this.parseBroadCastRecievers = function (recievers, initiator) {
     var ret = recievers.replace(/,/gi, ';').split(/;/gi).filter(String);
 
     for (var i = 0; i < ret.length; i++)
-        ret[i] = "[BROADCAST]" + (ret[i].toLowerCase() == "initiator" ? initiator : ret[i]);
+        ret[i] = "[BROADCAST]" + (ret[i].toLowerCase() == "initiator" ? initiator.trim() : ret[i].trim());
     
     return ret;
 }
