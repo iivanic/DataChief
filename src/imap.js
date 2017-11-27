@@ -292,6 +292,7 @@ function readMessages1() {
                 else
                     error = err;
                 imap_.end();
+                helper.alert("IMAP: " + err);
                 return;
             }
         });
