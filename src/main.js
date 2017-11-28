@@ -93,16 +93,6 @@ app.on('window-all-closed', function () {
     }
 });
 
-app.on('before-quit', () => {
-
-    mainWindow.removeAllListeners('close');
-    mainWindow.close();
-    if (printPDFWorkerWindow) {
-        printPDFWorkerWindow.removeAllListeners('close');
-        printPDFWorkerWindow.close();
-    }
-});
-
 // OSX only callback - takes care of spawning
 // a new app window if needed
 app.on('activate', function () {
