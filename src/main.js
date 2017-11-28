@@ -25,7 +25,8 @@ ipc.on("printPDF", function (even, content) {
 ipc.on("close-PDF-win", function (even, content) {
     try {
         printPDFWorkerWindow.close();
-    } catch{ }
+    } catch(ex)
+    { }
 });
 ipc.on("quit", function (even, content) {
 

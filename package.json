@@ -14,7 +14,8 @@
     "start": "electron src/main.js",
     "test": "electron src/main.js --runalltests",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "author": "Igor Ivanic",
   "license": "GPL-3.0",
@@ -24,12 +25,18 @@
     "mermaid": "7.1.x"
   },
   "devDependencies": {
-    "electron": "1.x.x"
+    "electron": "1.x.x",
+    "electron-builder": "^19.46.9"
   },
   "build": {
     "appId": "data.chief",
     "mac": {
       "category": "datachief.app.category.type"
-    }
+    },
+    "directories": {
+      "buildResources": "resources"
+    },
+    "asar": false
+    
   }
 }
