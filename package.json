@@ -12,7 +12,9 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-    "test": "electron src/main.js --runalltests"
+    "test": "electron src/main.js --runalltests",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "Igor Ivanic",
   "license": "GPL-3.0",

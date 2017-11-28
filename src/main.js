@@ -23,10 +23,12 @@ ipc.on("printPDF", function (even, content) {
     printPDFWorkerWindow.webContents.send("printPDF", content);
 });
 ipc.on("close-PDF-win", function (even, content) {
-    printPDFWorkerWindow.close();
+    try {
+        printPDFWorkerWindow.close();
+    } catch{ }
 });
 ipc.on("quit", function (even, content) {
- 
+
     app.quit();
 });
 ipc.on("exportCSV", function (even, content) {
@@ -85,7 +87,7 @@ ipc.on('readyToPrintPDF', function (event) {
 
 
 app.on('window-all-closed', function () {
- 
+
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform != 'darwin') {
@@ -136,7 +138,7 @@ function ready() {
     // automatically (the listeners will be removed when the window is closed) 
     // and restore the maximized or full screen state 
     mainWindowState.manage(mainWindow);
-   
+
 
     //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)
     //      mainWindow.maximize();
