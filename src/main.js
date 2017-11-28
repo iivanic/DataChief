@@ -131,7 +131,7 @@ function ready() {
         'width': mainWindowState.width,
         'height': mainWindowState.height,
         show: true,
-        icon: "./Icons/Filler.png"
+        icon: "./resources/icons/Filler.png"
     });
 
 
