@@ -33,6 +33,10 @@
 
         var mermaid = require("mermaid");
 
+        window.onbeforeunload = function(e) {
+            ipcRenderer.send("close-PDF-win");
+        };
+
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
