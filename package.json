@@ -34,8 +34,19 @@
       "category": "datachief.app.category.type"
     },
     "directories": {
-      "buildResources": "resources"
-    }
-    
+      "buildResources": "icons"
+    },
+    "files": [
+      "icons/*",
+      "node_modules/**/*",
+      "src/**/*",
+      "package.json",
+      "jsconfig.json",
+      "README.md",
+      "dc_workflow.png",
+      "LICENSE",
+      "Case study Barrique Works LLC.md"
+    ]
   }
+  
 }
