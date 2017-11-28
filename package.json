@@ -17,7 +17,10 @@
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
   },
-  "author": "Igor Ivanic",
+  "author": {
+    "name": "Igor Ivanic",
+    "email": "igor_ivanic@hotmail.com"
+  },
   "license": "GPL-3.0",
   "dependencies": {
     "electron-window-state": "^4.1.1",
@@ -38,8 +41,19 @@
     },
     "nsis": {
       "language": "1033",
-      "installerLanguages": ["en_US"]
-    } ,
+      "installerLanguages": [
+        "en_US"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "icon": "icons/",
+      "category": "Office",
+      "synopsis": "Data collection and EForms solution.",
+      "description": "Flexible Data Collection eForms Solution with focus on usability and simplicity that actually works in the real world."
+    },
     "files": [
       "icons/*",
       "node_modules/**/*",
@@ -52,5 +66,4 @@
       "Case study Barrique Works LLC.md"
     ]
   }
-
 }
