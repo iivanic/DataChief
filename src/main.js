@@ -67,8 +67,6 @@ function savePDF(path) {
     })
 }
 
-
-
 ipc.on('readyToPrintPDF', function (event) {
 
     dialog.showSaveDialog(
@@ -85,9 +83,7 @@ ipc.on('readyToPrintPDF', function (event) {
 
 })
 
-app.on('will-quit', function () {
 
-});
 app.on('window-all-closed', function () {
  
     // On OS X it is common for applications and their menu bar
@@ -117,7 +113,6 @@ app.on('activate', function () {
 });
 
 app.on("ready", function () {
-
     ready();
 });
 
