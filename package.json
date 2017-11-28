@@ -35,8 +35,7 @@
     },
     "directories": {
       "buildResources": "resources"
-    },
-    "asar": false
+    }
     
   }
 }
