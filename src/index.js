@@ -128,7 +128,7 @@ $(document).ready(function () {
     abouttabs = $("#abouttabs").tabs();
 
     $("#about_ver").text(pjson.version);
-    $("#about_author").text(pjson.author);
+    $("#about_author").text(pjson.author.name);
     $("#about_lic").text(pjson.license);
 
     //bind built in forms
