@@ -1,5 +1,5 @@
 
-this.scriptName = "Reset DB Test Script: ";
+this.scriptName = " Reset DB Script: ";
 this.doneCallback = null;
 this.next = null;
 this.prepareDoneCallback = null;

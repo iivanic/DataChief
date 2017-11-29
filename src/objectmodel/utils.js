@@ -120,6 +120,9 @@ this.isAnyTest = function () {
                     tests.push("testabsence.js");
                     tests.push("testqm.js");
                     break;
+                case "--runresetall":
+                    tests.push("testresetdb.js");
+                    tests.push("testresetall.js");
             }
         }
         testsParsed = true;
