@@ -1,7 +1,19 @@
+var remote = require('electron').remote;
 
 var identitySetting = null;
 
 this.userList = new Array();
+
+Object.defineProperty(this, "clientOnly", {
+    get: function () {
+        var arguments = remote.getGlobal('sharedObject').argv;
+        
+        return (this._clientOnly) || (arguments.indexOf("--clientonly")>-1) ;
+    },
+    set: function (val) {
+        this._clientOnly = val;
+    }
+});
 
 this.ctor = function () {
 
@@ -16,7 +28,7 @@ this.ctor = function () {
 
     this.useSingleAccount = true;
     this.takeOnlyOne = true;
-    this.clientOnly = true;
+    this._clientOnly = true;
 
     this.userList = new Array();
 
