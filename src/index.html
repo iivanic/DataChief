@@ -114,14 +114,14 @@
                         <br>
                         <br>
                         <input type="radio" name="appMode" id="startDialogappMode1" value="1" style="display:inline;" />
-                        <label for="appMode1">
+                        <label for="startDialogappMode1">
                             <strong>Single user account</strong> - For all communucation use only
                             <strong>one IMAP account</strong>
                         </label>
                         <br>
-                        <input type="radio" name="appMode" disabled id="startDialogappMode2" value="2" style="display:inline;" />
-                        <label for="appMode2">
-                            <strong>Per user account</strong> (advanced and more secure) - PLANNED.</label>
+                        <input type="radio" name="appMode" id="startDialogappMode2" value="2" style="display:inline;" />
+                        <label for="startDialogappMode2">
+                            <strong>Per user account</strong> (advanced and more secure).</label>
 
                     </section>
                     <h3 id="step3Caption">Your Name and Email</h3>
@@ -139,9 +139,9 @@
                         <label for="startDialogUserSecretl2">Repeat Your Secret</label>
                         <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" required type="password" class="required fullwidth">
                     </section>
-                    <h3 id="step4Caption">Communication</h3>
+                    <h3 id="step4Caption">Communication (IMAP)</h3>
                     <section id="step4">
-                        <h2>Set Up IMAP(Email) Account.</h2>
+                        <h2>Set Up IMAP (Email) Account.</h2>
                         <label for="step4textSettingsIMAPUsername">IMAP Username: </label>
                         <br>
                         <input type="email" id="step4textSettingsIMAPUsername" required class="required fullwidth" />
@@ -167,8 +167,43 @@
                         <input type="checkbox" id="step4textSettingsIMAPRequiresSSL" required class="required">
                         <button onclick="userSettings.imapTest();return false;" style="float:right;" id="IMAPTest">Test IMAP settings</button>
                     </section>
-                    <h3 id="step5Caption">Case Study</h3>
+                    <h3 id="step5Caption">Communication (SMTP)</h3>
                     <section id="step5">
+                        <h2>Set Up SMTP Account.</h2>
+
+                        
+
+                        <label for="step5SettingsSMTPRequiresAuthentication">Requires Authentication: </label>
+                      
+                        <input type="checkbox" id="step5SettingsSMTPRequiresAuthentication" required class="required" />
+                        <br>
+                        <label for="step5textSettingsSMTPUsername">SMTP Username: </label>
+                        <br>
+                        <input type="email" id="step5textSettingsSMTPUsername" required class="required fullwidth" />
+                        <br>
+                        <label for="step5textSettingsSMTPPassword">SMTP Password: </label>
+                        <br>
+                        <input type="password" id="step5textSettingsSMTPPassword" required class="required fullwidth">
+                        <br>
+                        <label for="step5textSettingsSMTPPassword1">Repeat SMTP Password: </label>
+                        <br>
+                        <input type="password" id="step5textSettingsSMTPPassword1" required class="required fullwidth">
+                        <br>
+                        <label for="step5textSettingsSMTPServer">SMTP Server: </label>
+                        <br>
+                        <input type="text" id="step5textSettingsSMTPServer" required class="required fullwidth" />
+                        <br>
+                        <label for="step5textSettingsSMTPServerPort">SMTP Server port: </label>
+                        <br>
+                        <input type="number" min="0" max="65535" id="step5textSettingsSMTPServerPort" required class="required fullwidth">
+                        <br>
+                        <label for="step5textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
+                        <br>
+                        <input type="checkbox" id="step5textSettingsSMTPRequiresSSL" required class="required">
+                        <button onclick="userSettings.smtpTest();return false;" style="float:right;" id="SMTPTest">Test SMTP settings</button>
+                    </section>
+                    <h3 id="step6Caption">Case Study</h3>
+                    <section id="step6">
                         <h2>Case Study users</h2>
                         <label for="addRemoveCaseStudyProfilesWizard">Add Case Study users to DataChief automatically for simpler use of "
                             <a href='https://github.com/iivanic/DataChief/blob/master/Case%20study%20Barrique%20Works%20LLC.md'>Barrique Works LLC Case study</a>" document.</label>
@@ -176,8 +211,8 @@
                         <br>
                         <buttom id="addRemoveCaseStudyProfilesWizard">Add Barrique Works LLC Case study Profiles</buttom>
                     </section>
-                    <h3 id="step6Caption">Finish</h3>
-                    <section id="step6">
+                    <h3 id="step7Caption">Finish</h3>
+                    <section id="step7">
                         <h2>Now You are ready to start!</h2>
                     </section>
                 </div>

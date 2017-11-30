@@ -1,8 +1,10 @@
 var wform
 var step2Caption;
-var step4Caption;
 var step2Content;
-var step4Content;
+var step5Content;
+var step5Content;
+var step6Caption;
+var step6Content;
 
 this.initWizard = function () {
     $("#startwizard").steps({
@@ -48,27 +50,28 @@ $(document).ready(
         //step 1
         $("#Startdesigner1").prop("checked", userSettings.clientOnly ? "checked" : "");
         $("#Startdesigner1").on("click", function () {
-
+            $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
             var _steps = $("#startwizard").steps("getStepsLength");
-            if (_steps > 6) {
+            if (!$("#Startdesigner2").is(":checked")) {
 
                 // remove order span tag infront of caption
                 step2Caption = $("#startwizard-t-1").clone()	//clone the element
                     .children()	//select all the children
                     .remove()	//remove all the children
                     .end()	//again go back to selected element
-                    .text();	//get the text of element
-                step4Caption = $("#startwizard-t-4").clone()	//clone the element
+                    .text().trim();	//get the text of element
+                step6Caption = $("li a:contains('. Case Study')").clone()	//clone the element
                     .children()	//select all the children
                     .remove()	//remove all the children
                     .end()	//again go back to selected element
-                    .text();	//get the text of element
+                    .text().trim();	//get the text of element
 
                 step2Content = $("#startwizard-p-1").html();
-                step4Content = $("#startwizard-p-4").html();
+                step6Content = $("section:contains('Case Study users')").html();
 
+                var _ar = $("section:contains('Case Study users')").prop("id").split('-');
+                $('#startwizard').steps('remove', parseInt(_ar[_ar.length - 1]));
 
-                $('#startwizard').steps('remove', 4);
                 $('#startwizard').steps('remove', 1);
                 /*      $("#startwizard").steps("destroy");
                       startwizardsteps.initWizard();*/
@@ -78,8 +81,11 @@ $(document).ready(
 
         $("#Startdesigner2").prop("checked", !userSettings.clientOnly ? "checked" : "");
         $("#Startdesigner2").on("click", function () {
+            //reset tabs
+            $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
+
             var _steps = $("#startwizard").steps("getStepsLength");
-            if (_steps < 6) {
+            if ($("#Startdesigner2").is(":checked")) {
                 $('#startwizard').steps('insert', 1, { title: step2Caption, content: step2Content });
                 //step 2
 
@@ -87,7 +93,18 @@ $(document).ready(
                 $("#startDialogCompanPassword").val(userSettings.organizationSecret);
                 $("#startDialogCompanPassword1").val(userSettings.organizationSecret);
 
-                $('#startwizard').steps('insert', 4, { title: step4Caption, content: step4Content });
+
+                var _ar;
+                if ($("section:contains('Set Up SMTP Account.')").length > 0) {
+                    _ar = $("section:contains('Set Up SMTP Account.')").prop("id").split('-');
+                }
+                else {
+                    _ar = $("section:contains('Set Up IMAP (Email) Account.')").prop("id").split('-');
+                }
+                var _index = parseInt(_ar[_ar.length - 1]);
+                _index = _index + 1;
+
+                $('#startwizard').steps('insert', _index, { title: step6Caption, content: step6Content });
                 //restore values, not saved in old html
                 $("#step4textSettingsIMAPUsername").val(userSettings.identitySetting.imapUserName);
                 $("#step4textSettingsIMAPPassword").val(userSettings.identitySetting.imapPassword);
@@ -108,6 +125,90 @@ $(document).ready(
             }
         });
 
+        $("#startDialogappMode1").prop("checked", userSettings.useSingleAccount ? "checked" : "");
+        $("#startDialogappMode1").on("click", function () {
+            if ($("#startDialogappMode1").is(":checked") ) {
+
+                $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
+
+                if ($($("#startwizard li[role='tab'][aria-selected!='true']")[1]).text() == "2. Company" &&
+                    $($("#startwizard li[role='tab']")[0]).attr("aria-selected") != "true"
+                ) {
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[0]).prop("class", "first done");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[0]).prop("aria-selected", "false");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[0]).prop("disabled", "false");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).prop("class", "done");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).prop("aria-selected", "false");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).prop("disabled", "false");
+
+                }
+
+
+                userSettings.useSingleAccount = true;
+                // remove order span tag infront of caption
+                step5Caption = $("li a:contains('SMTP')").clone()	//clone the element
+                    .children()	//select all the children
+                    .remove()	//remove all the children
+                    .end()	//again go back to selected element
+                    .text().trim();	//get the text of element
+                step5Content = $("section:contains('Set Up SMTP Account.')").html();
+                var _ar = $("section:contains('Set Up SMTP Account.')").prop("id").split('-');
+                $('#startwizard').steps('remove', parseInt(_ar[_ar.length - 1]));
+            }
+        });
+        $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount ? "checked" : "");
+        $("#startDialogappMode2").on("click", function () {
+
+            if ($("#startDialogappMode2").is(":checked")   ) {
+
+                $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
+
+                if (
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).text() == "2. Company" &&
+                    $($("#startwizard li[role='tab']")[0]).attr("aria-selected") != "true"
+                ) {
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[0]).prop("class", "first done");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[0]).prop("aria-selected", "false");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[0]).prop("disabled", "false");
+
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).prop("class", "done");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).prop("aria-selected", "false");
+                    $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).prop("disabled", "false");
+
+                }
+
+
+                userSettings.useSingleAccount = false;
+                var _ar = $("section:contains('Set Up IMAP (Email) Account.')").prop("id").split('-');
+                var _index = parseInt(_ar[_ar.length - 1]);
+                _index = _index + 1;
+                $('#startwizard').steps('insert', _index, { title: step5Caption, content: step5Content });
+                $("#step5textSettingsSMTPUsername").val(userSettings.identitySetting.smtpUserName);
+                $("#step5textSettingsSMTPPassword").val(userSettings.identitySetting.smtpPassword);
+                $("#step5textSettingsSMTPPassword1").val(userSettings.identitySetting.smtpPassword);
+                $("#step5textSettingsSMTPServer").val(userSettings.identitySetting.smtpServer);
+                $("#step5textSettingsSMTPServerPort").val(userSettings.identitySetting.smtpPort);
+                $("#step5textSettingsSMTPRequiresSSL").prop("checked", userSettings.identitySetting.smtpRequiresSSL ? "checked" : "");
+            }
+        });
+        $("#step5SettingsSMTPRequiresAuthentication").prop("checked", !userSettings.RequiresAuthentication ? "checked" : "");
+        $("#step5SettingsSMTPRequiresAuthentication").on("click", function () {
+            if ($("#step5SettingsSMTPRequiresAuthentication").is(":checked")) {
+                userSettings.RequiresAuthentication = true;
+                $("#step5textSettingsSMTPUsername").prop("disabled", false);
+                $("#step5textSettingsSMTPPassword").prop("disabled", false);
+                $("#step5textSettingsSMTPPassword1").prop("disabled", false);
+            }
+            else {
+                userSettings.RequiresAuthentication = false;
+                $("#step5textSettingsSMTPUsername").prop("disabled", true);
+                $("#step5textSettingsSMTPPassword").prop("disabled", true);
+                $("#step5textSettingsSMTPPassword1").prop("disabled", true);
+            }
+        }
+        );
+
+
         //step 2
         $("#startDialogCompanyName").val(userSettings.organization);
         $("#startDialogCompanPassword").val(userSettings.organizationSecret);
@@ -127,11 +228,21 @@ $(document).ready(
         $("#startDialogemail").val(userSettings.identitySetting.email);
         $("#startDialogUserSecretl1").val(userSettings.identitySetting.userSecret);
         $("#startDialogUserSecretl2").val(userSettings.identitySetting.userSecret);
+        if (!userSettings.useSingleAccount) {
+            $("#step5textSettingsSMTPUsername").val(userSettings.identitySetting.smtpUserName);
+            $("#step5textSettingsSMTPPassword").val(userSettings.identitySetting.smtpPassword);
+            $("#step5textSettingsSMTPPassword1").val(userSettings.identitySetting.smtpPassword);
+            $("#step5textSettingsSMTPServer").val(userSettings.identitySetting.smtpServer);
+            $("#step5textSettingsSMTPServerPort").val(userSettings.identitySetting.smtpPort);
+            $("#step5textSettingsSMTPRequiresSSL").prop("checked", userSettings.identitySetting.smtpRequiresSSL ? "checked" : "");
+            $("#step5SettingsSMTPRequiresAuthentication").prop("checked", userSettings.RequiresAuthentication ? "checked" : "");
+        }
 
         // if client only, remove extra steps and remember them...
         if (userSettings.clientOnly)
             $("#Startdesigner1").click();
-
+        if (userSettings.useSingleAccount)
+            $("#startDialogappMode1").click();
 
     }
 )
@@ -174,7 +285,7 @@ this.fromGui = function () {
     userSettings.clientOnly = $("#Startdesigner1").prop("checked");
     var _steps = $("#startwizard").steps("getStepsLength");
     // do not store Organization info if in clientMode
-    if (_steps > 5) {
+    if ($("#Startdesigner2").is(":checked")) {
         //step 2
         userSettings.organization = $("#startDialogCompanyName").val();
         userSettings.organizationSecret = $("#startDialogCompanPassword").val();
@@ -204,6 +315,23 @@ this.fromGui = function () {
         userSettings.identitySetting.imapPort = $("#step4textSettingsIMAPServerPort").val();
     if ($("#step4textSettingsIMAPRequiresSSL").val())
         userSettings.identitySetting.imapRequiresSSL = $("#step4textSettingsIMAPRequiresSSL").prop("checked");
+
+    if (userSettings.useSingleAccount) {
+        if ($("#step5textSettingsSMTPUsername").val())
+            userSettings.identitySetting.smtpUserName = $("#step5textSettingsSMTPUsername").val();
+        if ($("#step5textSettingsSMTPPassword").val())
+            userSettings.identitySetting.smtpPassword = $("#step5textSettingsSMTPPassword").val();
+        if ($("#step5textSettingsSMTPPassword1").val())
+            userSettings.identitySetting.smtpPassword = $("#step5textSettingsSMTPPassword1").val();
+        if ($("#step5textSettingsSMTPServer").val())
+            userSettings.identitySetting.smtpServer = $("#step5textSettingsSMTPServer").val();
+        if ($("#step5textSettingsSMTPServerPort").val())
+            userSettings.identitySetting.smtpPort = $("#step5textSettingsSMTPServerPort").val();
+        if ($("#step5textSettingsSMTPRequiresSSL").val())
+            userSettings.identitySetting.smtpRequiresSSL = $("#step5textSettingsSMTPRequiresSSL").prop("checked");
+        if ($("#step5SettingsSMTPRequiresAuthentication").val())
+            userSettings.identitySetting.smtpRequiresSSL = $("#step5SettingsSMTPRequiresAuthentication").prop("checked");
+    }
 
 
 }
