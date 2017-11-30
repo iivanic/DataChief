@@ -171,8 +171,6 @@
                     <section id="step5">
                         <h2>Set Up SMTP Account.</h2>
 
-                        
-
                         <label for="step5SettingsSMTPRequiresAuthentication">Requires Authentication: </label>
                       
                         <input type="checkbox" id="step5SettingsSMTPRequiresAuthentication" required class="required" />
@@ -198,7 +196,7 @@
                         <input type="number" min="0" max="65535" id="step5textSettingsSMTPServerPort" required class="required fullwidth">
                         <br>
                         <label for="step5textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
-                        <br>
+                        
                         <input type="checkbox" id="step5textSettingsSMTPRequiresSSL" required class="required">
                         <button onclick="userSettings.smtpTest();return false;" style="float:right;" id="SMTPTest">Test SMTP settings</button>
                     </section>
