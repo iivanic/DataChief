@@ -46,25 +46,29 @@ this.checkCommandLine = function () {
 
         helper.log("User switched to " + userSettings.identitySetting.email);
         helper.log("Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
-        if (!barrique.isInstalled()) {
-            helper.log("BarriqueWorks case study users not installed. Install them and run test again.");
-            return;
-        }
-        else {
-            helper.log("OK - BarriqueWorks case study users found.");
-        }
-        helper.log("Checking for design mode.");
-        if (userSettings.clientOnly) {
-            helper.log("No design mode detected. Please install DataChief in Design mode.");
-            return;
-        }
-        else {
-            //activate editor
-            $(maintabs).tabs("option", "active", 0);
-            $(maintabs).tabs("refresh");
-            helper.log("OK - Design mode detected.");
+        helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
+        if (caseStudyAndEditorNeeded) {
+            if (!barrique.isInstalled()) {
+                helper.log("BarriqueWorks case study users not installed. Install them and run test again.");
+                return;
+            }
+            else {
+                helper.log("OK - BarriqueWorks case study users found.");
+            }
+            helper.log("Checking for design mode.");
+            if (userSettings.clientOnly) {
+                helper.log("No design mode detected. Please install DataChief in Design mode.");
+                return;
+            }
+            else {
+                //activate editor
+                $(maintabs).tabs("option", "active", 0);
+                $(maintabs).tabs("refresh");
+                helper.log("OK - Design mode detected.");
 
+            }
         }
+
 
         oldtest.doneCallback = this.testsDone;
         prepareCallsCount = 0;
@@ -95,6 +99,7 @@ this.testsDone = function () {
     ipc.send("quit");
 }
 var testsParsed = false;
+var caseStudyAndEditorNeeded = false;
 this.isAnyTest = function () {
     if (!testsParsed) {
         var remote = require('electron').remote;
@@ -104,21 +109,25 @@ this.isAnyTest = function () {
             switch (arguments[i].toLowerCase()) {
                 case "--runtestcarlog":
                     tests.push("testcarlog.js");
+                    caseStudyAndEditorNeeded = true;
                     break;
                 case "--runtestabsence":
                     tests.push("testabsence.js");
+                    caseStudyAndEditorNeeded = true;
                     break;
                 case "--runresetdb":
                     tests.push("testresetdb.js");
                     break;
                 case "--runtestqm":
                     tests.push("testqm.js");
+                    caseStudyAndEditorNeeded = true;
                     break;
                 case "--runalltests":
                     tests.push("testresetdb.js");
                     tests.push("testcarlog.js");
                     tests.push("testabsence.js");
                     tests.push("testqm.js");
+                    caseStudyAndEditorNeeded = true;
                     break;
                 case "--runresetall":
                     tests.push("testresetdb.js");
