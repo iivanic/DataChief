@@ -369,6 +369,27 @@ this.singleAccountToggle = function () {
 
 
 }
+this.smtpTest = function()
+{
+ 
+        
+            $("#SMTPTestDialogLog").html("");
+            $("#SMTPTestDialog").dialog({
+                autoOpen: true,
+                modal: true,
+                width: "970",
+                height: "410",
+        
+                buttons: {
+                    "Close": function () {
+                        $("#SMTPTestDialog").dialog("close");
+                    }
+                }
+            });
+            startwizardsteps.fromGui();
+       //     window.setTimeout(imap.go, 500);
+     
+}
 this.imapTest = function () {
 
     $("#IMAPTestDialogLog").html("");

@@ -24,27 +24,46 @@ this.initWizard = function () {
     });
 }
 
+function validator() {
+    wform = $("#wizardForm");
+    wform.validate({
+        errorPlacement: function errorPlacement(error, element) { element.before(error); },
+        rules: {
+            startDialogCompanPassword1: {
+                equalTo: "#startDialogCompanPassword"
+            },
+            startDialogUserSecretl2: {
+                equalTo: "#startDialogUserSecretl1"
+            },
+            step4textSettingsIMAPPassword1: {
+                equalTo: "#step4textSettingsIMAPPassword"
+            },
+
+        }
+    });
+}
+this.smtpAuthClick = function () {
+
+    if ($("#step5SettingsSMTPRequiresAuthentication").is(":checked")) {
+        userSettings.RequiresAuthentication = true;
+        $("#step5textSettingsSMTPUsername").prop("disabled", false);
+        $("#step5textSettingsSMTPPassword").prop("disabled", false);
+        $("#step5textSettingsSMTPPassword1").prop("disabled", false);
+    }
+    else {
+        userSettings.RequiresAuthentication = false;
+        $("#step5textSettingsSMTPUsername").prop("disabled", true);
+        $("#step5textSettingsSMTPPassword").prop("disabled", true);
+        $("#step5textSettingsSMTPPassword1").prop("disabled", true);
+    }
+
+}
 $(document).ready(
     function () {
 
         $("#IMAPTest").button();
-
-        wform = $("#wizardForm");
-        wform.validate({
-            errorPlacement: function errorPlacement(error, element) { element.before(error); },
-            rules: {
-                startDialogCompanPassword1: {
-                    equalTo: "#startDialogCompanPassword"
-                },
-                startDialogUserSecretl2: {
-                    equalTo: "#startDialogUserSecretl1"
-                },
-                step5textSettingsIMAPPassword1: {
-                    equalTo: "#step4textSettingsIMAPPassword"
-                },
-
-            }
-        });
+        $("#SMTPTest").button();
+        validator();
 
         startwizardsteps.initWizard();
         //step 1
@@ -52,7 +71,7 @@ $(document).ready(
         $("#Startdesigner1").on("click", function () {
             $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
             var _steps = $("#startwizard").steps("getStepsLength");
-            if (!$("#Startdesigner2").is(":checked")) {
+            if (!$("#Startdesigner2").is(":checked") && !userSettings.clientOnly) {
 
                 // remove order span tag infront of caption
                 step2Caption = $("#startwizard-t-1").clone()	//clone the element
@@ -75,7 +94,8 @@ $(document).ready(
                 $('#startwizard').steps('remove', 1);
                 /*      $("#startwizard").steps("destroy");
                       startwizardsteps.initWizard();*/
-
+                userSettings.clientOnly = true;
+                validator();
             }
         });
 
@@ -85,7 +105,7 @@ $(document).ready(
             $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
 
             var _steps = $("#startwizard").steps("getStepsLength");
-            if ($("#Startdesigner2").is(":checked")) {
+            if ($("#Startdesigner2").is(":checked") && userSettings.clientOnly) {
                 $('#startwizard').steps('insert', 1, { title: step2Caption, content: step2Content });
                 //step 2
 
@@ -121,16 +141,21 @@ $(document).ready(
                 userSettings.checkCaseStudy();
                 /*        $("#startwizard").steps("destroy");
                         startwizardsteps.initWizard();*/
-
+                userSettings.clientOnly = false;
+                validator();
             }
         });
 
         $("#startDialogappMode1").prop("checked", userSettings.useSingleAccount ? "checked" : "");
         $("#startDialogappMode1").on("click", function () {
-            if ($("#startDialogappMode1").is(":checked") ) {
 
-                $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
+            if ($("#startDialogappMode1").is(":checked") && !userSettings.useSingleAccount) {
 
+                //     $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
+                $("#startwizard li[role='tab'][aria-selected!='true']").not('.first').each(function () {
+                    $(this).prop("class", "disabled")
+
+                });
                 if ($($("#startwizard li[role='tab'][aria-selected!='true']")[1]).text() == "2. Company" &&
                     $($("#startwizard li[role='tab']")[0]).attr("aria-selected") != "true"
                 ) {
@@ -154,14 +179,19 @@ $(document).ready(
                 step5Content = $("section:contains('Set Up SMTP Account.')").html();
                 var _ar = $("section:contains('Set Up SMTP Account.')").prop("id").split('-');
                 $('#startwizard').steps('remove', parseInt(_ar[_ar.length - 1]));
+                validator();
             }
         });
         $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount ? "checked" : "");
         $("#startDialogappMode2").on("click", function () {
 
-            if ($("#startDialogappMode2").is(":checked")   ) {
+            if ($("#startDialogappMode2").is(":checked") && userSettings.useSingleAccount) {
 
-                $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
+                $("#startwizard li[role='tab'][aria-selected!='true']").not('.first').each(function () {
+                    $(this).prop("class", "disabled")
+
+                });
+
 
                 if (
                     $($("#startwizard li[role='tab'][aria-selected!='true']")[1]).text() == "2. Company" &&
@@ -188,25 +218,13 @@ $(document).ready(
                 $("#step5textSettingsSMTPPassword1").val(userSettings.identitySetting.smtpPassword);
                 $("#step5textSettingsSMTPServer").val(userSettings.identitySetting.smtpServer);
                 $("#step5textSettingsSMTPServerPort").val(userSettings.identitySetting.smtpPort);
-                $("#step5textSettingsSMTPRequiresSSL").prop("checked", userSettings.identitySetting.smtpRequiresSSL ? "checked" : "");
+                $("#step5textSettingsSMTPRequiresSSL").prop("checked", userSettings.identitySetting.smtpRequiresSSL ? "checked" : "")
+                validator();
             }
         });
         $("#step5SettingsSMTPRequiresAuthentication").prop("checked", !userSettings.RequiresAuthentication ? "checked" : "");
-        $("#step5SettingsSMTPRequiresAuthentication").on("click", function () {
-            if ($("#step5SettingsSMTPRequiresAuthentication").is(":checked")) {
-                userSettings.RequiresAuthentication = true;
-                $("#step5textSettingsSMTPUsername").prop("disabled", false);
-                $("#step5textSettingsSMTPPassword").prop("disabled", false);
-                $("#step5textSettingsSMTPPassword1").prop("disabled", false);
-            }
-            else {
-                userSettings.RequiresAuthentication = false;
-                $("#step5textSettingsSMTPUsername").prop("disabled", true);
-                $("#step5textSettingsSMTPPassword").prop("disabled", true);
-                $("#step5textSettingsSMTPPassword1").prop("disabled", true);
-            }
-        }
-        );
+        //    $("#step5SettingsSMTPRequiresAuthentication").on("click", 
+        //    );
 
 
         //step 2
@@ -239,11 +257,15 @@ $(document).ready(
         }
 
         // if client only, remove extra steps and remember them...
-        if (userSettings.clientOnly)
+        if (userSettings.clientOnly) {
+            userSettings.clientOnly = false;
             $("#Startdesigner1").click();
-        if (userSettings.useSingleAccount)
+        }
+        if (userSettings.useSingleAccount) {
+            userSettings.useSingleAccount = false;
             $("#startDialogappMode1").click();
-
+        }
+        startwizardsteps.smtpAuthClick();
     }
 )
 this.onStepChanging = function (event, currentIndex, newIndex) {
@@ -259,7 +281,13 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
     this.fromGui();
     userSettings.save();
     wform.validate().settings.ignore = ":disabled,:hidden";
-    return wform.valid();
+    try {
+        return wform.valid();
+    } catch (ex) {
+        helper.log(ex);
+        console.log(ex);
+        return true;
+     }
 
 }
 this.onFinishing = function (event, currentIndex) {
