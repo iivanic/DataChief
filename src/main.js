@@ -169,7 +169,7 @@ function ready() {
         mainWindow = null;
         printPDFWorkerWindow = null;
     });
-    if (process.argv.indexOf("--openDevTools"))
+    if (process.argv.indexOf("--opendevtools")>-1)
         mainWindow.openDevTools();
 
     // we need for printing PDF

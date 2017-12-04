@@ -21,7 +21,7 @@
                 "${workspaceRoot}/src/main.js",
                 "--enable-logging",
                 "--remote-debugging-port=9222",
-                "--openDevTools"
+                "--opendevtools"
             ],
             "sourceMaps": false
         },
@@ -46,7 +46,7 @@
             
             "runtimeArgs": [
                 "--nolazy",
-                "--openDevTools"
+                "--opendevtools"
             ],
             "env": {
                 "NODE_ENV": "development",
@@ -79,7 +79,7 @@
                 "--enable-logging",
                 "--remote-debugging-port=9222",
                 "--runalltests",
-                "--openDevTools"
+                "--opendevtools"
             ],
             "sourceMaps": false
         },
@@ -105,7 +105,7 @@
             "runtimeArgs": [
                 "--nolazy",
                 "--runalltests",
-                "--openDevTools"
+                "--opendevtools"
                 
             ],
             "env": {
