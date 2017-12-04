@@ -36,6 +36,9 @@
         window.onbeforeunload = function(e) {
             ipcRenderer.send("close-PDF-win");
         };
+        
+        $.validator =jQuery.validator = require("jquery-validation");
+
 
     </script>
     <script src='ctlBox.js'></script>
@@ -44,8 +47,9 @@
     <script src="jquery-taphold/taphold.js" type="text/javascript"></script>
     <script src="jquery.ui-contextmenu/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
+   
 
-    <script src='jquery-validation-1.15.0/jquery.validate.js'></script>
+  
     <script type="text/javascript" src="./jsgrid-1.5.3/jsgrid.min.js"></script>
 
     <script>

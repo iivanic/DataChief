@@ -25,7 +25,7 @@ this.initWizard = function () {
 }
 
 function validator() {
-    wform = $("#wizardForm");
+    wform = $.validator("#wizardForm");
     wform.validate({
         errorPlacement: function errorPlacement(error, element) { element.before(error); },
         rules: {
@@ -270,7 +270,7 @@ $(document).ready(
 )
 this.onStepChanging = function (event, currentIndex, newIndex) {
 
-    wform = $("#wizardForm");
+    wform =  $.validator("#wizardForm");
     // form.validate().settings.ignore = ":disabled,:hidden";
     //  return form.valid();
 
@@ -280,7 +280,7 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
     }
     this.fromGui();
     userSettings.save();
-    wform.validate().settings.ignore = ":disabled,:hidden";
+     wform.validate().settings.ignore = ":disabled,:hidden";
     try {
         return wform.valid();
     } catch (ex) {
