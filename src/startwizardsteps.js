@@ -1,4 +1,4 @@
-var wform
+var wform = null;
 var step2Caption;
 var step2Content;
 var step5Content;
@@ -25,6 +25,8 @@ this.initWizard = function () {
 }
 
 function validator() {
+    if (wform)
+        wform.destroy();
     wform = $.validator("#wizardForm");
     wform.validate({
         errorPlacement: function errorPlacement(error, element) { element.before(error); },
@@ -63,9 +65,10 @@ $(document).ready(
 
         $("#IMAPTest").button();
         $("#SMTPTest").button();
-        validator();
+
 
         startwizardsteps.initWizard();
+        validator();
         //step 1
         $("#Startdesigner1").prop("checked", userSettings.clientOnly ? "checked" : "");
         $("#Startdesigner1").on("click", function () {
@@ -270,7 +273,7 @@ $(document).ready(
 )
 this.onStepChanging = function (event, currentIndex, newIndex) {
 
-    wform =  $.validator("#wizardForm");
+    //  wform =  $.validator("#wizardForm");
     // form.validate().settings.ignore = ":disabled,:hidden";
     //  return form.valid();
 
@@ -280,14 +283,14 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
     }
     this.fromGui();
     userSettings.save();
-     wform.validate().settings.ignore = ":disabled,:hidden";
+    wform.validate().settings.ignore = ":disabled,:hidden";
     try {
         return wform.valid();
     } catch (ex) {
         helper.log(ex);
         console.log(ex);
         return true;
-     }
+    }
 
 }
 this.onFinishing = function (event, currentIndex) {
