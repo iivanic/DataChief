@@ -25,8 +25,8 @@ this.initWizard = function () {
 }
 
 function validator() {
-    if (wform)
-        wform.destroy();
+ //   if (wform)
+ //       wform.destroy();
     wform = $.validator("#wizardForm");
     wform.validate({
         errorPlacement: function errorPlacement(error, element) { element.before(error); },
@@ -41,7 +41,8 @@ function validator() {
                 equalTo: "#step4textSettingsIMAPPassword"
             },
 
-        }
+        },
+        debug: true
     });
 }
 this.smtpAuthClick = function () {
@@ -51,12 +52,25 @@ this.smtpAuthClick = function () {
         $("#step5textSettingsSMTPUsername").prop("disabled", false);
         $("#step5textSettingsSMTPPassword").prop("disabled", false);
         $("#step5textSettingsSMTPPassword1").prop("disabled", false);
+        $("#step5textSettingsSMTPUsername").removeClass("disabled");
+        $("#step5textSettingsSMTPPassword").removeClass("disabled");
+        $("#step5textSettingsSMTPPassword1").removeClass("disabled");
     }
     else {
         userSettings.RequiresAuthentication = false;
         $("#step5textSettingsSMTPUsername").prop("disabled", true);
         $("#step5textSettingsSMTPPassword").prop("disabled", true);
         $("#step5textSettingsSMTPPassword1").prop("disabled", true);
+
+        $("#step5textSettingsSMTPPassword").addClass("disabled");
+        $("#step5textSettingsSMTPPassword1").addClass("disabled");
+        $("#step5textSettingsSMTPUsername").addClass("disabled");
+
+        $("#step5textSettingsSMTPUsername").removeClass("error");
+        $("#step5textSettingsSMTPPassword").removeClass("error");
+        $("#step5textSettingsSMTPPassword1").removeClass("error");
+
+        wform.valid();
     }
 
 }
@@ -98,7 +112,7 @@ $(document).ready(
                 /*      $("#startwizard").steps("destroy");
                       startwizardsteps.initWizard();*/
                 userSettings.clientOnly = true;
-                validator();
+                //validator();
             }
         });
 
@@ -107,7 +121,7 @@ $(document).ready(
             //reset tabs
             $("#startwizard li[role='tab'][aria-selected!='true']").prop("class", "disabled");
 
-            var _steps = $("#startwizard").steps("getStepsLength");
+           
             if ($("#Startdesigner2").is(":checked") && userSettings.clientOnly) {
                 $('#startwizard').steps('insert', 1, { title: step2Caption, content: step2Content });
                 //step 2
@@ -145,7 +159,7 @@ $(document).ready(
                 /*        $("#startwizard").steps("destroy");
                         startwizardsteps.initWizard();*/
                 userSettings.clientOnly = false;
-                validator();
+                //validator();
             }
         });
 
@@ -182,7 +196,7 @@ $(document).ready(
                 step5Content = $("section:contains('Set Up SMTP Account.')").html();
                 var _ar = $("section:contains('Set Up SMTP Account.')").prop("id").split('-');
                 $('#startwizard').steps('remove', parseInt(_ar[_ar.length - 1]));
-                validator();
+                //validator();
             }
         });
         $("#startDialogappMode2").prop("checked", !userSettings.useSingleAccount ? "checked" : "");
@@ -222,7 +236,7 @@ $(document).ready(
                 $("#step5textSettingsSMTPServer").val(userSettings.identitySetting.smtpServer);
                 $("#step5textSettingsSMTPServerPort").val(userSettings.identitySetting.smtpPort);
                 $("#step5textSettingsSMTPRequiresSSL").prop("checked", userSettings.identitySetting.smtpRequiresSSL ? "checked" : "")
-                validator();
+               // validator();
             }
         });
         $("#step5SettingsSMTPRequiresAuthentication").prop("checked", !userSettings.RequiresAuthentication ? "checked" : "");
@@ -283,7 +297,7 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
     }
     this.fromGui();
     userSettings.save();
-    wform.validate().settings.ignore = ":disabled,:hidden";
+   // wform.validate().settings.ignore = ":disabled,:hidden";
     try {
         return wform.valid();
     } catch (ex) {
@@ -294,7 +308,7 @@ this.onStepChanging = function (event, currentIndex, newIndex) {
 
 }
 this.onFinishing = function (event, currentIndex) {
-    wform.validate().settings.ignore = ":disabled";
+  //  wform.validate().settings.ignore = ":disabled";
     return wform.valid();
 }
 this.onFinished = function (event, currentIndex) {

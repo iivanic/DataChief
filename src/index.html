@@ -11,6 +11,7 @@
 
 
     <script>
+
         var imapTimer = null;
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
@@ -33,11 +34,11 @@
 
         var mermaid = require("mermaid");
 
-        window.onbeforeunload = function(e) {
+        window.onbeforeunload = function (e) {
             ipcRenderer.send("close-PDF-win");
         };
-        
-        $.validator =jQuery.validator = require("jquery-validation");
+
+        $.validator = jQuery.validator = require("jquery-validation");
 
 
     </script>
@@ -47,9 +48,9 @@
     <script src="jquery-taphold/taphold.js" type="text/javascript"></script>
     <script src="jquery.ui-contextmenu/jquery.ui-contextmenu.min.js" type="text/javascript"></script>
     <script src='jqPropertyGrid/jqPropertyGrid.js'></script>
-   
 
-  
+
+
     <script type="text/javascript" src="./jsgrid-1.5.3/jsgrid.min.js"></script>
 
     <script>
@@ -104,7 +105,8 @@
                             <strong>If publisher later changes Organization secret, user will be again prompted wheather she or he
                                 accepts digest(publisher).</strong> Before accepting, user should confirm with publisher
                             that change of Organization secret is really happening and that this is not case of malicious
-                            attack.</p>
+                            attack.
+                        </p>
                         <input id="startDialogCompanPassword" name="startDialogCompanPassword" type="password" class="fullwidth">
                         <p>Repeat organization secret.</p>
                         <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" type="password" class="fullwidth">
@@ -148,61 +150,62 @@
                         <h2>Set Up IMAP (Email) Account.</h2>
                         <label for="step4textSettingsIMAPUsername">IMAP Username: </label>
                         <br>
-                        <input type="email" id="step4textSettingsIMAPUsername" required class="required fullwidth" />
+                        <input type="email" id="step4textSettingsIMAPUsername" name="step4textSettingsIMAPUsername" required class="required fullwidth" />
                         <br>
                         <label for="step4textSettingsIMAPPassword">IMAP Password: </label>
                         <br>
-                        <input type="password" id="step4textSettingsIMAPPassword" required class="required fullwidth">
+                        <input type="password" id="step4textSettingsIMAPPassword" name="step4textSettingsIMAPPassword" required class="required fullwidth">
                         <br>
                         <label for="step4textSettingsIMAPPassword1">Repeat IMAP Password: </label>
                         <br>
-                        <input type="password" id="step4textSettingsIMAPPassword1" required class="required fullwidth">
+                        <input type="password" id="step4textSettingsIMAPPassword1" name="step4textSettingsIMAPPassword1" required class="required fullwidth">
                         <br>
                         <label for="step4textSettingsIMAPServer">IMAP Server: </label>
                         <br>
-                        <input type="text" id="step4textSettingsIMAPServer" required class="required fullwidth" />
+                        <input type="text" id="step4textSettingsIMAPServer" name="step4textSettingsIMAPServer" required class="required fullwidth" />
                         <br>
                         <label for="step4textSettingsIMAPServerPort">IMAP Server port: </label>
                         <br>
-                        <input type="number" min="0" max="65535" id="step4textSettingsIMAPServerPort" required class="required fullwidth">
+                        <input type="number" min="0" max="65535" id="step4textSettingsIMAPServerPort" name="step4textSettingsIMAPServerPort" required class="required fullwidth">
                         <br>
                         <label for="step4textSettingsIMAPRequiresSSL">IMAP Requires SSL: </label>
                         <br>
-                        <input type="checkbox" id="step4textSettingsIMAPRequiresSSL" required class="required">
-                        <button onclick="userSettings.imapTest();return false;" style="float:right;" id="IMAPTest">Test IMAP settings</button>
+                        <input type="checkbox" id="step4textSettingsIMAPRequiresSSL" name="step4textSettingsIMAPRequiresSSL" required class="required">
+                        <button onclick="userSettings.imapTest();return false;" style="float:right;"  name="IMAPTest" id="IMAPTest">Test IMAP settings</button>
                     </section>
                     <h3 id="step5Caption">Communication (SMTP)</h3>
                     <section id="step5">
                         <h2>Set Up SMTP Account.</h2>
 
                         <label for="step5SettingsSMTPRequiresAuthentication">Requires Authentication: </label>
-                      
-                        <input type="checkbox" id="step5SettingsSMTPRequiresAuthentication" onclick="startwizardsteps.smtpAuthClick();" required class="required" />
+
+                        <input type="checkbox" id="step5SettingsSMTPRequiresAuthentication" name="step5SettingsSMTPRequiresAuthentication" onclick="startwizardsteps.smtpAuthClick();" 
+                             />
                         <br>
                         <label for="step5textSettingsSMTPUsername">SMTP Username: </label>
                         <br>
-                        <input type="email" id="step5textSettingsSMTPUsername" required class="required fullwidth" />
+                        <input type="email" id="step5textSettingsSMTPUsername" name="step5textSettingsSMTPUsername" required class="required fullwidth" />
                         <br>
                         <label for="step5textSettingsSMTPPassword">SMTP Password: </label>
                         <br>
-                        <input type="password" id="step5textSettingsSMTPPassword" required class="required fullwidth">
+                        <input type="password" id="step5textSettingsSMTPPassword" name="step5textSettingsSMTPPassword" required class="required fullwidth">
                         <br>
                         <label for="step5textSettingsSMTPPassword1">Repeat SMTP Password: </label>
                         <br>
-                        <input type="password" id="step5textSettingsSMTPPassword1" required class="required fullwidth">
+                        <input type="password" id="step5textSettingsSMTPPassword1" name="step5textSettingsSMTPPassword1" required class="required fullwidth">
                         <br>
                         <label for="step5textSettingsSMTPServer">SMTP Server: </label>
                         <br>
-                        <input type="text" id="step5textSettingsSMTPServer" required class="required fullwidth" />
+                        <input type="text" id="step5textSettingsSMTPServer" name="step5textSettingsSMTPServer" required class="required fullwidth" />
                         <br>
                         <label for="step5textSettingsSMTPServerPort">SMTP Server port: </label>
                         <br>
-                        <input type="number" min="0" max="65535" id="step5textSettingsSMTPServerPort" required class="required fullwidth">
+                        <input type="number" min="0" max="65535" id="step5textSettingsSMTPServerPort" name="step5textSettingsSMTPServerPort" required class="required fullwidth">
                         <br>
                         <label for="step5textSettingsSMTPRequiresSSL">SMTP Requires SSL: </label>
-                        
-                        <input type="checkbox" id="step5textSettingsSMTPRequiresSSL" required class="required">
-                        <button onclick="userSettings.smtpTest();return false;" style="float:right;" id="SMTPTest">Test SMTP settings</button>
+
+                        <input type="checkbox" id="step5textSettingsSMTPRequiresSSL" name="step5textSettingsSMTPRequiresSSL" required class="required">
+                        <button onclick="userSettings.smtpTest();return false;" style="float:right;" name="SMTPTest" id="SMTPTest">Test SMTP settings</button>
                     </section>
                     <h3 id="step6Caption">Case Study</h3>
                     <section id="step6">
@@ -330,9 +333,12 @@
                 <fieldset class="ui-helper-reset">
                     <div>
                         <input id="exportRowStyle" type="radio" name="exportStyle" style="cursor:pointer;" value="0" checked />
-                        <label style="cursor:pointer;" for="exportRowStyle"><img src="../icons/export-rows.png" style="padding-right:20px;cursor:pointer;">Form data in multiple rows. Easier to manage with SQL language.</label><br/>
+                        <label style="cursor:pointer;" for="exportRowStyle">
+                            <img src="../icons/export-rows.png" style="padding-right:20px;cursor:pointer;">Form data in multiple rows. Easier to manage with SQL language.</label>
+                        <br/>
                         <input id="exportColumnStyle" type="radio" name="exportStyle" style="cursor:pointer;" value="1" />
-                        <label style="cursor:pointer;" for="exportColumnStyle"><img src="../icons/export-columns.png" style="padding-right:20px;cursor:pointer;">One row for Form, fieled names are in column headers. Easier to read by human.</label>
+                        <label style="cursor:pointer;" for="exportColumnStyle">
+                            <img src="../icons/export-columns.png" style="padding-right:20px;cursor:pointer;">One row for Form, fieled names are in column headers. Easier to read by human.</label>
                     </div>
                     <br />
                 </fieldset>
@@ -611,19 +617,18 @@
                                     </option>
                                 </select>
                                 <style>
-                                #svgGraph g foreignObject 
-                                {
-                                    color:black;
-                                }
-                                #svgGraph1 g foreignObject 
-                                {
-                                    color:black;
-                                }
+                                    #svgGraph g foreignObject {
+                                        color: black;
+                                    }
+
+                                    #svgGraph1 g foreignObject {
+                                        color: black;
+                                    }
                                 </style>
                                 <div id="graphDiv">
-                                
-                                 </div>
-                                
+
+                                </div>
+
                             </div>
                             <div id="collectorRecievedBroadcastsTabs-2" class="fixmyheight">
                                 <button id="buttonCollectorExportBroadcastFormData">Export data</button>
