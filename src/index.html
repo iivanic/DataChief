@@ -97,7 +97,7 @@
                         <br>
                         <label for="startDialogCompanPassword">Organization secret (recommended)</label>
                         <p>This ensures that someone else can not claim to be Your organizations Publisher.</p>
-                        <p>If set, this is used for encryprion of form templates when publishing. It ensures identity of publisher.
+                        <p>
                             DataCheif sends digest of this secret within every package. First time user recieve Package
                             <strong>she or he can approve or disapprove publisher by accepting/refusing this digest.</strong>
                         </p>
@@ -111,6 +111,7 @@
                         <p>Repeat organization secret.</p>
                         <input id="startDialogCompanPassword1" name="startDialogCompanPassword1" type="password" class="fullwidth">
                     </section>
+                    <div style="display:none"> <!-- disable multiple accounts option for now -->
                     <h3 id="step2Caption">DataChief Mode</h3>
                     <section id="step2">
                         <h2>Operating Mode</h2>
@@ -130,6 +131,7 @@
                             <strong>Per user account</strong> (advanced and more secure).</label>
 
                     </section>
+                </div>
                     <h3 id="step3Caption">Your Name and Email</h3>
                     <section id="step3">
                         <h2>Enter Your information.</h2>
@@ -139,10 +141,10 @@
                         <label for="startDialogemail">Email *</label>
                         <input id="startDialogemail" name="startDialogemail" type="email" required class="required email fullwidth">
                         <br>
-                        <label for="startDialogUserSecretl1">Your Secret ( *required in
-                            <strong>Single user account</strong> mode )</label>
+                        <label for="startDialogUserSecretl1">Shared Secret</label>
+                        <p>Secret is shared among every member of the organization to encrypt and decrypt communication packages.</p>
                         <input id="startDialogUserSecretl1" name="startDialogUserSecretl1" required type="password" class="required fullwidth">
-                        <label for="startDialogUserSecretl2">Repeat Your Secret</label>
+                        <label for="startDialogUserSecretl2">Repeat Secret</label>
                         <input id="startDialogUserSecretl2" name="startDialogUserSecretl2" required type="password" class="required fullwidth">
                     </section>
                     <h3 id="step4Caption">Communication (IMAP)</h3>

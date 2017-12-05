@@ -80,6 +80,18 @@ $(document).ready(
         $("#IMAPTest").button();
         $("#SMTPTest").button();
 
+        if( remote.getGlobal('sharedObject').argv.indexOf("--clientonly")>-1)
+        {
+            //forcing client only
+           
+            $("#step0Caption,#step0").wrap( "<div style='display:none'></div>" );
+            $("#step1Caption,#step1").wrap( "<div style='display:none'></div>" );
+            $("#step6Caption,#step6").wrap( "<div style='display:none'></div>" );
+         
+            
+        }
+        
+      
 
         startwizardsteps.initWizard();
         validator();
