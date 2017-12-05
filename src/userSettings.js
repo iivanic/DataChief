@@ -7,8 +7,8 @@ this.userList = new Array();
 Object.defineProperty(this, "clientOnly", {
     get: function () {
         var arguments = remote.getGlobal('sharedObject').argv;
-        
-        return (this._clientOnly) || (arguments.indexOf("--clientonly")>-1) ;
+
+        return (this._clientOnly) || (arguments.indexOf("--clientonly") > -1);
     },
     set: function (val) {
         this._clientOnly = val;
@@ -220,6 +220,12 @@ this.reloadIndentityChooser = function () {
         }
     }
     );
+    $("#buttonRunScripts").selectmenu({
+        change: function () {
+            buttonRunScripts_change();
+        }
+    }
+    );
     $("#selectActiveProfile").selectmenu("refresh");
     this.manageDeleteProfile();
     helper.log("Running DataChief as " + this.email);
@@ -230,13 +236,24 @@ this.reloadIndentityChooser = function () {
     }
     else
         document.title = pjson.name + " v" + pjson.version + ".";
-        
+
     filler.reload();
     publish.reload();
     index.reloadEditor();
     dataCollection.refreshDB();
     dataCollection.refreshSentDB();
     dataCollection.refreshBroadcastDB();
+}
+function buttonRunScripts_change() {
+    var val = $("#buttonRunScripts").val()
+    if (val.length) {
+        helper.confirm("Run " + val + " script? This may destroy all of Your collected data.", buttonRunScriptsGo, val)
+    }
+}
+function buttonRunScriptsGo(val) {
+    
+    require("electron").ipcRenderer.send("run-test-script", '--' + val );
+   
 }
 
 function selectActiveProfile_change() {
@@ -369,26 +386,25 @@ this.singleAccountToggle = function () {
 
 
 }
-this.smtpTest = function()
-{
- 
-        
-            $("#SMTPTestDialogLog").html("");
-            $("#SMTPTestDialog").dialog({
-                autoOpen: true,
-                modal: true,
-                width: "970",
-                height: "410",
-        
-                buttons: {
-                    "Close": function () {
-                        $("#SMTPTestDialog").dialog("close");
-                    }
-                }
-            });
-            startwizardsteps.fromGui();
-       //     window.setTimeout(imap.go, 500);
-     
+this.smtpTest = function () {
+
+
+    $("#SMTPTestDialogLog").html("");
+    $("#SMTPTestDialog").dialog({
+        autoOpen: true,
+        modal: true,
+        width: "970",
+        height: "410",
+
+        buttons: {
+            "Close": function () {
+                $("#SMTPTestDialog").dialog("close");
+            }
+        }
+    });
+    startwizardsteps.fromGui();
+    //     window.setTimeout(imap.go, 500);
+
 }
 this.imapTest = function () {
 

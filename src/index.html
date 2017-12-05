@@ -864,7 +864,17 @@
                     <div class="col-sm-12">
                         <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
                         <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
-                        <button id="startStartWizerd" onclick="index.startWizard();">Start Wizard</button>
+                        <button id="startStartWizerd" onclick="index.startWizard();">Start Wizard</button><br><br>
+                      
+                        <select id="buttonRunScripts">
+                            <option value=""><-- Restart&Run: (choose script) --></option>
+                            <option value="runalltest">Run simulation of all scanarios from Barrique Works LLC Case Study</option>
+                            <option value="runtestcarlog">Run simulation of Car Usage Log from Barrique Works LLC Case Study</option>
+                            <option value="runtestabsence">Run Absence Form scanario from Barrique Works LLC Case Study</option>
+                            <option value="runtestqm">Run Quality Management scanario from Barrique Works LLC Case Study</option>
+                            <option value="runresetdb">Delete all data on published and recieved</option>
+                            <option value="runresetall">As above plus forget ALL configuration data</option>
+                        </select>
                     </div>
 
                 </div>

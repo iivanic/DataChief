@@ -32,6 +32,11 @@ ipc.on("quit", function (even, content) {
 
     app.quit();
 });
+ipc.on("run-test-script", function (even, content)
+{
+    app.relaunch({args:[ content ]});
+    app.exit(0);
+});
 ipc.on("exportCSV", function (even, content) {
     dialog.showSaveDialog(
         {
