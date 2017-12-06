@@ -256,6 +256,8 @@ function buttonRunScriptsGo(val) {
     if(imap.imapbusy==true)
     {
         helper.alert("Communication is active. Try again when it's done.")
+        $('#buttonRunScripts').val("");
+        $('#buttonRunScripts').selectmenu("refresh");
         return;
 
     }
@@ -263,6 +265,7 @@ function buttonRunScriptsGo(val) {
         window.clearTimeout(imapTimer);
   
      helper.checkCommandLineAgain(['--' + val]);
+
 }
 
 function selectActiveProfile_change() {
