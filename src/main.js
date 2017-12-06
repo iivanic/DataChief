@@ -25,17 +25,31 @@ ipc.on("printPDF", function (even, content) {
 ipc.on("close-PDF-win", function (even, content) {
     try {
         printPDFWorkerWindow.close();
-    } catch(ex)
-    { }
+    } catch (ex) { }
 });
 ipc.on("quit", function (even, content) {
 
     app.quit();
 });
-ipc.on("run-test-script", function (even, content)
-{
-    app.relaunch({args:[ content ]});
-    app.exit(0);
+ipc.on("run-test-script-done", function (even, content) {
+    var allowRestart = true;
+    //on restart remove any test scripts
+    var argv = process.argv;
+    var index = argv.indexOf("--runalltests");
+    if (index > -1) allowRestart = false;// array.splice(index, 1);
+    index = argv.indexOf("--runtestcarlog");
+    if (index > -1) allowRestart = false;// array.splice(index, 1);
+    index = argv.indexOf("--runtestabsence");
+    if (index > -1) allowRestart = false;//array.splice(index, 1);
+    index = argv.indexOf("--runresetdb");
+    if (index > -1) allowRestart = false;// array.splice(index, 1);
+    index = argv.indexOf("--runtestqm");
+    if (index > -1) allowRestart = false;//array.splice(index, 1);
+    index = argv.indexOf("--runresetall");
+    if (index > -1) allowRestart = false;//array.splice(index, 1);
+    if (allowRestart)
+        app.relaunch() //{ args: argv });
+    app.quit();
 });
 ipc.on("exportCSV", function (even, content) {
     dialog.showSaveDialog(
@@ -155,8 +169,10 @@ function ready() {
 
     global.sharedObject = {
         userData: app.getPath("userData"),
-        argv: process.argv
+        argv: process.argv,
+        defaultApp: process.defaultApp
     };
+
 
 
     mainWindow.webContents.on('did-finish-load', () => {
@@ -174,7 +190,7 @@ function ready() {
         mainWindow = null;
         printPDFWorkerWindow = null;
     });
-    if (process.argv.indexOf("--opendevtools")>-1)
+    if (process.argv.indexOf("--opendevtools") > -1)
         mainWindow.openDevTools();
 
     // we need for printing PDF

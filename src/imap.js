@@ -11,20 +11,21 @@ function openInbox(cb) {
     imap_.openBox('INBOX', true, cb);
 }
 
-this.callback=null;
+this.callback = null;
 this.test = null;
-this.callback1=null;
+this.callback1 = null;
 this.test1 = null;
 
-var imapbusy = false;
+this.imapbusy = false;
+
 this.go = Go;
 function Go(automatic) {
-    if (imapbusy) {
+    if (imap.imapbusy) {
         if (!automatic)
             helper.log("Send/recieve job already running. Please wait for finish.");
         return;
     }
-    imapbusy = true;
+    imap.imapbusy = true;
     error = null;
     recievedCnt = 0;
     progressCnt = 0;
@@ -77,7 +78,7 @@ function Go(automatic) {
         }
         imap_.end();
         helper.alert("IMAP: " + err);
-        imapbusy = false;
+        imap.imapbusy = false;
         $("#progressbar").progressbar({
             value: 100
         });
@@ -103,14 +104,15 @@ function Go(automatic) {
 
         }
 
-        imapbusy = false;
+        imap.imapbusy = false;
         if (!$("#IMAPTestDialog").is(":visible") && !helper.isAnyTest())
-            window.setTimeout("imap.go(true)", 30000);
+            if (!imapTimer)
+                imapTimer = window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
-        if(imap.callback1)
-        imap.callback1(error, imap.test1);
+        if (imap.callback1)
+            imap.callback1(error, imap.test1);
 
-        if(imap.callback)
+        if (imap.callback)
             imap.callback(error, imap.test);
     });
 
@@ -127,7 +129,7 @@ function resetProgressBar() {
     });
 }
 function createDCFolder() {
-  //  helper.log("Checking for <strong>Datachief</strong> folder...")
+    //  helper.log("Checking for <strong>Datachief</strong> folder...")
     imap_.getBoxes("", getBoxesCallBack)
 
 }
@@ -135,7 +137,7 @@ function getBoxesCallBack(err, boxes) {
     var bFound = false
     for (var i in boxes) {
         if (i == "Datachief") {
-           // helper.log("Found <strong>" + i + "</strong> folder.")
+            // helper.log("Found <strong>" + i + "</strong> folder.")
             bFound = true;
             break;
         }
@@ -179,15 +181,15 @@ function uploadMessages(err, box) {
         return;
     }
     else {
-     //   helper.log("Opened <strong>datachief</strong> folder.")
+        //   helper.log("Opened <strong>datachief</strong> folder.")
         var files = helper.getFilesInDir(helper.getOutboxPath());
         progressMax = files.length;
         var c = 0;
         for (var i in files) {
-            var to = files[i].substring(6).replace('[BROADCAST]','');
-            if(to.length==0)
+            var to = files[i].substring(6).replace('[BROADCAST]', '');
+            if (to.length == 0)
                 helper.log("ERROR!");
-            helper.log("Sending package to " + (files[i].substring(6).indexOf("[BROADCAST]")>-1?to +" (BROADCAST)":to));
+            helper.log("Sending package to " + (files[i].substring(6).indexOf("[BROADCAST]") > -1 ? to + " (BROADCAST)" : to));
             var filename = helper.join(helper.getOutboxPath(), files[i]);
             var body = helper.loadFile(filename);
             var message =
@@ -215,20 +217,20 @@ function appendDone(err, o) {
         imap_.end();
         return;
     }
- //   else
- //       helper.log("Append done (id=" + o + ").")
+    //   else
+    //       helper.log("Append done (id=" + o + ").")
     var el = quedPcks.shift();
     sent.movePackageToSent(el);
     helper.deleteFile(el);
- /*   el.next().next().remove();
-    el.next().remove();
-    el.remove();*/
+    /*   el.next().next().remove();
+       el.next().remove();
+       el.remove();*/
     $("#progressbar").progressbar({
         value: Math.abs(10 + 80 * progressCnt / progressMax)
     });
- 
+
     progressCnt++;
-   // helper.log(progressCnt + ", " + progressMax)
+    // helper.log(progressCnt + ", " + progressMax)
     if (progressCnt == progressMax)
         readMessages1();
 
@@ -237,7 +239,7 @@ function readMessages1() {
 
     // 
     // 4. Check incoming messages in my folder and download them
-  //  helper.log("Search for my messages...");
+    //  helper.log("Search for my messages...");
     imap_.search([['HEADER', 'TO', userSettings.identitySetting.email]], function (err, results) {
         if (err) {
             if (error)
@@ -257,10 +259,10 @@ function readMessages1() {
         helper.log("Found " + results.length + ".");
         var f = imap_.fetch(results, { bodies: '' });
         f.on('message', function (msg, seqno) {
-          //  helper.log('Message #' + seqno);
+            //  helper.log('Message #' + seqno);
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
-               // console.log(prefix + 'Body');
+                // console.log(prefix + 'Body');
                 var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt');
                 try {
                     stream.pipe(fs.createWriteStream(path));
@@ -282,7 +284,7 @@ function readMessages1() {
                 //console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
             });
             msg.once('end', function () {
-               // helper.log(prefix + 'Finished recieving message ' + seqno + '.');
+                // helper.log(prefix + 'Finished recieving message ' + seqno + '.');
 
             });
         });

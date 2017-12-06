@@ -251,9 +251,18 @@ function buttonRunScripts_change() {
     }
 }
 function buttonRunScriptsGo(val) {
-    
-    require("electron").ipcRenderer.send("run-test-script", '--' + val );
-   
+
+    //require("electron").ipcRenderer.send("run-test-script", '--' + val );
+    if(imap.imapbusy==true)
+    {
+        helper.alert("Communication is active. Try again when it's done.")
+        return;
+
+    }
+    if (imapTimer)
+        window.clearTimeout(imapTimer);
+  
+     helper.checkCommandLineAgain(['--' + val]);
 }
 
 function selectActiveProfile_change() {

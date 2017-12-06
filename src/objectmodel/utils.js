@@ -19,9 +19,17 @@ var testObjects = new Array();
 var prepareCallsCount = 0;
 var firsttest = null;
 var oldtest = null;
-this.checkCommandLine = function () {
+this.checkCommandLineAgain = function (param) {
+    testsParsed = false;
+    testObjects = new Array();
+    prepareCallsCount = 0;
+    firsttest = null;
+    oldtest = null;
+    this.checkCommandLine(param);
+}
+this.checkCommandLine = function (param) {
 
-    if (this.isAnyTest()) {
+    if (this.isAnyTest(param)) {
         this.log("Found " + (tests.length + 1) + "test(s).");
 
 
@@ -96,14 +104,23 @@ this.testsDone = function () {
     helper.log("TEST(S) finished.");
     helper.log("Sending QUIT signal.");
     var ipc = require('electron').ipcRenderer;
-    ipc.send("quit");
+    ipc.send("run-test-script-done"  );
+  //  ipc.send("quit");
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
-this.isAnyTest = function () {
+var lastTestScriptFromApp = null;
+this.isAnyTest = function (param) {
     if (!testsParsed) {
-        var remote = require('electron').remote;
-        var arguments = remote.getGlobal('sharedObject').argv;
+        var arguments = null;
+        if (param) {
+            arguments = param;
+            lastTestScriptFromApp=param;
+        }
+        else {
+            var remote = require('electron').remote;
+            arguments = remote.getGlobal('sharedObject').argv;
+        }
 
         for (var i in arguments) {
             switch (arguments[i].toLowerCase()) {
