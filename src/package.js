@@ -15,7 +15,13 @@ this.loadPackage = function (file) {
     file = helper.join(ipath, file);
     var jsonstring = helper.loadFile(file);
     jsonstring = jsonstring.split('START')[1];
-    var loadedObj = JSON.parse(helper.decrypt(jsonstring, userSettings.identitySetting.userSecret));
+    var loadedObj = null;
+    try {
+        loadedObj = JSON.parse(helper.decrypt(jsonstring, userSettings.identitySetting.userSecret));
+    }
+    catch (ex) {
+        helper.alert("There was error decrypting the package " + file + ". This may be an attack. Immediately notify your Security officer.");
+    }
     var pp;
     if (!loadedObj.publisher) {
         loadedObj.publisher = "Unknown publisher";
@@ -35,6 +41,15 @@ this.loadPackage = function (file) {
             helper.checkFolder(pp);
         }
         catch (e) { }
+        //check for digest change...
+        var dfile = helper.join(pp, "publishersDigest");
+        if (helper.fileExists(dfile)) {
+            var oldDigest = helper.loadFile(dfile);
+            if (oldDigest != loadedObj.publishersDigest)
+                helper.alert("Pubishers ( " + loadedObj.publisher + " ) digest changed from " + oldDigest + " to " + loadedObj.publishersDigest + ". " +
+                    "Please verify that " + loadedObj.cameFrom + " changed organization secret. If not, this may be an attack. Immediately notify your Security officer and change Shared secret.");
+        }
+        helper.saveTextFile(dfile, loadedObj.publishersDigest);
     }
     else if (loadedObj.workflowpackage) {
         //forms from this package go to recieved or database folder
@@ -119,7 +134,7 @@ this.loadPackage = function (file) {
         helper.log("----Form saved as " + fileName);
 
     }
-    if(loadedObj.broadcastpackage)
+    if (loadedObj.broadcastpackage)
         dataCollection.refreshBroadcastDB();
     //we're done, delete package in inbox
     helper.deleteFile(file);
