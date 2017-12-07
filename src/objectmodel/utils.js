@@ -415,7 +415,7 @@ this.alert = function (message, callback, html, width_, height_) {
         height: height_,
         width: width_,
         modal: true,
-       
+        zIndex: 10001,
         buttons: {
             Ok: function () {
                 $(this).dialog("close");
@@ -424,7 +424,7 @@ this.alert = function (message, callback, html, width_, height_) {
             }
         }
     });
-    $( "#dialog-alert" ).parent().css('z-Index',100001);
+    //$( "#dialog-alert" ).parent().css('z-Index',100001);
 }
 
 this.confirm = function (message, callback, param) {
