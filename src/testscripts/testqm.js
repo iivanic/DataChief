@@ -204,11 +204,11 @@ this.sendRecieveDone = function (error, self) {
 }
 this.openForm = function () {
     //open" Non confomity" form in "Published to me"
-    $("span[onclick^='filler.addtab(']span:contains('Non confomity')").click();
+    $("span[onclick^='filler.addtab(']span:contains('Non conformity')").click();
 
 }
 this.openFormWF1 = function () {
-    $($("span[onclick^='filler.checktab(']span:contains('Non confomity')")[0]).click();
+    $($("span[onclick^='filler.checktab(']span:contains('Non conformity')")[0]).click();
 }
 this.fill1 = function (self, description) {
     $($("textarea[id^='dcform")[0]).text(description);
