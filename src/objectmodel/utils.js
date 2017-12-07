@@ -57,7 +57,7 @@ this.checkCommandLine = function (param) {
         helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
         if (caseStudyAndEditorNeeded) {
             if (!barrique.isInstalled()) {
-                var msg="BarriqueWorks case study users not installed. Install them and run test again.";
+                var msg = "BarriqueWorks case study users not installed. Install them and run test again.";
                 helper.log(msg);
                 helper.alert(msg);
                 return;
@@ -67,7 +67,7 @@ this.checkCommandLine = function (param) {
             }
             helper.log("Checking for design mode.");
             if (userSettings.clientOnly) {
-                var msg="No design mode detected. Please install DataChief in Design mode.";
+                var msg = "No design mode detected. Please install DataChief in Design mode.";
                 helper.log(msg);
                 helper.alert(msg);
                 return;
@@ -109,8 +109,8 @@ this.testsDone = function () {
     helper.log("TEST(S) finished.");
     helper.log("Sending QUIT signal.");
     var ipc = require('electron').ipcRenderer;
-    ipc.send("run-test-script-done"  );
-  //  ipc.send("quit");
+    ipc.send("run-test-script-done");
+    //  ipc.send("quit");
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
@@ -120,7 +120,7 @@ this.isAnyTest = function (param) {
         var arguments = null;
         if (param) {
             arguments = param;
-            lastTestScriptFromApp=param;
+            lastTestScriptFromApp = param;
         }
         else {
             var remote = require('electron').remote;
@@ -600,6 +600,8 @@ this.enableEditor = function () {
 
         $("#settingsOrg").show();
         $("#profileFieldDesignerDiv").show();
+        $("#settingsTestScriptsRow").show();
+        $("#settingsApp").show();
     }
 }
 this.disableEditor = function () {
@@ -620,6 +622,8 @@ this.disableEditor = function () {
 
         $("#settingsOrg").hide();
         $("#profileFieldDesignerDiv").hide();
+        $("#settingsTestScriptsRow").hide();
+        $("#settingsApp").hide();
     }
 }
 this.publishersDigest = function () {
