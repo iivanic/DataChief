@@ -177,7 +177,7 @@ this.refreshFolders = function () {
 
         forms = helper.getFilesInDir(helper.join(helper.getPublishersPath(), publishers[i]))
         //remove digest file...
-        forms = forms.splice(forms.indexOf("publishersDigest"),1);
+        forms.splice(forms.indexOf("publishersDigest"),1);
 
         var fhtml = "";
 
