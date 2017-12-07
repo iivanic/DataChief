@@ -48,8 +48,7 @@
     },
     "linux": {
       "target": [
-        "deb",
-        "rpm"
+        "deb"
       ],
       "icon": "icons/",
       "category": "Office",
