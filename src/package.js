@@ -21,6 +21,7 @@ this.loadPackage = function (file) {
     }
     catch (ex) {
         helper.alert("There was error decrypting the package " + file + ". This may be an attack. Immediately notify your Security officer.");
+        return;
     }
     var pp;
     if (!loadedObj.publisher) {
