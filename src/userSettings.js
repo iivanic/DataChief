@@ -91,7 +91,7 @@ this.checkCaseStudy = function () {
     if (!barrique.isInstalled()) {
         $("#addRemoveCaseStudyProfiles").button({
             text: true,
-            label: "Add Barrique<br />Works LLC<br />Case study<br />Profiles"
+            label: "Add Barrique Works LLC Case study Profiles"
         }
         ).click(
             function () {
@@ -114,7 +114,7 @@ this.checkCaseStudy = function () {
     else {
         $("#addRemoveCaseStudyProfiles").button({
             text: true,
-            label: "Remove<br />Case study<br />Profiles"
+            label: "Remove Case study Profiles"
         }).click(
             function () {
                 helper.confirm("Remove Barrique Works LLC Case study profiles?", barrique.uninstall);
@@ -223,7 +223,8 @@ this.reloadIndentityChooser = function () {
     $("#buttonRunScripts").selectmenu({
         change: function () {
             buttonRunScripts_change();
-        }
+        },
+        width: "100%"
     }
     );
     $("#selectActiveProfile").selectmenu("refresh");

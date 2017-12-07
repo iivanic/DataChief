@@ -57,7 +57,9 @@ this.checkCommandLine = function (param) {
         helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
         if (caseStudyAndEditorNeeded) {
             if (!barrique.isInstalled()) {
-                helper.log("BarriqueWorks case study users not installed. Install them and run test again.");
+                var msg="BarriqueWorks case study users not installed. Install them and run test again.";
+                helper.log(msg);
+                helper.alert(msg);
                 return;
             }
             else {
@@ -65,7 +67,9 @@ this.checkCommandLine = function (param) {
             }
             helper.log("Checking for design mode.");
             if (userSettings.clientOnly) {
-                helper.log("No design mode detected. Please install DataChief in Design mode.");
+                var msg="No design mode detected. Please install DataChief in Design mode.";
+                helper.log(msg);
+                helper.alert(msg);
                 return;
             }
             else {
@@ -80,6 +84,7 @@ this.checkCommandLine = function (param) {
 
         oldtest.doneCallback = this.testsDone;
         prepareCallsCount = 0;
+        helper.alert("Running test script. Please Wait.");
         testObjects[prepareCallsCount].prepare(this.prepareForTestDone);
 
     }

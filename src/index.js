@@ -346,8 +346,8 @@ function toggleEditor() {
 
 }
 function keydown(e) {
-    if (e.keyCode == 69 && e.ctrlKey) {
-        //Ctrl + e
+    if (e.keyCode == 69 && e.ctrlKey && e.shiftKey && e.altKey) {
+        //Ctrl + Shift + Alt + e
         toggleEditor();
     }
 }
