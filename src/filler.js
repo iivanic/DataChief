@@ -176,9 +176,13 @@ this.refreshFolders = function () {
         html += " <li><a style='width:100%' href='#'>" + publishers[i];
 
         forms = helper.getFilesInDir(helper.join(helper.getPublishersPath(), publishers[i]))
+        //remove dgest file...
+        forms = forms.splice(forms.indexOf("publishersDigest"),1);
+
         var fhtml = "";
 
         for (var j in forms) {
+
             var path = helper.join(helper.getPublishersPath(), publishers[i]);
             //   alert(path);
             //   path = path.replace(/\\/g, "\\\\");
