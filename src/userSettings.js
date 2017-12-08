@@ -246,7 +246,9 @@ this.reloadIndentityChooser = function () {
     dataCollection.refreshBroadcastDB();
 }
 function buttonRunScripts_change() {
-    var val = $("#buttonRunScripts").val()
+    var val = $("#buttonRunScripts").val();
+    // set dropdown to choose
+    $('#buttonRunScripts').val("");
     if (val.length) {
         helper.confirm("Run " + val + " script? This may destroy all of Your collected data.", buttonRunScriptsGo, val)
     }
@@ -257,7 +259,6 @@ function buttonRunScriptsGo(val) {
     if(imap.imapbusy==true)
     {
         helper.alert("Communication is active. Try again when it's done.")
-        $('#buttonRunScripts').val("");
         $('#buttonRunScripts').selectmenu("refresh");
         return;
 
