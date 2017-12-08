@@ -249,6 +249,7 @@ function buttonRunScripts_change() {
     var val = $("#buttonRunScripts").val();
     // set dropdown to choose
     $('#buttonRunScripts').val("");
+    $( "#buttonRunScripts" ).selectmenu("refresh");
     if (val.length) {
         helper.confirm("Run " + val + " script? This may destroy all of Your collected data.", buttonRunScriptsGo, val)
     }
