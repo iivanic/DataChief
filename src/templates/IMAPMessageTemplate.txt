@@ -1,0 +1,28 @@
+MIME-Version: 1.0
+Subject: [DCMESAGETITLE]
+To: [DCMESAGEBODYTO]
+Content-Type: multipart/mixed; boundary="[DCMESSAGEATTACHMENTBOUNDARY]"
+
+--[DCMESSAGEATTACHMENTBOUNDARY]
+Content-Type: multipart/alternative; boundary="[DCMESSAGEATTHTMLBOUNDARY]"
+
+--[DCMESSAGEATTHTMLBOUNDARY]
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+[DCMESAGEBODYTEXT]
+
+--[DCMESSAGEATTHTMLBOUNDARY]
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+[DCMESAGEBODYHTML]
+
+--[DCMESSAGEATTHTMLBOUNDARY]--
+--[DCMESSAGEATTACHMENTBOUNDARY]
+Content-Type: application/octet-stream; name="package.dcpackage"
+Content-Disposition: attachment; filename="package.dcpackage"
+Content-Transfer-Encoding: base64
+
+[DCMESSAGEATTACHMENTENCODEDLINE76]
+--[DCMESSAGEATTACHMENTBOUNDARY]--
