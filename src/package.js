@@ -61,6 +61,7 @@ this.loadPackage = function (file) {
         //check for digest change...
         var dfile = helper.join(pp, "publishersDigest");
         if (helper.fileExists(dfile)) {
+            helper.sleep(250);
             var oldDigest = helper.loadFile(dfile);
             if (oldDigest != loadedObj.publishersDigest)
                 helper.alert("Pubishers ( " + loadedObj.publisher + " ) digest changed from " + oldDigest + " to " + loadedObj.publishersDigest + ". " +

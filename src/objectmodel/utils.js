@@ -28,6 +28,15 @@ this.checkCommandLineAgain = function (param) {
     oldtest = null;
     this.checkCommandLine(param);
 }
+this.sleep = function(milisecondsms)
+{
+    {
+        var currentTime = new Date().getTime();
+     
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
+     }
+}
 this.checkCommandLine = function (param) {
 
     if (this.isAnyTest(param)) {

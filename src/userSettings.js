@@ -347,6 +347,7 @@ function selectActiveProfile_change() {
         // refresh profiles
         userSettings.reloadIndentityChooser();
     }
+    $("#selectActiveProfile").selectmenu("refresh");
 
 }
 this.closeAllTabs = function () {

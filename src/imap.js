@@ -18,7 +18,7 @@ this.test1 = null;
 
 this.imapbusy = false;
 
-this.imapMessageTemplate=helper.loadTextFile("../templates/IMAPMessageTemplate.txt");;
+this.imapMessageTemplate = helper.loadTextFile("../templates/IMAPMessageTemplate.txt");;
 
 this.go = Go;
 function Go(automatic) {
@@ -46,7 +46,7 @@ function Go(automatic) {
         host: userSettings.identitySetting.imapServer,
         port: userSettings.identitySetting.imapPort,
         tls: userSettings.identitySetting.imapRequiresSSL//,
- //       debug: console.log
+        //       debug: console.log
     });
 
     imap_.once('ready', function () {
@@ -107,16 +107,18 @@ function Go(automatic) {
 
         }
 
-        imap.imapbusy = false;
+        if (imap.callback1)
+            window.setTimeout(imap.continue1, 500);
+
+        if (imap.callback)
+            window.setTimeout(imap.continue, 500);
+
         if (!$("#IMAPTestDialog").is(":visible") && !helper.isAnyTest())
             if (!imapTimer)
                 imapTimer = window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
-        if (imap.callback1)
-            imap.callback1(error, imap.test1);
-
-        if (imap.callback)
-            imap.callback(error, imap.test);
+        imap.imapbusy = false;
+        
     });
 
 
@@ -126,6 +128,15 @@ function Go(automatic) {
     });
     imap_.connect();
 }
+this.continue = function(error)
+{
+    imap.callback(error, imap.test);
+}
+this.continue1 = function(error)
+{
+    imap.callback1( error , imap.test1);
+}
+
 function resetProgressBar() {
     $("#progressbar").progressbar({
         value: 0
@@ -206,7 +217,7 @@ function uploadMessages(err, box) {
             message = message.replace(/\[DCMESAGEBODYTEXT\]/gi, txt);
             message = message.replace(/\[DCMESAGEBODYHTML\]/gi, "<p>" + txt + "</p>");
             message = message.replace(/\[DCMESSAGEATTACHMENTENCODEDLINE76\]/gi, body);
-            
+
             quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
             var r = imap_.append(message, "", appendDone)
@@ -249,7 +260,13 @@ function readMessages1() {
     // 
     // 4. Check incoming messages in my folder and download them
     //  helper.log("Search for my messages...");
-    imap_.search([['HEADER', 'SUBJECT', userSettings.identitySetting.email]], function (err, results) {
+    var s1="TO";
+    //live.com for some reason asumes that all messages are for you (to:)
+    if(userSettings.identitySetting.imapServer.toLowerCase().trim() == "imap-mail.outlook.com")
+    {
+        s1='SUBJECT';
+    }
+    imap_.search([['HEADER', s1, userSettings.identitySetting.email]], function (err, results) {
         if (err) {
             if (error)
                 error += err;
