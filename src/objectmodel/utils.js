@@ -28,14 +28,13 @@ this.checkCommandLineAgain = function (param) {
     oldtest = null;
     this.checkCommandLine(param);
 }
-this.sleep = function(milisecondsms)
-{
+this.sleep = function (milisecondsms) {
     {
         var currentTime = new Date().getTime();
-     
+
         while (currentTime + miliseconds >= new Date().getTime()) {
         }
-     }
+    }
 }
 this.checkCommandLine = function (param) {
 
@@ -62,7 +61,7 @@ this.checkCommandLine = function (param) {
         $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
         userSettings.activeProfile_change();
 
-        helper.log("User switched to " + userSettings.identitySetting.email);
+        helper.log("User switched to " + userSettings.identitySetting.mainEmail);
         helper.log("Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
         helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
         if (caseStudyAndEditorNeeded) {
@@ -117,10 +116,13 @@ this.publishDone = function () {
 }
 this.testsDone = function () {
     helper.log("TEST(S) finished.");
-    helper.log("Sending QUIT signal.");
-    var ipc = require('electron').ipcRenderer;
-    ipc.send("run-test-script-done");
-    //  ipc.send("quit");
+    // helper.log("Sending QUIT signal.");
+    // var ipc = require('electron').ipcRenderer;
+    // ipc.send("run-test-script-done");
+    try {
+        $("#dialog-alert").dialog("close");
+    }
+    catch (e) { }
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;

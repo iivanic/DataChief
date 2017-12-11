@@ -10,7 +10,7 @@ this.prepare = function (callback)
 
     helper.log(this.scriptName + "Prepare.");
     // swith to main user - he will publish everything
-    switchToUser(userSettings.email);
+    switchToUser(userSettings.mainEmail);
     this.testStep1(this);
 }
 //publish

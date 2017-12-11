@@ -11,7 +11,7 @@ this.prepare = function (callback)
     this.prepareDoneCallback = callback;
 
     helper.log(this.scriptName + "Switch to main user.");
-    switchToUser(userSettings.email);
+    switchToUser(userSettings.mainEmail);
     this.testStep4(this);
     
 }
