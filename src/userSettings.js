@@ -178,6 +178,20 @@ this.toGui = function () {
     identitySetting.toGui();
 
 }
+this.applyIMAPSettingsToAllProfiles = function (m) {
+  
+    for (var i in userSettings.Identities) {
+        if (userSettings.Identities[i] != userSettings.mainEmail) {
+            var s = userSettings.getIdentitySetting(userSettings.Identities[i]);
+            s.imapUserName = m.imapUserName;
+            s.imapPassword = m.imapPassword;
+            s.imapServer = m.imapServer;
+            s.imapPort = m.imapPort;
+            s.imapRequiresSSL = m.imapRequiresSSL;
+            s.save();
+        }
+    }
+}
 function deleteProfile() {
     var profile = $("#selectActiveProfile").val();
     if (profile != userSettings.mainEmail) {
@@ -249,7 +263,7 @@ function buttonRunScripts_change() {
     var val = $("#buttonRunScripts").val();
     // set dropdown to choose
     $('#buttonRunScripts').val("");
-    $( "#buttonRunScripts" ).selectmenu("refresh");
+    $("#buttonRunScripts").selectmenu("refresh");
     if (val.length) {
         helper.confirm("Run " + val + " script? This may destroy all of Your collected data.", buttonRunScriptsGo, val)
     }
@@ -257,8 +271,7 @@ function buttonRunScripts_change() {
 function buttonRunScriptsGo(val) {
 
     //require("electron").ipcRenderer.send("run-test-script", '--' + val );
-    if(imap.imapbusy==true)
-    {
+    if (imap.imapbusy == true) {
         helper.alert("Communication is active. Try again when it's done.")
         $('#buttonRunScripts').selectmenu("refresh");
         return;
@@ -266,8 +279,8 @@ function buttonRunScriptsGo(val) {
     }
     if (imapTimer)
         window.clearTimeout(imapTimer);
-  
-     helper.checkCommandLineAgain(['--' + val]);
+
+    helper.checkCommandLineAgain(['--' + val]);
 
 }
 

@@ -22,6 +22,7 @@ var oldtest = null;
 this.checkCommandLineAgain = function (param) {
     testsParsed = false;
     testObjects = new Array();
+    tests = new Array();
     prepareCallsCount = 0;
     firsttest = null;
     oldtest = null;
@@ -425,6 +426,7 @@ this.alert = function (message, callback, html, width_, height_) {
         }
     });
     //$( "#dialog-alert" ).parent().css('z-Index',100001);
+    $("#dialog-alert").dialog( "moveToTop" );
 }
 
 this.confirm = function (message, callback, param) {

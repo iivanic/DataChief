@@ -6,7 +6,7 @@ $(document).ready(function () {
 this.movePackageToSent = function (file) {
     reciever = helper.getOnlyFileName(file).substring(6)
     var jsonstring = helper.loadFile(file);
-    jsonstring = jsonstring.split('START')[1];
+   // jsonstring = jsonstring.split('START')[1];
     var loadedObj = JSON.parse(helper.decrypt(jsonstring, userSettings.identitySetting.userSecret));
     var type = "";
     if (loadedObj.published)
