@@ -343,6 +343,7 @@ function deleteMessages(msgs) {
                     error += err;
                 else
                     error = err;
+                    helper.alert("Error deleteng message from server!")
                 imap_.end();
                 return;
             }
