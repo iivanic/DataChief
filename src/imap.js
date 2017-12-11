@@ -289,7 +289,7 @@ function readMessages1() {
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
                 // console.log(prefix + 'Body');
-                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt');
+                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body-' + helper.generateGUID() +'.txt');
                 try {
                     stream.pipe(fs.createWriteStream(path));
                 }
