@@ -123,6 +123,7 @@ this.testsDone = function () {
         $("#dialog-alert").dialog("close");
     }
     catch (e) { }
+    $("#selectActiveProfile").selectmenu("refresh");
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
