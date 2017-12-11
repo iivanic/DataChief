@@ -101,10 +101,10 @@ this.uninstall = function () {
             if (userSettings.Identities[j] == barriqueUsers[i].username) {
                 // ok, remove only ones that were automatically added
                 // in case when user typed existing BarriqueWorks identity as his/hers main identity
-                if (userSettings.getIdentitySetting(userSettings.Identities[j]).caseStudyAutomaticallyAdded) {
+             //   if (userSettings.getIdentitySetting(userSettings.Identities[j]).caseStudyAutomaticallyAdded) {
                     helper.deleteFolder(helper.getIdentityFolder(barriqueUsers[i].username));
                     break;
-                }
+              //  }
             }
 
 
