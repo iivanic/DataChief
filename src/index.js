@@ -169,6 +169,7 @@ $(document).ready(function () {
     });
 
 
+
     // addTab form: calls addTab function on submit and closes the dialog
     //    var form = newFormDialog.find("form").submit(function (event) {
     //        addTab();
@@ -184,6 +185,10 @@ $(document).ready(function () {
         .click(function () {
             $("#tab_title").val("My Form");
             newFormDialog.dialog("open");
+            try {
+                //if  alert s open, keep it on top
+                $("#dialog-alert").dialog("moveToTop");
+            } catch (ex) { }
             if (!boolfix)
                 $("#exampleforms").selectmenu();
             boolfix = true;
@@ -273,7 +278,7 @@ this.FixTabsHeight = fixTabsHeight;
 function fixTabsHeight() {
 
     var winH = $(window).outerHeight();
- 
+
 
     $("div[id^='maintabs-").each(function () {
         $(this).height(winH - $(this).offset().top - 35 - $("#logrow").outerHeight()); //- $("#maintabs-1").position().top- 20);

@@ -425,6 +425,8 @@ this.alert = function (message, callback, html, width_, height_) {
         }
     });
     //$( "#dialog-alert" ).parent().css('z-Index',100001);
+    $("#dialog-alert").dialog("moveToTop");
+
 }
 
 this.confirm = function (message, callback, param) {
@@ -448,6 +450,11 @@ this.confirm = function (message, callback, param) {
             }
         }
     });
+    try {
+        //if alert is open, keep it on top
+        $("#dialog-alert").dialog("moveToTop");
+    }
+    catch (ex) { }
 }
 
 this.input = function (message, callback, _regexp, param1, param2) {

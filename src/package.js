@@ -20,7 +20,7 @@ this.loadPackage = function (file) {
         loadedObj = JSON.parse(helper.decrypt(jsonstring, userSettings.identitySetting.userSecret));
     }
     catch (ex) {
-        helper.alert("There was error decrypting the package " + file + ". This may be an attack. Immediately notify your Security officer.");
+        helper.alert("There was and error decrypting the package " + file + ". This may be an attack. Immediately notify your Security officer.");
         return;
     }
     var pp;
