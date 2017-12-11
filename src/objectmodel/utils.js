@@ -22,6 +22,7 @@ var oldtest = null;
 this.checkCommandLineAgain = function (param) {
     testsParsed = false;
     testObjects = new Array();
+    tests = new Array();
     prepareCallsCount = 0;
     firsttest = null;
     oldtest = null;

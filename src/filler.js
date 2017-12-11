@@ -372,7 +372,7 @@ function createPackagesFromMyOutbox() {
 
 }
 function savePackage(p, user) {
-    var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
+    var content = helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
     if (p.user.replace(/\[BROADCAST\]/gi,"") == userSettings.identitySetting.email) {
         // we are sending package to ourself!
         var filename = helper.join(helper.getInboxPath(), "XXXXXX" + user ); //helper.generateGUID());
