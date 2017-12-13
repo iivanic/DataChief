@@ -431,7 +431,7 @@ this.prepublish = function (dirtyMarkId) {
             // there is this file in prepublished
             // is it older v?
             var ver = files[i].substring(files[i].indexOf('_') + 1, files[i].indexOf("_", files[i].indexOf('_') + 1));
-            if (Math.abs(this.currentForm.version) > Math.abs(ver)) {
+            if (Math.abs(this.currentForm.version) >= Math.abs(ver)) {
                 // ok its an older version
                 // delete it
                 fs.unlink(helper.join(helper.getPrepublishPath(), files[i]));
@@ -453,7 +453,7 @@ this.prepublish = function (dirtyMarkId) {
             // there is this file in prepublished
             // is it older v?
             var ver = files[i].substring(files[i].indexOf('_') + 1, files[i].indexOf("_", files[i].indexOf('_') + 1));
-            if (Math.abs(this.currentForm.version) > Math.abs(ver)) {
+            if (Math.abs(this.currentForm.version) >= Math.abs(ver)) {
                 // ok its an older version
                 // delete it
 
@@ -504,7 +504,7 @@ this.publish = function (dirtyMarkId) {
             // there is this file in prepublished
             // is it older v?
             var ver = files[i].substring(files[i].indexOf('_') + 1, files[i].indexOf("_", files[i].indexOf('_') + 1));
-            if (Math.abs(this.currentForm.version) > Math.abs(ver)) {
+            if (Math.abs(this.currentForm.version) >= Math.abs(ver)) {
                 // ok its an older version
                 // delete it
 
@@ -525,7 +525,7 @@ this.publish = function (dirtyMarkId) {
             // there is this file in prepublished
             // is it older v?
             var ver = files[i].substring(files[i].indexOf('_') + 1, files[i].indexOf("_", files[i].indexOf('_') + 1));
-            if (Math.abs(this.currentForm.version) > Math.abs(ver)) {
+            if (Math.abs(this.currentForm.version) >= Math.abs(ver)) {
                 // ok its an older version
                 // delete it
                 helper.alert("There is a version of this form in Prepublish folder. This version will be removed and form will be saved in Publish folder.")

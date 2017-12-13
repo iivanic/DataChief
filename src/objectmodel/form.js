@@ -310,6 +310,7 @@ this.createFeedbackForm = function () {
     this._footer = "DataChief feedback, issues and bug reporting form.";
     this.workflow = "";
     this.publishTo = "everyone";
+   
 
     //this bellow should not be used or documented:
     //hash (#) infront of email forces sending 
@@ -369,7 +370,7 @@ this.createForm = function (name, templateName) {
 
     switch (templateName) {
         case "Vehicle Usage Log":
-
+            this._id="121b3699-ebf3-4e2f-881b-6f025395bef2";
             this._description = "The details of the use of a company-owned vehicle should be recorded by the operator so as to produce an accurate and complete log of the use of the vehicle. The log should be filled out while using the vehicle, not the next day.";
             this._footer = "This is an simple example DataChief Form. It shows basic usage of Fileds in DataChief and simple Workflow.";
             this.publishTo="jennifer@barriqueworks.com,michael@barriqueworks.com,elizabeth@barriqueworks.com";
@@ -377,7 +378,7 @@ this.createForm = function (name, templateName) {
             this.finalStep = "richard@barriqueworks.com";
             this.broadCastRecievers = "richard@barriqueworks.com";
             this.allowLocalCopies = "everyone";
-        //    this.broadcastStatusOfForm = true;
+     
             var txt;
 
             var grp = Object.create(groupField);
@@ -537,6 +538,7 @@ this.createForm = function (name, templateName) {
 
             break;
         case "Employee Absence Request":
+            this._id="72293ebe-b9db-4539-be61-42ad5611e5ab";
             this._description = "This Absence Request form should be submitted by employee and then approved by HR and Manager.";
             this._footer = "Example Absence Request Request Form.";
             this.workflow = "john@barriqueworks.com,robert@barriqueworks.com";
@@ -602,7 +604,7 @@ this.createForm = function (name, templateName) {
             cu.ctor();
             cu.description = "User Signature";
             grp.children.push(cu);
-// HR approval
+
             grp = Object.create(groupField);
             grp.ctor();
             grp.displayName = "HR approval";
@@ -638,7 +640,7 @@ this.createForm = function (name, templateName) {
             cu.description = "Signature";
             grp.children.push(cu);
 
-// manager approval            
+           
             grp = Object.create(groupField);
             grp.ctor();
             grp.displayName = "Manager approval";
@@ -676,6 +678,7 @@ this.createForm = function (name, templateName) {
 
             break;
         case "Corrective action - Quality Management":
+            this._id="d0b3b522-230e-4de4-ab4a-1c54fe7965cd";
             this._description = "Corrective / preventive actions are implemented in response to customer complaints, unacceptable levels of product non-conformance, issues identified during internal, external or thirs party audit(s), adverse or unstable trends in product and process monitoring or any other non-conformity with policies and procedures.";
             this._footer = "Example Corrective action Form.";
 
