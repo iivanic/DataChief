@@ -363,7 +363,7 @@ this.end = function (self) {
 //utils
 function switchToUser(user) {
 
-    $("#selectActiveProfile").val(user).selectmenu("refresh");
+    $("#selectActiveProfile").val(user);
     userSettings.activeProfile_change();
     helper.log("User switched to " + userSettings.identitySetting.email);
 }

@@ -31,7 +31,7 @@ this.testStep1 = function (self) {
     //new form dialog
     $("#add_form").click();
 
-    $("#exampleforms").val("Corrective action - Quality Management");
+    $("#exampleforms").val("Vehicle Usage Log");
 
     //set form name
     $("#tab_title").val("Non conformity");
@@ -179,7 +179,7 @@ this.end = function (self) {
 // ----------------------------util 
 this.switchToUser = function (user) {
 
-    $("#selectActiveProfile").val(user).selectmenu("refresh");
+    $("#selectActiveProfile").val(user);
     userSettings.activeProfile_change();
     helper.log("User switched to " + userSettings.identitySetting.email);
 }

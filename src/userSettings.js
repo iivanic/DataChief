@@ -36,7 +36,7 @@ this.ctor = function () {
     var file = "";
     try {
         file = helper.decrypt(helper.loadFile(this.filePath));
-    } catch (ex) { }
+    } catch (ex) {}
     if (!file) {
         // first time creation
         this.email = helper.getCurrentUsername();
@@ -45,8 +45,7 @@ this.ctor = function () {
         this.wizadFinished = false;
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
 
-    }
-    else {
+    } else {
         var loadedObj = JSON.parse(file);
         for (var attrname in loadedObj) {
             this[attrname] = loadedObj[attrname];
@@ -81,6 +80,7 @@ this.save = function () {
     identitySetting.save();
     helper.log("Settings saved.");
 }
+
 function saveJSONReplacer(key, value) {
 
     if (key == "identitySetting") return undefined;
@@ -92,8 +92,7 @@ this.checkCaseStudy = function () {
         $("#addRemoveCaseStudyProfiles").button({
             text: true,
             label: "Add Barrique Works LLC Case study Profiles"
-        }
-        ).click(
+        }).click(
             function () {
                 helper.confirm("Add Barrique Works LLC Case study profiles?", barrique.install);
 
@@ -103,15 +102,13 @@ this.checkCaseStudy = function () {
         $("#addRemoveCaseStudyProfilesWizard").button({
             text: true,
             label: "Add Barrique Works LLC Case study Profiles"
-        }
-        ).click(
+        }).click(
             function () {
                 helper.confirm("Add Barrique Works LLC Case study profiles?", barrique.install);
 
             });
         //-------
-    }
-    else {
+    } else {
         $("#addRemoveCaseStudyProfiles").button({
             text: true,
             label: "Remove Case study Profiles"
@@ -156,13 +153,12 @@ this.toGui = function () {
 
     this.checkCaseStudy();
 
-    $("#editOrgMemberShowPassword").button(
-        {
-            icons: {
-                secondary: "ui-icon-notice"
-            }
+    $("#editOrgMemberShowPassword").button({
+        icons: {
+            secondary: "ui-icon-notice"
+        }
 
-        }).click(
+    }).click(
         function () {
             if ($("#editOrgMemberSecret").prop("type") == "password")
                 $("#editOrgMemberSecret").prop("type", "text");
@@ -170,7 +166,7 @@ this.toGui = function () {
                 $("#editOrgMemberSecret").prop("type", "password");
 
         }
-        );
+    );
 
 
     this.reloadIndentityChooser();
@@ -179,7 +175,7 @@ this.toGui = function () {
 
 }
 this.applyIMAPSettingsToAllProfiles = function (m) {
-  
+
     for (var i in userSettings.Identities) {
         if (userSettings.Identities[i] != userSettings.mainEmail) {
             var s = userSettings.getIdentitySetting(userSettings.Identities[i]);
@@ -192,6 +188,7 @@ this.applyIMAPSettingsToAllProfiles = function (m) {
         }
     }
 }
+
 function deleteProfile() {
     var profile = $("#selectActiveProfile").val();
     if (profile != userSettings.mainEmail) {
@@ -200,8 +197,7 @@ function deleteProfile() {
         userSettings.loadIdentitySetting(userSettings.mainEmail);
         userSettings.email = userSettings.mainEmail;
         userSettings.reloadIndentityChooser();
-    }
-    else {
+    } else {
         helper.alert("The main profile can not been deleted!");
     }
 }
@@ -221,8 +217,7 @@ this.reloadIndentityChooser = function () {
     html += "<option value=\"-1\">Create new profile</option>";
     try {
         $("#selectActiveProfile").selectmenu("destroy");
-    }
-    catch (e) { }
+    } catch (e) {}
 
     $("#selectActiveProfile").html(html);
 
@@ -232,24 +227,21 @@ this.reloadIndentityChooser = function () {
         change: function () {
             selectActiveProfile_change();
         }
-    }
-    );
+    });
     $("#buttonRunScripts").selectmenu({
         change: function () {
             buttonRunScripts_change();
         },
         width: "100%"
-    }
-    );
-    $("#selectActiveProfile").selectmenu("refresh");
+    });
+    this.refreshSelectActiveProfile(); //selectActiveProfile").selectmenu("refresh");
     this.manageDeleteProfile();
     helper.log("Running DataChief as " + this.email);
     var pjson = require('../package.json');
 
     if (this.mainEmail != this.identitySetting.email) {
         document.title = pjson.name + " v" + pjson.version + " running as " + this.email + ".";
-    }
-    else
+    } else
         document.title = pjson.name + " v" + pjson.version + ".";
 
     filler.reload();
@@ -259,6 +251,7 @@ this.reloadIndentityChooser = function () {
     dataCollection.refreshSentDB();
     dataCollection.refreshBroadcastDB();
 }
+
 function buttonRunScripts_change() {
     var val = $("#buttonRunScripts").val();
     // set dropdown to choose
@@ -268,6 +261,7 @@ function buttonRunScripts_change() {
         helper.confirm("Run " + val + " script? This may destroy all of Your collected data.", buttonRunScriptsGo, val)
     }
 }
+
 function buttonRunScriptsGo(val) {
 
     //require("electron").ipcRenderer.send("run-test-script", '--' + val );
@@ -303,8 +297,7 @@ function selectActiveProfile_change() {
                     // create identitySetting
                     if ($("#editOrgMemberEmail")[0].checkValidity()) {
 
-                    }
-                    else {
+                    } else {
                         helper.alert("Please check email adress. Email is required and needs to be in valid form.");
                         return;
                     }
@@ -336,8 +329,7 @@ function selectActiveProfile_change() {
 
             }
         });
-    }
-    else {
+    } else {
         userSettings.closeAllTabs();
         userSettings.loadIdentitySetting(val);
         // set value this.email to identitySetting
@@ -347,8 +339,17 @@ function selectActiveProfile_change() {
         // refresh profiles
         userSettings.reloadIndentityChooser();
     }
-    $("#selectActiveProfile").selectmenu("refresh");
+    this.refreshSelectActiveProfile();
 
+}
+this.refreshSelectActiveProfile = function () {
+    // oldActiveTab dropdown has zero width unless refresh is called when visible
+    try {
+        var oldActiveTab = $("#maintabs").tabs("option", "active");
+        $("#maintabs").tabs("option", "active", 4);
+        $("#selectActiveProfile").selectmenu("refresh");
+        $("#maintabs").tabs("option", "active", oldActiveTab);
+    } catch (e) {}
 }
 this.closeAllTabs = function () {
     // close graph
@@ -390,8 +391,7 @@ this.manageDeleteProfile = function () {
         $("#deleteProfile").button({
             disabled: true
         });
-    }
-    else {
+    } else {
         // $("#deleteProfile").prop('disabled', false);
         $("#deleteProfile").button({
             disabled: false
@@ -453,4 +453,3 @@ this.imapTest = function () {
     startwizardsteps.fromGui();
     window.setTimeout(imap.go, 500);
 }
-

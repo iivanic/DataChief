@@ -58,7 +58,7 @@ this.checkCommandLine = function (param) {
         //open log panel at bottom
         $("#expandlog").click();
         // set user to first on the list, this is the user not in barrique Case study
-        $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+   $("#selectActiveProfile").prop("selectedIndex", 0); //.selectmenu("refresh");
         userSettings.activeProfile_change();
 
         helper.log("User switched to " + userSettings.identitySetting.mainEmail);
@@ -123,7 +123,7 @@ this.testsDone = function () {
         $("#dialog-alert").dialog("close");
     }
     catch (e) { }
-    $("#selectActiveProfile").selectmenu("refresh");
+    userSettings.refreshSelectActiveProfile();
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
