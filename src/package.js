@@ -1,3 +1,5 @@
+
+
 var ipath;
 //publishersDigest
 
@@ -14,13 +16,27 @@ this.loadPackage = function (file) {
     helper.log("--Importing package " + file);
     file = helper.join(ipath, file);
     var jsonstring = helper.loadFile(file);
-    jsonstring = jsonstring.split('START')[1];
+    //  jsonstring = jsonstring.split('START')[1];
+    var arr1 = jsonstring.split(/Content-Transfer-Encoding\: base64/gi);
+    // we can recieve full email or just base64 encoded pockage...
+    try{
+    if (arr1.length > 1)
+        jsonstring = arr1[1].split(/\n--/gi)[0].trim();
+    else
+        jsonstring = arr1[0].split(/\n--/gi)[0].trim();
+    }
+    catch(ex)
+    {
+        helper.log(ex);
+    }
+        //remove every 76 char newlines
+    jsonstring = jsonstring.replace(/\r\n/gi, "");
     var loadedObj = null;
     try {
         loadedObj = JSON.parse(helper.decrypt(jsonstring, userSettings.identitySetting.userSecret));
     }
     catch (ex) {
-        helper.alert("There was error decrypting the package " + file + ". This may be an attack. Immediately notify your Security officer.");
+        helper.alert("There was an error decrypting the package " + file + ". This may be an attack. Immediately notify your Security officer.");
         return;
     }
     var pp;
@@ -45,6 +61,7 @@ this.loadPackage = function (file) {
         //check for digest change...
         var dfile = helper.join(pp, "publishersDigest");
         if (helper.fileExists(dfile)) {
+            helper.sleep(250);
             var oldDigest = helper.loadFile(dfile);
             if (oldDigest != loadedObj.publishersDigest)
                 helper.alert("Pubishers ( " + loadedObj.publisher + " ) digest changed from " + oldDigest + " to " + loadedObj.publishersDigest + ". " +

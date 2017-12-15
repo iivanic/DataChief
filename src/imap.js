@@ -18,6 +18,8 @@ this.test1 = null;
 
 this.imapbusy = false;
 
+this.imapMessageTemplate = helper.loadTextFile("../templates/IMAPMessageTemplate.txt");;
+
 this.go = Go;
 function Go(automatic) {
     if (imap.imapbusy) {
@@ -43,7 +45,8 @@ function Go(automatic) {
         password: userSettings.identitySetting.imapPassword,
         host: userSettings.identitySetting.imapServer,
         port: userSettings.identitySetting.imapPort,
-        tls: userSettings.identitySetting.imapRequiresSSL
+        tls: userSettings.identitySetting.imapRequiresSSL//,
+        //       debug: console.log
     });
 
     imap_.once('ready', function () {
@@ -104,16 +107,18 @@ function Go(automatic) {
 
         }
 
-        imap.imapbusy = false;
+        if (imap.callback1)
+            window.setTimeout(imap.continue1, 500);
+
+        if (imap.callback)
+            window.setTimeout(imap.continue, 500);
+
         if (!$("#IMAPTestDialog").is(":visible") && !helper.isAnyTest())
             if (!imapTimer)
                 imapTimer = window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
-        if (imap.callback1)
-            imap.callback1(error, imap.test1);
-
-        if (imap.callback)
-            imap.callback(error, imap.test);
+        imap.imapbusy = false;
+        
     });
 
 
@@ -123,6 +128,15 @@ function Go(automatic) {
     });
     imap_.connect();
 }
+this.continue = function(error)
+{
+    imap.callback(error, imap.test);
+}
+this.continue1 = function(error)
+{
+    imap.callback1( error , imap.test1);
+}
+
 function resetProgressBar() {
     $("#progressbar").progressbar({
         value: 0
@@ -192,11 +206,17 @@ function uploadMessages(err, box) {
             helper.log("Sending package to " + (files[i].substring(6).indexOf("[BROADCAST]") > -1 ? to + " (BROADCAST)" : to));
             var filename = helper.join(helper.getOutboxPath(), files[i]);
             var body = helper.loadFile(filename);
-            var message =
-                "From: " + userSettings.email + "\n" +
-                "To: " + to + " \n" +
-                "Subject: DataChief package\n" +
-                "\n" + body + "\n";
+            var body = body.replace(/(.{80})/g, "$1\r\n");
+            var txt = "Data chief package in attachment."
+            var message = imap.imapMessageTemplate;
+            message = message.replace(/\[DCMESAGETITLE\]/gi, to);
+            message = message.replace(/\[DCMESAGEFROM\]/gi, userSettings.email);
+            message = message.replace(/\[DCMESAGETO\]/gi, to);
+            message = message.replace(/\[DCMESSAGEATTACHMENTBOUNDARY\]/gi, helper.generateGUID());
+            message = message.replace(/\[DCMESSAGEATTHTMLBOUNDARY\]/gi, helper.generateGUID());
+            message = message.replace(/\[DCMESAGEBODYTEXT\]/gi, txt);
+            message = message.replace(/\[DCMESAGEBODYHTML\]/gi, "<p>" + txt + "</p>");
+            message = message.replace(/\[DCMESSAGEATTACHMENTENCODEDLINE76\]/gi, body);
 
             quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
@@ -240,7 +260,13 @@ function readMessages1() {
     // 
     // 4. Check incoming messages in my folder and download them
     //  helper.log("Search for my messages...");
-    imap_.search([['HEADER', 'TO', userSettings.identitySetting.email]], function (err, results) {
+    var s1="TO";
+    //live.com for some reason asumes that all messages are for you (to:)
+    if(userSettings.identitySetting.imapServer.toLowerCase().trim() == "imap-mail.outlook.com")
+    {
+        s1='SUBJECT';
+    }
+    imap_.search([['HEADER', s1, userSettings.identitySetting.email]], function (err, results) {
         if (err) {
             if (error)
                 error += err;
@@ -263,7 +289,7 @@ function readMessages1() {
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
                 // console.log(prefix + 'Body');
-                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body.txt');
+                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body-' + helper.generateGUID() +'.txt');
                 try {
                     stream.pipe(fs.createWriteStream(path));
                 }
@@ -317,6 +343,7 @@ function deleteMessages(msgs) {
                     error += err;
                 else
                     error = err;
+                    helper.alert("Error deleteng message from server!")
                 imap_.end();
                 return;
             }

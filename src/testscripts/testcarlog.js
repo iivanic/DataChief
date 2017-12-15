@@ -11,7 +11,7 @@ this.prepare = function (callback)
     this.prepareDoneCallback = callback;
 
     helper.log(this.scriptName + "Switch to main user.");
-    switchToUser(userSettings.email);
+    switchToUser(userSettings.mainEmail);
     this.testStep4(this);
     
 }
@@ -32,6 +32,7 @@ this.testStep4 = function (self) {
     helper.log(self.scriptName + "Test step 4 - create and publish form(s).");
     //new form dialog
     $("#add_form").click();
+    $("#exampleforms").val("Vehicle Usage Log");
     //set form name
     $("#tab_title").val("Car Log");
     //leave default form selected in dropdown
@@ -373,7 +374,7 @@ this.testStep5_FinalStep = function (error, self) {
 //utils
 function switchToUser(user) {
 
-    $("#selectActiveProfile").val(user).selectmenu("refresh");
+    $("#selectActiveProfile").val(user);
     userSettings.activeProfile_change();
     helper.log("User switched to " + userSettings.identitySetting.email);
 }
@@ -545,7 +546,7 @@ this.testStep6Pause4 = function (self) {
 this.end = function (error, self) {
     imap.callback = null;
     imap.test = null;
-    $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+    $("#selectActiveProfile").prop("selectedIndex", 0);
     userSettings.activeProfile_change();
     helper.log(self.scriptName + "Test step finish.");
     if(self.doneCallback)

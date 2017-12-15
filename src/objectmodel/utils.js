@@ -22,10 +22,19 @@ var oldtest = null;
 this.checkCommandLineAgain = function (param) {
     testsParsed = false;
     testObjects = new Array();
+    tests = new Array();
     prepareCallsCount = 0;
     firsttest = null;
     oldtest = null;
     this.checkCommandLine(param);
+}
+this.sleep = function (milisecondsms) {
+    {
+        var currentTime = new Date().getTime();
+
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
+    }
 }
 this.checkCommandLine = function (param) {
 
@@ -49,10 +58,10 @@ this.checkCommandLine = function (param) {
         //open log panel at bottom
         $("#expandlog").click();
         // set user to first on the list, this is the user not in barrique Case study
-        $("#selectActiveProfile").prop("selectedIndex", 0).selectmenu("refresh");
+   $("#selectActiveProfile").prop("selectedIndex", 0); //.selectmenu("refresh");
         userSettings.activeProfile_change();
 
-        helper.log("User switched to " + userSettings.identitySetting.email);
+        helper.log("User switched to " + userSettings.identitySetting.mainEmail);
         helper.log("Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
         helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
         if (caseStudyAndEditorNeeded) {
@@ -107,10 +116,14 @@ this.publishDone = function () {
 }
 this.testsDone = function () {
     helper.log("TEST(S) finished.");
-    helper.log("Sending QUIT signal.");
-    var ipc = require('electron').ipcRenderer;
-    ipc.send("run-test-script-done");
-    //  ipc.send("quit");
+    // helper.log("Sending QUIT signal.");
+    // var ipc = require('electron').ipcRenderer;
+    // ipc.send("run-test-script-done");
+    try {
+        $("#dialog-alert").dialog("close");
+    }
+    catch (e) { }
+    userSettings.refreshSelectActiveProfile();
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
@@ -425,6 +438,8 @@ this.alert = function (message, callback, html, width_, height_) {
         }
     });
     //$( "#dialog-alert" ).parent().css('z-Index',100001);
+    $("#dialog-alert").dialog("moveToTop");
+
 }
 
 this.confirm = function (message, callback, param) {
@@ -448,6 +463,11 @@ this.confirm = function (message, callback, param) {
             }
         }
     });
+    try {
+        //if alert is open, keep it on top
+        $("#dialog-alert").dialog("moveToTop");
+    }
+    catch (ex) { }
 }
 
 this.input = function (message, callback, _regexp, param1, param2) {

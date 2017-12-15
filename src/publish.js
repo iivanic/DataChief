@@ -472,12 +472,12 @@ this.info = function () {
     }
 }
 this.packageinfo = function (filename) {
-    file = helper.loadFile(filename).split('START')[1];
+    file = helper.loadFile(filename); //.split('START')[1];
     var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));
 
 }
 this.packageinfofortooltip = function (filename) {
-    file = helper.loadFile(filename).split('START')[1];
+    file = helper.loadFile(filename); //.split('START')[1];
     var loadedObj = JSON.parse(helper.decrypt(file, userSettings.identitySetting.userSecret));
     var ret = "Package for " + loadedObj.user + " has " + loadedObj.forms.length + " form(s) and " + loadedObj.commands.length + " command(s).";
     if (loadedObj.forms.length) {
@@ -609,7 +609,7 @@ function publishEverything() {
 
 }
 function savePackage(p) {
-    var content = "START" + helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
+    var content =  helper.encrypt(JSON.stringify(p, null, 2), userSettings.identitySetting.userSecret);
     helper.saveTextFile(helper.addNumberPrefix2File(helper.getReadyPath(), p.user), content);
 }
 this.refreshOutB = refreshOutbox;

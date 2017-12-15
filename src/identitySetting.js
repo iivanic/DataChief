@@ -94,13 +94,44 @@ this.toGui = function () {
 this.fromGui = function () {
     this.email = $("#textSettingsEmail").val();
     this.name = $("#textSettingsName").val();
+    if(this.email==userSettings.mainEmail)
+    {
+        //OK, it is main account
+        if(
+            this.imapUserName != $("#textSettingsIMAPUsername").val() ||
+            this.imapPassword != $("#textSettingsIMAPPassword").val() ||
+            this.imapServer != $("#textSettingsIMAPServer").val() ||
+            this.imapPort != $("#textSettingsIMAPServerPort").val() ||
+            this.imapRequiresSSL != $("#textSettingsIMAPRequiresSSL").is(':checked')
+        
+        )
+        {
+            //there has been change
+            if(barrique.isInstalled())
+            {
+                this.imapUserName = $("#textSettingsIMAPUsername").val();
+                this.imapPassword = $("#textSettingsIMAPPassword").val();
+                this.imapServer = $("#textSettingsIMAPServer").val();
+                this.imapPort = $("#textSettingsIMAPServerPort").val();
+                this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
+
+                //case study is installed
+                helper.confirm(
+                    "You made change to your main account IMAP settings. Do you wish to apply the same settings to all profiles?",
+                    userSettings.applyIMAPSettingsToAllProfiles,
+                    JSON.parse(JSON.stringify(this))
+                );
+            }
+        }
+
+    }
     this.imapUserName = $("#textSettingsIMAPUsername").val();
     this.imapPassword = $("#textSettingsIMAPPassword").val();
     this.imapServer = $("#textSettingsIMAPServer").val();
     this.imapPort = $("#textSettingsIMAPServerPort").val();
-    //  helper.log(" textSettingsIMAPServerPort" +  $("#textSettingsIMAPServerPort").val() + "," + this.imapPort + this.name) ;
     this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
-
+    //  helper.log(" textSettingsIMAPServerPort" +  $("#textSettingsIMAPServerPort").val() + "," + this.imapPort + this.name) ;
+ 
     this.smtpUserName = $("#textSettingsSMTPUsername").val();
     this.smtpPassword = $("#textSettingsSMTPPassword").val();
     this.smtpServer = $("#textSettingsSMTPServer").val();

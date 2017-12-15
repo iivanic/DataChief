@@ -8,7 +8,7 @@ this.prepare = function (callback) {
     helper.log(this.scriptName + "Prepare.");
     this.prepareDoneCallback = callback;
     helper.log(this.scriptName + "Switch to main user.");
-    this.switchToUser(userSettings.email);
+    this.switchToUser(userSettings.mainEmail);
     this.testStep1(this);
 }
 //publish
@@ -20,7 +20,7 @@ this.publish = function (callback) {
 this.runTest = function () {
     helper.log(this.scriptName + "Test QM Start.");
     // swith to main user - he will publish everything
-    this.switchToUser(userSettings.email);
+    this.switchToUser(userSettings.mainEmail);
     this.testStep1Part3(this);
 
 }
@@ -179,7 +179,7 @@ this.end = function (self) {
 // ----------------------------util 
 this.switchToUser = function (user) {
 
-    $("#selectActiveProfile").val(user).selectmenu("refresh");
+    $("#selectActiveProfile").val(user);
     userSettings.activeProfile_change();
     helper.log("User switched to " + userSettings.identitySetting.email);
 }

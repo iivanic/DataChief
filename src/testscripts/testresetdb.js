@@ -31,7 +31,20 @@ this.prepare = function (callback) {
             for (var f in folders)
                 helper.deleteFolder(helper.join(helper.join(helper.getSettingsFolder(), userSettings.Identities[u]), folders[f]));
         }
-    
+
+        //delete publish
+        var files = helper.getFilesInDir(helper.getPublishPath());
+        for (var i in files) {
+                    fs.unlink(helper.join(helper.getPublishPath(), files[i]));
+        }
+        //delete prepublish
+        var files = helper.getFilesInDir(helper.getPrepublishPath());
+        for (var i in files) {
+                    fs.unlink(helper.join(helper.getPrepublishPath(), files[i]));
+        }
+        //refresh
+        publish.refreshFolders();
+
         helper.log(self.scriptName + "" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
 
     helper.log(this.scriptName + "Reset DB end.");
