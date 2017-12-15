@@ -339,7 +339,7 @@ function selectActiveProfile_change() {
         // refresh profiles
         userSettings.reloadIndentityChooser();
     }
-    this.refreshSelectActiveProfile();
+    userSettings.refreshSelectActiveProfile();
 
 }
 this.refreshSelectActiveProfile = function () {
