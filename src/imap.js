@@ -262,10 +262,10 @@ function readMessages1() {
     //  helper.log("Search for my messages...");
     var s1="TO";
     //live.com for some reason asumes that all messages are for you (to:)
-  //  if(userSettings.identitySetting.imapServer.toLowerCase().trim() == "imap-mail.outlook.com")
-  //  {
-  //      s1='SUBJECT';
-  //  }
+   if(userSettings.identitySetting.imapServer.toLowerCase().trim() == "imap-mail.outlook.com")
+    {
+        s1='SUBJECT';
+    }
     imap_.search(['!DELETED', ['HEADER', s1, userSettings.identitySetting.email]], function (err, results) { //
         if (err) {
             if (error)
