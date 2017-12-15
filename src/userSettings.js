@@ -234,7 +234,7 @@ this.reloadIndentityChooser = function () {
         },
         width: "100%"
     });
-    this.refreshSelectActiveProfile(); //selectActiveProfile").selectmenu("refresh");
+    userSettings.refreshSelectActiveProfile(); //selectActiveProfile").selectmenu("refresh");
     this.manageDeleteProfile();
     helper.log("Running DataChief as " + this.email);
     var pjson = require('../package.json');
@@ -339,7 +339,7 @@ function selectActiveProfile_change() {
         // refresh profiles
         userSettings.reloadIndentityChooser();
     }
-    this.refreshSelectActiveProfile();
+    userSettings.refreshSelectActiveProfile();
 
 }
 this.refreshSelectActiveProfile = function () {

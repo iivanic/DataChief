@@ -266,7 +266,7 @@ function readMessages1() {
     {
         s1='SUBJECT';
     }
-    imap_.search([['HEADER', s1, userSettings.identitySetting.email]], function (err, results) {
+    imap_.search(['!DELETED', ['HEADER', s1, userSettings.identitySetting.email]], function (err, results) { //
         if (err) {
             if (error)
                 error += err;
