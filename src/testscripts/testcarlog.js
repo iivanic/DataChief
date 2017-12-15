@@ -32,7 +32,7 @@ this.testStep4 = function (self) {
     helper.log(self.scriptName + "Test step 4 - create and publish form(s).");
     //new form dialog
     $("#add_form").click();
-    $("#exampleforms").val("Corrective action - Quality Management");
+    $("#exampleforms").val("Vehicle Usage Log");
     //set form name
     $("#tab_title").val("Car Log");
     //leave default form selected in dropdown

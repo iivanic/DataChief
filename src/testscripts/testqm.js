@@ -31,7 +31,7 @@ this.testStep1 = function (self) {
     //new form dialog
     $("#add_form").click();
 
-    $("#exampleforms").val("Vehicle Usage Log");
+    $("#exampleforms").val("Corrective action - Quality Management");
 
     //set form name
     $("#tab_title").val("Non conformity");
