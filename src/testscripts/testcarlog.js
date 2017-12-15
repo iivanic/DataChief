@@ -512,7 +512,7 @@ this.testStep6Pause3 = function (self) {
     helper.log(self.scriptName + "Continue...");
      //send and Recieve - user neeed to recieve published packages
     // first set callback
-    imap.callback = self.end;
+    imap.callback = self.testStep6_4_;
     imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
