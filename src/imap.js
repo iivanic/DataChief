@@ -8,6 +8,7 @@ var recievedCnt = 0;
 var error = null;
 var _box;
 function openInbox(cb) {
+   
     imap_.openBox('INBOX', true, cb);
 }
 
@@ -70,9 +71,22 @@ function Go(automatic) {
 
         });
     });
+    imap_.once("update",function (seqno, info) {
+        helper.log("event update " + seqno +".");
+    });
+    imap_.once("alert",function (msg) {
+        helper.log("event alertfrom server " + _config.host + ": " + msg +".");
+        helper.alert("Message from server " + _config.host + ": " + msg);
+    });
+    imap_.once('expunge',function (seqno) {
+        helper.log("event expunged " + seqno +".");
+
+        redMessages--; // redMessages.splice(seqno-1,1);
+
+    });
 
     imap_.once('error', function (err) {
-        helper.log(err + ".");
+        helper.log("event error " + err + ".");
         if (err) {
             if (error)
                 error += err;
@@ -183,9 +197,11 @@ function addBoxCallback(err) {
 }
 var quedPcks = new Array();
 function openDCFolder(user) {
+    helper.log("Open folder Datachief");
     imap_.openBox('Datachief', false, uploadMessages);
 }
 function uploadMessages(err, box) {
+    helper.log("Active box is: " + box.name + ", readOnly = " + box.readOnly + ", persistentUIDs = " + box.persistentUIDs);
     if (err) {
         if (error)
             error += err;
@@ -255,6 +271,7 @@ function appendDone(err, o) {
         readMessages1();
 
 }
+var redMessages = 0;
 function readMessages1() {
 
     // 
@@ -266,7 +283,8 @@ function readMessages1() {
     {
         s1='SUBJECT';
     }
-    imap_.search(['!DELETED', ['HEADER', s1, userSettings.identitySetting.email]], function (err, results) { //
+    redMessages=0;
+    imap_.search([['HEADER', s1, userSettings.identitySetting.email]], function (err, results) { //
         if (err) {
             if (error)
                 error += err;
@@ -304,14 +322,16 @@ function readMessages1() {
                     }
                 }
                 recievedCnt++;
+               
 
             });
             msg.once('attributes', function (attrs) {
                 //console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                //.push(attrs.uid);
             });
             msg.once('end', function () {
                 // helper.log(prefix + 'Finished recieving message ' + seqno + '.');
-
+                redMessages++;
             });
         });
         f.once('error', function (err) {
@@ -327,6 +347,7 @@ function readMessages1() {
         });
         f.once('end', function () {
             helper.log('Done fetching all messages!');
+   
             deleteMessages(results);
 
         });
@@ -334,9 +355,18 @@ function readMessages1() {
 
 
 }
+this.msgs = new Array();
 function deleteMessages(msgs) {
     //helper.log("Deleting " + msgs.length + " message(s).");
-    try {
+    imap.msgs = msgs;
+    try 
+    {
+        var str = "Marking ";
+        for(var i_ in msgs)
+        {
+            str += msgs[i_] + " ";
+        }
+        helper.log(str + "as DELETED");
         imap_.addFlags(msgs, '\\Deleted', function (err) {
             if (err) {
                 if (error)
@@ -348,8 +378,46 @@ function deleteMessages(msgs) {
                 return;
             }
             else {
-                imap_.end();
-                package.loadPackages();
+
+                imap_.expunge(imap.msgs, function (err) 
+                {
+                    if (err) {
+                        if (error)
+                            error += err;
+                        else
+                            error = err;
+                            helper.alert("Error deleteng message from server!")
+                        imap_.end();
+                        return;
+                    }
+                    else {
+                        helper.log("Closing folder.")
+                        imap_.closeBox(true, 
+                            function (err) {
+                                if (err) {
+                                    if (error)
+                                        error += err;
+                                    else
+                                        error = err;
+                                        helper.alert("Error closing folder on server!")
+                                    imap_.end();
+                                    return;
+                                }
+                                else {
+                                    if(redMessages>0)
+                                    {
+                                        var str = "Not all messages are expunged (" + redMessages.toString() + ")!";
+                                        helper.log(str);
+                                        helper.alert(str);
+                                    }
+                                        
+                                    imap_.end();
+                                    package.loadPackages();
+                                }
+                            });
+                    }
+                });
+                
             }
         });
     }
@@ -363,6 +431,6 @@ function deleteMessages(msgs) {
             return;
         }
     }
-
-
 }
+
+
