@@ -10,6 +10,16 @@ var recievedCnt = 0;
 var error = null;
 var _box;
 
+this.wellKnownServers = [
+     {"AOL Mail", "imap.aol.com", 993, true},
+     {"Gmail", "mail.gmail.com", 993, true},
+     {"Mail.ru", "imap.mail.ru", 993, true},
+     {"Outlook.com ex Live Mail, Hotmail", "mail-imap.outlook.com", 993, true},
+     {"Yahoo Mail", "imap.mail.yahoo.com", 993, true},     
+     {"Yandex Mail", "mail.yandex.com", 993, true},
+     {"Zoho", "mail.zoho.eu", 993, true}
+]
+
 function openInbox(cb) {
 
     imap_.openBox('INBOX', true, cb);
