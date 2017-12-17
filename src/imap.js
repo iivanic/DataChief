@@ -1,5 +1,7 @@
-var Imap = require('imap'), inspect = require('util').inspect;
-var fs = require('fs'), fileStream;
+var Imap = require('imap'),
+    inspect = require('util').inspect;
+var fs = require('fs'),
+    fileStream;
 
 var imap_;
 var progressCnt = 0;
@@ -7,8 +9,9 @@ var progressMax = 0;
 var recievedCnt = 0;
 var error = null;
 var _box;
+
 function openInbox(cb) {
-   
+
     imap_.openBox('INBOX', true, cb);
 }
 
@@ -22,6 +25,7 @@ this.imapbusy = false;
 this.imapMessageTemplate = helper.loadTextFile("../templates/IMAPMessageTemplate.txt");;
 
 this.go = Go;
+
 function Go(automatic) {
     if (imap.imapbusy) {
         if (!automatic)
@@ -46,8 +50,8 @@ function Go(automatic) {
         password: userSettings.identitySetting.imapPassword,
         host: userSettings.identitySetting.imapServer,
         port: userSettings.identitySetting.imapPort,
-        tls: userSettings.identitySetting.imapRequiresSSL//,
-        //       debug: console.log
+        tls: userSettings.identitySetting.imapRequiresSSL ,
+        debug: console.log
     });
 
     imap_.once('ready', function () {
@@ -71,22 +75,50 @@ function Go(automatic) {
 
         });
     });
-    imap_.once("update",function (seqno, info) {
-        helper.log("event update " + seqno +".");
+    imap_.once("update", function (seqno, info) {
+        helper.log("event update " + seqno + ".");
     });
-    imap_.once("alert",function (msg) {
-        helper.log("event alertfrom server " + _config.host + ": " + msg +".");
+    imap_.once("alert", function (msg) {
+        helper.log("event alertfrom server " + _config.host + ": " + msg + ".");
         helper.alert("Message from server " + _config.host + ": " + msg);
     });
-    imap_.once('expunge',function (seqno) {
-        helper.log("event expunged " + seqno +".");
+    imap_.once('expunge', function (seqno) {
+        helper.log("event expunged " + seqno + ".");
 
-        redMessages--; // redMessages.splice(seqno-1,1);
-
+        /* redMessages--; // redMessages.splice(seqno-1,1);
+         if(redMessages==0)
+         {
+             helper.log("Closing folder.")
+             imap_.closeBox(true, 
+                 function (err) {
+                     if (err) {
+                         if (error)
+                             error += err;
+                         else
+                             error = err;
+                             helper.alert("Error closing folder on server!")
+                         imap_.end();
+                         return;
+                     }
+                     else {
+                        if(redMessages>0)
+                         {
+                             var str = "Not all messages are expunged (" + redMessages.toString() + ")!";
+                             helper.log(str);
+                             helper.alert(str);
+                         }
+                             
+                         imap_.end();
+                         package.loadPackages();
+                         
+                     }
+                 });
+           
+         } */
     });
 
     imap_.once('error', function (err) {
-        helper.log("event error " + err + ".");
+        helper.log("Connection event \"error\": " + err + ".");
         if (err) {
             if (error)
                 error += err;
@@ -115,8 +147,7 @@ function Go(automatic) {
             //  if (progressMax != 0 && recievedCnt != 0) {
             helper.log("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
             //   }
-        }
-        else {
+        } else {
             helper.log(error);
 
         }
@@ -132,7 +163,7 @@ function Go(automatic) {
                 imapTimer = window.setTimeout("imap.go(true)", 30000);
         window.setTimeout(resetProgressBar, 1000);
         imap.imapbusy = false;
-        
+
     });
 
 
@@ -142,13 +173,11 @@ function Go(automatic) {
     });
     imap_.connect();
 }
-this.continue = function(error)
-{
+this.continue = function (error) {
     imap.callback(error, imap.test);
 }
-this.continue1 = function(error)
-{
-    imap.callback1( error , imap.test1);
+this.continue1 = function (error) {
+    imap.callback1(error, imap.test1);
 }
 
 function resetProgressBar() {
@@ -156,11 +185,13 @@ function resetProgressBar() {
         value: 0
     });
 }
+
 function createDCFolder() {
     //  helper.log("Checking for <strong>Datachief</strong> folder...")
     imap_.getBoxes("", getBoxesCallBack)
 
 }
+
 function getBoxesCallBack(err, boxes) {
     var bFound = false
     for (var i in boxes) {
@@ -174,10 +205,10 @@ function getBoxesCallBack(err, boxes) {
         helper.log("Folder not found.")
         imap_.addBox("Datachief", addBoxCallback)
 
-    }
-    else
+    } else
         openDCFolder();
 }
+
 function addBoxCallback(err) {
 
     if (err) {
@@ -187,8 +218,7 @@ function addBoxCallback(err) {
             error = err;
         imap_.end();
         return;
-    }
-    else {
+    } else {
         helper.log("Folder <strong>Datachief</strong> created.");
         openDCFolder();
     }
@@ -196,10 +226,12 @@ function addBoxCallback(err) {
 
 }
 var quedPcks = new Array();
+
 function openDCFolder(user) {
     helper.log("Open folder Datachief");
     imap_.openBox('Datachief', false, uploadMessages);
 }
+
 function uploadMessages(err, box) {
     helper.log("Active box is: " + box.name + ", readOnly = " + box.readOnly + ", persistentUIDs = " + box.persistentUIDs);
     if (err) {
@@ -209,8 +241,7 @@ function uploadMessages(err, box) {
             error = err;
         imap_.end();
         return;
-    }
-    else {
+    } else {
         //   helper.log("Opened <strong>datachief</strong> folder.")
         var files = helper.getFilesInDir(helper.getOutboxPath());
         progressMax = files.length;
@@ -244,6 +275,7 @@ function uploadMessages(err, box) {
 
     }
 }
+
 function appendDone(err, o) {
     if (err) {
         if (error)
@@ -268,23 +300,25 @@ function appendDone(err, o) {
     progressCnt++;
     // helper.log(progressCnt + ", " + progressMax)
     if (progressCnt == progressMax)
-        readMessages1();
+        readMessages1(); //window.setTimeout(readMessages1,1000);
 
 }
 var redMessages = 0;
+
 function readMessages1() {
 
     // 
     // 4. Check incoming messages in my folder and download them
     //  helper.log("Search for my messages...");
-    var s1="TO";
+    var s1 = "TO";
     //live.com for some reason asumes that all messages are for you (to:)
-   if(userSettings.identitySetting.imapServer.toLowerCase().trim() == "imap-mail.outlook.com")
-    {
-        s1='SUBJECT';
+    if (userSettings.identitySetting.imapServer.toLowerCase().trim() == "imap-mail.outlook.com") {
+        s1 = 'SUBJECT';
     }
-    redMessages=0;
-    imap_.search([['HEADER', s1, userSettings.identitySetting.email]], function (err, results) { //
+    redMessages = 0;
+    imap_.search([
+        ['HEADER', s1, userSettings.identitySetting.email]
+    ], function (err, results) { //
         if (err) {
             if (error)
                 error += err;
@@ -301,17 +335,18 @@ function readMessages1() {
 
         }
         helper.log("Found " + results.length + ".");
-        var f = imap_.fetch(results, { bodies: '' });
+        var f = imap_.fetch(results, {
+            bodies: ''
+        });
         f.on('message', function (msg, seqno) {
             //  helper.log('Message #' + seqno);
             var prefix = '(#' + seqno + ') ';
             msg.on('body', function (stream, info) {
                 // console.log(prefix + 'Body');
-                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body-' + helper.generateGUID() +'.txt');
+                var path = helper.join(helper.getInboxPath(), 'msg-' + seqno + '-body-' + helper.generateGUID() + '.txt');
                 try {
                     stream.pipe(fs.createWriteStream(path));
-                }
-                catch (err) {
+                } catch (err) {
                     if (err) {
                         if (error)
                             error += err;
@@ -322,7 +357,7 @@ function readMessages1() {
                     }
                 }
                 recievedCnt++;
-               
+
 
             });
             msg.once('attributes', function (attrs) {
@@ -347,7 +382,7 @@ function readMessages1() {
         });
         f.once('end', function () {
             helper.log('Done fetching all messages!');
-   
+
             deleteMessages(results);
 
         });
@@ -356,72 +391,70 @@ function readMessages1() {
 
 }
 this.msgs = new Array();
+
 function deleteMessages(msgs) {
     //helper.log("Deleting " + msgs.length + " message(s).");
     imap.msgs = msgs;
-    try 
-    {
+    try {
         var str = "Marking ";
-        for(var i_ in msgs)
-        {
+        for (var i_ in msgs) {
             str += msgs[i_] + " ";
         }
         helper.log(str + "as DELETED");
-        imap_.addFlags(msgs, '\\Deleted', function (err) {
+        imap_.addFlags(msgs, 'Deleted', function (err) {
             if (err) {
                 if (error)
                     error += err;
                 else
                     error = err;
-                    helper.alert("Error deleteng message from server!")
+                helper.alert("Error deleteng message from server " + error);
                 imap_.end();
                 return;
-            }
-            else {
+            } else {
 
-                imap_.expunge(imap.msgs, function (err) 
-                {
+                imap_.expunge(imap.msgs, function (err) {
                     if (err) {
                         if (error)
                             error += err;
                         else
                             error = err;
-                            helper.alert("Error deleteng message from server!")
+                        helper.alert("Error deleteng message from server " + error);
                         imap_.end();
                         return;
-                    }
-                    else {
+                    } else {
+                        helper.log("expunged.");
+
+
                         helper.log("Closing folder.")
-                        imap_.closeBox(true, 
+                        imap_.closeBox(true,
                             function (err) {
                                 if (err) {
                                     if (error)
                                         error += err;
                                     else
                                         error = err;
-                                        helper.alert("Error closing folder on server!")
+                                    helper.alert("Error closing folder on server! " + error);
                                     imap_.end();
                                     return;
-                                }
-                                else {
-                                    if(redMessages>0)
-                                    {
-                                        var str = "Not all messages are expunged (" + redMessages.toString() + ")!";
-                                        helper.log(str);
-                                        helper.alert(str);
-                                    }
-                                        
+                                } else {
+                                    /*  if(redMessages>0)
+                                         {
+                                             var str = "Not all messages are expunged (" + redMessages.toString() + ")!";
+                                             helper.log(str);
+                                             helper.alert(str);
+                                         }
+                                             */
+                                    ;
                                     imap_.end();
                                     package.loadPackages();
+
                                 }
                             });
                     }
                 });
-                
             }
         });
-    }
-    catch (err) {
+    } catch (err) {
         if (err) {
             if (error)
                 error += err;
@@ -432,5 +465,3 @@ function deleteMessages(msgs) {
         }
     }
 }
-
-

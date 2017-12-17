@@ -177,13 +177,23 @@ this.toGui = function () {
 this.applyIMAPSettingsToAllProfiles = function (m) {
 
     for (var i in userSettings.Identities) {
-        if (userSettings.Identities[i] != userSettings.mainEmail) {
+        if (userSettings.Identities[i] != m.email) {
             var s = userSettings.getIdentitySetting(userSettings.Identities[i]);
             s.imapUserName = m.imapUserName;
             s.imapPassword = m.imapPassword;
             s.imapServer = m.imapServer;
             s.imapPort = m.imapPort;
             s.imapRequiresSSL = m.imapRequiresSSL;
+            s.save();
+        }
+    }
+}
+this.applySharedSecretSettingsToAllProfiles = function (m) {
+
+    for (var i in userSettings.Identities) {
+        if (userSettings.Identities[i] != m.email) {
+            var s = userSettings.getIdentitySetting(userSettings.Identities[i]);
+            s.userSecret = m.userSecret;
             s.save();
         }
     }
