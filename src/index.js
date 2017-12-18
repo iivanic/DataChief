@@ -314,7 +314,7 @@ $(document).ready(function () {
           toggleEditor();*/
     $(expandlog).click(expandlog_click);
     $("#log2file").click(log2File_click);
-
+    $("#log2fileopen").click(helper.openCurrentLogFromDisk);
     helper.log("Welcome to Data Chief.");
     helper.log("Ready.");
 
@@ -348,6 +348,8 @@ function log2File_click() {
         helper.confirm("Start saving log to disk?", function () {
             $("#log2file").removeClass("ui-icon-info");
             $("#log2file").addClass("ui-icon-script");
+            $("#log2fileopen").show();
+            helper.startSavingLogToDisk();
         });
 
 
@@ -356,6 +358,8 @@ function log2File_click() {
         helper.confirm("Stop saving log to disk?", function () {
             $("#log2file").removeClass("ui-icon-script");
             $("#log2file").addClass("ui-icon-info");
+            $("#log2fileopen").hide();
+            helper.stopSavingLogToDisk();
         });
     }
 

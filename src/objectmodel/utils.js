@@ -756,3 +756,15 @@ this.deleteBroadcastFolder = function () {
     }
     dataCollection.refreshBroadcastDB();
 }
+this.startSavingLogToDisk = function()
+{
+    helper.log("OK startSavingLogToDisk");
+}
+this.stopSavingLogToDisk = function()
+{
+    helper.log("OK stopSavingLogToDisk");
+}
+this.openCurrentLogFromDisk = function()
+{
+    helper.log("OK openCurrentLogFromDisk");
+}
