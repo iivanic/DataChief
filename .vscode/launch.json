@@ -46,7 +46,8 @@
             
             "runtimeArgs": [
                 "--nolazy",
-                "--opendevtools"
+                "--opendevtools",
+                "--enabledisklog"
             ],
             "env": {
                 "NODE_ENV": "development",

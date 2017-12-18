@@ -53,8 +53,10 @@ Project is under development. First release will provide basic functionality for
         * runs test script for case study Vehicle usage form
     * `npm run start -- --testabsence`
         * runs test script for Absence request form
-    * `npm run start -- --runtestqm`
+     `npm run start -- --runtestqm`
         * runs test script for Quality Management form
+     
+     * `--enabledisklog`
     
 ## How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) .

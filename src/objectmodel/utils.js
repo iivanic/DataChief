@@ -58,7 +58,7 @@ this.checkCommandLine = function (param) {
         //open log panel at bottom
         $("#expandlog").click();
         // set user to first on the list, this is the user not in barrique Case study
-   $("#selectActiveProfile").prop("selectedIndex", 0); //.selectmenu("refresh");
+        $("#selectActiveProfile").prop("selectedIndex", 0); //.selectmenu("refresh");
         userSettings.activeProfile_change();
 
         helper.log("User switched to " + userSettings.identitySetting.mainEmail);
@@ -142,6 +142,12 @@ this.isAnyTest = function (param) {
 
         for (var i in arguments) {
             switch (arguments[i].toLowerCase()) {
+                case "--enabledisklog":
+                    $("#log2file").removeClass("ui-icon-info");
+                    $("#log2file").addClass("ui-icon-script");
+                    $("#log2fileopen").show();
+                    helper.startSavingLogToDisk();
+                    break;
                 case "--runtestcarlog":
                     tests.push("testcarlog.js");
                     caseStudyAndEditorNeeded = true;
@@ -523,6 +529,8 @@ this.log = function (txt) {
         if ($("#IMAPTestDialog").is(":visible"))
             $("#IMAPTestDialogLog").append("<option>" + str + "</option>")
     }
+    if (logFile)
+        logFile.write(str + "\r\n");
 
 }
 this.formatDateForFileName = function (d) {
@@ -756,15 +764,29 @@ this.deleteBroadcastFolder = function () {
     }
     dataCollection.refreshBroadcastDB();
 }
-this.startSavingLogToDisk = function()
-{
-    helper.log("OK startSavingLogToDisk");
+
+var logFile = null;
+this.startSavingLogToDisk = function () {
+    var file = helper.join(helper.getSettingsFolder(), 'log.txt');
+
+    if (helper.fileExists(file))
+        helper.deleteFile(file);
+    logFile = fs.createWriteStream(file, { flags: 'a' });
 }
-this.stopSavingLogToDisk = function()
-{
-    helper.log("OK stopSavingLogToDisk");
+this.stopSavingLogToDisk = function () {
+    logFile.end();
+    logFile = null;
 }
-this.openCurrentLogFromDisk = function()
-{
-    helper.log("OK openCurrentLogFromDisk");
+
+this.openCurrentLogFromDisk = function () {
+    try {
+        // require('child_process').execSync(helper.join(helper.getSettingsFolder(),'log.txt'), { encoding: 'utf8', timeout: 5000 });
+        const { shell } = require('electron');
+        // Open a local file in the default app
+        shell.openItem(helper.join(helper.getSettingsFolder(), 'log.txt'));
+    }
+    catch (ex) {
+        helper.log("openCurrentLogFromDisk:" + ex);
+    }
+
 }

@@ -345,6 +345,7 @@ function expandlog_click() {
 function log2File_click() {
 
     if ($("#log2file").hasClass("ui-icon-info")) {
+
         helper.confirm("Start saving log to disk?", function () {
             $("#log2file").removeClass("ui-icon-info");
             $("#log2file").addClass("ui-icon-script");
