@@ -313,6 +313,7 @@ $(document).ready(function () {
       else
           toggleEditor();*/
     $(expandlog).click(expandlog_click);
+    $("#log2file").click(log2File_click);
 
     helper.log("Welcome to Data Chief.");
     helper.log("Ready.");
@@ -328,6 +329,7 @@ function expandlog_click() {
         $("#expandlog").removeClass("ui-icon-arrow-1-n");
         $("#expandlog").addClass("ui-icon-arrow-1-s");
         $("#sendingpanel").show();
+        $("#logList").css("font-size", "13.5px");
     }
     else {
         $("#logrow").height($("#logrow").height() - 100);
@@ -336,9 +338,27 @@ function expandlog_click() {
         $("#sendingpanel").hide();
         // position scroll
         $("#logList").animate({ scrollTop: $("#logList")[0].scrollHeight }, 0);
-
+        $("#logList").css("font-size", "9px");
     }
     fixTabsHeight();
+}
+function log2File_click() {
+
+    if ($("#log2file").hasClass("ui-icon-info")) {
+        helper.confirm("Start saving log to disk?", function () {
+            $("#log2file").removeClass("ui-icon-info");
+            $("#log2file").addClass("ui-icon-script");
+        });
+
+
+    }
+    else {
+        helper.confirm("Stop saving log to disk?", function () {
+            $("#log2file").removeClass("ui-icon-script");
+            $("#log2file").addClass("ui-icon-info");
+        });
+    }
+
 }
 
 function toggleEditor() {
