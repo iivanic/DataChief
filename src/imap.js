@@ -128,7 +128,10 @@ function Go(automatic) {
     });
 
     imap_.once('error', function (err) {
-        // tu nekad pukne  map Connection event "error": Error: write EINVAL.
+        // tu nekad pukne  
+        //Imap Connection event "error": Error: write EINVAL.
+        //Imap Connection event "error": Error: read ECONNRESET.
+
         helper.log("Imap Connection event \"error\": " + err + ".");
         if (err) {
             if (error)
