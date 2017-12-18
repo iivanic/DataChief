@@ -1,6 +1,3 @@
-
-
-
 this.ctor = function (email) {
     this.filePath = helper.getIdentitySettingsFilePath(email);
     console.log("IdentitySettings('" + email + "') =" + this.filePath);
@@ -31,8 +28,7 @@ this.ctor = function (email) {
     var file = "";
     try {
         file = helper.decrypt(helper.loadFile(this.filePath));
-    } catch (ex)
-    { }
+    } catch (ex) {}
     if (!file) {
         // first time creation
         if (!this.email)
@@ -41,8 +37,7 @@ this.ctor = function (email) {
             this.name = helper.getCurrentUsername().split("@")[0];
         this.imapUserName = this.email;
         helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, null, 5)));
-    }
-    else {
+    } else {
         var loadedObj = JSON.parse(file);
         for (var attrname in loadedObj) {
             this[attrname] = loadedObj[attrname]
@@ -51,10 +46,9 @@ this.ctor = function (email) {
 
 }
 this.save = function () {
-    if(this.oldEmail!=this.email)
-    {
+    if (this.oldEmail != this.email) {
         //email has changed, we need to chreate new file;
-        var oldFolder = helper.getIdentityFolder(this.oldEmail) ;
+        var oldFolder = helper.getIdentityFolder(this.oldEmail);
         this.filePath = helper.getIdentitySettingsFilePath(this.email);
         this.oldEmail = this.email;
         // delete old file ??? 
@@ -94,51 +88,61 @@ this.toGui = function () {
 this.fromGui = function () {
     this.email = $("#textSettingsEmail").val();
     this.name = $("#textSettingsName").val();
-    if(this.email==userSettings.mainEmail)
-    {
-        //OK, it is main account
-        if(
-            this.imapUserName != $("#textSettingsIMAPUsername").val() ||
-            this.imapPassword != $("#textSettingsIMAPPassword").val() ||
-            this.imapServer != $("#textSettingsIMAPServer").val() ||
-            this.imapPort != $("#textSettingsIMAPServerPort").val() ||
-            this.imapRequiresSSL != $("#textSettingsIMAPRequiresSSL").is(':checked')
-        
-        )
-        {
-            //there has been change
-            if(barrique.isInstalled())
-            {
-                this.imapUserName = $("#textSettingsIMAPUsername").val();
-                this.imapPassword = $("#textSettingsIMAPPassword").val();
-                this.imapServer = $("#textSettingsIMAPServer").val();
-                this.imapPort = $("#textSettingsIMAPServerPort").val();
-                this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
+    //   if(this.email==userSettings.mainEmail)
+    //   {
+    //OK, it is main account
+    if (
+        this.imapUserName != $("#textSettingsIMAPUsername").val() ||
+        this.imapPassword != $("#textSettingsIMAPPassword").val() ||
+        this.imapServer != $("#textSettingsIMAPServer").val() ||
+        this.imapPort != $("#textSettingsIMAPServerPort").val() ||
+        this.imapRequiresSSL != $("#textSettingsIMAPRequiresSSL").is(':checked')
 
-                //case study is installed
-                helper.confirm(
-                    "You made change to your main account IMAP settings. Do you wish to apply the same settings to all profiles?",
-                    userSettings.applyIMAPSettingsToAllProfiles,
-                    JSON.parse(JSON.stringify(this))
-                );
-            }
+    ) {
+        //there has been change
+        if (barrique.isInstalled()) {
+            this.imapUserName = $("#textSettingsIMAPUsername").val();
+            this.imapPassword = $("#textSettingsIMAPPassword").val();
+            this.imapServer = $("#textSettingsIMAPServer").val();
+            this.imapPort = $("#textSettingsIMAPServerPort").val();
+            this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
+
+            //case study is installed
+            helper.confirm(
+                "You made change to account IMAP settings. Do you wish to apply the same settings to all profiles (HIGHLY RECOMMENDED)?",
+                userSettings.applyIMAPSettingsToAllProfiles,
+                JSON.parse(JSON.stringify(this))
+            );
         }
-
     }
+
+    //}
     this.imapUserName = $("#textSettingsIMAPUsername").val();
     this.imapPassword = $("#textSettingsIMAPPassword").val();
     this.imapServer = $("#textSettingsIMAPServer").val();
     this.imapPort = $("#textSettingsIMAPServerPort").val();
     this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
     //  helper.log(" textSettingsIMAPServerPort" +  $("#textSettingsIMAPServerPort").val() + "," + this.imapPort + this.name) ;
- 
+
     this.smtpUserName = $("#textSettingsSMTPUsername").val();
     this.smtpPassword = $("#textSettingsSMTPPassword").val();
     this.smtpServer = $("#textSettingsSMTPServer").val();
     this.smtpPort = $("#textSettingsSMTPServerPort").val();
     this.smtpRequiresSSL = $("#textSettingsSMTPRequiresSSL").is(':checked');
     this.RequiresAuthentication = $("#textSettingsSMTPRequiresAuthentication").is(':checked');
+   
+    if (this.userSecret != $("#textSettingsUSerSecret").val()) {
+        if (barrique.isInstalled()) {
+            this.userSecret = $("#textSettingsUSerSecret").val();
+            helper.confirm(
+                "You made change to Shared secret. Do you wish to apply it to all profiles (HIGHLY RECOMMENDED)?",
+                userSettings.applySharedSecretSettingsToAllProfiles,
+                JSON.parse(JSON.stringify(this))
+            );           
+        }
+    }
     this.userSecret = $("#textSettingsUSerSecret").val();
+
     this.comment = $("#textSettingsNameComment").val();
 
 

@@ -32,7 +32,7 @@ this.testStep4 = function (self) {
     helper.log(self.scriptName + "Test step 4 - create and publish form(s).");
     //new form dialog
     $("#add_form").click();
-    $("#exampleforms").val("Corrective action - Quality Management");
+    $("#exampleforms").val("Vehicle Usage Log");
     //set form name
     $("#tab_title").val("Car Log");
     //leave default form selected in dropdown
@@ -512,7 +512,7 @@ this.testStep6Pause3 = function (self) {
     helper.log(self.scriptName + "Continue...");
      //send and Recieve - user neeed to recieve published packages
     // first set callback
-    imap.callback = self.end;
+    imap.callback = self.testStep6_4_;
     imap.test = self;
     $($("span:contains('Send / Recieve')")).click()
 }
@@ -529,7 +529,7 @@ this.testStep6_4_ = function (error, self) {
 
     helper.log(self.scriptName + "Pause...");
     
-      window.setTimeout(self.testStep6Pause4, 1000, self)
+      window.setTimeout(self.testStep6Pause4, 2000, self)
    
 }
 this.testStep6Pause4 = function (self) {
