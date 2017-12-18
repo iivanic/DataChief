@@ -177,9 +177,10 @@ this.findFileStatus = function (id, version, arr) {
 this.loadPackages = function () {
     ipath = helper.getInboxPath();
     var files = helper.getFilesInDir(ipath);
-    if (files.length == 0)
-        helper.log("No downloaded packages found.");
-    else {
+    if (files.length > 0)
+   //     helper.log("No downloaded packages found.");
+   // else 
+   {
         helper.log("Importing " + files.length + " downloaded package(s).");
         for (var i in files) {
             this.loadPackage(files[i]);
