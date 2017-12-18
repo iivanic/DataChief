@@ -344,13 +344,13 @@ function readMessages1() {
             return;
         }
         if (results.length == 0) {
-            helper.log("Found none.");
+            helper.log("No messages.");
             imap_.end();
             package.loadPackages();
             return;
 
         }
-        helper.log("Found " + results.length + ".");
+        helper.log("Found " + results.length + " message(s).");
         var f = imap_.fetch(results, {
             bodies: ''
         });

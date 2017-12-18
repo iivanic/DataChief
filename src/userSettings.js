@@ -52,8 +52,7 @@ this.ctor = function () {
         }
     }
 
-    $("#buttonKnownServersSettings").button();
-    $("#buttonKnownServersWizard").button();
+     
 
     this.loadIdentitySetting(this.email)
     if (!this.wizadFinished) {
@@ -64,6 +63,10 @@ this.ctor = function () {
         $(document).ready(function () {
             if (!helper.isAnyTest())
                 imapTimer = window.setTimeout("imap.go(true)", 4000);
+                $("#IMAPTest1").button();
+                $("#buttonKnownServersSettings").button();
+                $("#buttonKnownServersWizard").button();
+            
         });
     }
 
