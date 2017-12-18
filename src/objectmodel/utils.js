@@ -67,7 +67,7 @@ this.checkCommandLine = function (param) {
         userSettings.activeProfile_change();
 
         helper.log("User switched to " + userSettings.mainEmail);
-        helper.log("Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
+        helper.log("Welcome to SCRIPTS. Please DO NOT TOUCH ANYTHING while script is running.");
         helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
         if (caseStudyAndEditorNeeded) {
             if (!barrique.isInstalled()) {
@@ -98,7 +98,7 @@ this.checkCommandLine = function (param) {
 
         oldtest.doneCallback = this.testsDone;
         prepareCallsCount = 0;
-        helper.alert("Running test script. Please Wait.");
+        helper.alert("Running script. Please Wait.");
         testObjects[prepareCallsCount].prepare(this.prepareForTestDone);
 
     }
@@ -120,7 +120,7 @@ this.publishDone = function () {
 
 }
 this.testsDone = function () {
-    helper.log("TEST(S) finished.");
+    helper.log("SCRIPT(S) finished.");
     // helper.log("Sending QUIT signal.");
     // var ipc = require('electron').ipcRenderer;
     // ipc.send("run-test-script-done");
