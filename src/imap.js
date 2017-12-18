@@ -86,14 +86,14 @@ function Go(automatic) {
         });
     });
     imap_.once("update", function (seqno, info) {
-        helper.log("event update " + seqno + ".");
+        helper.log("Imap event \"update\" " + seqno + ".");
     });
     imap_.once("alert", function (msg) {
-        helper.log("event alertfrom server " + _config.host + ": " + msg + ".");
+        helper.log("Imap event  \"alert\" from server " + _config.host + ": " + msg + ".");
         helper.alert("Message from server " + _config.host + ": " + msg);
     });
     imap_.once('expunge', function (seqno) {
-        helper.log("event expunged " + seqno + ".");
+        helper.log("Imap event \"expunged\" " + seqno + ".");
 
         /* redMessages--; // redMessages.splice(seqno-1,1);
          if(redMessages==0)
@@ -128,7 +128,7 @@ function Go(automatic) {
     });
 
     imap_.once('error', function (err) {
-        helper.log("Connection event \"error\": " + err + ".");
+        helper.log("Imap Connection event \"error\": " + err + ".");
         if (err) {
             if (error)
                 error += err;
@@ -212,7 +212,7 @@ function getBoxesCallBack(err, boxes) {
         }
     }
     if (!bFound) {
-        helper.log("Folder not found.")
+        helper.log("Box not found.")
         imap_.addBox("Datachief", addBoxCallback)
 
     } else
@@ -229,7 +229,7 @@ function addBoxCallback(err) {
         imap_.end();
         return;
     } else {
-        helper.log("Folder <strong>Datachief</strong> created.");
+        helper.log("Box <strong>Datachief</strong> created.");
         openDCFolder();
     }
 
@@ -238,7 +238,7 @@ function addBoxCallback(err) {
 var quedPcks = new Array();
 
 function openDCFolder(user) {
-    helper.log("Open folder Datachief");
+    helper.log("Open box Datachief");
     imap_.openBox('Datachief', false, uploadMessages);
 }
 
@@ -277,6 +277,7 @@ function uploadMessages(err, box) {
 
             quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
+            helper.log("Imap appending " + (i+1) + "/" + files.length);
             var r = imap_.append(message, "", appendDone)
 
         }
@@ -296,7 +297,7 @@ function appendDone(err, o) {
         return;
     }
     //   else
-    //       helper.log("Append done (id=" + o + ").")
+    helper.log("Append done (id=" + o + ").")
     var el = quedPcks.shift();
     sent.movePackageToSent(el);
     helper.deleteFile(el);
@@ -435,7 +436,7 @@ function deleteMessages(msgs) {
                         helper.log("expunged.");
 
 
-                        helper.log("Closing folder.")
+                        helper.log("Closing box.")
                         imap_.closeBox(true,
                             function (err) {
                                 if (err) {
@@ -443,7 +444,7 @@ function deleteMessages(msgs) {
                                         error += err;
                                     else
                                         error = err;
-                                    helper.alert("Error closing folder on server! " + error);
+                                    helper.alert("Error closing box on server! " + error);
                                     imap_.end();
                                     return;
                                 } else {
