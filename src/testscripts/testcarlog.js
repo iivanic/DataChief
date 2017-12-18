@@ -286,7 +286,7 @@ this.testStep5_3_WorkflowStep = function (error, self) {
 
     imap.callback = self.testStep5_3_WorkflowStep_;
     imap.test = self;
-    $($("span:contains('Send / Recieve')")).click()
+    window.setTimeout("$($(\"span:contains('Send / Recieve')\")).click()",2000);
 }
 
 this.testStep5_3_WorkflowStep_ = function (error, self) {

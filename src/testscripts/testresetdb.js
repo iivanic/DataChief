@@ -45,9 +45,10 @@ this.prepare = function (callback) {
         //refresh
         publish.refreshFolders();
 
-        helper.log(self.scriptName + "" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
+        helper.log(this.scriptName + "" + cnt.toString() + " user folders (" + (cnt * (folders.length + 1)).toString() + ") deleted.");
 
     helper.log(this.scriptName + "Reset DB end.");
+    helper.log(this.scriptName + "End prepare.");
     callback();
 }
 // dumy, just to implement interface like methods

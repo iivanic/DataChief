@@ -39,7 +39,7 @@ this.sleep = function (milisecondsms) {
 this.checkCommandLine = function (param) {
 
     if (this.isAnyTest(param)) {
-        this.log("Found " + (tests.length + 1) + "test(s).");
+        this.log("Found " + (tests.length + 1) + " test(s).");
 
 
         for (var i = 0 in tests) {
@@ -61,7 +61,7 @@ this.checkCommandLine = function (param) {
         $("#selectActiveProfile").prop("selectedIndex", 0); //.selectmenu("refresh");
         userSettings.activeProfile_change();
 
-        helper.log("User switched to " + userSettings.identitySetting.mainEmail);
+        helper.log("User switched to " + userSettings.mainEmail);
         helper.log("Welcome to TEST. Please DO NOT TOUCH ANYTHING while test is running.");
         helper.log("Case Study and Designer mode " + (caseStudyAndEditorNeeded ? "ARE" : "ARE NOT") + " needed.");
         if (caseStudyAndEditorNeeded) {

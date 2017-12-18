@@ -16,8 +16,8 @@ this.wellKnownServers = [
      {name:"Mail.ru", server:"imap.mail.ru",  port:993, TSL:true},
      {name:"Outlook.com ex Live Mail, Hotmail", server:"mail-imap.outlook.com", port:993, TSL:true},
      {name:"Yahoo Mail", server:"imap.mail.yahoo.com",  port:993, TSL:true},     
-     {name:"Yandex Mail", server:"mail.yandex.com",  port:993, TSL:true},
-     {name:"Zoho", server:"mail.zoho.eu",  port:993, TSL:true}
+     {name:"Yandex Mail", server:"imap.yandex.com",  port:993, TSL:true},
+     {name:"Zoho", server:"imap.zoho.eu",  port:993, TSL:true}
 ];
 
 function openInbox(cb) {
@@ -128,6 +128,7 @@ function Go(automatic) {
     });
 
     imap_.once('error', function (err) {
+        // tu nekad pukne  map Connection event "error": Error: write EINVAL.
         helper.log("Imap Connection event \"error\": " + err + ".");
         if (err) {
             if (error)
@@ -136,6 +137,7 @@ function Go(automatic) {
                 error = err;
         }
         imap_.end();
+        
         helper.alert("IMAP: " + err);
         imap.imapbusy = false;
         $("#progressbar").progressbar({
@@ -277,7 +279,7 @@ function uploadMessages(err, box) {
 
             quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
-            helper.log("Imap appending " + (i+1) + "/" + files.length);
+            helper.log("Imap appending " + (pareseInt(i)+1) + "/" + files.length);
             var r = imap_.append(message, "", appendDone)
 
         }
