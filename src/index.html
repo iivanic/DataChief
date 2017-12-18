@@ -167,7 +167,9 @@
                         <label for="step4textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, ..">IMAP Server: </label>
                         <br>
                         <input type="text" id="step4textSettingsIMAPServer" name="step4textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, .." required class="required fullwidth"
-                        />
+                        /> 
+                        <button id="buttonKnownServersWizard" onclick="userSettings.showWellKnownServers($('#step4textSettingsIMAPServer'),$('#step4textSettingsIMAPServerPort'),$('#step4textSettingsIMAPRequiresSSL'));">Known servers</button>
+
                         <br>
                         <label for="step4textSettingsIMAPServerPort">IMAP Server port: </label>
                         <br>
@@ -246,6 +248,14 @@
                     </select>
                     <br />
                     <br />
+                </fieldset>
+            </form>
+        </div>
+        <div id="WellKnownIMAPServersDialog" title="Known free IMAP servers" style="display:none;">
+            <form>
+                <fieldset class="ui-helper-reset">
+                    <label for="tab_title">Servers:</label>
+                    <select size="7" id="WellKnownIMAPServersDialogList" style="width:100%;"></select>
                 </fieldset>
             </form>
         </div>
@@ -737,8 +747,12 @@
                                             <div class="col-sm-4">
                                                 <label for="textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, ..">IMAP Server: </label>
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-6">
                                                 <input type="text" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, .." class="datachiefFieldText" id="textSettingsIMAPServer" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class="fullwidth" id="buttonKnownServersSettings" onclick="userSettings.showWellKnownServers($('#textSettingsIMAPServer'),$('#textSettingsIMAPServerPort'),$('#textSettingsIMAPRequiresSSL'));">..</button>
+
                                             </div>
                                         </div>
                                         <div class="row">

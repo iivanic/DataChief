@@ -36,7 +36,7 @@ this.ctor = function () {
     var file = "";
     try {
         file = helper.decrypt(helper.loadFile(this.filePath));
-    } catch (ex) {}
+    } catch (ex) { }
     if (!file) {
         // first time creation
         this.email = helper.getCurrentUsername();
@@ -51,6 +51,10 @@ this.ctor = function () {
             this[attrname] = loadedObj[attrname];
         }
     }
+
+    $("#buttonKnownServersSettings").button();
+    $("#buttonKnownServersWizard").button();
+
     this.loadIdentitySetting(this.email)
     if (!this.wizadFinished) {
         $(document).ready(function () {
@@ -79,6 +83,50 @@ this.save = function () {
     helper.saveTextFile(this.filePath, helper.encrypt(JSON.stringify(this, saveJSONReplacer, 5)));
     identitySetting.save();
     helper.log("Settings saved.");
+}
+this.last_server =  null;
+this.last_port=  null;
+this.last_tls=  null;
+this.applyWellKnownServer = function(s,p,t)
+{
+    userSettings.last_server.val(s);
+    userSettings.last_port.val(p);
+    userSettings.last_tls.prop("checked",t=="true");
+ 
+} 
+this.showWellKnownServers = function(_server, _port, _tls)
+{
+    userSettings.last_server = _server;
+    userSettings.last_port = _port;
+    userSettings.last_tls = _tls;
+    var html = ''
+    for (var i in imap.wellKnownServers) {
+        var name = imap.wellKnownServers[i].name;
+        var server = imap.wellKnownServers[i].server;
+        var port = imap.wellKnownServers[i].port;
+        var tls = imap.wellKnownServers[i].TSL;
+        html += "<option port=" + port + " tls=" + tls + " value='" + server + "'" + (_server.val()==server?"selected":"") +">" + name + "</option>"
+    }
+    $("#WellKnownIMAPServersDialogList").html(html);
+    $("#WellKnownIMAPServersDialog").dialog({
+        resizable: false,
+        height: 295,
+        width:350,
+        modal: true,
+        buttons: {
+            "Select server": function () {
+                var s = $("#WellKnownIMAPServersDialog select").val();
+                var p = $("#WellKnownIMAPServersDialog select option:selected").attr("port")
+                var t = $("#WellKnownIMAPServersDialog select option:selected").attr("tls")
+                userSettings.applyWellKnownServer(s,p,t);
+                $(this).dialog("close");
+            },
+            Cancel: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+
 }
 
 function saveJSONReplacer(key, value) {
@@ -166,7 +214,7 @@ this.toGui = function () {
                 $("#editOrgMemberSecret").prop("type", "password");
 
         }
-    );
+        );
 
 
     this.reloadIndentityChooser();
@@ -227,7 +275,7 @@ this.reloadIndentityChooser = function () {
     html += "<option value=\"-1\">Create new profile</option>";
     try {
         $("#selectActiveProfile").selectmenu("destroy");
-    } catch (e) {}
+    } catch (e) { }
 
     $("#selectActiveProfile").html(html);
 
@@ -359,7 +407,7 @@ this.refreshSelectActiveProfile = function () {
         $("#maintabs").tabs("option", "active", 4);
         $("#selectActiveProfile").selectmenu("refresh");
         $("#maintabs").tabs("option", "active", oldActiveTab);
-    } catch (e) {}
+    } catch (e) { }
 }
 this.closeAllTabs = function () {
     // close graph

@@ -11,14 +11,14 @@ var error = null;
 var _box;
 
 this.wellKnownServers = [
-     {"AOL Mail", "imap.aol.com", 993, true},
-     {"Gmail", "mail.gmail.com", 993, true},
-     {"Mail.ru", "imap.mail.ru", 993, true},
-     {"Outlook.com ex Live Mail, Hotmail", "mail-imap.outlook.com", 993, true},
-     {"Yahoo Mail", "imap.mail.yahoo.com", 993, true},     
-     {"Yandex Mail", "mail.yandex.com", 993, true},
-     {"Zoho", "mail.zoho.eu", 993, true}
-]
+     {name:"AOL Mail", server:"imap.aol.com", port: 993, TSL:true},
+     {name:"Gmail", server:"imap.gmail.com",  port:993, TSL:true},
+     {name:"Mail.ru", server:"imap.mail.ru",  port:993, TSL:true},
+     {name:"Outlook.com ex Live Mail, Hotmail", server:"mail-imap.outlook.com", port:993, TSL:true},
+     {name:"Yahoo Mail", server:"imap.mail.yahoo.com",  port:993, TSL:true},     
+     {name:"Yandex Mail", server:"mail.yandex.com",  port:993, TSL:true},
+     {name:"Zoho", server:"mail.zoho.eu",  port:993, TSL:true}
+];
 
 function openInbox(cb) {
 
