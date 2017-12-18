@@ -1,7 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Debug Renderer Process",
             "type": "chrome",
@@ -33,7 +32,7 @@
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
-           "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
             "windows": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
             },
@@ -41,9 +40,8 @@
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron"
             },
             "osx": {
-                "runtimeExecutable": "${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron"
+                "runtimeExecutable": "${workspaceRoot}/node_modules/electron/dist/electron.app/Contents/MacOS/Electron"
             },
-            
             "runtimeArgs": [
                 "--nolazy",
                 "--opendevtools",
@@ -57,8 +55,7 @@
             },
             "preLaunchTask": "",
             "sourceMaps": false,
-            "protocol" : "inspector"
-            
+            "protocol": "inspector"
         },
         {
             "name": "Run Test script renderer debug",
@@ -92,7 +89,7 @@
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
-           "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
             "windows": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
             },
@@ -102,12 +99,10 @@
             "osx": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/electron-prebuilt/dist/electron.app/Contents/MacOS/Electron"
             },
-            
             "runtimeArgs": [
                 "--nolazy",
                 "--runalltests",
                 "--opendevtools"
-                
             ],
             "env": {
                 "NODE_ENV": "development",
@@ -117,8 +112,7 @@
             },
             "preLaunchTask": "",
             "sourceMaps": false,
-            "protocol" : "inspector"
-            
+            "protocol": "inspector"
         }
     ]
 }
