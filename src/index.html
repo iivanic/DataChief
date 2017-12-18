@@ -11,7 +11,6 @@
 
 
     <script>
-
         var imapTimer = null;
         window.$ = window.jQuery = require('./jquery-ui-1.11.4/external/jquery/jquery.js');
         require('./jquery-ui-1.11.4/jquery-ui.min.js');
@@ -39,8 +38,6 @@
         };
 
         $.validator = jQuery.validator = require("jquery-validation");
-
-
     </script>
     <script src='ctlBox.js'></script>
     <script src='menu.js'></script>
@@ -166,8 +163,8 @@
                         <br>
                         <label for="step4textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, ..">IMAP Server: </label>
                         <br>
-                        <input type="text" id="step4textSettingsIMAPServer" name="step4textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, .." required class="required fullwidth"
-                        /> 
+                        <input type="text" id="step4textSettingsIMAPServer" name="step4textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, .."
+                            required class="required fullwidth" />
                         <button id="buttonKnownServersWizard" onclick="userSettings.showWellKnownServers($('#step4textSettingsIMAPServer'),$('#step4textSettingsIMAPServerPort'),$('#step4textSettingsIMAPRequiresSSL'));">Known servers</button>
 
                         <br>
@@ -387,23 +384,19 @@
                 </li>
             </ul>
             <div id="maintabs-1" class="fixmyheight">
-                <div class="row" style="height:100%;">
-                    <div class="col-sm-2" style="height:100%;">
-                        <button style="width:100%;margin-bottom:10px;" id="add_form">Create Form</button>
-
-                        <button style="width:100%;" id="open_form">Open Form</button>
-                        <hr />
-                    </div>
-                    <div class="col-sm-10" style="height:100%;">
-                        <div id="tabs" style="background-image:url('../icons/DesignerGray.png');background-repeat: no-repeat;background-position: center center;height:90%;">
-                            <ul></ul>
+                <div style="height:100%;">
+                    <div class="row" style="height:100%">
+                        <div class="col-sm-12" style="height:100%">                   
+                            <button id="open_form" style="margin-left:10px;float:right;">Open Form</button>
+                            <button id="add_form" style="float:right;">Create Form</button>
+                            <div id="tabs" style="margin-top:40px;background-image:url('../icons/DesignerGray.png');background-repeat: no-repeat;background-position: center center;height:90%;">
+                                <ul></ul>
+                            </div>
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
+
 
             <div id="maintabs-2" class="fixmyheight">
 
@@ -748,7 +741,8 @@
                                                 <label for="textSettingsIMAPServer" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, ..">IMAP Server: </label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, .." class="datachiefFieldText" id="textSettingsIMAPServer" />
+                                                <input type="text" title="imap.gmail.com, imap-mail.outlook.com, imap.zoho.eu, .." class="datachiefFieldText" id="textSettingsIMAPServer"
+                                                />
                                             </div>
                                             <div class="col-sm-2">
                                                 <button class="fullwidth" id="buttonKnownServersSettings" onclick="userSettings.showWellKnownServers($('#textSettingsIMAPServer'),$('#textSettingsIMAPServerPort'),$('#textSettingsIMAPRequiresSSL'));">..</button>
@@ -774,7 +768,7 @@
                                             <div class="col-sm-4">
                                                 <label for="IMAPTest1">Test settings: </label>
                                             </div>
-                                        
+
                                             <div class="col-sm-8">
                                                 <button onclick="userSettings.imapTest();return false;" style="float:right;" name="IMAPTest" id="IMAPTest1">Test IMAP settings</button>
 
@@ -874,7 +868,7 @@
 
                     </div>
                     <div class="col-sm-6">
-                        <fieldset id="settingsApp" >
+                        <fieldset id="settingsApp">
                             <legend>Behavior</legend>
                             <p>Data Chief config</p>
                             <div class="row" style="display:none">
@@ -903,12 +897,12 @@
                                         <option value="">
                                             <-- choose -->
                                         </option>
-                                   <!--     <option value="runalltests">Delete data & Run all scanarios</option> -->
+                                        <!--     <option value="runalltests">Delete data & Run all scanarios</option> -->
                                         <option value="runtestcarlog">Run Car Usage Log simulation</option>
                                         <option value="runtestabsence">Run Absence Form simulation</option>
                                         <option value="runtestqm">Run Quality Management simulation</option>
                                         <option value="runresetdb">Delete all Form data</option>
-                                    <!--   <option value="runresetall">Delete all & reset configuration data</option> -->
+                                        <!--   <option value="runresetall">Delete all & reset configuration data</option> -->
                                     </select>
                                 </div>
                             </div>
@@ -924,10 +918,10 @@
                     <div class="col-sm-12">
                         <br>
                         <div style="float:right;">
-                        <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
-                        <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
-                        <button id="startStartWizerd" onclick="index.startWizard();">Start Wizard</button>
-                    </div>
+                            <button id="resettings" onclick="userSettings.toGui();">Reset</button>&nbsp;
+                            <button id="savesettings" onclick="userSettings.fromGui();userSettings.save();">Apply</button>
+                            <button id="startStartWizerd" onclick="index.startWizard();">Start Wizard</button>
+                        </div>
                     </div>
                 </div>
             </div>
