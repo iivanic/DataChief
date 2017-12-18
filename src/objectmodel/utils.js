@@ -5,8 +5,13 @@ var remote = require('electron').remote;
 var dialog = remote.dialog;
 var pwd = "P@s$w0Rd";
 var crypto = require('crypto');
+const os = require('os');
 var tests = new Array();
 
+this.os = function()
+{
+    return os.type() + ' (' + os.platform() + ' release ' + os.release() + ')'; 
+}
 this.generateGUID = function () {
     // not a real GUID, just a big random number
     // taken from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript

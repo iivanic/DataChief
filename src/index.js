@@ -315,7 +315,7 @@ $(document).ready(function () {
     $(expandlog).click(expandlog_click);
     $("#log2file").click(log2File_click);
     $("#log2fileopen").click(helper.openCurrentLogFromDisk);
-    helper.log("Welcome to Data Chief.");
+    helper.log("Welcome to Data Chief running on " + helper.os() + ".");
     helper.log("Ready.");
 
     //check command line 
