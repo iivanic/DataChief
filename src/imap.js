@@ -279,7 +279,7 @@ function uploadMessages(err, box) {
 
             quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
-            helper.log("Imap appending " + (pareseInt(i)+1) + "/" + files.length);
+            helper.log("Imap appending " + (parseInt(i)+1) + "/" + files.length);
             var r = imap_.append(message, "", appendDone)
 
         }
