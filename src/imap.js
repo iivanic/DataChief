@@ -10,14 +10,48 @@ var recievedCnt = 0;
 var error = null;
 var _box;
 
-this.wellKnownServers = [
-     {name:"AOL Mail", server:"imap.aol.com", port: 993, TSL:true},
-     {name:"Gmail", server:"imap.gmail.com",  port:993, TSL:true},
-     {name:"Mail.ru", server:"imap.mail.ru",  port:993, TSL:true},
-     {name:"Outlook.com ex Live Mail, Hotmail", server:"mail-imap.outlook.com", port:993, TSL:true},
-     {name:"Yahoo Mail", server:"imap.mail.yahoo.com",  port:993, TSL:true},     
-     {name:"Yandex Mail", server:"imap.yandex.com",  port:993, TSL:true},
-     {name:"Zoho", server:"imap.zoho.eu",  port:993, TSL:true}
+this.wellKnownServers = [{
+        name: "AOL Mail",
+        server: "imap.aol.com",
+        port: 993,
+        TSL: true
+    },
+    {
+        name: "Gmail",
+        server: "imap.gmail.com",
+        port: 993,
+        TSL: true
+    },
+    {
+        name: "Mail.ru",
+        server: "imap.mail.ru",
+        port: 993,
+        TSL: true
+    },
+    {
+        name: "Outlook.com ex Live Mail, Hotmail",
+        server: "imap-mail.outlook.com",
+        port: 993,
+        TSL: true
+    },
+    {
+        name: "Yahoo Mail",
+        server: "imap.mail.yahoo.com",
+        port: 993,
+        TSL: true
+    },
+    {
+        name: "Yandex Mail",
+        server: "imap.yandex.com",
+        port: 993,
+        TSL: true
+    },
+    {
+        name: "Zoho",
+        server: "imap.zoho.eu",
+        port: 993,
+        TSL: true
+    }
 ];
 
 function openInbox(cb) {
@@ -31,7 +65,11 @@ this.callback1 = null;
 this.test1 = null;
 
 this.imapbusy = false;
-
+//for automatic recovery
+this.lastLoginWasSuccess = false;
+this.autoRecoveryCounter = 0;
+this.maxAutoRecoveryCount = 3;
+//
 this.imapMessageTemplate = helper.loadTextFile("../templates/IMAPMessageTemplate.txt");;
 
 this.go = Go;
@@ -42,6 +80,11 @@ function Go(automatic) {
             helper.log("Send/recieve job already running. Please wait for finish.");
         return;
     }
+    if (imap.autoRecoveryCounter>0)
+    {
+        helper.log("Imap.Go(): autoRecoveryCounter=" + imap.autoRecoveryCounter.toString() )
+    }
+    imap.lastLoginWasSuccess = false;
     imap.imapbusy = true;
     error = null;
     recievedCnt = 0;
@@ -60,7 +103,7 @@ function Go(automatic) {
         password: userSettings.identitySetting.imapPassword,
         host: userSettings.identitySetting.imapServer,
         port: userSettings.identitySetting.imapPort,
-        tls: userSettings.identitySetting.imapRequiresSSL ,
+        tls: userSettings.identitySetting.imapRequiresSSL,
         debug: console.log
     });
 
@@ -68,6 +111,7 @@ function Go(automatic) {
         $("#progressbar").progressbar({
             value: 5
         });
+        imap.lastLoginWasSuccess = true;
         // 1. Connect
         helper.log("Connected.");
         // 2. Check for DC folder
@@ -94,37 +138,6 @@ function Go(automatic) {
     });
     imap_.once('expunge', function (seqno) {
         helper.log("Imap event \"expunged\" " + seqno + ".");
-
-        /* redMessages--; // redMessages.splice(seqno-1,1);
-         if(redMessages==0)
-         {
-             helper.log("Closing folder.")
-             imap_.closeBox(true, 
-                 function (err) {
-                     if (err) {
-                         if (error)
-                             error += err;
-                         else
-                             error = err;
-                             helper.alert("Error closing folder on server!")
-                         imap_.end();
-                         return;
-                     }
-                     else {
-                        if(redMessages>0)
-                         {
-                             var str = "Not all messages are expunged (" + redMessages.toString() + ")!";
-                             helper.log(str);
-                             helper.alert(str);
-                         }
-                             
-                         imap_.end();
-                         package.loadPackages();
-                         
-                     }
-                 });
-           
-         } */
     });
 
     imap_.once('error', function (err) {
@@ -140,13 +153,32 @@ function Go(automatic) {
                 error = err;
         }
         imap_.end();
+
         
-        helper.alert("IMAP: " + err);
+
         imap.imapbusy = false;
         $("#progressbar").progressbar({
             value: 100
         });
         window.setTimeout(resetProgressBar, 1000);
+        if (imap.lastLoginWasSuccess) {
+            imap.autoRecoveryCounter++;
+            if (imap.autoRecoveryCounter <= imap.maxAutoRecoveryCount) {
+                helper.log(
+                    "Trying to recover: " +
+                    imap.autoRecoveryCounter.toString() +
+                    " / " +
+                    imap.maxAutoRecoveryCount.toString());
+                window.setTimeout("imap.Go()", 500);
+            } else {
+                imap.autoRecoveryCounter = 0;
+                helper.alert("IMAP: " + err);
+            }
+        }
+        else
+        {
+            helper.alert("IMAP: " + err);
+        }
     });
 
     imap_.once('end', function () {
@@ -282,7 +314,7 @@ function uploadMessages(err, box) {
 
             quedPcks.push(helper.join(helper.getOutboxPath(), files[i]));
             c++;
-            helper.log("Imap appending " + (parseInt(i)+1) + "/" + files.length);
+            helper.log("Imap appending " + (parseInt(i) + 1) + "/" + files.length);
             var r = imap_.append(message, "", appendDone)
 
         }
@@ -463,7 +495,8 @@ function deleteMessages(msgs) {
                                     ;
                                     imap_.end();
                                     package.loadPackages();
-
+                                    imap.autoRecoveryCounter = 0;
+                                    this.lastLoginWasSuccess = false;
                                 }
                             });
                     }

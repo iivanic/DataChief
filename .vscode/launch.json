@@ -77,7 +77,8 @@
                 "--enable-logging",
                 "--remote-debugging-port=9222",
                 "--runalltests",
-                "--opendevtools"
+                "--opendevtools",
+                "--enabledisklog"
             ],
             "sourceMaps": false
         },
@@ -102,7 +103,8 @@
             "runtimeArgs": [
                 "--nolazy",
                 "--runalltests",
-                "--opendevtools"
+                "--opendevtools",
+                "--enabledisklog"
             ],
             "env": {
                 "NODE_ENV": "development",
