@@ -23,12 +23,6 @@ this.wellKnownServers = [{
         TSL: true
     },
     {
-        name: "Mail.ru",
-        server: "imap.mail.ru",
-        port: 993,
-        TSL: true
-    },
-    {
         name: "Outlook.com ex Live Mail, Hotmail",
         server: "imap-mail.outlook.com",
         port: 993,
@@ -104,7 +98,8 @@ function Go(automatic) {
         host: userSettings.identitySetting.imapServer,
         port: userSettings.identitySetting.imapPort,
         tls: userSettings.identitySetting.imapRequiresSSL,
-        debug: console.log
+        debug: console.log,
+        connTimeout : 20000
     });
 
     imap_.once('ready', function () {
@@ -144,6 +139,7 @@ function Go(automatic) {
         // tu nekad pukne  
         //Imap Connection event "error": Error: write EINVAL.
         //Imap Connection event "error": Error: read ECONNRESET.
+        //Imap Connection event "error": Error: Timed out while connecting to server
 
         helper.log("Imap Connection event \"error\": " + err + ".");
         if (err) {
