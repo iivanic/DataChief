@@ -108,11 +108,13 @@ this.fromGui = function () {
             this.imapRequiresSSL = $("#textSettingsIMAPRequiresSSL").is(':checked');
 
             //case study is installed
-            helper.confirm(
-                "You made change to account IMAP settings. Do you wish to apply the same settings to all profiles (HIGHLY RECOMMENDED)?",
-                userSettings.applyIMAPSettingsToAllProfiles,
+            //    helper.confirm(
+            //        "You made change to account IMAP settings. Do you wish to apply the same settings to all profiles (HIGHLY RECOMMENDED)?",
+            userSettings.applyIMAPSettingsToAllProfiles(
                 JSON.parse(JSON.stringify(this))
-            );
+             )
+                
+            //   );
         }
     }
 
@@ -130,15 +132,14 @@ this.fromGui = function () {
     this.smtpPort = $("#textSettingsSMTPServerPort").val();
     this.smtpRequiresSSL = $("#textSettingsSMTPRequiresSSL").is(':checked');
     this.RequiresAuthentication = $("#textSettingsSMTPRequiresAuthentication").is(':checked');
-   
+
     if (this.userSecret != $("#textSettingsUSerSecret").val()) {
         if (barrique.isInstalled()) {
             this.userSecret = $("#textSettingsUSerSecret").val();
-            helper.confirm(
-                "You made change to Shared secret. Do you wish to apply it to all profiles (HIGHLY RECOMMENDED)?",
-                userSettings.applySharedSecretSettingsToAllProfiles,
-                JSON.parse(JSON.stringify(this))
-            );           
+       //     helper.confirm(
+       //         "You made change to Shared secret. Do you wish to apply it to all profiles (HIGHLY RECOMMENDED)?",
+                userSettings.applySharedSecretSettingsToAllProfiles(JSON.parse(JSON.stringify(this)));
+        //    );
         }
     }
     this.userSecret = $("#textSettingsUSerSecret").val();
