@@ -164,6 +164,9 @@ this.isAnyTest = function (param) {
                 case "--runresetdb":
                     tests.push("testresetdb.js");
                     break;
+                case "--runresetimap":
+                    tests.push("testresetimap.js");
+                    break;
                 case "--runtestqm":
                     tests.push("testqm.js");
                     caseStudyAndEditorNeeded = true;

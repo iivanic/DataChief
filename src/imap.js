@@ -11,41 +11,41 @@ var error = null;
 var _box;
 
 this.wellKnownServers = [{
-        name: "AOL Mail",
-        server: "imap.aol.com",
-        port: 993,
-        TSL: true
-    },
-    {
-        name: "Gmail",
-        server: "imap.gmail.com",
-        port: 993,
-        TSL: true
-    },
-    {
-        name: "Outlook.com ex Live Mail, Hotmail",
-        server: "imap-mail.outlook.com",
-        port: 993,
-        TSL: true
-    },
-    {
-        name: "Yahoo Mail",
-        server: "imap.mail.yahoo.com",
-        port: 993,
-        TSL: true
-    },
-    {
-        name: "Yandex Mail",
-        server: "imap.yandex.com",
-        port: 993,
-        TSL: true
-    },
-    {
-        name: "Zoho",
-        server: "imap.zoho.eu",
-        port: 993,
-        TSL: true
-    }
+    name: "AOL Mail",
+    server: "imap.aol.com",
+    port: 993,
+    TSL: true
+},
+{
+    name: "Gmail",
+    server: "imap.gmail.com",
+    port: 993,
+    TSL: true
+},
+{
+    name: "Outlook.com ex Live Mail, Hotmail",
+    server: "imap-mail.outlook.com",
+    port: 993,
+    TSL: true
+},
+{
+    name: "Yahoo Mail",
+    server: "imap.mail.yahoo.com",
+    port: 993,
+    TSL: true
+},
+{
+    name: "Yandex Mail",
+    server: "imap.yandex.com",
+    port: 993,
+    TSL: true
+},
+{
+    name: "Zoho",
+    server: "imap.zoho.eu",
+    port: 993,
+    TSL: true
+}
 ];
 
 function openInbox(cb) {
@@ -67,16 +67,17 @@ this.maxAutoRecoveryCount = 3;
 this.imapMessageTemplate = helper.loadTextFile("../templates/IMAPMessageTemplate.txt");;
 
 this.go = Go;
+this.deleteEveryThing = true;
 
-function Go(automatic) {
+function Go(automatic, deleteEveryThing_) {
+    imap.deleteEveryThing = deleteEveryThing_;
     if (imap.imapbusy) {
         if (!automatic)
             helper.log("Send/recieve job already running. Please wait for finish.");
         return;
     }
-    if (imap.autoRecoveryCounter>0)
-    {
-        helper.log("Imap.Go(): autoRecoveryCounter=" + imap.autoRecoveryCounter.toString() )
+    if (imap.autoRecoveryCounter > 0) {
+        helper.log("Imap.Go(): autoRecoveryCounter=" + imap.autoRecoveryCounter.toString())
     }
     imap.lastLoginWasSuccess = false;
     imap.imapbusy = true;
@@ -99,7 +100,7 @@ function Go(automatic) {
         port: userSettings.identitySetting.imapPort,
         tls: userSettings.identitySetting.imapRequiresSSL,
         debug: console.log,
-        connTimeout : 20000
+        connTimeout: 20000
     });
 
     imap_.once('ready', function () {
@@ -150,7 +151,7 @@ function Go(automatic) {
         }
         imap_.end();
 
-        
+
 
         imap.imapbusy = false;
         $("#progressbar").progressbar({
@@ -171,8 +172,7 @@ function Go(automatic) {
                 helper.alert("IMAP: " + err);
             }
         }
-        else
-        {
+        else {
             helper.alert("IMAP: " + err);
         }
     });
@@ -221,6 +221,9 @@ this.continue = function (error) {
 }
 this.continue1 = function (error) {
     imap.callback1(error, imap.test1);
+}
+this.clearErythingFromFolder = function () {
+    imap.go(false, true);
 }
 
 function resetProgressBar() {
@@ -272,7 +275,10 @@ var quedPcks = new Array();
 
 function openDCFolder(user) {
     helper.log("Open box Datachief");
-    imap_.openBox('Datachief', false, uploadMessages);
+    if (imap.deleteEveryThing)
+        imap_.openBox('Datachief', false, clearBox);
+    else
+        imap_.openBox('Datachief', false, uploadMessages);
 }
 
 function uploadMessages(err, box) {
@@ -436,7 +442,7 @@ function readMessages1() {
 }
 this.msgs = new Array();
 
-function deleteMessages(msgs) {
+function deleteMessages(msgs, skipLoadPackages) {
     //helper.log("Deleting " + msgs.length + " message(s).");
     imap.msgs = msgs;
     try {
@@ -490,7 +496,8 @@ function deleteMessages(msgs) {
                                              */
                                     ;
                                     imap_.end();
-                                    package.loadPackages();
+                                    if (!skipLoadPackages)
+                                        package.loadPackages();
                                     imap.autoRecoveryCounter = 0;
                                     this.lastLoginWasSuccess = false;
                                 }
@@ -508,5 +515,39 @@ function deleteMessages(msgs) {
             imap_.end();
             return;
         }
+    }
+}
+function clearBox(err, box) {
+    helper.log("Active box is: " + box.name + ", readOnly = " + box.readOnly + ", persistentUIDs = " + box.persistentUIDs);
+    if (err) {
+        if (error)
+            error += err;
+        else
+            error = err;
+        imap_.end();
+        return;
+    } else {
+        if (box.name != "Datachief")
+            return;
+        imap_.search([
+            ["ALL"]
+        ], function (err, results) { //
+            if (err) {
+                if (error)
+                    error += err;
+                else
+                    error = err;
+                imap_.end();
+                return;
+            }
+            if (results.length == 0) {
+                helper.log("No messages to delete.");
+                imap_.end();
+                return;
+
+            }
+            helper.log("Found " + results.length + " message(s) to delete.");
+            deleteMessages(results, true);
+        });
     }
 }
