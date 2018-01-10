@@ -49,9 +49,10 @@ ipc.on("run-test-script-done", function (even, content) {
     if (index > -1) {
         allowRestart = true;//array.splice(index, 1)
     }
-    if (allowRestart)
+    if (allowRestart) {
         app.relaunch() //{ args: argv });
- //   app.quit();
+        app.quit();
+    }
 });
 ipc.on("exportCSV", function (even, content) {
     dialog.showSaveDialog(
