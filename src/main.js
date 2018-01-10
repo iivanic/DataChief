@@ -46,7 +46,9 @@ ipc.on("run-test-script-done", function (even, content) {
     index = argv.indexOf("--runtestqm");
     if (index > -1) allowRestart = false;//array.splice(index, 1);
     index = argv.indexOf("--runresetall");
-    if (index > -1) allowRestart = false;//array.splice(index, 1);
+    if (index > -1) {
+        allowRestart = true;//array.splice(index, 1)
+    }
     if (allowRestart)
         app.relaunch() //{ args: argv });
     app.quit();

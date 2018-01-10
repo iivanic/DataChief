@@ -11,7 +11,11 @@ this.prepare = function (callback) {
     helper.log(this.scriptName + "Reset ALL start.");
     helper.log(this.scriptName + "Clearing local cache for every user.");
 
+    
+
     helper.deleteFile(helper.getUserSettingsFilePath());
+    userSettings = require("../userSettings.js"); 
+
     barrique.uninstall();
     helper.deleteFile(helper.join(helper.getSettingsFolder(), "window-state.json"));
     helper.log(self.scriptName + "Settings (" + helper.getUserSettingsFilePath() + ") deleted.");
