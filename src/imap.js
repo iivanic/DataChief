@@ -166,7 +166,7 @@ function Go(automatic, deleteEveryThing_) {
                     imap.autoRecoveryCounter.toString() +
                     " / " +
                     imap.maxAutoRecoveryCount.toString());
-                window.setTimeout("imap.Go()", 500);
+                window.setTimeout(imap.Go, 500);
             } else {
                 imap.autoRecoveryCounter = 0;
                 helper.alert("IMAP: " + err);
