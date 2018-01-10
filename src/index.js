@@ -380,6 +380,10 @@ function keydown(e) {
         //Ctrl + Shift + Alt + e
         toggleEditor();
     }
+    if (e.keyCode == 87 && e.ctrlKey && e.shiftKey && e.altKey) {
+        //Ctrl + Shift + Alt + e
+        $('#startStartWizerd').toggle();
+    }
 }
 var MenuTree;
 initMenu();
