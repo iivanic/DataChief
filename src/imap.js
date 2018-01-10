@@ -99,7 +99,7 @@ function Go(automatic, deleteEveryThing_) {
         host: userSettings.identitySetting.imapServer,
         port: userSettings.identitySetting.imapPort,
         tls: userSettings.identitySetting.imapRequiresSSL,
-        debug: console.log,
+  //      debug: console.log,
         connTimeout: 20000
     });
 
@@ -210,7 +210,7 @@ function Go(automatic, deleteEveryThing_) {
     });
 
 
-    helper.log("Connecting to <strong>" + imap_._config.host + ":" + imap_._config.port + "</strong>, tls=" + imap_._config.tls + " as <strong>" + imap_._config.user + "</strong>."); //(" + imap._config.password + ")
+    helper.log("Connecting to <strong>" + imap_._config.host + ":" + imap_._config.port + "</strong>, tls=" + imap_._config.tls + ", username = <strong>" + imap_._config.user + "</strong>."); //(" + imap._config.password + ")
     $("#progressbar").progressbar({
         value: 5
     });

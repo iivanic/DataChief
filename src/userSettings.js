@@ -52,7 +52,7 @@ this.ctor = function () {
         }
     }
 
-     
+
 
     this.loadIdentitySetting(this.email)
     if (!this.wizadFinished) {
@@ -63,10 +63,10 @@ this.ctor = function () {
         $(document).ready(function () {
             if (!helper.isAnyTest())
                 imapTimer = window.setTimeout("imap.go(true)", 4000);
-                $("#IMAPTest1").button();
-                $("#buttonKnownServersSettings").button();
-                $("#buttonKnownServersWizard").button();
-            
+            $("#IMAPTest1").button();
+            $("#buttonKnownServersSettings").button();
+            $("#buttonKnownServersWizard").button();
+
         });
     }
 
@@ -87,18 +87,16 @@ this.save = function () {
     identitySetting.save();
     helper.log("Settings saved.");
 }
-this.last_server =  null;
-this.last_port=  null;
-this.last_tls=  null;
-this.applyWellKnownServer = function(s,p,t)
-{
+this.last_server = null;
+this.last_port = null;
+this.last_tls = null;
+this.applyWellKnownServer = function (s, p, t) {
     userSettings.last_server.val(s);
     userSettings.last_port.val(p);
-    userSettings.last_tls.prop("checked",t=="true");
- 
-} 
-this.showWellKnownServers = function(_server, _port, _tls)
-{
+    userSettings.last_tls.prop("checked", t == "true");
+
+}
+this.showWellKnownServers = function (_server, _port, _tls) {
     userSettings.last_server = _server;
     userSettings.last_port = _port;
     userSettings.last_tls = _tls;
@@ -108,20 +106,20 @@ this.showWellKnownServers = function(_server, _port, _tls)
         var server = imap.wellKnownServers[i].server;
         var port = imap.wellKnownServers[i].port;
         var tls = imap.wellKnownServers[i].TSL;
-        html += "<option port=" + port + " tls=" + tls + " value='" + server + "'" + (_server.val()==server?"selected":"") +">" + name + "</option>"
+        html += "<option port=" + port + " tls=" + tls + " value='" + server + "'" + (_server.val() == server ? "selected" : "") + ">" + name + "</option>"
     }
     $("#WellKnownIMAPServersDialogList").html(html);
     $("#WellKnownIMAPServersDialog").dialog({
         resizable: false,
         height: 295,
-        width:350,
+        width: 350,
         modal: true,
         buttons: {
             "Select server": function () {
                 var s = $("#WellKnownIMAPServersDialog select").val();
                 var p = $("#WellKnownIMAPServersDialog select option:selected").attr("port")
                 var t = $("#WellKnownIMAPServersDialog select option:selected").attr("tls")
-                userSettings.applyWellKnownServer(s,p,t);
+                userSettings.applyWellKnownServer(s, p, t);
                 $(this).dialog("close");
             },
             Cancel: function () {
@@ -492,7 +490,8 @@ this.smtpTest = function () {
             }
         }
     });
-    startwizardsteps.fromGui();
+    if ($("#startDialog").is(":visible"))
+        startwizardsteps.fromGui();
     //     window.setTimeout(imap.go, 500);
 
 }
@@ -511,6 +510,7 @@ this.imapTest = function () {
             }
         }
     });
-    startwizardsteps.fromGui();
+    if ($("#startDialog").is(":visible"))
+        startwizardsteps.fromGui();
     window.setTimeout(imap.go, 500);
 }

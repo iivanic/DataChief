@@ -31,8 +31,15 @@ ipc.on("quit", function (even, content) {
 
     app.quit();
 });
+ipc.on("relaunch", function (even, content) {
+
+    app.relaunch();
+    app.quit();
+});
+
+
 ipc.on("run-test-script-done", function (even, content) {
-    var allowRestart = true;
+    var allowRestart = false;
     //on restart remove any test scripts
     var argv = process.argv;
     var index = argv.indexOf("--runalltests");

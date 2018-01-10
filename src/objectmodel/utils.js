@@ -8,9 +8,8 @@ var crypto = require('crypto');
 const os = require('os');
 var tests = new Array();
 
-this.os = function()
-{
-    return os.type() + ' (' + os.platform() + ' release ' + os.release() + ')'; 
+this.os = function () {
+    return os.type() + ' (' + os.platform() + ' release ' + os.release() + ')';
 }
 this.generateGUID = function () {
     // not a real GUID, just a big random number
@@ -123,12 +122,16 @@ this.testsDone = function () {
     helper.log("SCRIPT(S) finished.");
     // helper.log("Sending QUIT signal.");
     var ipc = require('electron').ipcRenderer;
-    ipc.send("run-test-script-done");
+    // ipc.send("run-test-script-done", tests);
     try {
         $("#dialog-alert").dialog("close");
     }
     catch (e) { }
-    userSettings.refreshSelectActiveProfile();
+
+    if (tests.indexOf("testresetall.js") > -1) {
+        ipc.send("relaunch");
+    }
+    //userSettings.refreshSelectActiveProfile();
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
