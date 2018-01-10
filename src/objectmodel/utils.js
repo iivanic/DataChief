@@ -120,9 +120,7 @@ this.publishDone = function () {
 }
 this.testsDone = function () {
     helper.log("SCRIPT(S) finished.");
-    // helper.log("Sending QUIT signal.");
     var ipc = require('electron').ipcRenderer;
-    // ipc.send("run-test-script-done", tests);
     try {
         $("#dialog-alert").dialog("close");
     }
@@ -131,7 +129,8 @@ this.testsDone = function () {
     if (tests.indexOf("testresetall.js") > -1) {
         ipc.send("relaunch");
     }
-    //userSettings.refreshSelectActiveProfile();
+    else
+        userSettings.refreshSelectActiveProfile();
 }
 var testsParsed = false;
 var caseStudyAndEditorNeeded = false;
