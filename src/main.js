@@ -51,7 +51,7 @@ ipc.on("run-test-script-done", function (even, content) {
     }
     if (allowRestart)
         app.relaunch() //{ args: argv });
-    app.quit();
+ //   app.quit();
 });
 ipc.on("exportCSV", function (even, content) {
     dialog.showSaveDialog(

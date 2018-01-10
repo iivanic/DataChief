@@ -123,7 +123,7 @@ this.testsDone = function () {
     helper.log("SCRIPT(S) finished.");
     // helper.log("Sending QUIT signal.");
     // var ipc = require('electron').ipcRenderer;
-    // ipc.send("run-test-script-done");
+    ipc.send("run-test-script-done");
     try {
         $("#dialog-alert").dialog("close");
     }
