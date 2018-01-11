@@ -2,61 +2,56 @@
 Flexible **Data Collection eForms Solution** with focus on **usability** and **simplicity** that actually **works in the real world**.
 
 ## What is it for?
-DataChief enables you to **rapidly implement processes in your company/organization with no cost** - all you need is email account(minimal requirement). Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like **ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL** with ease. 
+DataChief enables you to **rapidly implement processes in your company/organization with no cost** - all you need is email account. Used in a right way DataChief can save you tons of money and nerves. You can immediatly bring order into chaos, implement solution for your sales force in the field, track activities within company and/or implement managamenet systems like **ISO 9001(QM), ISO 14001(EMS), ISO 27001(ISMS), ISO 20001(SMS)/ITIL** with ease. 
 
-## Features & Roadmap
-Project is under development. First release will provide basic functionality for designing forms, simple workflows, and collecting data.
+## Features
+Project is under development. First release provide basic functionality for designing forms, simple workflows, and collecting data.
 * Multiplatform (developed in Electron)
     * Windows
     * Linux
     * Mac OSX
-* Planned features
+* Features
     * Visual and user friendly form designer
     * Many type of controls
         * Text box, ListBox, Group fields ...
         * Repeaters for table implementation
-    * Flexible communication protocols through:
-        * One STMP/IMAP email for whole organization or through individual Emails for every user
+    * Simple communication protocols - One IMAP email for whole organization
     * Offline / low signal support
-    * Broadcasts workflow statuses
-    * Ability to configure local cache - sensitive data can be prohibited to stay on client
+    * Ability to configure local cache - You can prohibit sensitive data to stay on client
     * Publishing & revoking of templates
-    * Encryption support
-    * Collection points and analytics
+    * Collection and export for analysis
  
-## How do I start with DataChief source code or test new version before release?
-* You will need **Node.js**, **Git** and, optionally, **Microsoft Visual Studio Code** already installed.
-* From command line:
-    * pull source code from GitHub:
-    
-        `git clone https://www.github.com/iivanic/datachief.git`
-    * go to project root: 
-    
-        `cd datachief/`
-    * install electron-prebuild, node-imap, ...  - they are not included: 
-    
-        `npm install` 
-    * now You can start DataChief with
-    
-        * `npm start` 
-        * or open it with **Microsoft Visual Studio Code** and press **F5** to run DataChief.
-    * Make sure you choose "Enable Form Designer and Publisher (for Admins in your organization)" option in first step of configuration wizard so you can run tests(actual workflow simulation based on Case study) and design and publish forms. Choose "Client Only (typical choice)" option when installing Datachief for other users.
-    * Make sure you install "Case Study users" in configuration wizard. They are also required for running tests.
-        
-* You can  use followingCommand line params:
-    * `npm run start -- --runalltests`
-        * deletes DB an runs all tests. Recommended for learning and using provided Case study. App wil axit after it's done and then start it with 
-        `npm start`
-    * `npm run start -- --runresetdb`
-        * deletes DB
-    * `npm run start -- --runtestcarlog`
-        * runs test script for case study Vehicle usage form
-    * `npm run start -- --testabsence`
-        * runs test script for Absence request form
-     `npm run start -- --runtestqm`
-        * runs test script for Quality Management form
-     
-     * `--enabledisklog`
+## How do I start with DataChief
+
+* Download & install provided binary package, depending on platform
+
+## How to Configure Datachief
+* Make sure your IMAP account has username & password authentication enabled (xoauth, xoauth2 will be enabled in future releases).
+* Step 1 of the configuration wizard - There are two modes, you choose them in the first step (to simplify deployment in your organization we provide binary distribution locked to "Client Only" mode):
+    * Client Only
+        * This mode is for majority of users in your organization. It can create new instances of published forms and recieve them and can also be final step in workflow (database).
+        * It can not design or publish new forms, or use it to run built in simulation tests based on Barrique Works LLC case study.
+    * Enable Form Designer and Publisher
+        * Make sure you enable this if you are the admin in your organization se you can create and publish new forms
+        * Enable this if you want to learn and/or test Data Chief and run simulated tests(actual workflow simulation) based on Barrique Works LLC case study.
+        * Make sure you install "Case Study users" in configuration wizard. They are required for running simulation tests.
+* "Company" step of the configuration wizard   
+    * This is avalaible only if you have chosen "Enable Form Designer and Publisher" mode
+    * Enter your organization name and secret
+    * Secret is used to verify your identity as person who publishes Forms.
+    * For testing purposes you can leave default values
+* "Your name and EMail" step of the configuration wizard
+    * Enter your name and email
+    * Email in Data chief uniquely identifies persons
+    * Since we are using single IMAP account for communication Email dois not have to be existing email account. You will set up real IMAP account in the next step
+    * Enter shared secret. Every installation in your organization have to have the same Shared secret. This is used for encryption to protect communication from outside attacks.
+* "Communication (IMAP)" step of the configuration wizard
+    * Enter your IMAP account configuration here. Do the same in every installation in your organization.
+* "Case study"
+    * This is avalaible only if you have chosen "Enable Form Designer and Publisher" mode
+    * install Case study users so you can run simulation tests.
+
+
     
 ## How does it work?
 DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) .
@@ -111,8 +106,38 @@ DataChief allows you to define your data structure with custom forms designed in
     * Delete all local copies from publisher - deletes every filled or half filled form(sent forms folder, outbox folder, work folder, recieved folder) from that publisher. This can be usefull when employee is leaving organization or organization internal security policy changes.
     * Send text message – sends text message that will be displayed to user.
 
+## How to I start with source code or test new version before release?
+* You will need [**Node.js**](https://nodejs.org/), [**Git**](https://git-scm.com) and, optionally, [**Microsoft Visual Studio Code**](https://code.visualstudio.com/) already installed.
+* Execute following commands from command line:
+    * pull source code from GitHub:
+    
+        `git clone https://www.github.com/iivanic/datachief.git`
+    * go to project root: 
+    
+        `cd datachief/`
+    * install electron-prebuild, node-imap, ...  - they are not included: 
+    
+        `npm install` 
+    * now You can start DataChief with
+    
+        * `npm start` 
+        * or open it with **Microsoft Visual Studio Code** and press **F5** to run DataChief.
+## Command line params:
+    * `npm run start -- --runalltests`
+        * deletes DB an runs all tests. Recommended for learning and using provided Case study. App wil axit after it's done and then start it with 
+        `npm start`
+    * `npm run start -- --runresetdb`
+        * deletes DB
+    * `npm run start -- --runtestcarlog`
+        * runs test script for case study Vehicle usage form
+    * `npm run start -- --testabsence`
+        * runs test script for Absence request form
+    * `npm run start -- --runtestqm`
+        * runs test script for Quality Management form
+    * `npm run start -- --enabledisklog`
+        * enables writing log file to disk on startup (for troubleshooting).
+    * `npm run start -- --runresetimap`
+        * connects to IMAP server and deletes everything (within Datachef folder).
+
 ## What's next?
 Take a look at our [Barrique Works LLC Case Study](/Case%20study%20Barrique%20Works%20LLC.md). 
-
-
-"Immediately Expunge Messages when I mark them deleted in IMAP"
