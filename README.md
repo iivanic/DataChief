@@ -123,21 +123,27 @@ DataChief allows you to define your data structure with custom forms designed in
         * `npm start` 
         * or open it with **Microsoft Visual Studio Code** and press **F5** to run DataChief.
 ## Command line params:
-    * `npm run start -- --runalltests`
-        * deletes DB an runs all tests. Recommended for learning and using provided Case study. App wil axit after it's done and then start it with 
-        `npm start`
-    * `npm run start -- --runresetdb`
-        * deletes DB
-    * `npm run start -- --runtestcarlog`
-        * runs test script for case study Vehicle usage form
-    * `npm run start -- --testabsence`
-        * runs test script for Absence request form
-    * `npm run start -- --runtestqm`
-        * runs test script for Quality Management form
-    * `npm run start -- --enabledisklog`
-        * enables writing log file to disk on startup (for troubleshooting).
-    * `npm run start -- --runresetimap`
-        * connects to IMAP server and deletes everything (within Datachef folder).
+`npm run start -- --runalltests`
+* deletes DB an runs all tests. Recommended for learning and using provided Case study. App wil axit after it's done and then start it with 
+`npm start`
+
+`npm run start -- --runresetdb`
+* deletes DB
+
+`npm run start -- --runtestcarlog`
+* runs test script for case study Vehicle usage form
+
+`npm run start -- --testabsence`
+* runs test script for Absence request form
+
+`npm run start -- --runtestqm`
+* runs test script for Quality Management form
+
+`npm run start -- --enabledisklog`
+* enables writing log file to disk on startup (for troubleshooting).
+
+`npm run start -- --runresetimap`
+* connects to IMAP server and deletes everything (within Datachef folder).
 
 ## What's next?
 Take a look at our [Barrique Works LLC Case Study](/Case%20study%20Barrique%20Works%20LLC.md). 
