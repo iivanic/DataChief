@@ -54,53 +54,51 @@ Project is under development. First release provide basic functionality for desi
 
     
 ## How does it work?
-DataChief is simpe solution that allows you to **define your forms, publish and collect them**. It runs on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account - one for all users ( **Single user account** ) .
+DataChief is simpe solution that allows you to **define your forms, publish and collect them** on multiple platforms (Windows, MacOSX, Linux). DataChief requires no additional network services except IMAP (Email) account.
 ![DataChief simple workflow](/dc_workflow.png)
 
 ### Users
 In DataChief users are identified with **Emails**, but  those emails does not have to exists, since we are using only one IMAP account for communication.
 
 ### Communication
-Communication between user is made via IMAP account. DataChief can use existing Email accounts and accounts can be used in parallel with users, non-datachief emails. Imap fodler called "Datachief" will be created and datachief will not touch enything outside that folder. 
+Communication between user is made via IMAP account. No SMTP server is requered. DataChief can use existing Email account and account can be used in parallel with regular, non-datachief emails. Imap fodler called "Datachief" will be created and datachief will not touch enything outside that folder. 
 
 ### Forms
 DataChief allows you to define your data structure with custom forms designed in provided **Form Editor**. Multiple types of controls are available, including repeater groups to allow you to implement data that is on paper forms usualy defined as table with multiple empty rows.
 
 ### Workflow
-* Following Form properties helps define workflow
-    * Broadcast recievers - this is list of users that are notified when form moves from one user to another. Think of those users as monitors. Users can also, instead of emails be special address strings as
+* Following Form properties helps to define workflow
+    * **Broadcast recievers** - this is list of users that are notified when form moves from one user to another. Think of those users as monitors. Users can also, instead of emails be special address strings as
         * "**initiator**" - person who actually creates form
         * "**everyone**" - everyone in Workflow meanining everyone in "Publish To" +  "Workflow" + "Final Step"
-        * "**stepN**" where N is Workflow index starting with 1. "step0" means "initiator".
-    * Allow local copies - list of users that will keep sent copy of the form in theirs local folder. Can also be special address string 
+    * **Allow local copies** - list of users that will keep sent copy of the form in theirs local folder. Can also be special address string 
         * "**everyone**"
-    * Final step - this is one or more user(s) that collects the data. DataChief is not designed as database for millions of forms, so those users should periodacally export collected data as CSV file and delete Datachief DBs.
-    * Publish To - this property defines who can start empty form. 
+    * **Final step** - this is one or more user(s) that collects the data. DataChief is not designed as database for millions of forms, so those users should periodacally export collected data as CSV file and delete Datachief DBs.
+    * **Publish To** - this property defines who can start empty form. 
      All properties can have multiple users. Users are defined as emails delimited with delimiters.
      Delimiters between emails are , or ;
 
-    * Workflow - this property **defines workflow** for the form.   
+    * **Workflow** - this property **defines workflow** for the form.   
      In workflow, every email represents one step
      Worlflow step can also be "**initiator**", meaning, the one who created the form.
 
 ### Status broadcasts
-* Defined with "Broadcast recievers" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.
+* Defined with "**Broadcast recievers**" property in worflow part of form, it is a list of users that are notified when form moves from one user to another. This is usefull for tracking organization activities and overall health of the system.
 
 ### Data collection & export
-* Data collectors are users specified in "Final step" property of the form.
-* They recieve form and can see recieved forms as table, and then export and/or delete form data
+* Data collectors are users specified in "**Final step**" property of the form.
+* They recieve forms and they can see recieved forms as table, and then export and/or delete form data
 * Supported export options is CSV file.
 
 ## DataChief security
-* DataChief has Built in secret (symmetric key) and everything it does is encrypted with it – easily cracked since source code is avalaible
-* Organization secret – if set, this is used(together with DataChief built in secret ) for encryprion of form templates when publishing. It ensures identity of publisher. DataCheif sends digest of this secret within every package. First time user recieve Package she or he can approve or disapprove publisher by accepting/refusing this digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
-* User secret in Single account mode – in this mode messages share single IMAP account, so to make sure that one user can not read others messages, they are encrypted with User Secret. This means that all users must be defined in Designer/Publisher with user secrets. Specific user secret must be set on each individual DataChief Filler installation.
+* **Organization secret** – It ensures identity of publisher. DataCheif sends digest of this secret within every package. First time user recieve Package she or he can approve or disapprove publisher by accepting/refusing this digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
+* **Shared secret** – to make sure no one outside organization can submit false data to your workflow, all communication is encrypted with Shared secret known only to organization memebers. When security of secret is compromised, you must set new Shared secret within organization memebers (including the publisher)
 
 ## DataChief Communction is made via Packages
 * Package is zero or more forms and commands.
 * Package is always created per user who recieves them.
-* User(s) who recieve package(s) must accept Organization secret digest. If publisher later changes Organization secret, user will be again prompted wheather she or he accepts digest(publisher). Before accepting, user should confirm with publisher that change of Organization secret is really happening and that this is not case of malicious attack.
-* When publishing, Package for user will DELETE ALL PREVIOUSLY PUBLISHED FORMS. This means that publisher must always publish all active forms.
+* User(s) who recieve package(s) must accept Organization secret digest.
+* When publishing, Package for user will DELETE ALL PREVIOUSLY PUBLISHED FORMS ( form templates, not partially filled forms ). This means that publisher must always publish all active forms.
 * If you want to revoke user, You can create empty command (empty package will be created) for that user
 * Commands are:
     * Delete all local copies from publisher - deletes every filled or half filled form(sent forms folder, outbox folder, work folder, recieved folder) from that publisher. This can be usefull when employee is leaving organization or organization internal security policy changes.
@@ -123,6 +121,8 @@ DataChief allows you to define your data structure with custom forms designed in
         * `npm start` 
         * or open it with **Microsoft Visual Studio Code** and press **F5** to run DataChief.
 ## Command line params:
+You must first configure DataChief IMAP account in "Form Designer and Publisher" mode and add CAse study users to use CAr log, Absence, and Quality management test simulation scripts.
+
 `npm run start -- --runalltests`
 * deletes DB an runs all tests. Recommended for learning and using provided Case study. App wil axit after it's done and then start it with 
 `npm start`
