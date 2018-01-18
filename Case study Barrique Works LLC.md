@@ -122,6 +122,6 @@ See **Notes on test scripts** in the bottom of this file.
 - You will see received form from Margaret and other from David
 - Daniel has done analysis on David’s form and some Follow up
 
-## Notes on test scripts
+## Note on test scripts
 - Messages are uploaded to IMAP account via IMAP protocol (no SMTP server is used). Still, some tested implementations of IMAP service (Gmail seems to be working fine) does not show uploaded file immediately. This will cause  test script to skip some messages, and final result will be different that described in Case Study. You can delete DB and IMAP messages and run script again.
 - This, however, does not mean that such IMAP services are not usable with DC, because in real situations this won't matter. 
