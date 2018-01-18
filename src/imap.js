@@ -188,7 +188,7 @@ function Go(automatic, deleteEveryThing_) {
         publish.refreshOutB();
         if (!error) {
             //  if (progressMax != 0 && recievedCnt != 0) {
-            helper.log("Success. Sent " + progressMax + " package(s), recived " + recievedCnt + " package(s).");
+            helper.log("Success. Sent " + progressMax + " package(s), received  " + recievedCnt + " package(s).");
             //   }
         } else {
             helper.log(error);

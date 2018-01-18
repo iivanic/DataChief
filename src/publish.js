@@ -6,10 +6,10 @@ are:
 --------------------------------------------------------
 inbox           -temp folder for recievenig packages
 publishers      -this is folder where form templates are 
-                 recieved after unpacking packages from
+                 received  after unpacking packages from
                  inbox. Every form is put in subfolder
                  named with publisher name
-recieved        -recieved half-filled forms from other
+recieved        -received  half-filled forms from other
                  datachief users in the workflow
 
 prepublish      -prepublish folder - used for designing
