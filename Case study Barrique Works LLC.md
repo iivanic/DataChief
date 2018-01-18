@@ -44,7 +44,7 @@ Decision has been made to use DC.
 ## Implemented forms:
 
 
-### Vehicle usage log
+### 1st Simulation - Vehicle usage log
 #### Description
 -   Company needs to track usage of cars used by sales representatives.
 -   Sales representatives:  Jennifer B, Michael W and Elizabeth F can use cars.
@@ -70,12 +70,33 @@ See **Notes on test scripts** in the bottom of this file.
 
 
 
-### Employee absence requets 
+### 2nd simulation - Employee absence requets 
+#### Description
+- Company needs to collect and manage absence requests from production department.
+- William D, Linda J, David F work in production
+- Requst first needs to be approved with HR( John L ) and then by Production manager Robert P,
+- John L in HR needs to recieved final forms for HR database
+- HR needes to be notified what is happening with this process and also the person who initiated the form needs to know how thier form is progressing.
 
--   Company needs to collect and manage absence requests.
+### Implementation
+- Form has three "Group or Repeater"s - one for request, one for HR approval, one for manager approval.
+- properties for the form are set as following
+    - "Publish to" is set to production department: "william@barriqueworks.com, linda@barriqueworks.com, david@barriqueworks.com"
+    - "Workflow" is HR and then manager: "john@barriqueworks.com, robert@barriqueworks.com"
+    - Initiator and  john@barriqueworks.com are "Broadcast recievers".
+    - "Final step" is, of course, john@barriqueworks.com
+    - "Allow local copies" is allowed for everyone
+    - "Allow return" is checked
+- Forms needs to be save to Publish folder and published.
 #### Test
+- With "Case study profiles" installed in "Form Designer and Publisher" Datachief mode, simulation test can be run ("Settings" tab under Behavior, Choose "Run Absence Formsimulation" script to run).
+- It will take few minutes for the script to finish.
+- Two employees have submitted one request and one employee have submitted two request, all with different reason
+- All Forms finished with HR smoothly
+- In "Settings" tab switch to John profile and look into his DB to see what has been done
 
-### Preventive / corrective action
+
+### 3rd simulation - Preventive / corrective action
 -   Company needs to digitally collect and manage Corrective/Preventive actions, instead of using cumbersome printed forms.
 #### Test
 
