@@ -51,7 +51,7 @@ Decision has been made to use DC.
 -   Sales manager, Patricia M needs to review usage of cars.
 -   Richard V., from accounting needs to collect data for expense tracking.
 ### Implementation
--   Form in editor has been designed which includes car, usage and mileage details with signatures for employee and Sales manager.
+-   Form has been designed that includes car, usage and mileage details with signatures for employee and Sales manager.
 -   "Publish to" property of the form has been set to employees in sales department: "**jennifer@barriqueworks.com, michael@barriqueworks.com, elizabeth@barriqueworks.com**". Form will be published to them.
 - patricia@barriqueworks.com as set as "Workflow". When Sales people fill out their part of form ant submit it, she will receive  the form.
 - "Final step" is richard@barriqueworks.com. He will have Database for this form. He is also set for "Broadcast receivers", this means that he will know how many forms has been submitted to Patricia even if she did not send the form(s) to Richard ("Data Collection" tab, sub-tab "Received status broadcasts", sub-tab "Graphical View" and then choose form in drop-down box)
