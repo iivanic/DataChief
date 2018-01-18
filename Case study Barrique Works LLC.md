@@ -65,7 +65,7 @@ Decision has been made to use DC.
 - Three forms have been submitted, and one returned to initiator by patricia. Then it was fixed and sent again.
 - In the end, richard has three forms in DB (swith to richard under "Settings" tab, and under profile choose richard(he is Final step). Then switch to "Data Collection" tab and "Data Collection" sub-tab). Here you can also click on individual row to see Form saved in DB (with "print to PDF"  and "Detials & History" option).
 - Then switch to "Recieved statuses broadcast" (Richard is also boradcast reciever) sub-tab and "Graphical View" sub-tab and choose "Car Log". Graph will be diplayed illustrating workflow with forms count.
-- 
+
 See **Notes on test scripts** in the bottom of this file.
 
 
