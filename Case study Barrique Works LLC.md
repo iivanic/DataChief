@@ -89,7 +89,7 @@ See **Notes on test scripts** in the bottom of this file.
     - "Allow return" is checked
 - Forms needs to be save to Publish folder and published.
 #### Test
-- With "Case study profiles" installed in "Form Designer and Publisher" Datachief mode, simulation test can be run ("Settings" tab under Behavior, Choose "Run Absence Formsimulation" script to run).
+- With "Case study profiles" installed in "Form Designer and Publisher" Datachief mode, simulation test can be run ("Settings" tab under Behavior, Choose "Run Absence Form simulation" script to run).
 - It will take few minutes for the script to finish.
 - Two employees have submitted one request and one employee have submitted two request, all with different reason
 - All Forms finished with HR smoothly
@@ -97,8 +97,30 @@ See **Notes on test scripts** in the bottom of this file.
 
 
 ### 3rd simulation - Preventive / corrective action
--   Company needs to digitally collect and manage Corrective/Preventive actions, instead of using cumbersome printed forms.
+- Company needs to digitally collect and manage Corrective/Preventive actions, instead of using cumbersome printed forms.
+- Every Employee can submit Corrective/Preventive action to Quality Manager - Daniel S.
+- Daniel then takes steps to check wheater this is something tat needes to be processed.
+- If so, he needs to take unknown number of actions to analyze, correct or prevent problem and take additional steps to avoid tht problem in future.
+- Daniel also keeps Database of submitted forms
+
+### Implementation
+- Form has three "Group or Repeater"s - one for request, one for submitting data on the problem, second is analysis and third if follow up.
+- Follow Up group has "Repeater" checked so Daniel can enter unknown number of actions.
+- properties for the form are set as following
+    - "Publish to" is set to whole company
+    - "Workflow" is daniel@barriqueworks.com
+    - Initiator and  john@barriqueworks.com are "Broadcast recievers".
+    - "Final step" is daniel@barriqueworks.com
+    - "Allow local copies" is allowed only for initiator
+    - "Allow return" is checked
+- Forms needs to be save to Publish folder and published.
 #### Test
+- With "Case study profiles" installed in "Form Designer and Publisher" Datachief mode, simulation test can be run ("Settings" tab under Behavior, Choose "Run Quality Management simulation" script to run).
+- It will take few minutes for the script to finish.
+- Two employees have submitted forms
+- In "Settings" tab switch to Daniel profile and look under "Filler" tab
+- You will see recieved form from Margaret and other david
+- Daniel has done analysis on Davids form and some Follow up
 
 ## Notes on test scripts
 - Messages are uploaded to IMAP account via IMAP protocol (no SMTP server is used). Still, some tested implementiations of IMAP service(Gmail seems to be working fine) does not show uploaded file immidietly. This will couse test script to skip some messages, and final result will be different that described in Case Study. You can delete DB and IMAP messages and run script again.
