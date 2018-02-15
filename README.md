@@ -8,7 +8,7 @@ DataChief enables you to **rapidly implement processes in your company/organizat
 
 ## Features
 Project is under development. First release provides basic functionality for designing forms, simple workflows, and collecting data.
-* Multiplatform (developed in Electron)
+* Multiplatform (developed in [Electron](https://electronjs.org/))
     * Windows
     * Linux
     * Mac OSX
