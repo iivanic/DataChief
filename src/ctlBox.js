@@ -2,6 +2,7 @@ function getPropertyGrid(form) {
     // console.log('#' + form.placeHolderPrefix + 'propGrid');
     return $('#' + form.placeHolderPrefix + 'propGrid')
 }
+
 function ctlBoxSelect(field, form) {
     getPropertyGrid(form).jqPropertyGrid(field, field._propsMeta);
     getPropertyGrid(form).prop("current", field);
@@ -9,6 +10,7 @@ function ctlBoxSelect(field, form) {
     $("[id^='field_dcform_" + form.id + "']").removeClass("datachiefFieldRowSelected");
     $('#field_' + field._lastCumulativeId).addClass("datachiefFieldRowSelected");
 }
+
 function markSelected(form) {
     $("[id^='field_dcform_" + form.id + "']").removeClass("datachiefFieldRowSelected");
     var field = getPropertyGrid(form).prop("current");
@@ -20,6 +22,7 @@ function markSelected(form) {
 }
 var tmpDeleteForm;
 var tmpDeleteField;
+
 function ctlBoxDelete(field, form) {
     tmpDeleteForm = form;
     tmpDeleteField = field;
@@ -41,6 +44,7 @@ function ctlBoxDelete(field, form) {
 
 
 }
+
 function ctlBoxDeletePart2(field, form) {
     getPropertyGrid(form).jqPropertyGrid(new Object(), null);
     getPropertyGrid(form).prop("current", null);
@@ -68,6 +72,7 @@ function ctlBoxRefresh(field, form) {
 var tmpFieldToFind;
 var tmpFieldToFindIndex;
 var tmpFoundInTemplate;
+
 function ctlBoxUp(field, form) {
     console.log("ctlBoxUp");
     ctlBoxSelect(field, form);
@@ -95,6 +100,7 @@ function ctlBoxUp(field, form) {
     form.refresh();
     markSelected(form)
 }
+
 function ctlBoxDown(field, form) {
     console.log("ctlBoxDown");
     ctlBoxSelect(field, form);
@@ -117,19 +123,21 @@ function ctlBoxDown(field, form) {
             field._parent._newRowTemplate = MoveElementInArray(field._parent._newRowTemplate, tmpFieldToFindIndex, tmpFieldToFindIndex + 1);
         }
     } else
-        if (tmpFieldToFindIndex < field._parent._children.length - 1) {
-            field._parent._children = MoveElementInArray(field._parent._children, tmpFieldToFindIndex, tmpFieldToFindIndex + 1);
-        }
+    if (tmpFieldToFindIndex < field._parent._children.length - 1) {
+        field._parent._children = MoveElementInArray(field._parent._children, tmpFieldToFindIndex, tmpFieldToFindIndex + 1);
+    }
 
     form.refresh();
     markSelected(form)
 }
+
 function finder(field, index) {
     if (field.id == tmpFieldToFind.id) {
         tmpFieldToFindIndex = index;
         return true;
     }
 }
+
 function MoveElementInArray(array, old_index, new_index) {
     if (new_index >= array.length) {
         var k = new_index - array.length;
@@ -147,6 +155,7 @@ var fieldBase = require("./objectmodel/fieldBase.js");
 var listField = require("./objectmodel/listField.js");
 var currentDateTimeField = require("./objectmodel/currentDateTimeField.js");
 var currentUserField = require("./objectmodel/currentUserField.js");
+var currentGPSPosition = require("./objectmodel/currentGPSPosition.js");
 
 function ctlBoxAdd(field, form, fieldType) {
     console.log("Add " + fieldType);
@@ -176,15 +185,17 @@ function ctlBoxAdd(field, form, fieldType) {
             newField = Object.create(currentUserField);
             newField.ctor();
             break;
-
+        case "currentGPSPosition":
+            newField = Object.create(currentGPSPosition);
+            newField.ctor();
+            break;
     }
     if (newField) {
 
         console.log("Adding child of " + field.displayName + "..." + field._type)
         if (!field._repeater) {
             field.children.push(newField);
-        }
-        else {
+        } else {
             field._newRowTemplate.push(newField);
         }
 
@@ -198,6 +209,3 @@ function ctlBoxAdd(field, form, fieldType) {
         markSelected(form)
     }
 }
-
-
- 

@@ -168,6 +168,9 @@ function ready() {
     // automatically (the listeners will be removed when the window is closed) 
     // and restore the maximized or full screen state 
     mainWindowState.manage(mainWindow);
+    
+    //for geolocation services...
+    process.env.GOOGLE_API_KEY = 'AIzaSyDbpAr6vFKM4T0lwNlD3v9r43ieTyqn9rI';
 
 
     //   if (mainWindow.isMaximized() == undefined || mainWindow.isMaximized() == null)

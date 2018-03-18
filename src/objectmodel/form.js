@@ -264,6 +264,23 @@ this.render = function (placeholder, editable, user, _idprefix) {
                 this.field._form.refresh();
             });
     }
+    var gPSfields = $("#" + placeholder.attr("id")).find(".currentGPSPositionFiledMarker");
+    // now we have all sign fields, we need to bind them to action buttons
+    for (var ind = 0; ind < gPSfields.length; ind++) {
+        var gPSButton = $("#" + $(gPSfields[ind]).prop("id") + "_button");
+        var f = this.findField($(gPSfields[ind]).prop("id"));
+        $(gPSButton).prop("field", f).
+            click(function () {
+                if ($("#" + this.field._lastCumulativeId).val() == "") {
+                    this.field.getPosition();
+                }
+                else {
+                    $("#" + this.field._lastCumulativeId).val("");
+                    this.field._value = "";
+                }
+                this.field._form.refresh();
+            });
+    }
     var timestampfields = $("#" + placeholder.attr("id")).find(".currentDateTimeFieldMarker");
     // now we have all sign fields, we need to bind them to actuon buttons
     for (var ind = 0; ind < timestampfields.length; ind++) {
