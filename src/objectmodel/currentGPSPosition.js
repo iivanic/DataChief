@@ -54,7 +54,7 @@ this.render = function (form, parent, placeholder, editable, user, idprefix) {
         (this._required ? "required" : "") + " readonly style='width:100%' type='text'  id='" + idprefix + "_" + this.id + "' class='datachiefField currentGPSPositionFiledMarker' value='" + this.position2Text(this._value) + "' />";
     // if (this._value == "" && !disabled) {
     ret += "<p class='help-block'></p></div></div>";
-    ret += "<span id='" + idprefix + "_" + this.id + "_error' class='red'>" + (this.lastError? displayError() :"" )  + "</span>";
+    ret += "<span id='" + idprefix + "_" + this.id + "_error' class='red'>" + (this.lastError? this.displayError() :"" )  + "</span>";
     // }
     ret += "</div>";
     return ret;
