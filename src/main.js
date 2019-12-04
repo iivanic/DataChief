@@ -160,10 +160,9 @@ function ready() {
         'width': mainWindowState.width,
         'height': mainWindowState.height,
         show: true,
-        icon: "./icons/Filler.png"
-        
-          ,  webPreferences: {
-              nodeIn¢tegration: true
+        icon: "./icons/Filler.png",
+        webPreferences: {
+              nodeIntegration: true
             }
         
     });
