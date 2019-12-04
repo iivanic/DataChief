@@ -26,11 +26,12 @@
     "electron-window-state": "^4.1.1",
     "imap": "0.8.x",
     "mermaid": "*",
-    "jquery-validation": "1.x.x"
+    "jquery-validation": "1.x.x",
+    "jquery": "3.*"
   },
   "devDependencies": {
-    "electron": "1.8.x",
-    "electron-builder": "^19.46.9"
+    "electron": "7.1.2",
+    "electron-builder": "^22.2.0"
   },
   "build": {
     "appId": "data.chief",

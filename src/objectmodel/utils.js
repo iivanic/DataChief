@@ -510,14 +510,14 @@ this.input = function (message, callback, _regexp, param1, param2) {
 
 this.encrypt = function (text, additionalpassword) {
     //   return text;
-    var cipher = crypto.createCipher('aes192', pwd + (additionalpassword ? additionalpassword : ""));
+    var cipher = crypto.createCipher('aes-192-cbc', pwd + (additionalpassword ? additionalpassword : ""));
     var encrypted = cipher.update(text, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
 }
 this.decrypt = function (encrypted, additionalpassword) {
     //  return encrypted;
-    var decipher = crypto.createDecipher('aes192', pwd + (additionalpassword ? additionalpassword : ""));
+    var decipher = crypto.createDecipher('aes-192-cbc', pwd + (additionalpassword ? additionalpassword : ""));
     try {
         var decrypted = decipher.update(encrypted, 'hex', 'utf8');
         decrypted += decipher.final('utf8');

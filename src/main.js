@@ -161,6 +161,11 @@ function ready() {
         'height': mainWindowState.height,
         show: true,
         icon: "./icons/Filler.png"
+        
+          ,  webPreferences: {
+              nodeIn¢tegration: true
+            }
+        
     });
 
 
